@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.2.xsd"
+        include-child-content="true" allow-extra-path="true" default-menu-include="false">
+
+    <parameter name="wikiSpaceId"/>
+    <parameter name="pagePath"/>
+
+    <pre-actions>
+        <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
+        <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
+    </pre-actions>
+
+    <widgets>
+        <section name="WikiPageInclude">
+            <condition><expression>wikiSpace.decoratorScreenLocation</expression></condition>
+            <widgets>
+                <include-screen location="${wikiSpace.decoratorScreenLocation}"/>
+            </widgets>
+            <fail-widgets>
+                <container>
+                    <render-mode><text template="true" type="html" location="${pageLocation}"/></render-mode>
+                </container>
+            </fail-widgets>
+        </section>
+        <!-- TODO figure out a way to make configured space root screen (wikiSpace.decoratorScreenLocation) a subscreen
+                instead of including it explicitly as above
+        <subscreens-active id="wiki-container"/>
+         -->
+    </widgets>
+</screen>

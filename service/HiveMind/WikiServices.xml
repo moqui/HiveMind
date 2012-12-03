@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-1.2.xsd">
+    <service verb="get" noun="WikiPageInfo">
+        <in-parameters>
+            <parameter name="wikiSpaceId"/>
+            <parameter name="pagePath"/>
+            <parameter name="extraPathNameList" type="List"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="wikiSpaceId"/>
+            <parameter name="pagePath"/>
+            <parameter name="wikiSpace" type="org.moqui.entity.EntityValue"/>
+            <parameter name="pageReference" type="org.moqui.content.ResourceReference"/>
+            <parameter name="pageLocation"/>
+        </out-parameters>
+        <actions>
+            <if condition="extraPathNameList">
+                <set field="wikiSpaceId" from="wikiSpaceId ?: extraPathNameList[0]"/>
+                <if condition="!pagePath &amp;&amp; extraPathNameList.size > 1">
+                    <iterate list="extraPathNameList[1..extraPathNameList.size-1]" entry="pathName">
+                        <if condition="pagePath"><set field="pagePath" from="pagePath + '/'"/></if>
+                        <set field="pagePath" from="(pagePath?:'') + pathName"/>
+                    </iterate>
+                </if>
+            </if>
+
+            <if condition="!wikiSpaceId"><return error="true" message="Cannot get wiki page info without wikiSpaceId parameter or URL path element"/></if>
+
+            <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
+
+            <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
+            <set field="pageReference" from="rootPageRef.findChildResource(pagePath)"/>
+            <set field="pageLocation" from="pageReference &amp;&amp; pageReference.exists ? pageReference.location : null"/>
+            <log level="warn" message="========= wikiSpaceId=${wikiSpaceId}, pagePath: ${pagePath}, wikiSpace: ${wikiSpace}, rootPageRef: ${rootPageRef}, pageReference: ${pageReference}"/>
+        </actions>
+    </service>
+
+    <service verb="create" noun="WikiSpace">
+        <in-parameters>
+            <auto-parameters include="nonpk"/>
+            <parameter name="wikiSpaceId"><text-letters/><text-length min="3" max="8"/></parameter>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="wikiSpaceId" required="true"/>
+        </out-parameters>
+        <actions>
+            <!-- create the record -->
+            <service-call name="create#WikiSpace" in-map="context" out-map="context"/>
+
+            <!-- create a root page if no file exists at the given location -->
+            <set field="rootPageReference" from="ec.resource.getLocationReference(rootPageLocation)"/>
+            <if condition="!rootPageReference.exists">
+                <script>rootPageReference.putText("""
+h2. Root page for ${description?:wikiSpaceId}
+""")</script>
+            </if>
+        </actions>
+    </service>
+</services>
