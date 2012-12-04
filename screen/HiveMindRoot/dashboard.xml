@@ -45,6 +45,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="submitButton"><default-field title="Create Space"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
+
             <form-list name="WikiSpaces" list="wikiSpaceList" skip-start="true" skip-end="true">
                 <field name="viewLink"><default-field title="Space">
                     <link text="${wikiSpaceId}" url="wiki/${wikiSpaceId}" url-type="plain"/>
