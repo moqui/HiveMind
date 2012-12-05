@@ -1,0 +1,5 @@
+div.wiki-breadcrumbs a.button { border: 0; color: blue; }
+
+#wiki-header { border-bottom: #cccccc solid 1px; padding-bottom: 4px; }
+#wiki-page-name { float: left; }
+#wiki-page-links { float: right; }

@@ -25,6 +25,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <parameter name="pageLocation"/>
             <parameter name="pageName"/>
             <parameter name="parentPath"/>
+            <parameter name="breadcrumbMapList" type="List"/>
         </out-parameters>
         <actions>
             <if condition="extraPathNameList">
@@ -50,7 +51,25 @@ This Work includes contributions authored by David E. Jones, not as a
                 <set field="pageName" from="pageName.substring(0, pageName.indexOf('.'))"/>
             </if>
 
-            <set field="parentPath" from="pagePath?.contains('/') ? pagePath.substring(0, pagePath.indexOf('/')) : ''"/>
+            <set field="parentPath" from="pagePath?.contains('/') ? pagePath.substring(0, pagePath.lastIndexOf('/')) : ''"/>
+
+            <script><![CDATA[
+                breadcrumbMapList = []
+                List<String> parentPathList = parentPath.split('/')
+
+                int listIndex = 0
+                for (String parentPathName in parentPathList) {
+                    if (!parentPathName) continue
+                    String curPath = ""
+                    for (int i = 0; i <= listIndex; i++) {
+                        if (curPath) curPath += "/"
+                        curPath += parentPathList[i]
+                    }
+
+                    breadcrumbMapList.add([pageName:parentPathName, pagePath:curPath])
+                    listIndex++
+                }
+            ]]></script>
 
             <!-- <log level="warn" message="========= wikiSpaceId=${wikiSpaceId}, pagePath: ${pagePath}, wikiSpace: ${wikiSpace}, rootPageRef: ${rootPageRef}, pageReference: ${pageReference}, pageLocation: ${pageLocation}"/> -->
         </actions>

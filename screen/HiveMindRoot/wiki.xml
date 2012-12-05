@@ -27,21 +27,35 @@ This Work includes contributions authored by David E. Jones, not as a
     <pre-actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
         <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
+        <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenPathUrl() + '/' + wikiSpaceId"/>
     </pre-actions>
 
     <widgets>
-        <container-panel>
+        <container-panel id="wiki">
             <panel-header>
-                <label text="${pageName?:''}" type="h2"/>
-                <link text="Edit Page" url="editPage">
-                    <parameter name="webSiteId"/>
-                    <parameter name="pagePath"/>
-                </link>
-                <link text="Create Child Page" url="createPage" link-type="hidden-form">
-                    <parameter name="webSiteId"/>
-                    <parameter name="parentPath" from="pagePath"/>
-                    <parameter name="isCreate" value="true"/>
-                </link>
+                <container style="wiki-breadcrumbs">
+                    <link text="Root Page" url="${baseLinkUrl}" url-type="plain"/>
+                    <section-iterate name="breadcrumbs" list="breadcrumbMapList" entry="breadcrumbMap">
+                        <widgets>
+                            <label text="-"/>
+                            <link text="${breadcrumbMap.pageName}" url="${baseLinkUrl}/${breadcrumbMap.pagePath}" url-type="plain"/>
+                        </widgets>
+                    </section-iterate>
+                </container>
+                <container id="wiki-page-name">
+                    <label text="${pageName?:''}" type="h1"/>
+                </container>
+                <container id="wiki-page-links">
+                    <link text="Edit Page" url="editPage">
+                        <parameter name="webSiteId"/>
+                        <parameter name="pagePath"/>
+                    </link>
+                    <link text="Create Child Page" url="createPage" link-type="hidden-form">
+                        <parameter name="webSiteId"/>
+                        <parameter name="parentPath" from="pagePath"/>
+                        <parameter name="isCreate" value="true"/>
+                    </link>
+                </container>
             </panel-header>
             <panel-left>
                 <!-- TODO: add page tree here -->
@@ -51,7 +65,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     <condition><expression>!wikiSpace?.decoratorScreenLocation</expression></condition>
                     <actions>
                         <!-- NOTE: if anything runs after this before to reset so it doesn't mess up URLs generated -->
-                        <script>sri.baseLinkUrl(sri.getCurrentScreenUrl().getScreenPathUrl() + "/" + wikiSpaceId)</script>
+                        <script>sri.baseLinkUrl(baseLinkUrl)</script>
                     </actions>
                     <widgets>
                         <container>
