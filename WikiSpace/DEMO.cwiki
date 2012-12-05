@@ -1,4 +1,3 @@
-
 h2. Demo Space Root Page
 
 Move along, nothing to see here...
@@ -6,3 +5,9 @@ Move along, nothing to see here...
 [Demo Page 1]
 [Demo Page 1/Child Page 1]
 [Child Page 1]
+
+h3. HiveMind TODO:
+
+* on Create wiki page default to current page as parent but allow any (drop-down for now)
+* space page tree - find fancy jquery widget
+* show bread crumb of parent pages leading to current (ie each in parent path)

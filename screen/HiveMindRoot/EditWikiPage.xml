@@ -15,20 +15,41 @@ This Work includes contributions authored by David E. Jones, not as a
         allow-extra-path="true" default-menu-include="false">
 
     <parameter name="wikiSpaceId"/>
-    <parameter name="pagePath"/>
+    <!-- all other parameters should only be passed explicitly: pagePath, parentPath, pageName -->
+
+    <transition name="updatePage">
+        <service-call name="HiveMind.WikiServices.update#WikiPage"/>
+        <default-response url="../wiki"/>
+        <error-response url="."/>
+    </transition>
 
     <actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
-        <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
-        <set field="pageText" from="ec.resource.getLocationText(pageLocation, false)"/>
+        <if condition="!isCreate">
+            <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
+            <set field="pageText" from="pageReference?.exists ? ec.resource.getLocationText(pageLocation, false) : ''"/>
+        </if>
     </actions>
     <widgets>
+        <container>
+            <label text="${pageName ? 'Edit Page: ' + pageName : 'Create Page'}" type="h2"/>
+        </container>
         <form-single name="EditPageForm" transition="updatePage">
             <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
             <field name="pagePath"><default-field><hidden/></default-field></field>
+            <!-- TODO: change this to a drop-down -->
+            <field name="parentPath"><default-field><text-line size="80"/></default-field></field>
+            <field name="pageName">
+                <!-- if pagePath is empty it's the space root page, and don't allow updating that -->
+                <conditional-field condition="!pageReference?.exists || pagePath"><text-line size="40"/></conditional-field>
+                <default-field><hidden/></default-field>
+            </field>
             <!-- TODO: decorate this with some fancy editor based on the type of wiki text it is -->
-            <field name="pageText"><default-field><text-area cols="100" rows="60"/></default-field></field>
-            <field name="submitButton"><default-field title="Update Page"><submit/></default-field></field>
+            <field name="pageText"><default-field><text-area cols="100" rows="30"/></default-field></field>
+            <field name="submitButton">
+                <conditional-field condition="!pageReference?.exists" title="Create Page"><submit/></conditional-field>
+                <default-field title="Update Page"><submit/></default-field>
+            </field>
         </form-single>
     </widgets>
 </screen>

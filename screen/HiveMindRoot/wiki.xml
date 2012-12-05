@@ -17,29 +17,56 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="wikiSpaceId"/>
     <parameter name="pagePath"/>
 
+    <transition name="editPage">
+        <default-response url="../EditWikiPage"/>
+    </transition>
+    <transition name="createPage">
+        <default-response url="../EditWikiPage"/>
+    </transition>
+
     <pre-actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
         <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
     </pre-actions>
-    <actions>
-        <script>sri.baseLinkUrl(sri.getCurrentScreenUrl().getScreenPathUrl() + "/" + wikiSpaceId)</script>
-    </actions>
 
     <widgets>
-        <section name="WikiPageInclude">
-            <condition><expression>wikiSpace.decoratorScreenLocation</expression></condition>
-            <widgets>
-                <include-screen location="${wikiSpace.decoratorScreenLocation}"/>
-            </widgets>
-            <fail-widgets>
-                <container>
-                    <render-mode><text template="true" type="html" location="${pageLocation}"/></render-mode>
-                </container>
-            </fail-widgets>
-        </section>
-        <!-- TODO figure out a way to make configured space root screen (wikiSpace.decoratorScreenLocation) a subscreen
-                instead of including it explicitly as above
-        <subscreens-active id="wiki-container"/>
-         -->
+        <container-panel>
+            <panel-header>
+                <label text="${pageName?:''}" type="h2"/>
+                <link text="Edit Page" url="editPage">
+                    <parameter name="webSiteId"/>
+                    <parameter name="pagePath"/>
+                </link>
+                <link text="Create Child Page" url="createPage" link-type="hidden-form">
+                    <parameter name="webSiteId"/>
+                    <parameter name="parentPath" from="pagePath"/>
+                    <parameter name="isCreate" value="true"/>
+                </link>
+            </panel-header>
+            <panel-left>
+                <!-- TODO: add page tree here -->
+            </panel-left>
+            <panel-center>
+                <section name="WikiPageInclude">
+                    <condition><expression>!wikiSpace?.decoratorScreenLocation</expression></condition>
+                    <actions>
+                        <!-- NOTE: if anything runs after this before to reset so it doesn't mess up URLs generated -->
+                        <script>sri.baseLinkUrl(sri.getCurrentScreenUrl().getScreenPathUrl() + "/" + wikiSpaceId)</script>
+                    </actions>
+                    <widgets>
+                        <container>
+                            <render-mode><text template="true" type="html" location="${pageLocation?:''}"/></render-mode>
+                        </container>
+                    </widgets>
+                    <fail-widgets>
+                        <include-screen location="${wikiSpace.decoratorScreenLocation}"/>
+                    </fail-widgets>
+                </section>
+                <!-- TODO figure out a way to make configured space root screen (wikiSpace.decoratorScreenLocation) a subscreen
+                       instead of including it explicitly as above
+                <subscreens-active id="wiki-container"/>
+                -->
+            </panel-center>
+        </container-panel>
     </widgets>
 </screen>

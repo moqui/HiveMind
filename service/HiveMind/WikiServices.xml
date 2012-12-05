@@ -23,6 +23,8 @@ This Work includes contributions authored by David E. Jones, not as a
             <parameter name="wikiSpace" type="org.moqui.entity.EntityValue"/>
             <parameter name="pageReference" type="org.moqui.content.ResourceReference"/>
             <parameter name="pageLocation"/>
+            <parameter name="pageName"/>
+            <parameter name="parentPath"/>
         </out-parameters>
         <actions>
             <if condition="extraPathNameList">
@@ -41,8 +43,44 @@ This Work includes contributions authored by David E. Jones, not as a
 
             <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
             <set field="pageReference" from="rootPageRef.findChildResource(pagePath)"/>
-            <set field="pageLocation" from="pageReference &amp;&amp; pageReference.exists ? pageReference.location : null"/>
-            <log level="warn" message="========= wikiSpaceId=${wikiSpaceId}, pagePath: ${pagePath}, wikiSpace: ${wikiSpace}, rootPageRef: ${rootPageRef}, pageReference: ${pageReference}"/>
+            <set field="pageLocation" from="pageReference?.location"/>
+
+            <set field="pageName" from="pageReference?.fileName"/>
+            <if condition="pageName &amp;&amp; pageName.contains('.')">
+                <set field="pageName" from="pageName.substring(0, pageName.indexOf('.'))"/>
+            </if>
+
+            <set field="parentPath" from="pagePath?.contains('/') ? pagePath.substring(0, pagePath.indexOf('/')) : ''"/>
+
+            <!-- <log level="warn" message="========= wikiSpaceId=${wikiSpaceId}, pagePath: ${pagePath}, wikiSpace: ${wikiSpace}, rootPageRef: ${rootPageRef}, pageReference: ${pageReference}, pageLocation: ${pageLocation}"/> -->
+        </actions>
+    </service>
+
+    <service verb="update" noun="WikiPage">
+        <in-parameters>
+            <parameter name="wikiSpaceId" required="true"/>
+            <parameter name="pagePath" default-value="${parentPath}/${pageName}"/>
+            <parameter name="pageText"/>
+            <parameter name="parentPath"/><!-- TODO: if this is set and different from pagePath, move the page -->
+            <parameter name="pageName"/><!-- TODO: if this is set and different from pagePath, rename the page -->
+            <parameter name="wikiType" default-value="cwiki"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="pagePath"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
+
+            <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
+            <set field="pageReference" from="rootPageRef.findChildResource(pagePath)"/>
+
+            <if condition="!pageReference.exists">
+                <set field="fullPagePath" value="${pagePath}.${wikiType}"/>
+                <set field="pageReference" from="rootPageRef.findChildResource(fullPagePath)"/>
+                <!-- <log level="warn" message="========== new page fullPagePath=${fullPagePath}, pageReference=${pageReference}"/> -->
+            </if>
+
+            <script>pageReference.putText(pageText)</script>
         </actions>
     </service>
 
