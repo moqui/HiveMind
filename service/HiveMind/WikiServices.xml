@@ -51,7 +51,8 @@ This Work includes contributions authored by David E. Jones, not as a
                 <set field="pageName" from="pageName.substring(0, pageName.indexOf('.'))"/>
             </if>
 
-            <set field="parentPath" from="pagePath?.contains('/') ? pagePath.substring(0, pagePath.lastIndexOf('/')) : ''"/>
+            <set field="pathForParentPath" from="pageReference.getActualChildPath() ?: pagePath"/>
+            <set field="parentPath" from="pathForParentPath?.contains('/') ? pathForParentPath.substring(0, pathForParentPath.lastIndexOf('/')) : ''"/>
 
             <script><![CDATA[
                 breadcrumbMapList = []

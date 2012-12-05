@@ -10,3 +10,4 @@ h3. HiveMind TODO:
 
 * on Create wiki page default to current page as parent but allow any (drop-down for now)
 * space page tree - find fancy jquery widget
+* add DbFile* entities and ResourceReference implementation to drop into database (use dbfile for schema)
