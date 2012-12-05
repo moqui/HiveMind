@@ -34,10 +34,10 @@ This Work includes contributions authored by David E. Jones, not as a
         <container-panel id="wiki">
             <panel-header>
                 <container style="wiki-breadcrumbs">
-                    <link text="Root Page" url="${baseLinkUrl}" url-type="plain"/>
+                    <link text="${wikiSpace.description?:'Space Root'}" url="${baseLinkUrl}" url-type="plain"/>
                     <section-iterate name="breadcrumbs" list="breadcrumbMapList" entry="breadcrumbMap">
                         <widgets>
-                            <label text="-"/>
+                            <label text="/"/>
                             <link text="${breadcrumbMap.pageName}" url="${baseLinkUrl}/${breadcrumbMap.pagePath}" url-type="plain"/>
                         </widgets>
                     </section-iterate>

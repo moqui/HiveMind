@@ -10,4 +10,3 @@ h3. HiveMind TODO:
 
 * on Create wiki page default to current page as parent but allow any (drop-down for now)
 * space page tree - find fancy jquery widget
-* show bread crumb of parent pages leading to current (ie each in parent path)
