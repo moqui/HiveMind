@@ -28,6 +28,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
         <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
         <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenPathUrl() + '/' + wikiSpaceId"/>
+        <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
     </pre-actions>
 
     <widgets>

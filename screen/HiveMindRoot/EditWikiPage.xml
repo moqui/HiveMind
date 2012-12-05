@@ -29,6 +29,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
             <set field="pageText" from="pageReference?.exists ? ec.resource.getLocationText(pageLocation, false) : ''"/>
         </if>
+        <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
     </actions>
     <widgets>
         <container>
@@ -37,8 +38,12 @@ This Work includes contributions authored by David E. Jones, not as a
         <form-single name="EditPageForm" transition="updatePage">
             <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
             <field name="pagePath"><default-field><hidden/></default-field></field>
-            <!-- TODO: change this to a drop-down -->
-            <field name="parentPath"><default-field><text-line size="80"/></default-field></field>
+            <field name="parentPath"><conditional-field condition="!pageReference?.exists || pagePath">
+                <!-- <text-line size="60"/> -->
+                <drop-down>
+                    <list-options list="allChildFileFlatList" key="${path}" text="${path?:name}"/>
+                </drop-down>
+            </conditional-field></field>
             <field name="pageName">
                 <!-- if pagePath is empty it's the space root page, and don't allow updating that -->
                 <conditional-field condition="!pageReference?.exists || pagePath"><text-line size="40"/></conditional-field>

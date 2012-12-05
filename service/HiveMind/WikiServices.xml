@@ -75,6 +75,29 @@ This Work includes contributions authored by David E. Jones, not as a
             <!-- <log level="warn" message="========= wikiSpaceId=${wikiSpaceId}, pagePath: ${pagePath}, wikiSpace: ${wikiSpace}, rootPageRef: ${rootPageRef}, pageReference: ${pageReference}, pageLocation: ${pageLocation}"/> -->
         </actions>
     </service>
+    <service verb="get" noun="WikiSpacePages">
+        <in-parameters>
+            <parameter name="wikiSpaceId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="allChildFileFlatList"/>
+            <parameter name="rootChildResourceList"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
+            <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
+            <set field="rootPageDirRef" from="rootPageRef.findMatchingDirectory()"/>
+            <!-- walk the entire tree of pages under the space root and add them to the flat list and the tree of pages -->
+            <set field="allChildFileFlatList" from="[[path:'', name:'Root Page', location:rootPageRef.getLocation()]]"/>
+            <set field="rootChildResourceList" from="[]"/>
+            <script>rootPageDirRef.walkChildTree(allChildFileFlatList, rootChildResourceList)</script>
+
+            <iterate list="allChildFileFlatList" entry="allChildFileFlat">
+                <log level="warn" message="============= allChildFileFlat=${allChildFileFlat}"/>
+            </iterate>
+            <log level="warn" message="============= rootChildResourceList=${rootChildResourceList}"/>
+        </actions>
+    </service>
 
     <service verb="update" noun="WikiPage">
         <in-parameters>
