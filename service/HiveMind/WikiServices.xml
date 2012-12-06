@@ -92,17 +92,17 @@ This Work includes contributions authored by David E. Jones, not as a
             <set field="rootChildResourceList" from="[]"/>
             <script>rootPageDirRef.walkChildTree(allChildFileFlatList, rootChildResourceList)</script>
 
-            <iterate list="allChildFileFlatList" entry="allChildFileFlat">
+            <!-- <iterate list="allChildFileFlatList" entry="allChildFileFlat">
                 <log level="warn" message="============= allChildFileFlat=${allChildFileFlat}"/>
             </iterate>
-            <log level="warn" message="============= rootChildResourceList=${rootChildResourceList}"/>
+            <log level="warn" message="============= rootChildResourceList=${rootChildResourceList}"/> -->
         </actions>
     </service>
 
     <service verb="update" noun="WikiPage">
         <in-parameters>
             <parameter name="wikiSpaceId" required="true"/>
-            <parameter name="pagePath" default-value="${parentPath}/${pageName}"/>
+            <parameter name="pagePath" default-value="${parentPath ? parentPath+'/' : ''}${pageName?:''}"/>
             <parameter name="pageText"/>
             <parameter name="parentPath"/><!-- TODO: if this is set and different from pagePath, move the page -->
             <parameter name="pageName"/><!-- TODO: if this is set and different from pagePath, rename the page -->

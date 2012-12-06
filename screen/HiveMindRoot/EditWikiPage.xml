@@ -30,6 +30,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <set field="pageText" from="pageReference?.exists ? ec.resource.getLocationText(pageLocation, false) : ''"/>
         </if>
         <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
+        <set field="isRootPage" from="pageReference?.exists &amp;&amp; !pagePath"/>
     </actions>
     <widgets>
         <container>
@@ -38,16 +39,11 @@ This Work includes contributions authored by David E. Jones, not as a
         <form-single name="EditPageForm" transition="updatePage">
             <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
             <field name="pagePath"><default-field><hidden/></default-field></field>
-            <field name="parentPath"><conditional-field condition="!pageReference?.exists || pagePath">
-                <!-- <text-line size="60"/> -->
-                <drop-down>
-                    <list-options list="allChildFileFlatList" key="${path}" text="${path?:name}"/>
-                </drop-down>
+            <field name="parentPath"><conditional-field condition="!isRootPage">
+                <drop-down><list-options list="allChildFileFlatList" key="${path}" text="${path?:name}"/></drop-down>
             </conditional-field></field>
             <field name="pageName">
-                <!-- if pagePath is empty it's the space root page, and don't allow updating that -->
-                <conditional-field condition="!pageReference?.exists || pagePath"><text-line size="40"/></conditional-field>
-                <default-field><hidden/></default-field>
+                <conditional-field condition="!isRootPage"><text-line size="40"/></conditional-field>
             </field>
             <!-- TODO: decorate this with some fancy editor based on the type of wiki text it is -->
             <field name="pageText"><default-field><text-area cols="100" rows="30"/></default-field></field>

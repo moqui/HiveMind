@@ -8,6 +8,7 @@ Move along, nothing to see here...
 
 h3. HiveMind TODO:
 
-* on Create wiki page default to current page as parent but allow any (drop-down for now)
 * space page tree - find fancy jquery widget
-* add DbFile* entities and ResourceReference implementation to drop into database (use dbfile for schema)
+* change space creation to include drop-down for resource type (in HiveMind component, in runtime/WikiSpace, in dbfile, in jcr content) and build root page based on that
+* try links to headers in other pages
+* wiki search - use solr, or elastic search?

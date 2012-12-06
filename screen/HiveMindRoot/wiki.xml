@@ -32,9 +32,22 @@ This Work includes contributions authored by David E. Jones, not as a
     </pre-actions>
 
     <widgets>
-        <container-panel id="wiki">
-            <panel-header>
-                <container style="wiki-breadcrumbs">
+        <container-panel id="wiki-view">
+            <panel-left>
+                <!-- TODO: change to some kind of fancy expanding tree instead of flat list -->
+                <label text="${wikiSpace?.description}" type="h2"/>
+                <container id="wiki-page-list">
+                    <section-iterate name="PageList" list="allChildFileFlatList" entry="childFile">
+                        <widgets>
+                            <container>
+                                <link text="${childFile.path ?: childFile.name}" url="${baseLinkUrl}/${childFile.path}" url-type="plain"/>
+                            </container>
+                        </widgets>
+                    </section-iterate>
+                </container>
+            </panel-left>
+            <panel-center>
+                <container id="wiki-breadcrumbs">
                     <link text="${wikiSpace.description?:'Space Root'}" url="${baseLinkUrl}" url-type="plain"/>
                     <section-iterate name="breadcrumbs" list="breadcrumbMapList" entry="breadcrumbMap">
                         <widgets>
@@ -43,40 +56,37 @@ This Work includes contributions authored by David E. Jones, not as a
                         </widgets>
                     </section-iterate>
                 </container>
-                <container id="wiki-page-name">
-                    <label text="${pageName?:''}" type="h1"/>
+                <container style="ui-helper-clearfix">
+                    <container id="wiki-page-name">
+                        <label text="${pageName?:''}" type="h1"/>
+                    </container>
+                    <container id="wiki-page-links">
+                        <link text="Edit Page" url="editPage">
+                            <parameter name="webSiteId"/>
+                            <parameter name="pagePath"/>
+                        </link>
+                        <link text="Create Child Page" url="createPage" link-type="hidden-form">
+                            <parameter name="webSiteId"/>
+                            <parameter name="parentPath" from="pagePath"/>
+                            <parameter name="isCreate" value="true"/>
+                        </link>
+                    </container>
                 </container>
-                <container id="wiki-page-links">
-                    <link text="Edit Page" url="editPage">
-                        <parameter name="webSiteId"/>
-                        <parameter name="pagePath"/>
-                    </link>
-                    <link text="Create Child Page" url="createPage" link-type="hidden-form">
-                        <parameter name="webSiteId"/>
-                        <parameter name="parentPath" from="pagePath"/>
-                        <parameter name="isCreate" value="true"/>
-                    </link>
+                <container id="wiki-page-area">
+                    <section name="WikiPageInclude">
+                        <condition><expression>!wikiSpace?.decoratorScreenLocation</expression></condition>
+                        <actions>
+                            <!-- NOTE: if anything runs after this before to reset so it doesn't mess up URLs generated -->
+                            <script>sri.baseLinkUrl(baseLinkUrl)</script>
+                        </actions>
+                        <widgets>
+                                <render-mode><text template="true" type="html" location="${pageLocation?:''}"/></render-mode>
+                        </widgets>
+                        <fail-widgets>
+                            <include-screen location="${wikiSpace.decoratorScreenLocation}"/>
+                        </fail-widgets>
+                    </section>
                 </container>
-            </panel-header>
-            <panel-left>
-                <!-- TODO: add page tree here -->
-            </panel-left>
-            <panel-center>
-                <section name="WikiPageInclude">
-                    <condition><expression>!wikiSpace?.decoratorScreenLocation</expression></condition>
-                    <actions>
-                        <!-- NOTE: if anything runs after this before to reset so it doesn't mess up URLs generated -->
-                        <script>sri.baseLinkUrl(baseLinkUrl)</script>
-                    </actions>
-                    <widgets>
-                        <container>
-                            <render-mode><text template="true" type="html" location="${pageLocation?:''}"/></render-mode>
-                        </container>
-                    </widgets>
-                    <fail-widgets>
-                        <include-screen location="${wikiSpace.decoratorScreenLocation}"/>
-                    </fail-widgets>
-                </section>
                 <!-- TODO figure out a way to make configured space root screen (wikiSpace.decoratorScreenLocation) a subscreen
                        instead of including it explicitly as above
                 <subscreens-active id="wiki-container"/>

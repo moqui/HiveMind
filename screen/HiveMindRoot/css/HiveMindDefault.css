@@ -1,5 +1,8 @@
-div.wiki-breadcrumbs a.button { border: 0; color: #00008b; padding: 1px; margin: 1px; }
+#wiki-breadcrumbs a.button { border: 0; color: #00008b; padding: 1px; margin: 1px; }
+#wiki-page-list div a.button { border: 0; color: #00008b; padding: 1px; margin: 1px; }
 
-#wiki-header { border-bottom: #cccccc solid 1px; padding-bottom: 4px; }
 #wiki-page-name { float: left; }
 #wiki-page-links { float: right; }
+#wiki-page-area { border-top: #cccccc solid 1px; margin-top: 4px; margin-left: 8px; }
+
+#wiki-view-left { border-right: #cccccc solid 1px; padding-right: 4px; margin-right: 4px; }
