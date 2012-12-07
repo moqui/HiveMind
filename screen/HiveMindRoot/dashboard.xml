@@ -32,15 +32,22 @@ This Work includes contributions authored by David E. Jones, not as a
             <container-dialog id="NewSpaceContainer" button-text="New Space">
                 <form-single name="NewSpace" transition="createSpace">
                     <field name="wikiSpaceId"><default-field><text-line size="8"/></default-field></field>
-                    <field name="description"><default-field><text-line size="60"/></default-field></field>
+                    <field name="description"><default-field><text-line size="40"/></default-field></field>
                     <field name="isPublic"><default-field>
                         <drop-down><option key="Y"/><option key="N"/></drop-down>
                     </default-field></field>
+                    <field name="rootPageDirectory"><default-field>
+                        <drop-down combo-box="true">
+                            <option key="runtime/WikiSpace"/>
+                            <option key="content://HiveMind/WikiSpace"/>
+                            <option key="dbresource://HiveMind/WikiSpace"/>
+                        </drop-down>
+                    </default-field></field>
+                    <!--
                     <field name="rootPageLocation"><default-field title="Root Page">
-                        <!-- TODO: get this default value template from some sort of configuration -->
-                        <!-- TODO: have the wikiSpaceId update when the wikiSpaceId field is changed -->
                         <text-line size="60" default-value="component://HiveMind/WikiSpace/\${wikiSpaceId}.cwiki"/>
                     </default-field></field>
+                    -->
 
                     <field name="submitButton"><default-field title="Create Space"><submit/></default-field></field>
                 </form-single>

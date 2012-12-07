@@ -1,5 +1,8 @@
 #wiki-breadcrumbs a.button { border: 0; color: #00008b; padding: 1px; margin: 1px; }
-#wiki-page-list div a.button { border: 0; color: #00008b; padding: 1px; margin: 1px; }
+#wiki-breadcrumbs a.button:hover { text-decoration: underline; }
+
+#wiki-page-list div a.button { border: 0; color: #000000; padding: 1px; margin: 1px; }
+#wiki-page-list div a.button:hover { text-decoration: underline; }
 
 #wiki-page-name { float: left; }
 #wiki-page-links { float: right; }

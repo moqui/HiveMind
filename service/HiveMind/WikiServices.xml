@@ -131,11 +131,17 @@ This Work includes contributions authored by David E. Jones, not as a
         <in-parameters>
             <auto-parameters include="nonpk"/>
             <parameter name="wikiSpaceId"><text-letters/><text-length min="3" max="8"/></parameter>
+            <parameter name="rootPageDirectory" default-value="runtime/WikiSpace"/>
+            <parameter name="wikiType" default-value="cwiki"/>
         </in-parameters>
         <out-parameters>
             <parameter name="wikiSpaceId" required="true"/>
         </out-parameters>
         <actions>
+            <if condition="!rootPageLocation">
+                <set field="rootPageLocation" value="${rootPageDirectory}/${wikiSpaceId}.${wikiType}"/>
+            </if>
+
             <!-- create the record -->
             <service-call name="create#WikiSpace" in-map="context" out-map="context"/>
 
