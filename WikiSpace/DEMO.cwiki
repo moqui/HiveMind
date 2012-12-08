@@ -3,14 +3,18 @@ h2. Demo Space Root Page
 Move along, nothing to see here...
 
 [Demo Page 1]
+[Demo Page 1, Section 1|Demo Page 1#Section1]
+[Demo Page 1, Subsection 1-2|Demo Page 1#Subsection12]
+
 [Demo Page 1/Child Page 1]
 [Child Page 1]
 
-h3. HiveMind TODO:
+h3. HiveMind TODO
 
-* space page tree - find fancy jquery widget
-* try links to headers in other pages
-* wiki search - use solr, or elastic search?
-* add support for page attachments with corresponding file structure
+* when a link to a page points to a non-existing page path do create page instead
 * implement move of page to under different parent
 * implement rename of page (and corresponding directory)
+* add support for page attachments with corresponding file structure
+
+* space page tree - find fancy jquery widget
+* wiki search - use solr, or elastic search?
