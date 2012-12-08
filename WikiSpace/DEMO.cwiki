@@ -13,8 +13,6 @@ Move along, nothing to see here...
 
 h3. HiveMind TODO
 
-* FIX issue where create on EditWikiPage is redirecting back to create page after create even though create was successful
-
 * implement move of page to under different parent
 * implement rename of page (and corresponding directory)
 * add support for page attachments with corresponding file structure

@@ -85,7 +85,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             <parameter name="webSiteId"/>
                             <parameter name="pagePath"/>
                         </link>
-                        <link text="Create Child Page" url="createPage" link-type="hidden-form">
+                        <link text="Add Page" url="createPage" link-type="hidden-form">
                             <parameter name="webSiteId"/>
                             <parameter name="parentPath" from="pagePath"/>
                             <parameter name="isCreate" value="true"/>
