@@ -9,12 +9,16 @@ Move along, nothing to see here...
 [Demo Page 1/Child Page 1]
 [Child Page 1]
 
+[New Page Test]
+
 h3. HiveMind TODO
 
-* when a link to a page points to a non-existing page path do create page instead
+* FIX issue where create on EditWikiPage is redirecting back to create page after create even though create was successful
+
 * implement move of page to under different parent
 * implement rename of page (and corresponding directory)
 * add support for page attachments with corresponding file structure
 
 * space page tree - find fancy jquery widget
 * wiki search - use solr, or elastic search?
+* for non-public spaces check to see if user is associated as admin, contributor, or viewer

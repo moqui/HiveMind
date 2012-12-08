@@ -27,6 +27,26 @@ This Work includes contributions authored by David E. Jones, not as a
     <pre-actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
         <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
+
+        <!-- redirect to EditWikiPage to create instead of trying to render a page that doesn't exist -->
+        <script><![CDATA[
+            import org.moqui.impl.screen.ScreenRenderImpl
+            import org.moqui.impl.screen.ScreenUrlInfo
+
+            ec.logger.warn("========== before redirect context=${context}")
+            if (!pageReference?.exists) {
+                ScreenRenderImpl sri = context.sri
+                // NOTE: have to do a little more work here because of the extra path that messes up the relative screen loc
+                ScreenUrlInfo editWikiUrl = sri.buildUrl(sri.getRootScreenDef(),
+                        sri.getScreenUrlInfo().getPreTransitionPathNameList(), "../EditWikiPage")
+                editWikiUrl.addParameter("webSiteId", webSiteId)
+                editWikiUrl.addParameter("parentPath", parentPath)
+                editWikiUrl.addParameter("pageName", pageName)
+                editWikiUrl.addParameter("isCreate", "true")
+                sri.sendRedirectAndStopRender(editWikiUrl.getUrlWithParams())
+            }
+        ]]></script>
+
         <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenPathUrl() + '/' + wikiSpaceId"/>
         <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
     </pre-actions>

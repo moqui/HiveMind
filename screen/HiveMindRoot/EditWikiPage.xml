@@ -34,7 +34,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <container>
-            <label text="${pageName ? 'Edit Page: ' + pageName : 'Create Page'}" type="h2"/>
+            <label text="${isCreate ? 'Create Page' : 'Edit Page: ' + pageName}" type="h2"/>
         </container>
         <form-single name="EditPageForm" transition="updatePage">
             <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
