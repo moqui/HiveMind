@@ -33,7 +33,7 @@ This Work includes contributions authored by David E. Jones, not as a
             import org.moqui.impl.screen.ScreenRenderImpl
             import org.moqui.impl.screen.ScreenUrlInfo
 
-            ec.logger.warn("========== before redirect context=${context}")
+            // ec.logger.warn("========== before redirect context=${context}")
             if (!pageReference?.exists) {
                 ScreenRenderImpl sri = context.sri
                 // NOTE: have to do a little more work here because of the extra path that messes up the relative screen loc

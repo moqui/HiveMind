@@ -103,10 +103,10 @@ This Work includes contributions authored by David E. Jones, not as a
         <in-parameters>
             <parameter name="wikiSpaceId" required="true"/>
             <parameter name="pagePath" default-value="${parentPath ? parentPath+'/' : ''}${pageName?:''}"/>
-            <parameter name="pageText"/>
-            <parameter name="parentPath"/><!-- TODO: if this is set and different from pagePath, move the page -->
-            <parameter name="pageName"/><!-- TODO: if this is set and different from pagePath, rename the page -->
+            <parameter name="parentPath"/>
+            <parameter name="pageName"/>
             <parameter name="wikiType" default-value="cwiki"/>
+            <parameter name="pageText"/>
         </in-parameters>
         <out-parameters>
             <parameter name="pagePath"/>
@@ -123,7 +123,25 @@ This Work includes contributions authored by David E. Jones, not as a
                 <!-- <log level="warn" message="========== new page fullPagePath=${fullPagePath}, pageReference=${pageReference}"/> -->
             </if>
 
+            <!-- do the update, then the move if applicable -->
             <script>pageReference.putText(pageText)</script>
+
+            <set field="origParentPath" from="pagePath.contains('/') ? pagePath.substring(0, pagePath.indexOf('/')) : ''"/>
+            <set field="origPageName" from="pagePath.contains('/') ? pagePath.substring(pagePath.indexOf('/')+1) : pagePath"/>
+            <!-- TODO: support change of wikiType too -->
+            <if condition="pageName &amp;&amp; (origParentPath != parentPath || origPageName != pageName)">
+                <!-- move the page file -->
+                <set field="rootPageDirRef" from="rootPageRef.findMatchingDirectory()"/>
+                <set field="newPageLocation" value="${rootPageDirRef.location}/${parentPath}/${pageName}.${wikiType}"/>
+                <script>pageReference.move(newPageLocation)</script>
+                <!-- move the page's corresponding directory -->
+                <set field="pageDirReference" from="pageReference.findMatchingDirectory()"/>
+                <set field="newPageDirLocation" value="${rootPageDirRef.location}/${parentPath}/${pageName}"/>
+                <script>pageDirReference.move(newPageDirLocation)</script>
+
+                <!-- return the new pagePath so the user is taken there -->
+                <set field="pagePath" value="${parentPath ? parentPath+'/' : ''}${pageName?:''}"/>
+            </if>
         </actions>
     </service>
 

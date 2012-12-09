@@ -18,7 +18,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <!-- all other parameters should only be passed explicitly: pagePath, parentPath, pageName -->
 
     <transition name="updatePage">
-        <service-call name="HiveMind.WikiServices.update#WikiPage"/>
+        <service-call name="HiveMind.WikiServices.update#WikiPage" in-map="context" out-map="context"/>
         <default-response url="../wiki"/>
         <error-response url="."/>
     </transition>
