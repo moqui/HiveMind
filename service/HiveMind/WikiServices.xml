@@ -43,7 +43,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
 
             <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
-            <set field="pageReference" from="rootPageRef.findChildResource(pagePath)"/>
+            <set field="pageReference" from="rootPageRef.findChildFile(pagePath)"/>
             <set field="pageLocation" from="pageReference?.location"/>
 
             <set field="pageName" from="pageReference?.fileName"/>
@@ -115,11 +115,11 @@ This Work includes contributions authored by David E. Jones, not as a
             <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
 
             <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
-            <set field="pageReference" from="rootPageRef.findChildResource(pagePath)"/>
+            <set field="pageReference" from="rootPageRef.findChildFile(pagePath)"/>
 
             <if condition="!pageReference.exists">
                 <set field="fullPagePath" value="${pagePath}.${wikiType}"/>
-                <set field="pageReference" from="rootPageRef.findChildResource(fullPagePath)"/>
+                <set field="pageReference" from="rootPageRef.findChildFile(fullPagePath)"/>
                 <!-- <log level="warn" message="========== new page fullPagePath=${fullPagePath}, pageReference=${pageReference}"/> -->
             </if>
 

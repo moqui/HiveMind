@@ -13,7 +13,7 @@ Move along, nothing to see here...
 
 h3. HiveMind TODO
 
-* implement move of page to under different parent
+* implement move of page (and corresponding directory) to under different parent
 * implement rename of page (and corresponding directory)
 * add support for page attachments with corresponding file structure
 
