@@ -13,7 +13,6 @@ Move along, nothing to see here...
 
 h3. HiveMind TODO
 
-* on move of page fix pagePath/etc so it displays the page just edited
 * add support for page attachments with corresponding file structure
 
 * space page tree - find fancy jquery widget
