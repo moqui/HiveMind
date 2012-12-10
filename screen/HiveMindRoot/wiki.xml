@@ -35,6 +35,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
             // ec.logger.warn("========== before redirect context=${context}")
             if (!pageReference?.exists) {
+                ec.logger.info("Page at ${pageReference} does not exist, forwarding to create")
                 ScreenRenderImpl sri = context.sri
                 // NOTE: have to do a little more work here because of the extra path that messes up the relative screen loc
                 ScreenUrlInfo editWikiUrl = sri.buildUrl(sri.getRootScreenDef(),
