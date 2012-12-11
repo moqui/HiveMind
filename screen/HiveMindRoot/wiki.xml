@@ -101,7 +101,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             <script>sri.baseLinkUrl(baseLinkUrl)</script>
                         </actions>
                         <widgets>
-                                <render-mode><text template="true" type="html" location="${pageLocation?:''}"/></render-mode>
+                            <render-mode><text template="true" type="html" location="${pageLocation?:''}"/></render-mode>
                         </widgets>
                         <fail-widgets>
                             <include-screen location="${wikiSpace.decoratorScreenLocation}"/>

@@ -17,4 +17,4 @@ h3. HiveMind TODO
 
 * space page tree - find fancy jquery widget
 * wiki search - use solr, or elastic search?
-* for non-public spaces check to see if user is associated as admin, contributor, or viewer
+* access control: for non-public spaces check to see if user is associated as admin, contributor, or viewer

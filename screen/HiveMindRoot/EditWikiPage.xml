@@ -31,6 +31,11 @@ This Work includes contributions authored by David E. Jones, not as a
         </if>
         <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
         <set field="isRootPage" from="pageReference?.exists &amp;&amp; !pagePath"/>
+        <script>
+            def wikiUrl = sri.buildUrl(sri.getRootScreenDef(),
+                    sri.getScreenUrlInfo().getPreTransitionPathNameList(), "../wiki")
+            baseLinkUrl = wikiUrl.getUrl() + "/" + wikiSpaceId
+        </script>
     </actions>
     <widgets>
         <container>
@@ -48,9 +53,20 @@ This Work includes contributions authored by David E. Jones, not as a
             <!-- TODO: decorate this with some fancy editor based on the type of wiki text it is -->
             <field name="pageText"><default-field><text-area cols="100" rows="30"/></default-field></field>
             <field name="submitButton">
-                <conditional-field condition="!pageReference?.exists" title="Create Page"><submit/></conditional-field>
+                <conditional-field condition="isCreate" title="Create Page"><submit/></conditional-field>
                 <default-field title="Update Page"><submit/></default-field>
             </field>
+            <field name="cancelButton">
+                <default-field title="">
+                    <link text="Cancel" url="${baseLinkUrl}/${pagePath?:parentPath?:''}" url-type="plain"/>
+                </default-field>
+            </field>
+            <field-layout>
+                <field-ref name="parentPath"/>
+                <field-ref name="pageName"/>
+                <field-ref name="pageText"/>
+                <field-row><field-ref name="submitButton"/><field-ref name="cancelButton"/></field-row>
+            </field-layout>
         </form-single>
     </widgets>
 </screen>
