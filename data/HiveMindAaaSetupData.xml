@@ -14,9 +14,12 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot/apps.xml"
         subscreenName="hm" userGroupId="ALL_USERS" subscreenLocation="component://HiveMind/screen/HiveMindRoot.xml"
         menuTitle="HiveMind PM" menuIndex="9" menuInclude="Y"/>
-    <!-- NOTE: make sure this css path matches where the root screen is mounted -->
+    <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot.xml"
+            subscreenName="hmstatic" userGroupId="ALL_USERS" subscreenLocation="component://HiveMind/screen/hmstatic.xml"
+            menuTitle="hmstatic" menuInclude="N"/>
+    <!-- NOTE: make sure this css path matches where the hmstatic root screen is mounted -->
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="9" resourceTypeEnumId="STRT_STYLESHEET"
-            resourceValue="/apps/hm/css/HiveMindDefault.css"/>
+            resourceValue="/hmstatic/css/HiveMindDefault.css"/>
 
     <!-- authz/permission for ALL users -->
     <moqui.security.ArtifactGroup artifactGroupId="HIVE_MIND" description="HiveMind App (via root screen)"/>

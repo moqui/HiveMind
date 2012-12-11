@@ -25,6 +25,8 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
 
     <pre-actions>
+        <script>html_scripts.add('/hmstatic/jstree/jquery-jstree-pre1.0fix1.js')</script>
+
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
         <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
 
@@ -55,8 +57,8 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <container-panel id="wiki-view">
             <panel-left>
-                <!-- TODO: change to some kind of fancy expanding tree instead of flat list -->
                 <label text="${wikiSpace?.description}" type="h2"/>
+                <!-- using fancy expanding tree instead of flat list:
                 <container id="wiki-page-list">
                     <section-iterate name="PageList" list="allChildFileFlatList" entry="childFile">
                         <widgets>
@@ -66,6 +68,10 @@ This Work includes contributions authored by David E. Jones, not as a
                         </widgets>
                     </section-iterate>
                 </container>
+                -->
+                <render-mode>
+                    <text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/>
+                </render-mode>
             </panel-left>
             <panel-center>
                 <container id="wiki-breadcrumbs">

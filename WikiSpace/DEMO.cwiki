@@ -14,6 +14,7 @@ Move along, nothing to see here...
 h3. HiveMind TODO
 
 * add support for page attachments with corresponding file structure
+* implement move for dbresource and content
 
 * space page tree - find fancy jquery widget
 * wiki search - use solr, or elastic search?
