@@ -22,6 +22,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </#list>
 </#macro>
 
+<#if rootChildResourceList?has_content>
 <div id="wiki-page-tree">
     <ul>
         <@pageList pageInfoList=rootChildResourceList/>
@@ -29,12 +30,13 @@ This Work includes contributions authored by David E. Jones, not as a
 </div>
 
 <script>
-$(function () {
-    var openList = [<#list breadcrumbMapList?if_exists as breadcrumbMap>'PLI_${breadcrumbMap.pagePath.hashCode().toString()}'<#if breadcrumbMap_has_next>,</#if></#list>];
-    $.jstree._themes = "/hmstatic/jstree/";
-    $("#wiki-page-tree").jstree({
-        "plugins" : [ "themes", "html_data" ],
-        "core" : { "initially_open" : openList },
-        "themes" : { "theme" : "classic", "dots" : true, "icons" : false } });
-});
+    $(function () {
+        var openList = [<#list breadcrumbMapList?if_exists as breadcrumbMap>'PLI_${breadcrumbMap.pagePath.hashCode().toString()}'<#if breadcrumbMap_has_next>,</#if></#list>];
+        $.jstree._themes = "/hmstatic/jstree/";
+        $("#wiki-page-tree").jstree({
+            "plugins" : [ "themes", "html_data" ],
+            "core" : { "initially_open" : openList },
+            "themes" : { "theme" : "classic", "dots" : true, "icons" : false } });
+    });
 </script>
+</#if>
