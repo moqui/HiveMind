@@ -14,7 +14,6 @@ This Work includes contributions authored by David E. Jones, not as a
     <HiveMind.wiki.WikiSpace wikiSpaceId="DEMO" description="Demo Wiki Space" isPublic="Y"
             rootPageLocation="component://HiveMind/WikiSpace/DEMO.cwiki" decoratorScreenLocation=""/>
 
-
     <HiveMind.wiki.WikiSpace wikiSpaceId="DBDEMO" description="DB Demo Wiki Space" isPublic="Y"
             rootPageLocation="dbresource://HiveMind/WikiSpace/DBDEMO.cwiki" decoratorScreenLocation=""/>
     <moqui.resource.DbResource  resourceId="HIVE_MIND" parentResourceId="" filename="HiveMind" isFile="N"/>

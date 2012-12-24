@@ -6,6 +6,10 @@
 
 #wiki-page-name { float: left; }
 #wiki-page-links { float: right; }
-#wiki-page-area { border-top: #cccccc solid 1px; margin-top: 4px; margin-left: 8px; }
+#wiki-page-area { border-top: #cccccc solid 1px; border-bottom: #cccccc solid 1px;
+    margin: 4px 2px 8px 2px; padding: 8px 2px 8px 2px; }
+
+#wiki-attachment-name { float: left; }
+#wiki-attachment-links { float: right; }
 
 #wiki-view-left { border-right: #cccccc solid 1px; padding-right: 4px; margin-right: 4px; }

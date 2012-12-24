@@ -22,6 +22,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <parameter name="pagePath"/>
             <parameter name="wikiSpace" type="org.moqui.entity.EntityValue"/>
             <parameter name="pageReference" type="org.moqui.content.ResourceReference"/>
+            <parameter name="attachmentList" type="List"/>
             <parameter name="pageLocation"/>
             <parameter name="pageName"/>
             <parameter name="parentPath"/>
@@ -71,6 +72,17 @@ This Work includes contributions authored by David E. Jones, not as a
                     listIndex++
                 }
             ]]></script>
+
+            <set field="pageDirectoryRef" from="pageReference.findMatchingDirectory()"/>
+            <set field="pageAttachmentsDirectoryRef" from="pageDirectoryRef?.findChildDirectory('_attachments')"/>
+            <set field="pageAttachmentRefList" from="pageAttachmentsDirectoryRef?.getDirectoryEntries()"/>
+            <set field="attachmentList" from="[]"/>
+            <iterate list="pageAttachmentRefList" entry="pageAttachmentRef">
+                <script>
+                    if (pageAttachmentRef.isFile()) attachmentList.add([filename:pageAttachmentRef.getFileName(),
+                            contentType:pageAttachmentRef.getContentType(), lastModified:pageAttachmentRef.getLastModified()])
+                </script>
+            </iterate>
 
             <!-- <log level="warn" message="========= wikiSpaceId=${wikiSpaceId}, pagePath: ${pagePath}, wikiSpace: ${wikiSpace}, rootPageRef: ${rootPageRef}, pageReference: ${pageReference}, pageLocation: ${pageLocation}"/> -->
         </actions>
