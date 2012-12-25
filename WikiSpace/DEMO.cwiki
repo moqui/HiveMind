@@ -1,6 +1,11 @@
+
+{toc}
+
 h2. Demo Space Root Page
 
 Move along, nothing to see here...
+
+h2. Link Tests
 
 [Demo Page 1]
 [Demo Page 1, Section 1|Demo Page 1#Section1]
@@ -11,14 +16,18 @@ Move along, nothing to see here...
 
 [New Page Test]
 
-h3. HiveMind General TODO
+[Moqui Website|http://www.moqui.org]
+
+h2. TODO Lists
+
+h3. HiveMind General
 
 * user account setup: at least name, email, space associations
 
-h3. HiveMind Wiki TODO
+h3. HiveMind Wiki
 
-* don't include current page in drop-down of optional parent pages
 * add support for page attachments with corresponding file structure
+* don't include current page in drop-down of optional parent pages
 
 * wiki search - use solr, or elastic search ([http://www.elasticsearch.org])?
 * space page tree - change to use AJAX so entire space tree isn't loaded each time (maybe make page view change without reloading?)
@@ -28,5 +37,6 @@ h3. HiveMind Wiki TODO
 * access control: for non-public spaces check to see if user is associated as admin, contributor, or viewer
 * page subscriptions with email notification for page change
 
-h3. HiveMind Tasks TODO
+h3. HiveMind Tasks
 
+* so very much...

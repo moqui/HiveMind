@@ -114,7 +114,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         </fail-widgets>
                     </section>
                 </container>
-                <!-- TODO figure out a way to make configured space root screen (wikiSpace.decoratorScreenLocation) a subscreen
+                <!-- CONSIDER: figure out a way to make configured space root screen (wikiSpace.decoratorScreenLocation) a subscreen
                        instead of including it explicitly as above
                 <subscreens-active id="wiki-container"/>
                 -->

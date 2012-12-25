@@ -1,3 +1,7 @@
+
+#dashboard-wiki-title { float: left; }
+#dashboard-wiki-links { float: right; }
+
 #wiki-breadcrumbs a.button { border: 0; color: #00008b; padding: 1px; margin: 1px; }
 #wiki-breadcrumbs a.button:hover { text-decoration: underline; }
 
@@ -8,6 +12,10 @@
 #wiki-page-links { float: right; }
 #wiki-page-area { border-top: #cccccc solid 1px; border-bottom: #cccccc solid 1px;
     margin: 4px 2px 8px 2px; padding: 8px 2px 8px 2px; }
+
+#wiki-page-area h1 { margin: 16px 0 16px 0; border-bottom: #cccccc solid 1px; }
+#wiki-page-area h2 { margin: 8px 0 8px 0; border-bottom: #cccccc solid 1px; }
+#wiki-page-area h3 { margin: 4px 0 4px 0; text-decoration: underline; }
 
 #wiki-attachment-name { float: left; }
 #wiki-attachment-links { float: right; }
