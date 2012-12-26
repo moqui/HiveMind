@@ -23,6 +23,51 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="createPage">
         <default-response url="../EditWikiPage"/>
     </transition>
+    <transition name="uploadAttachment">
+        <actions>
+            <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
+            <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
+            <set field="pageReference" from="rootPageRef.findChildFile(pagePath)"/>
+            <set field="pageAttachmentsDirectoryRef" from="pageReference?.getChild('_attachments')"/>
+            <set field="attachmentReference" from="pageAttachmentsDirectoryRef?.getChild(attachmentFile.getName())"/>
+
+            <script><![CDATA[
+                import org.moqui.context.ResourceReference
+                org.moqui.context.ExecutionContext ec = context.ec
+                org.apache.commons.fileupload.FileItem attachmentFile = context.attachmentFile
+                ec.logger.info("Uploading file [${attachmentFile.getName()}] for page [${pagePath}] in space [${wikiSpaceId}]")
+
+                InputStream fileStream = attachmentFile.getInputStream()
+                attachmentReference.putStream(fileStream)
+                fileStream.close()
+            ]]></script>
+        </actions>
+        <default-response url="."/>
+    </transition>
+    <transition name="downloadAttachment">
+        <actions>
+            <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
+            <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
+            <set field="pageReference" from="rootPageRef.findChildFile(pagePath)"/>
+            <set field="pageAttachmentsDirectoryRef" from="pageReference?.getChild('_attachments')"/>
+            <set field="attachmentReference" from="pageAttachmentsDirectoryRef?.getChild(filename)"/>
+
+            <script><![CDATA[
+                import org.moqui.context.ResourceReference
+                org.moqui.context.ExecutionContext ec = context.ec
+
+                ec.web.response.setContentType(attachmentReference.contentType)
+                InputStream is = attachmentReference.openStream()
+                OutputStream os = ec.web.response.outputStream
+                int totalLen = StupidUtilities.copyStream(is, os)
+                is.close()
+                os.close()
+
+                ec.logger.info("Streamed ${totalLen} bytes from attachment ${attachmentReference}")
+            ]]></script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
 
     <pre-actions>
         <script>html_scripts.add('/hmstatic/jstree/jquery-jstree-pre1.0fix1.js')</script>
@@ -42,7 +87,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 // NOTE: have to do a little more work here because of the extra path that messes up the relative screen loc
                 ScreenUrlInfo editWikiUrl = sri.buildUrl(sri.getRootScreenDef(),
                         sri.getScreenUrlInfo().getPreTransitionPathNameList(), "../EditWikiPage")
-                editWikiUrl.addParameter("webSiteId", webSiteId)
+                editWikiUrl.addParameter("wikiSpaceId", wikiSpaceId)
                 editWikiUrl.addParameter("parentPath", parentPath)
                 editWikiUrl.addParameter("pageName", pageName)
                 editWikiUrl.addParameter("isCreate", "true")
@@ -57,7 +102,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <container-panel id="wiki-view">
             <panel-left>
-                <label text="${wikiSpace?.description}" type="h2"/>
+                <link text="${wikiSpace?.description?:'Space Root'}" url="${baseLinkUrl}" url-type="plain"/>
                 <!-- using fancy expanding tree instead of flat list:
                 <container id="wiki-page-list">
                     <section-iterate name="PageList" list="allChildFileFlatList" entry="childFile">
@@ -89,11 +134,11 @@ This Work includes contributions authored by David E. Jones, not as a
                     </container>
                     <container id="wiki-page-links">
                         <link text="Edit Page" url="editPage" link-type="hidden-form" icon="pencil">
-                            <parameter name="webSiteId"/>
+                            <parameter name="wikiSpaceId"/>
                             <parameter name="pagePath"/>
                         </link>
                         <link text="Add Page" url="createPage" link-type="hidden-form" icon="plusthick">
-                            <parameter name="webSiteId"/>
+                            <parameter name="wikiSpaceId"/>
                             <parameter name="parentPath" from="pagePath"/>
                             <parameter name="isCreate" value="true"/>
                         </link>
@@ -118,34 +163,36 @@ This Work includes contributions authored by David E. Jones, not as a
                        instead of including it explicitly as above
                 <subscreens-active id="wiki-container"/>
                 -->
-                <container id="wiki-page-attachments">
-                    <container style="ui-helper-clearfix">
-                        <container id="wiki-attachment-name">
-                            <label text="Attachments" type="h2"/>
+                <section name="WikiPageAttachments">
+                    <actions><script>sri.baseLinkUrl(null)</script></actions>
+                    <widgets>
+                        <container id="wiki-page-attachments">
+                            <container style="ui-helper-clearfix">
+                                <container id="wiki-attachment-name">
+                                    <label text="Attachments" type="h2"/>
+                                </container>
+                                <container id="wiki-attachment-links">
+                                    <container-dialog id="UploadAttachmentDialog" button-text="Upload Attachment">
+                                        <form-single name="UploadAttachment" transition="uploadAttachment">
+                                            <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
+                                            <field name="pagePath"><default-field><hidden/></default-field></field>
+                                            <field name="attachmentFile"><default-field><file/></default-field></field>
+                                            <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
+                                        </form-single>
+                                    </container-dialog>
+                                </container>
+                            </container>
+                            <form-list name="AttachmentList" list="attachmentList" skip-start="true" skip-end="true">
+                                <field name="filename"><default-field><link url="downloadAttachment" text="${filename}">
+                                    <parameter name="wikiSpaceId"/><parameter name="pagePath"/><parameter name="filename"/>
+                                </link></default-field></field>
+                                <field name="contentType"><default-field><display/></default-field></field>
+                                <field name="lastModified"><default-field><display/></default-field></field>
+                                <!-- TODO: add delete link -->
+                            </form-list>
                         </container>
-                        <container id="wiki-attachment-links">
-                            <container-dialog id="UploadAttachmentDialog" button-text="Upload Attachment">
-                                <form-single name="UploadAttachment" transition="uploadAttachment">
-                                    <field name="webSiteId"><default-field><hidden/></default-field></field>
-                                    <field name="pagePath"><default-field><hidden/></default-field></field>
-                                    <field name="attachmentFile"><default-field><file/></default-field></field>
-                                    <field name="submitButton"><default-field title="Add"><submit confirmation="Really Add?"/></default-field></field>
-                                </form-single>
-                            </container-dialog>
-                        </container>
-                    </container>
-                    <form-list name="AttachmentList" list="attachmentList">
-                        <field name="webSiteId"><default-field><hidden/></default-field></field>
-                        <field name="pagePath"><default-field><hidden/></default-field></field>
-                        <field name="filename"><default-field>
-                            <!-- TODO: change to download link -->
-                            <display/>
-                        </default-field></field>
-                        <field name="contentType"><default-field><display/></default-field></field>
-                        <field name="lastModified"><default-field><display/></default-field></field>
-                        <!-- TODO: add delete link -->
-                    </form-list>
-                </container>
+                    </widgets>
+                </section>
             </panel-center>
         </container-panel>
     </widgets>

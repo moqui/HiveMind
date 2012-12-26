@@ -73,8 +73,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 }
             ]]></script>
 
-            <set field="pageDirectoryRef" from="pageReference.findMatchingDirectory()"/>
-            <set field="pageAttachmentsDirectoryRef" from="pageDirectoryRef?.findChildDirectory('_attachments')"/>
+            <set field="pageAttachmentsDirectoryRef" from="pageReference?.getChild('_attachments')"/>
             <set field="pageAttachmentRefList" from="pageAttachmentsDirectoryRef?.getDirectoryEntries()"/>
             <set field="attachmentList" from="[]"/>
             <iterate list="pageAttachmentRefList" entry="pageAttachmentRef">

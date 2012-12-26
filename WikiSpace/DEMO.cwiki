@@ -26,7 +26,6 @@ h3. HiveMind General
 
 h3. HiveMind Wiki
 
-* add support for page attachments with corresponding file structure
 * don't include current page in drop-down of optional parent pages
 
 * wiki search - use solr, or elastic search ([http://www.elasticsearch.org])?
