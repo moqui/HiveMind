@@ -25,11 +25,8 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
     <transition name="uploadAttachment">
         <actions>
-            <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
-            <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
-            <set field="pageReference" from="rootPageRef.findChildFile(pagePath)"/>
-            <set field="pageAttachmentsDirectoryRef" from="pageReference?.getChild('_attachments')"/>
-            <set field="attachmentReference" from="pageAttachmentsDirectoryRef?.getChild(attachmentFile.getName())"/>
+            <set field="filename" from="attachmentFile.getName()"/>
+            <service-call name="HiveMind.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
 
             <script><![CDATA[
                 import org.moqui.context.ResourceReference
@@ -46,12 +43,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
     <transition name="downloadAttachment">
         <actions>
-            <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
-            <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
-            <set field="pageReference" from="rootPageRef.findChildFile(pagePath)"/>
-            <set field="pageAttachmentsDirectoryRef" from="pageReference?.getChild('_attachments')"/>
-            <set field="attachmentReference" from="pageAttachmentsDirectoryRef?.getChild(filename)"/>
-
+            <service-call name="HiveMind.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
             <script><![CDATA[
                 import org.moqui.context.ResourceReference
                 org.moqui.context.ExecutionContext ec = context.ec
@@ -120,7 +112,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </panel-left>
             <panel-center>
                 <container id="wiki-breadcrumbs">
-                    <link text="${wikiSpace.description?:'Space Root'}" url="${baseLinkUrl}" url-type="plain"/>
+                    <link text="${wikiSpace?.description?:'Space Root'}" url="${baseLinkUrl}" url-type="plain"/>
                     <section-iterate name="breadcrumbs" list="breadcrumbMapList" entry="breadcrumbMap">
                         <widgets>
                             <label text="/"/>
@@ -187,7 +179,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                     <parameter name="wikiSpaceId"/><parameter name="pagePath"/><parameter name="filename"/>
                                 </link></default-field></field>
                                 <field name="contentType"><default-field><display/></default-field></field>
-                                <field name="lastModified"><default-field><display/></default-field></field>
+                                <field name="lastModified"><default-field><display text="${ec.l10n.formatValue(new Timestamp(lastModified), null)}"/></default-field></field>
                                 <!-- TODO: add delete link -->
                             </form-list>
                         </container>

@@ -86,6 +86,23 @@ This Work includes contributions authored by David E. Jones, not as a
             <!-- <log level="warn" message="========= wikiSpaceId=${wikiSpaceId}, pagePath: ${pagePath}, wikiSpace: ${wikiSpace}, rootPageRef: ${rootPageRef}, pageReference: ${pageReference}, pageLocation: ${pageLocation}"/> -->
         </actions>
     </service>
+    <service verb="get" noun="WikiPageAttachment">
+        <in-parameters>
+            <parameter name="wikiSpaceId" required="true"/>
+            <parameter name="pagePath"><description>This is not required because it could be empty for the space root page.</description></parameter>
+            <parameter name="filename" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="attachmentReference" type="org.moqui.content.ResourceReference"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
+            <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
+            <set field="pageReference" from="rootPageRef.findChildFile(pagePath)"/>
+            <set field="pageAttachmentsDirectoryRef" from="pageReference?.getChild('_attachments')"/>
+            <set field="attachmentReference" from="pageAttachmentsDirectoryRef?.getChild(filename)"/>
+        </actions>
+    </service>
     <service verb="get" noun="WikiSpacePages">
         <in-parameters>
             <parameter name="wikiSpaceId" required="true"/>
