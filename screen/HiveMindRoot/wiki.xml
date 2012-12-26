@@ -27,12 +27,11 @@ This Work includes contributions authored by David E. Jones, not as a
         <actions>
             <set field="filename" from="attachmentFile.getName()"/>
             <service-call name="HiveMind.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
-
             <script><![CDATA[
                 import org.moqui.context.ResourceReference
                 org.moqui.context.ExecutionContext ec = context.ec
                 org.apache.commons.fileupload.FileItem attachmentFile = context.attachmentFile
-                ec.logger.info("Uploading file [${attachmentFile.getName()}] for page [${pagePath}] in space [${wikiSpaceId}]")
+                ec.logger.info("Uploading file [${filename}] for page [${pagePath}] in space [${wikiSpaceId}]")
 
                 InputStream fileStream = attachmentFile.getInputStream()
                 attachmentReference.putStream(fileStream)
@@ -180,7 +179,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                 </link></default-field></field>
                                 <field name="contentType"><default-field><display/></default-field></field>
                                 <field name="lastModified"><default-field><display text="${ec.l10n.formatValue(new Timestamp(lastModified), null)}"/></default-field></field>
-                                <!-- TODO: add delete link -->
+                                <!-- TODO: add delete link; maybe just move to a _trash directory? -->
                             </form-list>
                         </container>
                     </widgets>
