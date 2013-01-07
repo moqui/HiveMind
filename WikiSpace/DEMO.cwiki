@@ -23,19 +23,40 @@ h2. TODO Lists
 h3. HiveMind General
 
 * user account setup: at least name, email, space associations, project associations
+* Admin screen with separate authz and user group, and example users (add john.doe to the group in demo data)
 
 h3. HiveMind Wiki
 
+* add URL path support for page attachments instead of plain transition with form parameters
 * don't include current page in drop-down of optional parent pages
 
+* comment list and add comment form (files in a subdir like _attachments?)
+* generate PDF from wiki source
 * wiki search - use solr, or elastic search ([http://www.elasticsearch.org])?
 * space page tree - change to use AJAX so entire space tree isn't loaded each time (maybe make page view change without reloading?)
 * visual editor for cwiki and/or others
 * reference for wiki syntax supported, link to wikitext docs or add some to app
 
 * access control: for non-public spaces check to see if user is associated as admin, contributor, or viewer
-* page subscriptions with email notification for page change
+* page subscriptions with email notification for page change, or any change in a space
 
 h3. HiveMind Tasks
 
-* so very much...
+* Dashboard
+** New Project dialog
+** Project list
+* Project Summary Screen
+** Task tree
+** My task list
+** Recent task list
+* Task Screen
+** Edit task fields
+** Task comment list, add comment
+** Task attachment (content)
+
+h3. HiveMind Issues
+
+* Dashboard
+** New Issue dialog
+** Issue list form with find in header
+* Issue Screen
