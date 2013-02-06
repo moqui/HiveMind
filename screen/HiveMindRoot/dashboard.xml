@@ -11,7 +11,8 @@ This Work includes contributions authored by David E. Jones, not as a
 "work for hire", who hereby disclaims any copyright to the same.
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.2.xsd">
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.2.xsd"
+        default-menu-title="Dashboard">
 
     <transition name="createSpace">
         <service-call name="HiveMind.WikiServices.create#WikiSpace" in-map="context"/>
@@ -68,9 +69,9 @@ This Work includes contributions authored by David E. Jones, not as a
             <label text="Tasks" type="h1"/>
             <!-- my top tasks, my projects, etc -->
         </container>
-        <container id="dashboard-issues-section">
-            <label text="Issues" type="h1"/>
-            <!-- my issues, etc -->
+        <container id="dashboard-requests-section">
+            <label text="Requests" type="h1"/>
+            <!-- my requests, etc -->
         </container>
     </widgets>
 </screen>
