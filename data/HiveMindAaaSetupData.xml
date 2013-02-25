@@ -27,4 +27,7 @@ This Work includes contributions authored by David E. Jones, not as a
         artifactTypeEnumId="AT_XML_SCREEN" inheritAuthz="Y"/>
     <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_ALL" userGroupId="ALL_USERS" artifactGroupId="HIVE_MIND"
         authzTypeEnumId="AUTHZT_ALWAYS" authzActionEnumId="AUTHZA_ALL"/>
+
+    <HiveMind.wiki.WikiSpace wikiSpaceId="HmDesign" description="HiveMind Design" isPublic="Y"
+            rootPageLocation="component://HiveMind/WikiSpace/HmDesign.cwiki" decoratorScreenLocation=""/>
 </entity-facade-xml>
