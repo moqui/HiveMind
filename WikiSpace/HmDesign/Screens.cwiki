@@ -1,11 +1,16 @@
-
 {toc}
 
+h2. Ideas to Incorporate
+
+* Task hierarchy (sub-tasks) improvements
+* Task type (needed? what types? improvement, new feature, bug fix, etc)
+* Wiki-Task and Wiki-Request links
+* Tag library and associations to all sorts of things: wiki pages, tasks, requests, etc, etc (make generic data model in framework, use throughout Mantle)
 
 h2. Account Services Dashboard
 
 
-h3. Area Title: PROJECTS
+h3. Area: Projects
 
 *Location:* Top left-hand side, approx. 1/2 of the total screen width, 2/3 of the total screen height
 # *Expandable Client list*
@@ -18,7 +23,7 @@ h3. Area Title: PROJECTS
 # *Create Project button*
 ## Clicking on the button links to the [Create_Project|#Create_Project] page
 
-h3. Area Title: INVOICES
+h3. Area: Invoices
 
 *Location:* Top right-hand side, approx. 1/2 of the total screen width, 2/3 of the total screen height
 
@@ -44,14 +49,14 @@ h3. Area Title: INVOICES
 ## OUT OF SCOPE FOR NOW: It would be great if we could have an electronic repository of all PDFs generated for each Client for access by Account Services and Company Execs
 ## The Create Invoice function should produce an invoice in PDF format
 
-h3. Area Title: COMPANY
+h3. Area: Company
 
 *Location:* Bottom right-hand side, approx. 1/2 of the total screen width, 1/3 of the total screen height
 # Interactive (HotWax Media) org tree
 ## Browseable; expandable to view department/group members and positions and billing rates per Contributor; editable
 ## View/edit basic contact information (name, title, phone, email)
 
-h3. Area Title: CLIENTS
+h3. Area: Clients
 
 *Location:* Bottom left-hand side, approx. 1/2 of the total screen width, 1/3 of the total screen height
 # Interactive Client org tree
@@ -75,7 +80,7 @@ h3. Account Services Dashboard Contents by Area (overview)
 
 h2. Create/Edit Project page {anchor:Create_Project}
 
-h3. Area Title: CREATE NEW PROJECT or EDIT PROJECT (if exists)
+h3. Area: Create or Edit Project
 
 # Main Form Fields
 ## Project Name
@@ -95,9 +100,9 @@ h3. Area Title: CREATE NEW PROJECT or EDIT PROJECT (if exists)
 ## (see [Task_Page|#Task_Page] for Project Tree requirements)
 
 
-h2. Task Page {anchor:Task_Page}
+h2. Task Page
 
-h3. Area Title: PROJECTS {anchor:Projects}
+h3. Area: Projects
 
 *Location:* Right-hand side, approx. 1/3 of the total screen width, full screen height
 # Project Tree (task hierarchy)
@@ -132,7 +137,7 @@ h3. Area Title: PROJECTS {anchor:Projects}
 ## Select task to View Task Details
 ### Clicking on a lowest-level task name brings up the Task Details in the Task Details Area described below.
 
-h3. Area Title: TASK DETAILS {anchor:Task_Details}
+h3. Area: Task Details
 
 *Location:* Left-hand side, approx. 2/3 of the total screen width, full screen height
 
@@ -142,7 +147,7 @@ h3. Area Title: TASK DETAILS {anchor:Task_Details}
 #### Select mm/dd/yy and 00:00 a.m./p.m.
 #### Edit task status (Planned, Open for Work (Approved), Complete, Canceled)
 #### Enter a note about the work performed
-## Edit This Task {anchor:Edit_Task}
+## Edit Task
 # *Section Header:* Task Status
 ## *Location:* Under previous button
 ## View/Edit task status (permissions for all Contributors) (Planned, Open for Work, Complete, Canceled)
@@ -190,14 +195,14 @@ h3. Area Title: TASK DETAILS {anchor:Task_Details}
 {note}When delegating to a group all individual task assignments thruDate fields are set.
 {note}
 
-h3. Area Title: NOTES
+h3. Area: Notes
 
 *Location:* Below Details content and to the right of Project Tree
 # Add/Edit/Email task note
 ## Edit note text
 ## Select recipients from others assigned to task or any ancestor task
 
-h3. Area Title: REQUESTS {anchor:Open_Requests}
+h3. Area: Requests
 
 *Location:* To the right of Notes content
 # List of Open Requests (formerly known as "Issues") related to the task
@@ -206,7 +211,7 @@ h3. Area Title: REQUESTS {anchor:Open_Requests}
 ## Information in-line with Request Name: Date Submitted; Submitted By (Name and Organization; Desired Resolve-by Date
 ## Select Request from list to view [Request_Details|#Request_Details]
 
-h3. Task Page Contents by Area (overview)
+h3. Task Page Contents by Area
 
 || Projects || Details || || ||
 | Project Tree | Big action buttons | | |
@@ -217,10 +222,10 @@ h3. Task Page Contents by Area (overview)
 | | Text field | Request list | |
 | | Document upload | Link to [Request_Details|#Request_Details] | |
 
-h2. Request Details page {anchor:Request_Details}
+h2. Request Details Page
 
 
-h3. Area Title: REQUESTS
+h3. Area: Requests
 
 *Location:* Left-hand side, approx. 1/3 of the total screen width, full screen height
 # Expandable Client list
@@ -244,7 +249,7 @@ h3. Area Title: REQUESTS
 ## View tasks related to the request
 ### Select task to View [Task_Details|#Task_Details]
 
-h3. Area Title: REQUEST DETAILS
+h3. Area: Request Details
 
 *Location:* Right-hand side, approx. 2/3 of the total screen width, full screen height
 # View Request Details
@@ -261,7 +266,7 @@ h3. Area Title: REQUEST DETAILS
 
 h2. Contributor Dashboard
 
-h3. Area Title: MY REQUESTS
+h3. Area: My Requests
 
 *Location:* Top left-hand corner of a column that spans the screen height and has a width of 1/3 the total screen width
 # List of Open Requests that have been accepted by the logged-in Contributor
@@ -272,7 +277,7 @@ h3. Area Title: MY REQUESTS
 ## Link to task(s) associated with Request (listed under the request)
 ## Link to [Create_New_Task|#Create_New_Task] and associate the task with the request
 
-h3. Area Title: MY GROUP REQUESTS
+h3. Area: My Group Requests
 
 *Location:* Below My Requests content
 # Lists outstanding Requests delegated to Group (default is logged-in Contributor's Group)
@@ -281,7 +286,7 @@ h3. Area Title: MY GROUP REQUESTS
 # Link to Accept Request
 # Link to [Delegate_to_a_Group|#Delegate_to_a_Group]
 
-h3. Area Title: MY TASKS
+h3. Area: My Tasks
 
 *Location:* Below My Group Requests content
 # Project Tree (includes projects and tasks assigned by the logged-in contributor)
@@ -290,7 +295,7 @@ h3. Area Title: MY TASKS
 # [Delegate_to_a_Group|#Delegate_to_a_Group]
 # [Edit_Task|#Edit_Task] links to the task detail
 
-h3. Area Title: MY GROUP TASKS
+h3. Area: My Group Tasks
 
 # *Location:* Below My Tasks content
 # Project Tree (includes projects and tasks delegated to the logged-in contributor's Group)
@@ -298,7 +303,7 @@ h3. Area Title: MY GROUP TASKS
 # [Accept_Task|#Accept_Task], assign to me
 # [Delegate_to_a_Group|#Delegate_to_a_Group], assign to another group
 
-h3. Area Title: MY SCHEDULE
+h3. Area: My Schedule
 
 # *Location:* To the right of My Requests in its own column that spans half-the page height
 # Contributor Calendar
@@ -313,7 +318,7 @@ h3. Area Title: MY SCHEDULE
 ## Click on Task Bar to view [Task_Details|#Task_Details] for any scheduled task
 
 
-h3. Area Title: MY GROUP SCHEDULE
+h3. Area: My Group Schedule
 
 *Location:* Under My Schedule content; spans the lower half of the page height
 # Group Calendar
@@ -327,17 +332,17 @@ h3. Area Title: MY GROUP SCHEDULE
 ## Link to view/schedule Group [#Events] (meetings and other non-tasks)
 ## Option to view only the tasks that Reviewer has approved to commence work (as opposed to also viewing planned tasks that have not yet been reviewed and approved, as in tasks with a status of "Open for Work.")
 
-h3. Contributor Dashboard Contents by Area (overview)
+h3. Contributor Dashboard Contents by Area
 
 || My Requests || My Schedule ||
 || My Group Requests | (My Calendar) ||
 || My Tasks || My Group Schedule ||
 || My Group Tasks || (Group Calendar) ||
 
-h2. Events page {anchor:Events}
+h2. Events Page
 
 
-h3. Area Title: EVENTS
+h3. Area: Events
 
 # Form fields
 #* Event title
@@ -346,16 +351,15 @@ h3. Area Title: EVENTS
 #* Invitees (select from pre-populated list of employees)
 #* Note
 
-h2. Client Dashboard
+h2. Client Dashboard Page
 
-
-h3. Area Title: PROJECT
+h3. Area: Projects
 
 *Location:* Top left-hand corner of a column that spans the screen height and has a width of 1/3 the total screen width
 # View Project Tree, View Tasks, Select task to view details, View task status (see [Task_Page|#Task_Page])
 #* Simplified to include only Client's Project(s)/Tasks
 
-h3. Area Title: INVOICES
+h3. Area: Invoices
 
 # *Location:* Top left-hand corner of a column that originates at top-center screen, spans half the screen height, and has a width of 2/3 the total screen width
 # View outstanding invoices
@@ -368,7 +372,7 @@ h3. Area Title: INVOICES
 ## *Link* to summary PDF
 ### Includes total hours worked and total billable amount per billing rate
 
-h3. Area Title: REQUESTS
+h3. Area: Requests
 
 *Location:* Top left-hand corner of a column that originates at mid-center screen, spans half the screen height, and has a width of 2/3 the total screen width
 # Lists Client's outstanding Requests
@@ -380,7 +384,7 @@ h3. Area Title: REQUESTS
 # *Link* to post a Request Note/ask a question
 
 
-h3. Client Dashboard Contents by Area (overview)
+h3. Client Dashboard Contents by Area
 
 || Project || Invoices ||
 || || Requests ||
