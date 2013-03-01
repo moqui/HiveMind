@@ -3,9 +3,19 @@
 h2. Ideas to Incorporate
 
 * Task hierarchy (sub-tasks) improvements
-* Task type (needed? what types? improvement, new feature, bug fix, etc)
+* X Task type (needed? what types? improvement, new feature, bug fix, etc)
+* Task field: system components
+* Task field: versions (affects and fixed in?)
 * Wiki-Task and Wiki-Request links
 * Tag library and associations to all sorts of things: wiki pages, tasks, requests, etc, etc (make generic data model in framework, use throughout Mantle)
+* Request and Task (and Project) watches (show watchers, watching) with email notification
+* Notes to Comments
+* Request Voting (and task voting too... maybe)
+* Task relationships: parent/child, dependency, duplicate, related/relevant
+* Request (item?) relationships: dependency, duplicate, related/relevant
+* Create and Document Web Service API (REST, JSON-RPC, XML-RPC)
+* Wiki, Request, and Task keyword searching all in one...
+* Request and Task parametric searching/filtering
 
 h2. Account Services Dashboard
 
@@ -90,9 +100,9 @@ h3. Area: Create or Edit Project
 ## Client billing person responsible; role type: CLIENT_BILLING
 ## Client manager(s); role type: CLIENT_MANAGER
 ## Bill-from Vendor (select provider, based on BILL_FROM_VENDOR role)
-## Account Manager for the project
+## Account Manager for the project (use MANAGER role)
 # View names and titles of client-side project personnel (client personnel information is managed on the CLIENTS screen below)
-# Set one or more PROVIDER_MANAGERs who can create tasks and manage any in the project (change status, and other task fields; create/move tasks)
+# Set one or more MANAGERs who can create tasks and manage any in the project (change status, and other task fields; create/move tasks)
 # Optionally Add Billing Rate Overrides for provider/vendor individuals
 # Document upload (repository for contract documents such as MEA, MNDA, SOWs)
 ## It would be great to have an electronic repository with version control to manage contractual documents such as MEAs, MNDAs, and SOWs (currently, all are produced in MS Word)

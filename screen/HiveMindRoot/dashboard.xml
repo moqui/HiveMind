@@ -19,12 +19,35 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response url="."/>
     </transition>
 
+    <transition name="createTask">
+        <service-call name="mantle.work.ProjectServices.create#Task" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+    <transition name="createProject">
+        <service-call name="mantle.work.ProjectServices.create#Project" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+
     <actions>
         <entity-find entity-name="WikiSpace" list="wikiSpaceList">
             <econditions combine="or">
                 <econdition field-name="isPublic" value="Y"/>
                 <!-- TODO: also include non-public spaces associated with current user -->
             </econditions>
+        </entity-find>
+        <entity-find entity-name="WorkEffortAndParty" list="myProjectList">
+            <date-filter/>
+            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
+            <econdition field-name="purposeEnumId" value="WEP_PROJECT"/>
+        </entity-find>
+        <entity-find entity-name="WorkEffortAndParty" list="myTaskList">
+            <date-filter/>
+            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
+            <econdition field-name="purposeEnumId" operator="not-equals" value="WEP_PROJECT"/>
+            <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
+            <order-by field-name="priority"/>
         </entity-find>
     </actions>
     <widgets>
@@ -66,8 +89,51 @@ This Work includes contributions authored by David E. Jones, not as a
             </form-list>
         </container>
         <container id="dashboard-tasks-section">
-            <label text="Tasks" type="h1"/>
             <!-- my top tasks, my projects, etc -->
+            <container-dialog id="NewTaskContainer" button-text="New Task">
+                <form-single name="NewTask" transition="createTask">
+                    <field name="rootWorkEffortId"><default-field title="Project">
+                        <drop-down><list-options list="myProjectList" key="workEffortId" text="${workEffortName}"/></drop-down>
+                    </default-field></field>
+                    <!-- TODO: parent task server-side autocomplete -->
+                    <field name="workEffortName"><default-field title="Task Name"><text-line/></default-field></field>
+                    <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+            <container-dialog id="MyProjectsContainer" button-text="My Projects">
+                <form-list name="MyProjects" list="myProjectList">
+                    <!-- TODO: change to link to Project page once implemented -->
+                    <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
+                    <field name="statusId"><default-field title="Status">
+                        <display-entity entity-name="StatusItem" text="${description}"/>
+                    </default-field></field>
+                    <!-- TODO: add stats (# tasks by status, percent complete, etc) -->
+                </form-list>
+            </container-dialog>
+            <container-dialog id="NewProjectContainer" button-text="New Project">
+                <form-single name="NewProject" transition="createProject">
+                    <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
+                    <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+            <label text="My Open Tasks" type="h2"/>
+            <form-list name="MyTasks" list="myTaskList">
+                <!-- TODO: change to link to Task page once implemented -->
+                <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
+                <field name="priority"><default-field><display/></default-field></field>
+                <field name="statusId">
+                    <!-- don't show this, unneeded complexity
+                    <header-field title="Status">
+                        <drop-down allow-empty="true"><entity-options text="${description}">
+                            <entity-find entity-name="StatusItem">
+                                <econdition field-name="statusTypeId" value="WorkEffort"/>
+                                <order-by field-name="sequenceNum"/>
+                            </entity-find>
+                        </entity-options></drop-down>
+                    </header-field> -->
+                    <default-field title="Status"><display-entity entity-name="StatusItem" text="${description}"/></default-field>
+                </field>
+            </form-list>
         </container>
         <container id="dashboard-requests-section">
             <label text="Requests" type="h1"/>
