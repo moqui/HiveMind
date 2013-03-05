@@ -23,42 +23,42 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.resource.DbResourceFile resourceId="DBDEMO_CWIKI" mimeType="text/plain" fileData="h2. The DB Demo Root Page"/>
 
     <!-- DEMO PROJECT DATA -->
-    <mantle.work.effort.WorkEffort workEffortId="HIVEMIND" workEffortName="HiveMind PM Build Out"
+    <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="HiveMind PM Build Out"
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_PROJECT" statusId="WE_IN_PROGRESS"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HIVEMIND" partyId="EX_JOHN_DOE" roleTypeId="MANAGER"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="MANAGER"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED"/>
 
-    <mantle.work.effort.WorkEffort workEffortId="HM001" workEffortName="HM Dashboard" priority="5"
-            rootWorkEffortId="HIVEMIND" parentWorkEffortId="HIVEMIND"
+    <mantle.work.effort.WorkEffort workEffortId="HM-001" workEffortName="HM Dashboard" priority="5"
+            rootWorkEffortId="HM" parentWorkEffortId="HM"
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_IN_PROGRESS"/>
-    <mantle.work.effort.WorkEffort workEffortId="HM002" workEffortName="Dashboard Project List" priority="5"
-            rootWorkEffortId="HIVEMIND" parentWorkEffortId="HM001"
+    <mantle.work.effort.WorkEffort workEffortId="HM-002" workEffortName="Dashboard Project List" priority="5"
+            rootWorkEffortId="HM" parentWorkEffortId="HM-001"
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_IN_PROGRESS"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM002" partyId="EX_JOHN_DOE" roleTypeId="WORKER"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM-002" partyId="EX_JOHN_DOE" roleTypeId="WORKER"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED"/>
-    <mantle.work.effort.WorkEffort workEffortId="HM003" workEffortName="Dashboard Create Project" priority="5"
-            rootWorkEffortId="HIVEMIND" parentWorkEffortId="HM001"
+    <mantle.work.effort.WorkEffort workEffortId="HM-003" workEffortName="Dashboard Create Project" priority="5"
+            rootWorkEffortId="HM" parentWorkEffortId="HM-001"
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_APPROVED"/>
-    <mantle.work.effort.WorkEffort workEffortId="HM004" workEffortName="Dashboard My Tasks" priority="5"
-            rootWorkEffortId="HIVEMIND" parentWorkEffortId="HM001"
+    <mantle.work.effort.WorkEffort workEffortId="HM-004" workEffortName="Dashboard My Tasks" priority="5"
+            rootWorkEffortId="HM" parentWorkEffortId="HM-001"
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_IN_PROGRESS"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM004" partyId="EX_JOHN_DOE" roleTypeId="WORKER"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="WORKER"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED"/>
-    <mantle.work.effort.WorkEffort workEffortId="HM005" workEffortName="Dashboard Create Task" priority="5"
-            rootWorkEffortId="HIVEMIND" parentWorkEffortId="HM001"
+    <mantle.work.effort.WorkEffort workEffortId="HM-005" workEffortName="Dashboard Create Task" priority="5"
+            rootWorkEffortId="HM" parentWorkEffortId="HM-001"
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_IN_PROGRESS"/>
-    <mantle.work.effort.WorkEffort workEffortId="HM006" workEffortName="Dashboard My Requests" priority="5"
-            rootWorkEffortId="HIVEMIND" parentWorkEffortId="HM001"
+    <mantle.work.effort.WorkEffort workEffortId="HM-006" workEffortName="Dashboard My Requests" priority="5"
+            rootWorkEffortId="HM" parentWorkEffortId="HM-001"
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_APPROVED"/>
-    <mantle.work.effort.WorkEffort workEffortId="HM007" workEffortName="Dashboard Create Request" priority="5"
-            rootWorkEffortId="HIVEMIND" parentWorkEffortId="HM001"
+    <mantle.work.effort.WorkEffort workEffortId="HM-007" workEffortName="Dashboard Create Request" priority="5"
+            rootWorkEffortId="HM" parentWorkEffortId="HM-001"
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_APPROVED"/>
 
-    <mantle.work.effort.WorkEffort workEffortId="HM010" workEffortName="HM Task Screen"
-            rootWorkEffortId="HIVEMIND" parentWorkEffortId="HIVEMIND"
+    <mantle.work.effort.WorkEffort workEffortId="HM-010" workEffortName="HM Task Screen"
+            rootWorkEffortId="HM" parentWorkEffortId="HM"
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_APPROVED"/>
 
-    <mantle.work.effort.WorkEffort workEffortId="HM020" workEffortName="HM Request Screen"
-            rootWorkEffortId="HIVEMIND" parentWorkEffortId="HIVEMIND"
+    <mantle.work.effort.WorkEffort workEffortId="HM-020" workEffortName="HM Request Screen"
+            rootWorkEffortId="HM" parentWorkEffortId="HM"
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_APPROVED"/>
 </entity-facade-xml>
