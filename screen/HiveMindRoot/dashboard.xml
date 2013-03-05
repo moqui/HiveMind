@@ -151,6 +151,8 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="estimatedCompletionDate">
                         <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
                     </field>
+                    <field name="estimatedWorkTime"><default-field title="Estimated Hours">
+                        <text-line size="5"/></default-field></field>
                     <field name="description"><default-field title="Description"><text-area rows="5" cols="60"/></default-field></field>
                     <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
                 </form-single>
@@ -172,6 +174,8 @@ This Work includes contributions authored by David E. Jones, not as a
                     <default-field><display-entity entity-name="StatusItem" text="${description}"/></default-field>
                 </field>
                 <field name="estimatedCompletionDate"><default-field title="Due Date"><display format="yyyy-MM-dd"/></default-field></field>
+                <field name="estimatedWorkTime"><default-field title="Estimated"><display format="#.00"/></default-field></field>
+                <field name="actualWorkTime"><default-field title="Actual"><display format="#.00"/></default-field></field>
             </form-list>
         </container>
 

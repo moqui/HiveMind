@@ -76,6 +76,10 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="estimatedCompletionDate">
                 <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
             </field>
+            <field name="estimatedWorkTime"><default-field title="Estimated Hours">
+                <text-line size="5"/></default-field></field>
+            <field name="actualWorkTime"><default-field title="Actual Hours">
+                <display format="#.00"/></default-field></field>
             <field name="description"><default-field title="Description"><text-area rows="5" cols="80"/></default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
         </form-single>

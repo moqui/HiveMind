@@ -73,6 +73,10 @@ This Work includes contributions authored by David E. Jones, not as a
                         </default-field>
                     </field>
                     <field name="estimatedCompletionDate"><default-field title="Due Date"><date-find/></default-field></field>
+                    <field name="estimatedWorkTime"><default-field title="Estimated Hours">
+                        <range-find/></default-field></field>
+                    <field name="actualWorkTime"><default-field title="Actual Hours">
+                        <range-find/></default-field></field>
                     <field name="searchButton"><default-field title="Find"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
