@@ -17,8 +17,15 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="workEffortId"/>
 
     <transition name="updateTask">
-        <service-call name="mantle.work.ProjectServices.update#Task" in-map="context"/>
+        <service-call name="mantle.work.TaskServices.update#Task" in-map="context"/>
         <default-response url="."/>
+    </transition>
+    <transition name="getProjectTasks">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
     </transition>
 
     <actions>
@@ -42,7 +49,13 @@ This Work includes contributions authored by David E. Jones, not as a
                     </entity-options>
                 </drop-down>
             </default-field></field>
-            <!-- TODO: parent task server-side autocomplete -->
+            <field name="parentWorkEffortId"><default-field title="Parent Task">
+                <drop-down combo-box="true">
+                    <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
+                        <depends-on field="rootWorkEffortId"/>
+                    </dynamic-options>
+                </drop-down>
+            </default-field></field>
             <field name="workEffortName"><default-field title="Task Name"><text-line/></default-field></field>
             <field name="priority"><default-field>
                 <drop-down><option key="1"/><option key="2"/><option key="3"/><option key="4"/><option key="5"/>
@@ -80,8 +93,17 @@ This Work includes contributions authored by David E. Jones, not as a
                 <text-line size="5"/></default-field></field>
             <field name="actualWorkTime"><default-field title="Actual Hours">
                 <display format="#.00"/></default-field></field>
-            <field name="description"><default-field title="Description"><text-area rows="5" cols="80"/></default-field></field>
+            <field name="description"><default-field title="Description"><text-area rows="20" cols="100"/></default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+            
+            <field-layout>
+                <fields-not-referenced/>
+                <field-row><field-ref name="purposeEnumId"/><field-ref name="priority"/></field-row>
+                <field-row><field-ref name="statusId"/><field-ref name="estimatedCompletionDate"/></field-row>
+                <field-row><field-ref name="estimatedWorkTime"/><field-ref name="actualWorkTime"/></field-row>
+                <field-ref name="description"/>
+                <field-ref name="submitButton"/>
+            </field-layout>
         </form-single>
     </widgets>
 </screen>
