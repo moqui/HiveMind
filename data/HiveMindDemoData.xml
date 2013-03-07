@@ -28,21 +28,21 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="MANAGER"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED"/>
 
-    <mantle.work.effort.WorkEffort workEffortId="HM-001" workEffortName="HM Dashboard" priority="5"
-            rootWorkEffortId="HM" parentWorkEffortId="HM"
+    <mantle.work.effort.WorkEffort workEffortId="HM-001" workEffortName="HM Dashboard" priority="1"
+            rootWorkEffortId="HM" parentWorkEffortId=""
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_IN_PROGRESS"/>
 
-    <mantle.work.effort.WorkEffort workEffortId="HM-002" workEffortName="Dashboard Project List" priority="5"
+    <mantle.work.effort.WorkEffort workEffortId="HM-002" workEffortName="Dashboard Project List" priority="2"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="4" timeUomId="TF_hr"
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_IN_PROGRESS"/>
+            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_NEW_FEATURE" statusId="WE_IN_PROGRESS"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM-002" partyId="EX_JOHN_DOE" roleTypeId="WORKER"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED"/>
 
-    <mantle.work.effort.WorkEffort workEffortId="HM-003" workEffortName="Dashboard Create Project" priority="5"
+    <mantle.work.effort.WorkEffort workEffortId="HM-003" workEffortName="Dashboard Create Project" priority="2"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001"
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_APPROVED"/>
+            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_NEW_FEATURE" statusId="WE_APPROVED"/>
 
-    <mantle.work.effort.WorkEffort workEffortId="HM-004" workEffortName="Dashboard My Tasks" priority="5"
+    <mantle.work.effort.WorkEffort workEffortId="HM-004" workEffortName="Dashboard My Tasks" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="5" timeUomId="TF_hr"
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_IN_PROGRESS"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="WORKER"
@@ -54,21 +54,21 @@ This Work includes contributions authored by David E. Jones, not as a
             workEffortId="HM-004" comments="Create Task and My Tasks add more fields"
             fromDate="2013-03-04 14:00:00" thruDate="2013-03-02 17:00:00"/>
 
-    <mantle.work.effort.WorkEffort workEffortId="HM-005" workEffortName="Dashboard Create Task" priority="5"
+    <mantle.work.effort.WorkEffort workEffortId="HM-005" workEffortName="Dashboard Create Task" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001"
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_IN_PROGRESS"/>
+            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_NEW_FEATURE" statusId="WE_IN_PROGRESS"/>
     <mantle.work.effort.WorkEffort workEffortId="HM-006" workEffortName="Dashboard My Requests" priority="5"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001"
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_APPROVED"/>
+            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_NEW_FEATURE" statusId="WE_APPROVED"/>
     <mantle.work.effort.WorkEffort workEffortId="HM-007" workEffortName="Dashboard Create Request" priority="5"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001"
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_APPROVED"/>
+            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_NEW_FEATURE" statusId="WE_APPROVED"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-010" workEffortName="HM Task Screen"
-            rootWorkEffortId="HM" parentWorkEffortId="HM"
+            rootWorkEffortId="HM" parentWorkEffortId=""
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_APPROVED"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-020" workEffortName="HM Request Screen"
-            rootWorkEffortId="HM" parentWorkEffortId="HM"
+            rootWorkEffortId="HM" parentWorkEffortId=""
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_APPROVED"/>
 </entity-facade-xml>

@@ -17,6 +17,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="newTask"><default-response url="../EditTask"/></transition>
     <transition name="findTask"><default-response url="."/></transition>
     <transition name="editTask"><default-response url="../EditTask"/></transition>
+    <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
 
     <pre-actions>
         <set field="html_title" value="Find Task"/>
@@ -24,7 +25,7 @@ This Work includes contributions authored by David E. Jones, not as a
     
     <actions>
         <entity-find entity-name="WorkEffort" list="taskList">
-            <search-form-inputs default-order-by="^workEffortName"/>
+            <search-form-inputs default-order-by="rootWorkEffortId,parentWorkEffortId NULLS FIRST,workEffortId"/>
             <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
             <econdition field-name="purposeEnumId" operator="not-equals" value="WEP_PROJECT"/>
         </entity-find>
@@ -82,11 +83,22 @@ This Work includes contributions authored by David E. Jones, not as a
             </container-dialog>
             <!-- <link url="newTask" text="New Task" link-type="hidden-form" icon="plusthick"/> -->
         </container>
+
+
         <form-list name="ListTasks" list="taskList">
+            <field name="rootWorkEffortId">
+                <header-field title="Project" show-order-by="case-insensitive"/>
+                <default-field><link url="editProject" text="${rootWorkEffortId?:'--'}">
+                    <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
+            </field>
+            <field name="parentWorkEffortId">
+                <header-field title="Parent" show-order-by="case-insensitive"/>
+                <default-field><link url="editTask" text="${parentWorkEffortId?:'--'}">
+                    <parameter name="workEffortId" from="parentWorkEffortId"/></link></default-field>
+            </field>
             <field name="workEffortId">
-                <default-field title="Task">
-                    <link url="editTask" text="${workEffortId}"/>
-                </default-field>
+                <header-field title="Task" show-order-by="case-insensitive"/>
+                <default-field><link url="editTask" text="${workEffortId}"/></default-field>
             </field>
             <field name="workEffortName">
                 <header-field title="Name" show-order-by="case-insensitive"/>

@@ -23,13 +23,12 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="mantle.work.TaskServices.create#Task" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editTask">
-        <default-response url="../Task/EditTask"/>
-    </transition>
+    <transition name="editTask"><default-response url="../Task/EditTask"/></transition>
     <transition name="createProject">
         <service-call name="mantle.work.ProjectServices.create#Project" in-map="context"/>
         <default-response url="."/>
     </transition>
+    <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
 
     <transition name="getProjectParties">
         <actions>
@@ -111,8 +110,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <!-- my top tasks, my projects, etc -->
             <container-dialog id="MyProjectsContainer" button-text="My Projects">
                 <form-list name="MyProjects" list="myProjectList">
-                    <!-- TODO: change to link to Project page once implemented -->
-                    <field name="workEffortId"><default-field title="ID"><display/></default-field></field>
+                    <field name="workEffortId"><default-field title="ID"><link url="editProject" text="${workEffortId}"/></default-field></field>
                     <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
                     <field name="statusId"><default-field title="Status">
                         <display-entity entity-name="StatusItem" text="${description}"/>
@@ -189,7 +187,10 @@ This Work includes contributions authored by David E. Jones, not as a
 
             <label text="My Open Tasks" type="h2"/>
             <form-list name="MyTasks" list="myTaskList">
-                <field name="rootWorkEffortId"><default-field title="Project"><display/></default-field></field>
+                <field name="rootWorkEffortId">
+                    <default-field title="Project"><link url="editProject" text="${rootWorkEffortId?:'--'}">
+                        <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
+                </field>
                 <field name="workEffortId"><default-field title="ID">
                     <link text="${workEffortId}" url="editTask"/>
                 </default-field></field>

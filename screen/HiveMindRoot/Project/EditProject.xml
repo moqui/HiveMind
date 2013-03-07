@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.2.xsd"
+        default-menu-title="Project" default-menu-index="1">
+
+    <parameter name="workEffortId"/>
+
+    <transition name="updateProject">
+        <service-call name="mantle.work.ProjectServices.update#Project" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+
+    <actions>
+        <entity-find-one entity-name="WorkEffort" value-field="fieldValues"/>
+        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
+            <field-map field-name="statusId" from="fieldValues?.statusId"/>
+        </entity-find-one>
+    </actions>
+    <widgets>
+        <form-single name="EditProject" transition="updateProject">
+            <field name="workEffortId"><default-field title="Project ID"><display/></default-field></field>
+            <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
+            <field name="priority"><default-field>
+                <drop-down><option key="1"/><option key="2"/><option key="3"/><option key="4"/><option key="5"/>
+                    <option key="6"/><option key="7"/><option key="8"/><option key="9"/></drop-down>
+            </default-field></field>
+            <field name="statusId">
+                <default-field title="Status">
+                    <drop-down allow-empty="false" current-description="${currentStatus?.description}">
+                        <entity-options key="${toStatusId}" text="${transitionName} (${description})">
+                            <entity-find entity-name="StatusValidChangeToDetail">
+                                <econdition field-name="statusId" from="fieldValues.statusId"/>
+                            </entity-find>
+                        </entity-options>
+                    </drop-down>
+                </default-field>
+            </field>
+            <field name="estimatedCompletionDate">
+                <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
+            </field>
+            <field name="estimatedWorkTime"><default-field title="Estimated Hours">
+                <display format="#.00"/></default-field></field>
+            <field name="actualWorkTime"><default-field title="Actual Hours">
+                <display format="#.00"/></default-field></field>
+            <field name="description"><default-field title="Description"><text-area rows="20" cols="100"/></default-field></field>
+            <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+            
+            <field-layout>
+                <fields-not-referenced/>
+                <field-row><field-ref name="statusId"/><field-ref name="estimatedCompletionDate"/></field-row>
+                <field-row><field-ref name="estimatedWorkTime"/><field-ref name="actualWorkTime"/></field-row>
+                <field-ref name="description"/>
+                <field-ref name="submitButton"/>
+            </field-layout>
+        </form-single>
+    </widgets>
+</screen>
