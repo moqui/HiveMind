@@ -30,6 +30,9 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
     <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
 
+    <!-- TODO: add screen for milestone whiteboard with a column for each status -->
+    <transition name="milestoneSummary"><default-response url="../Project/MilestoneSummary"/></transition>
+
     <transition name="getProjectParties">
         <actions>
             <service-call name="mantle.work.ProjectServices.get#ProjectParties" in-map="context" out-map="context"/>
@@ -55,14 +58,23 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find entity-name="WorkEffortAndParty" list="myProjectList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-            <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
-            <econdition field-name="purposeEnumId" value="WEP_PROJECT"/>
+            <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
+        </entity-find>
+        <entity-find entity-name="WorkEffortAndRootByParty" list="myMilestoneList">
+            <date-filter/>
+            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+            <econdition field-name="rootWorkEffortTypeEnumId" value="WET_PROJECT"/>
+            <econdition field-name="rootStatusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
+            <econdition field-name="workEffortTypeEnumId" value="WET_MILESTONE"/>
+            <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
+            <select-field field-name="rootWorkEffortId"/><select-field field-name="workEffortId"/>
+            <select-field field-name="workEffortName"/><select-field field-name="statusId"/>
+            <order-by field-name="estimatedStartDate"/><order-by field-name="workEffortId"/>
         </entity-find>
         <entity-find entity-name="WorkEffortAndParty" list="myTaskList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
-            <econdition field-name="purposeEnumId" operator="not-equals" value="WEP_PROJECT"/>
             <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
             <order-by field-name="priority"/>
         </entity-find>
@@ -70,7 +82,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <container id="dashboard-wiki-section">
             <container style="ui-helper-clearfix">
-                <container id="dashboard-wiki-title"><label text="Wiki Spaces" type="h1"/></container>
+                <container id="dashboard-wiki-title"><label text="Wiki Spaces" type="h2"/></container>
                 <container id="dashboard-wiki-links">
                     <container-dialog id="NewSpaceContainer" button-text="New Space">
                         <form-single name="NewSpace" transition="createSpace">
@@ -126,6 +138,24 @@ This Work includes contributions authored by David E. Jones, not as a
                 </form-single>
             </container-dialog>
 
+            <container-dialog id="MyMilestonesContainer" button-text="My Milestones">
+                <form-list name="MyMilestones" list="myMilestoneList">
+                    <field name="rootWorkEffortId">
+                        <default-field title="Project"><link url="editProject" text="${rootWorkEffortId?:'--'}">
+                            <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
+                    </field>
+                    <field name="workEffortId"><default-field title="Milestone">
+                        <link url="milestoneSummary" text="${workEffortId}">
+                            <parameter name="milestoneWorkEffortId" from="workEffortId"/></link>
+                    </default-field></field>
+                    <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
+                    <field name="statusId"><default-field title="Status">
+                        <display-entity entity-name="StatusItem" text="${description}"/>
+                    </default-field></field>
+                    <!-- TODO: add stats (# tasks by status, percent complete, etc) -->
+                </form-list>
+            </container-dialog>
+
             <container-dialog id="NewTaskContainer" button-text="New Task">
                 <form-single name="NewTask" transition="createTask">
                     <field name="rootWorkEffortId"><default-field title="Project">
@@ -153,12 +183,11 @@ This Work includes contributions authored by David E. Jones, not as a
                     </default-field></field>
                     <field name="purposeEnumId">
                         <default-field title="Purpose">
-                            <drop-down>
-                                <option key="WEP_TASK" text="Task"/>
+                            <drop-down no-current-selected-key="WEP_TASK" current="selected">
                                 <entity-options key="${enumId}" text="${description}">
                                     <entity-find entity-name="Enumeration">
                                         <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>
-                                        <econdition field-name="parentEnumId" value="WEP_TASK"/>
+                                        <econdition field-name="parentEnumId" value="WET_TASK"/>
                                         <order-by field-name="description"/>
                                     </entity-find>
                                 </entity-options>
@@ -209,7 +238,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </container>
 
         <container id="dashboard-requests-section">
-            <label text="Requests" type="h1"/>
+            <label text="Requests" type="h2"/>
             <!-- my requests, etc -->
         </container>
     </widgets>

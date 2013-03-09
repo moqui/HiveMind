@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.2.xsd"
+        default-menu-include="false">
+
+    <parameter name="milestoneWorkEffortId"/>
+
+    <transition name="editTask"><default-response url="../../Task/EditTask"/></transition>
+    <transition name="updateTask">
+        <service-call name="mantle.work.TaskServices.update#Task" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+
+    <!--
+            <moqui.basic.StatusItem description="In Planning" sequenceNum="1" statusId="WE_IN_PLANNING" statusTypeId="WorkEffort"/>
+            <moqui.basic.StatusItem description="Approved/Scheduled" sequenceNum="2" statusId="WE_APPROVED" statusTypeId="WorkEffort"/>
+            <moqui.basic.StatusItem description="In Progress" sequenceNum="3" statusId="WE_IN_PROGRESS" statusTypeId="WorkEffort"/>
+            <moqui.basic.StatusItem description="Complete" sequenceNum="9" statusId="WE_COMPLETE" statusTypeId="WorkEffort"/>
+            <moqui.basic.StatusItem description="Closed" sequenceNum="10" statusId="WE_CLOSED" statusTypeId="WorkEffort"/>
+            <moqui.basic.StatusItem description="On Hold" sequenceNum="98" statusId="WE_ON_HOLD" statusTypeId="WorkEffort"/>
+            <moqui.basic.StatusItem description="Cancelled" sequenceNum="99" statusId="WE_CANCELLED" statusTypeId="WorkEffort"/>
+    -->
+    <actions>
+        <entity-find-one entity-name="WorkEffort" value-field="milestoneWorkEffort">
+            <field-map field-name="workEffortId" from="milestoneWorkEffortId"/>
+        </entity-find-one>
+        <entity-find entity-name="WorkEffortAssocAndTo" list="inactiveTaskList">
+            <econdition field-name="fromWorkEffortId" from="milestoneWorkEffortId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
+            <econdition field-name="statusId" operator="in" value="WE_IN_PLANNING,WE_APPROVED,WE_ON_HOLD"/>
+            <order-by field-name="priority"/><order-by field-name="estimatedCompletionDate"/>
+        </entity-find>
+        <entity-find entity-name="WorkEffortAssocAndTo" list="activeTaskList">
+            <econdition field-name="fromWorkEffortId" from="milestoneWorkEffortId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
+            <econdition field-name="statusId" value="WE_IN_PROGRESS"/>
+            <order-by field-name="priority"/><order-by field-name="estimatedCompletionDate"/>
+        </entity-find>
+        <entity-find entity-name="WorkEffortAssocAndTo" list="doneTaskList">
+            <econdition field-name="fromWorkEffortId" from="milestoneWorkEffortId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
+            <econdition field-name="statusId" operator="in" value="WE_COMPLETE,WE_CLOSED"/>
+            <order-by field-name="priority"/><order-by field-name="estimatedCompletionDate"/>
+        </entity-find>
+    </actions>
+    <widgets>
+        <label text="Summary for Milestone &quot;${milestoneWorkEffort.workEffortName}&quot; - ${milestoneWorkEffortId}" type="h1"/>
+        <label text="Inactive Tasks" type="h2"/>
+        <form-list name="InactiveTaskList" list="inactiveTaskList" transition="updateTask">
+            <row-actions>
+                <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus"/>
+            </row-actions>
+            <field name="milestoneWorkEffortId"><default-field><hidden/></default-field></field>
+            <field name="workEffortId"><default-field><hidden/></default-field></field>
+            <field name="priority">
+                <header-field show-order-by="true"/>
+                <default-field><display/></default-field>
+            </field>
+            <field name="purposeEnumId">
+                <header-field title="Purpose" show-order-by="true"/>
+                <default-field><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
+            </field>
+            <field name="workEffortName">
+                <header-field title="Task" show-order-by="case-insensitive"/>
+                <default-field><link url="editTask" text="${workEffortId}: ${workEffortName}"/></default-field>
+            </field>
+
+            <field name="statusId">
+                <default-field title="Status">
+                    <drop-down allow-empty="false" current-description="${currentStatus?.description}">
+                        <entity-options key="${toStatusId}" text="${transitionName} (${description})">
+                            <entity-find entity-name="StatusValidChangeToDetail">
+                                <econdition field-name="statusId"/>
+                            </entity-find>
+                        </entity-options>
+                    </drop-down>
+                </default-field>
+            </field>
+            <field name="estimatedCompletionDate">
+                <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
+            </field>
+            <field name="estimatedWorkTime"><default-field title="Estimated Hours">
+                <text-line size="5"/></default-field></field>
+            <field name="actualWorkTime"><default-field title="Actual Hours">
+                <display format="#.00"/></default-field></field>
+
+            <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+        </form-list>
+
+        <label text="Active Tasks" type="h2"/>
+        <form-list name="ActiveTaskList" list="activeTaskList" transition="updateTask" extends="InactiveTaskList">
+        </form-list>
+
+        <label text="Completed Tasks" type="h2"/>
+        <form-list name="DoneTaskList" list="doneTaskList" transition="updateTask" extends="InactiveTaskList">
+        </form-list>
+    </widgets>
+</screen>
