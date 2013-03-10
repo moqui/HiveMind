@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.2.xsd"
+        default-menu-include="false">
+
+    <!-- TODO: add UserSummary (like dashboard for another user... reuse dashboard forms?), UserProjects, UserTasks, UserTimeEntries, UserRequests -->
+    <!-- TODO: add general manager permission check, project manager permission for only users of a project -->
+
+    <transition name="findUser"><default-response url="."/></transition>
+    <transition name="createUser">
+        <service-call name="mantle.party.PartyServices.create#Account" in-map="context + [loginAfterCreate:'false']"/>
+        <default-response url="../EditUser"/>
+        <error-response url="."/>
+    </transition>
+    <transition name="editUser"><default-response url="../EditUser"/></transition>
+
+    <pre-actions>
+        <set field="html_title" value="Find User"/>
+    </pre-actions>
+    
+    <actions>
+        <entity-find entity-name="PersonAndUserAccount" list="userList">
+            <search-form-inputs default-order-by="firstName,lastName,username"/>
+        </entity-find>
+    </actions>
+    <widgets>
+        <container>
+            <container-dialog id="FindUserDialog" button-text="Search Users" width="700">
+                <form-single name="FindUser" transition="findUser">
+                    <field name="username"><default-field><text-find/></default-field></field>
+                    <field name="firstName"><default-field><text-find/></default-field></field>
+                    <field name="lastName"><default-field><text-find/></default-field></field>
+                    <field name="emailAddress"><default-field><text-find/></default-field></field>
+                    <field name="searchButton"><default-field title="Find"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+            <container-dialog id="AddUserDialog" button-text="Add User">
+                <form-single name="CreateUser" transition="createUser">
+                    <field name="firstName"><default-field><text-line size="15"/></default-field></field>
+                    <field name="lastName"><default-field><text-line size="15"/></default-field></field>
+                    <field name="emailAddress"><default-field><text-line/></default-field></field>
+                    <field name="username"><default-field tooltip="Leave blank to use Email Address"><text-line size="20"/></default-field></field>
+                    <field name="newPassword"><default-field title="Password"><password size="15"/></default-field></field>
+                    <field name="newPasswordVerify"><default-field title="Password Verify"><password size="15"/></default-field></field>
+                    <field name="submitButton"><default-field title="Create User"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+        </container>
+
+        <form-list name="UserList" list="userList">
+            <field name="username">
+                <header-field show-order-by="case-insensitive"/>
+                <default-field><link url="editUser" text="${username?:'--'}"/></default-field>
+            </field>
+            <field name="firstName"><header-field show-order-by="case-insensitive"/><default-field><display/></default-field></field>
+            <field name="lastName"><header-field show-order-by="case-insensitive"/><default-field><display/></default-field></field>
+            <field name="emailAddress"><header-field show-order-by="case-insensitive"/><default-field><display/></default-field></field>
+            <field name="locale"><header-field show-order-by="case-insensitive"/><default-field><display/></default-field></field>
+            <field name="timeZone"><header-field show-order-by="case-insensitive"/><default-field><display/></default-field></field>
+            <field name="disabled"><header-field title="Disabled?" show-order-by="case-insensitive"/><default-field><display/></default-field></field>
+        </form-list>
+    </widgets>
+</screen>

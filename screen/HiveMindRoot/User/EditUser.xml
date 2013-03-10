@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.2.xsd"
+        default-menu-title="User" default-menu-index="1">
+
+    <parameter name="partyId"/>
+
+    <transition name="updateUser">
+        <service-call name="mantle.party.PartyServices.update#Account" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+
+    <actions>
+        <entity-find-one entity-name="PersonAndUserAccount" value-field="fieldValues"/>
+        <set field="localeList" from="Locale.getAvailableLocales()"/>
+        <set field="localeStringList" from="new TreeSet()"/>
+        <iterate list="localeList" entry="localeEntry"><script>localeStringList.add(localeEntry.toString())</script></iterate>
+    </actions>
+    <widgets>
+        <form-single name="EditUser" transition="updateUser">
+            <field name="partyId"><default-field><hidden/></default-field></field>
+            <field name="userId"><default-field><hidden/></default-field></field>
+            <field name="username"><default-field><text-line size="20"/></default-field></field>
+            <field name="firstName"><default-field><text-line size="15"/></default-field></field>
+            <field name="lastName"><default-field><text-line size="15"/></default-field></field>
+            <field name="emailAddress"><default-field><text-line/></default-field></field>
+
+            <field name="locale"><default-field>
+                <drop-down allow-empty="true" combo-box="true"><list-options list="localeStringList"/></drop-down>
+            </default-field></field>
+            <field name="timeZone"><default-field>
+                <drop-down allow-empty="true" combo-box="true"><list-options list="new TreeSet(TimeZone.getAvailableIDs().collect())"/></drop-down>
+            </default-field></field>
+            <field name="disabled"><default-field><drop-down no-current-selected-key="N" current="selected">
+                <option key="N"/><option key="Y"/></drop-down></default-field></field>
+
+            <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+        </form-single>
+    </widgets>
+</screen>
