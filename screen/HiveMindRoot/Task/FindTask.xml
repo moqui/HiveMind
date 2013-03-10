@@ -44,7 +44,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             </entity-options>
                         </drop-down>
                     </default-field></field>
-                    <field name="workEffortId"><default-field><text-find/></default-field></field>
+                    <field name="workEffortId"><default-field title="Task ID"><text-find/></default-field></field>
                     <field name="workEffortName"><default-field title="Name"><text-find/></default-field></field>
                     <field name="priority"><default-field><range-find/></default-field></field>
                     <field name="purposeEnumId">
@@ -75,10 +75,10 @@ This Work includes contributions authored by David E. Jones, not as a
                         <range-find/></default-field></field>
                     <field name="actualWorkTime"><default-field title="Actual Hours">
                         <range-find/></default-field></field>
-                    <field name="searchButton"><default-field title="Find"><submit/></default-field></field>
+                    <field name="searchButton"><default-field title="Find Task"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
-            <!-- <link url="newTask" text="New Task" link-type="hidden-form" icon="plusthick"/> -->
+            <!-- TODO: add new task as a dialog in-screen <link url="newTask" text="New Task" link-type="hidden-form" icon="plusthick"/> -->
         </container>
 
 

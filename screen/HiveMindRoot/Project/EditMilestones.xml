@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.2.xsd"
         default-menu-title="Milestones" default-menu-index="2">
 
-    <parameter name="workEffortId"/>
+    <parameter name="rootWorkEffortId"/>
 
     <transition name="createMilestone">
         <service-call name="mantle.work.ProjectServices.create#Milestone" in-map="context" out-map="bogus"/>
@@ -24,10 +24,11 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="mantle.work.ProjectServices.update#Milestone" in-map="context" out-map="bogus"/>
         <default-response url="."/>
     </transition>
+    <transition name="milestoneSummary"><default-response url="../MilestoneSummary"/></transition>
 
     <actions>
         <entity-find entity-name="WorkEffort" list="milestoneList">
-            <econdition field-name="rootWorkEffortId" from="workEffortId"/>
+            <econdition field-name="rootWorkEffortId"/>
             <econdition field-name="workEffortTypeEnumId" value="WET_MILESTONE"/>
             <order-by field-name="estimatedStartDate"/>
         </entity-find>
@@ -35,9 +36,8 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <container-dialog id="CreateMilestoneDialog" button-text="Create Milestone">
             <form-single name="CreateMilestoneForm" transition="createMilestone">
-                <field name="workEffortId"><default-field><hidden/></default-field></field>
-                <field name="rootWorkEffortId"><default-field><hidden default-value="${workEffortId}"/></default-field></field>
-                <field name="workEffortName"><default-field><text-line size="25"/></default-field></field>
+                <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+                <field name="workEffortName"><default-field title="Milestone Name"><text-line size="25"/></default-field></field>
                 <field name="estimatedStartDate">
                     <default-field title="Start Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
                 </field>
@@ -61,8 +61,13 @@ This Work includes contributions authored by David E. Jones, not as a
             <row-actions>
                 <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus"/>
             </row-actions>
-            <field name="workEffortId"><default-field title="ID"><display/></default-field></field>
-            <field name="workEffortName"><default-field><text-line size="25"/></default-field></field>
+            <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+            <field name="workEffortId"><default-field title="Milestone">
+                <display/>
+                <link url="milestoneSummary" text="Summary">
+                    <parameter name="milestoneWorkEffortId" from="workEffortId"/></link>
+            </default-field></field>
+            <field name="workEffortName"><default-field title="Name"><text-line size="25"/></default-field></field>
             <field name="estimatedStartDate">
                 <default-field title="Start Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
             </field>

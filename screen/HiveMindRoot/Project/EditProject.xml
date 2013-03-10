@@ -15,12 +15,17 @@ This Work includes contributions authored by David E. Jones, not as a
         default-menu-title="Project" default-menu-index="1">
 
     <parameter name="workEffortId"/>
+    <parameter name="rootWorkEffortId"/>
 
     <transition name="updateProject">
         <service-call name="mantle.work.ProjectServices.update#Project" in-map="context"/>
         <default-response url="."/>
     </transition>
 
+    <pre-actions>
+        <if condition="rootWorkEffortId"><set field="workEffortId" from="rootWorkEffortId"/></if>
+        <set field="rootWorkEffortId" from="workEffortId"/>
+    </pre-actions>
     <actions>
         <entity-find-one entity-name="WorkEffort" value-field="fieldValues"/>
         <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">

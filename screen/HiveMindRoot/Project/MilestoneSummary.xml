@@ -16,21 +16,13 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <parameter name="milestoneWorkEffortId"/>
 
+    <transition name="editMilestones"><default-response url="../EditMilestones"/></transition>
     <transition name="editTask"><default-response url="../../Task/EditTask"/></transition>
     <transition name="updateTask">
         <service-call name="mantle.work.TaskServices.update#Task" in-map="context"/>
         <default-response url="."/>
     </transition>
 
-    <!--
-            <moqui.basic.StatusItem description="In Planning" sequenceNum="1" statusId="WE_IN_PLANNING" statusTypeId="WorkEffort"/>
-            <moqui.basic.StatusItem description="Approved/Scheduled" sequenceNum="2" statusId="WE_APPROVED" statusTypeId="WorkEffort"/>
-            <moqui.basic.StatusItem description="In Progress" sequenceNum="3" statusId="WE_IN_PROGRESS" statusTypeId="WorkEffort"/>
-            <moqui.basic.StatusItem description="Complete" sequenceNum="9" statusId="WE_COMPLETE" statusTypeId="WorkEffort"/>
-            <moqui.basic.StatusItem description="Closed" sequenceNum="10" statusId="WE_CLOSED" statusTypeId="WorkEffort"/>
-            <moqui.basic.StatusItem description="On Hold" sequenceNum="98" statusId="WE_ON_HOLD" statusTypeId="WorkEffort"/>
-            <moqui.basic.StatusItem description="Cancelled" sequenceNum="99" statusId="WE_CANCELLED" statusTypeId="WorkEffort"/>
-    -->
     <actions>
         <entity-find-one entity-name="WorkEffort" value-field="milestoneWorkEffort">
             <field-map field-name="workEffortId" from="milestoneWorkEffortId"/>
@@ -56,6 +48,8 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <label text="Summary for Milestone &quot;${milestoneWorkEffort.workEffortName}&quot; - ${milestoneWorkEffortId}" type="h1"/>
+        <link text="Project Milestones" url="editMilestones" link-type="anchor-button">
+            <parameter name="rootWorkEffortId" from="milestoneWorkEffort.rootWorkEffortId"/></link>
         <label text="Inactive Tasks" type="h2"/>
         <form-list name="InactiveTaskList" list="inactiveTaskList" transition="updateTask">
             <row-actions>

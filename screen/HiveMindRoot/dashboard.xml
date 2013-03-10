@@ -30,7 +30,6 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
     <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
 
-    <!-- TODO: add screen for milestone whiteboard with a column for each status -->
     <transition name="milestoneSummary"><default-response url="../Project/MilestoneSummary"/></transition>
 
     <transition name="getProjectParties">
