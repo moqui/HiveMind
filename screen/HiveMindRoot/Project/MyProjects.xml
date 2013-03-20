@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.2.xsd"
+        default-menu-include="false" standalone="true">
+
+    <transition name="editProject"><default-response url="../EditProject"/></transition>
+
+    <actions>
+        <entity-find entity-name="WorkEffortAndParty" list="myProjectList">
+            <date-filter/>
+            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
+        </entity-find>
+    </actions>
+    <widgets>
+        <form-list name="MyProjectList" list="myProjectList">
+            <field name="workEffortId"><default-field title="ID"><link url="editProject" text="${workEffortId}"/></default-field></field>
+            <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
+            <field name="statusId"><default-field title="Status">
+                <display-entity entity-name="StatusItem" text="${description}"/>
+            </default-field></field>
+            <!-- TODO: add stats (# tasks by status, percent complete, etc) -->
+        </form-list>
+    </widgets>
+</screen>

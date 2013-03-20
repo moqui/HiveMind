@@ -24,13 +24,15 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response url="."/>
     </transition>
     <transition name="editTask"><default-response url="../Task/EditTask"/></transition>
+
+    <transition name="myProjects"><default-response url="../Project/MyProjects"/></transition>
     <transition name="createProject">
         <service-call name="mantle.work.ProjectServices.create#Project" in-map="context"/>
         <default-response url="."/>
     </transition>
     <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
 
-    <transition name="milestoneSummary"><default-response url="../Project/MilestoneSummary"/></transition>
+    <transition name="myMilestones"><default-response url="../Project/MyMilestones"/></transition>
 
     <transition name="getProjectParties">
         <actions>
@@ -53,22 +55,6 @@ This Work includes contributions authored by David E. Jones, not as a
                 <econdition field-name="isPublic" value="Y"/>
                 <!-- TODO: also include non-public spaces associated with current user -->
             </econditions>
-        </entity-find>
-        <entity-find entity-name="WorkEffortAndParty" list="myProjectList">
-            <date-filter/>
-            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-            <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
-        </entity-find>
-        <entity-find entity-name="WorkEffortAndRootByParty" list="myMilestoneList">
-            <date-filter/>
-            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-            <econdition field-name="rootWorkEffortTypeEnumId" value="WET_PROJECT"/>
-            <econdition field-name="rootStatusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
-            <econdition field-name="workEffortTypeEnumId" value="WET_MILESTONE"/>
-            <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
-            <select-field field-name="rootWorkEffortId"/><select-field field-name="workEffortId"/>
-            <select-field field-name="workEffortName"/><select-field field-name="statusId"/>
-            <order-by field-name="estimatedStartDate"/><order-by field-name="workEffortId"/>
         </entity-find>
         <entity-find entity-name="WorkEffortAndParty" list="myTaskList">
             <date-filter/>
@@ -119,16 +105,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
         <container id="dashboard-tasks-section">
             <!-- my top tasks, my projects, etc -->
-            <container-dialog id="MyProjectsContainer" button-text="My Projects">
-                <form-list name="MyProjects" list="myProjectList">
-                    <field name="workEffortId"><default-field title="ID"><link url="editProject" text="${workEffortId}"/></default-field></field>
-                    <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
-                    <field name="statusId"><default-field title="Status">
-                        <display-entity entity-name="StatusItem" text="${description}"/>
-                    </default-field></field>
-                    <!-- TODO: add stats (# tasks by status, percent complete, etc) -->
-                </form-list>
-            </container-dialog>
+            <dynamic-dialog id="MyProjectsContainer" button-text="My Projects" transition="myProjects"/>
             <container-dialog id="NewProjectContainer" button-text="New Project">
                 <form-single name="NewProject" transition="createProject">
                     <field name="workEffortId"><default-field title="ID"><text-line size="8" maxlength="8"/></default-field></field>
@@ -137,24 +114,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 </form-single>
             </container-dialog>
 
-            <container-dialog id="MyMilestonesContainer" button-text="My Milestones">
-                <form-list name="MyMilestones" list="myMilestoneList">
-                    <field name="rootWorkEffortId">
-                        <default-field title="Project"><link url="editProject" text="${rootWorkEffortId?:'--'}">
-                            <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
-                    </field>
-                    <field name="workEffortId"><default-field title="Milestone">
-                        <link url="milestoneSummary" text="${workEffortId}">
-                            <parameter name="milestoneWorkEffortId" from="workEffortId"/></link>
-                    </default-field></field>
-                    <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
-                    <field name="statusId"><default-field title="Status">
-                        <display-entity entity-name="StatusItem" text="${description}"/>
-                    </default-field></field>
-                    <!-- TODO: add stats (# tasks by status, percent complete, etc) -->
-                </form-list>
-            </container-dialog>
-
+            <dynamic-dialog id="MyMilestonesContainer" button-text="My Milestones" transition="myMilestones"/>
             <container-dialog id="NewTaskContainer" button-text="New Task">
                 <form-single name="NewTask" transition="createTask">
                     <field name="rootWorkEffortId"><default-field title="Project">
