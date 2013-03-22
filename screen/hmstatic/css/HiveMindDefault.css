@@ -1,7 +1,4 @@
 
-#dashboard-wiki-title { float: left; }
-#dashboard-wiki-links { float: right; }
-
 /* the default panel styles are okay, but override here to be more explicit with width/etc */
 #wiki-view-left { float: left; width: 200px; }
 #wiki-view-center { float: left; width: 760px; }
