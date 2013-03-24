@@ -52,7 +52,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <actions>
         <entity-find entity-name="WikiSpace" list="wikiSpaceList">
             <econditions combine="or">
-                <econdition field-name="isPublic" value="Y"/>
+                <econdition field-name="restrictView" value="N"/>
                 <!-- TODO: also include non-public spaces associated with current user -->
             </econditions>
         </entity-find>
@@ -73,7 +73,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             <form-single name="NewSpace" transition="createSpace">
                                 <field name="wikiSpaceId"><default-field><text-line size="8"/></default-field></field>
                                 <field name="description"><default-field><text-line size="40"/></default-field></field>
-                                <field name="isPublic"><default-field>
+                                <field name="restrictView"><default-field>
                                     <drop-down><option key="Y"/><option key="N"/></drop-down>
                                 </default-field></field>
                                 <field name="rootPageDirectory"><default-field>

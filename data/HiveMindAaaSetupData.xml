@@ -28,6 +28,6 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_ALL" userGroupId="ALL_USERS" artifactGroupId="HIVE_MIND"
         authzTypeEnumId="AUTHZT_ALWAYS" authzActionEnumId="AUTHZA_ALL"/>
 
-    <HiveMind.wiki.WikiSpace wikiSpaceId="HmDesign" description="HiveMind Design" isPublic="Y"
+    <HiveMind.wiki.WikiSpace wikiSpaceId="HmDesign" description="HiveMind Design" restrictView="N"
             rootPageLocation="component://HiveMind/WikiSpace/HmDesign.cwiki" decoratorScreenLocation=""/>
 </entity-facade-xml>

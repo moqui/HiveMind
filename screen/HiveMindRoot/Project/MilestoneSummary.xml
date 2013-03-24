@@ -15,6 +15,7 @@ This Work includes contributions authored by David E. Jones, not as a
         default-menu-include="false">
 
     <parameter name="milestoneWorkEffortId"/>
+    <parameter name="milestoneWorkEffortId_0"/>
 
     <transition name="editMilestones"><default-response url="../EditMilestones"/></transition>
     <transition name="editTask"><default-response url="../../Task/EditTask"/></transition>
@@ -24,6 +25,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
 
     <actions>
+        <if condition="milestoneWorkEffortId_0"><set field="milestoneWorkEffortId" from="milestoneWorkEffortId_0"/></if>
         <entity-find-one entity-name="WorkEffort" value-field="milestoneWorkEffort">
             <field-map field-name="workEffortId" from="milestoneWorkEffortId"/>
         </entity-find-one>
@@ -51,7 +53,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <link text="Project Milestones" url="editMilestones" link-type="anchor-button">
             <parameter name="rootWorkEffortId" from="milestoneWorkEffort.rootWorkEffortId"/></link>
         <label text="Inactive Tasks" type="h2"/>
-        <form-list name="InactiveTaskList" list="inactiveTaskList" transition="updateTask">
+        <form-list name="InactiveTaskList" list="inactiveTaskList" transition="updateTask" multi="true">
             <row-actions>
                 <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus"/>
             </row-actions>
@@ -84,9 +86,9 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="estimatedCompletionDate">
                 <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
             </field>
-            <field name="estimatedWorkTime"><default-field title="Estimated Hours">
-                <text-line size="5"/></default-field></field>
-            <field name="actualWorkTime"><default-field title="Actual Hours">
+            <field name="estimatedWorkTime"><default-field title="Estimated">
+                <text-line size="4"/></default-field></field>
+            <field name="actualWorkTime"><default-field title="Actual">
                 <display format="#.00"/></default-field></field>
 
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>

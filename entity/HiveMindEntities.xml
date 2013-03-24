@@ -16,16 +16,49 @@ and those parts may be licensed under the Apache License 2.0.
 <entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-1.2.xsd">
 
+    <entity entity-name="WikiPage" package-name="HiveMind.wiki">
+        <field name="wikiPageId" type="id" is-pk="true"/>
+        <field name="wikiSpaceId" type="id"/>
+        <field name="pagePath" type="text-medium"/>
+        <field name="parentWikiPageId" type="id"/><!-- TODO: really need this or derive from pagePath? -->
+        <field name="createdByUserAccountId" type="id"/>
+        <field name="restrictView" type="text-indicator"/>
+        <field name="restrictUpdate" type="text-indicator"/>
+    </entity>
+    <entity entity-name="WikiPageHistory" package-name="HiveMind.wiki">
+        <field name="wikiPageId" type="id" is-pk="true"/>
+        <field name="historySeqId" type="id" is-pk="true"/>
+        <field name="userAccountId" type="id"/>
+        <field name="changeDateTime" type="date-time"/>
+        <!-- TODO: add rev data for pages in JCR -->
+        <relationship type="one" related-entity-name="WikiPage"/>
+        <relationship type="one" related-entity-name="moqui.security.UserAccount"/>
+    </entity>
+    <entity entity-name="WikiPageUser" package-name="HiveMind.wiki">
+        <field name="wikiPageId" type="id" is-pk="true"/>
+        <field name="userAccountId" type="id" is-pk="true"/>
+        <field name="notifyOnUpdate" type="text-indicator"/>
+        <field name="allowView" type="text-indicator"/>
+        <field name="allowUpdate" type="text-indicator"/>
+        <relationship type="one" related-entity-name="WikiPage"/>
+        <relationship type="one" related-entity-name="moqui.security.UserAccount"/>
+    </entity>
+
     <entity entity-name="WikiSpace" package-name="HiveMind.wiki">
         <field name="wikiSpaceId" type="id" is-pk="true"/>
         <field name="description" type="text-long"/>
         <field name="rootPageLocation" type="text-medium"/>
         <field name="decoratorScreenLocation" type="text-medium"/>
-        <field name="isPublic" type="text-indicator"/>
+        <field name="restrictView" type="text-indicator"/>
+        <field name="restrictUpdate" type="text-indicator"/>
     </entity>
-    <entity entity-name="WikiSpaceParty" package-name="HiveMind.wiki">
+    <entity entity-name="WikiSpaceUser" package-name="HiveMind.wiki">
         <field name="wikiSpaceId" type="id" is-pk="true"/>
-        <field name="partyId" type="id" is-pk="true"/>
-        <field name="roleTypeId" type="id" is-pk="true"/>
+        <field name="userAccountId" type="id" is-pk="true"/>
+        <field name="notifyOnUpdate" type="text-indicator"/>
+        <field name="allowView" type="text-indicator"/>
+        <field name="allowUpdate" type="text-indicator"/>
+        <relationship type="one" related-entity-name="WikiSpace"/>
+        <relationship type="one" related-entity-name="moqui.security.UserAccount"/>
     </entity>
 </entities>

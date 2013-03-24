@@ -22,10 +22,10 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.security.UserAccount userId="EX_JOHN_DOE" partyId="EX_JOHN_DOE"/>
 
     <!-- DEMO WIKI DATA -->
-    <HiveMind.wiki.WikiSpace wikiSpaceId="DEMO" description="Demo Wiki Space" isPublic="Y"
+    <HiveMind.wiki.WikiSpace wikiSpaceId="DEMO" description="Demo Wiki Space" restrictView="N"
             rootPageLocation="component://HiveMind/WikiSpace/DEMO.cwiki" decoratorScreenLocation=""/>
 
-    <HiveMind.wiki.WikiSpace wikiSpaceId="DBDEMO" description="DB Demo Wiki Space" isPublic="Y"
+    <HiveMind.wiki.WikiSpace wikiSpaceId="DBDEMO" description="DB Demo Wiki Space" restrictView="N"
             rootPageLocation="dbresource://HiveMind/WikiSpace/DBDEMO.cwiki" decoratorScreenLocation=""/>
     <moqui.resource.DbResource  resourceId="HIVE_MIND" parentResourceId="" filename="HiveMind" isFile="N"/>
     <moqui.resource.DbResource  resourceId="WIKI_SPACE" parentResourceId="HIVE_MIND" filename="WikiSpace" isFile="N"/>
