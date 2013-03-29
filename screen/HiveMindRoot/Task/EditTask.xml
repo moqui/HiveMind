@@ -20,6 +20,15 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="mantle.work.TaskServices.update#Task" in-map="context"/>
         <default-response url="."/>
     </transition>
+    <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
+    <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
+    <transition name="getProjectMilestones">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectMilestones" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
     <transition name="getProjectTasks">
         <actions>
             <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>
@@ -29,13 +38,19 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
 
     <actions>
-        <entity-find-one entity-name="WorkEffort" value-field="fieldValues"/>
+        <entity-find-one entity-name="WorkEffort" value-field="task"/>
+        <entity-find entity-name="WorkEffortAssoc" list="milestoneAssocList">
+            <date-filter/>
+            <econdition field-name="toWorkEffortId" from="task.workEffortId"/>
+            <econdition field-name="workEffortAssocTypeEnumId" value="WEAT_MILESTONE"/>
+        </entity-find>
+        <set field="milestoneAssoc" from="milestoneAssocList?.getAt(0)"/>
         <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
-            <field-map field-name="statusId" from="fieldValues?.statusId"/>
+            <field-map field-name="statusId" from="task?.statusId"/>
         </entity-find-one>
     </actions>
     <widgets>
-        <form-single name="EditTask" transition="updateTask">
+        <form-single name="EditTask" transition="updateTask" map="task">
             <field name="workEffortId"><default-field><hidden/></default-field></field>
             <field name="rootWorkEffortId"><default-field title="Project">
                 <drop-down>
@@ -47,6 +62,19 @@ This Work includes contributions authored by David E. Jones, not as a
                         </entity-find>
                     </entity-options>
                 </drop-down>
+                <link text="Edit ${task.rootWorkEffortId}" url="editProject">
+                    <parameter name="workEffortId" from="task.rootWorkEffortId"/>
+                </link>
+            </default-field></field>
+            <field name="milestoneWorkEffortId" entry-name="milestoneAssoc.workEffortId"><default-field title="Milestone">
+                <drop-down combo-box="true">
+                    <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
+                        <depends-on field="rootWorkEffortId"/>
+                    </dynamic-options>
+                </drop-down>
+                <link text="Edit ${milestoneAssoc.workEffortId}" url="milestoneSummary">
+                    <parameter name="milestoneWorkEffortId" from="milestoneAssoc.workEffortId"/>
+                </link>
             </default-field></field>
             <field name="parentWorkEffortId"><default-field title="Parent Task">
                 <drop-down combo-box="true">
@@ -78,7 +106,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     <drop-down allow-empty="false" current-description="${currentStatus?.description}">
                         <entity-options key="${toStatusId}" text="${transitionName} (${description})">
                             <entity-find entity-name="StatusValidChangeToDetail">
-                                <econdition field-name="statusId" from="fieldValues.statusId"/>
+                                <econdition field-name="statusId" from="task.statusId"/>
                             </entity-find>
                         </entity-options>
                     </drop-down>

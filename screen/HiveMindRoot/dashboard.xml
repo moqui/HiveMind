@@ -61,6 +61,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
+            <order-by field-name="milestoneEstimatedStartDate"/>
             <order-by field-name="priority"/>
         </entity-find>
     </actions>
@@ -188,12 +189,12 @@ This Work includes contributions authored by David E. Jones, not as a
                                 <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
                         </field>
                         <field name="milestoneWorkEffortId"><default-field title="Milestone">
-                            <link text="${milestoneWorkEffortName?:milestoneWorkEffortId}" url="milestoneSummary"/>
+                            <link text="${milestoneWorkEffortId}" url="milestoneSummary"/>
                         </default-field></field>
                         <field name="workEffortId"><default-field title="Task">
-                            <link text="${workEffortId}" url="editTask"/>
+                            <link text="${workEffortId}: ${workEffortName}" url="editTask"/>
                         </default-field></field>
-                        <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
+                        <!-- <field name="workEffortName"><default-field title="Name"><display/></default-field></field> -->
                         <field name="priority"><default-field title="Pri"><display/></default-field></field>
                         <field name="purposeEnumId">
                             <default-field title="Purpose"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
@@ -202,8 +203,8 @@ This Work includes contributions authored by David E. Jones, not as a
                             <default-field title="Status"><display-entity entity-name="StatusItem" text="${description}"/></default-field>
                         </field>
                         <field name="estimatedCompletionDate"><default-field title="Due"><display format="yyyy-MM-dd"/></default-field></field>
-                        <field name="estimatedWorkTime"><default-field title="Estimated"><display format="#.00"/></default-field></field>
-                        <field name="actualWorkTime"><default-field title="Actual"><display format="#.00"/></default-field></field>
+                        <field name="estimatedWorkTime"><default-field title="Est"><display format="#.00"/></default-field></field>
+                        <field name="actualWorkTime"><default-field title="Act"><display format="#.00"/></default-field></field>
                     </form-list>
                 </container>
 

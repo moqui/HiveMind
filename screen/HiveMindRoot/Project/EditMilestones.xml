@@ -37,6 +37,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <container-dialog id="CreateMilestoneDialog" button-text="Create Milestone">
             <form-single name="CreateMilestoneForm" transition="createMilestone">
                 <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+                <field name="workEffortId"><default-field title="Milestone ID"><text-line size="10" default-value="${rootWorkEffortId}-"/></default-field></field>
                 <field name="workEffortName"><default-field title="Milestone Name"><text-line size="25"/></default-field></field>
                 <field name="estimatedStartDate">
                     <default-field title="Start Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
