@@ -33,6 +33,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
 
     <transition name="myMilestones"><default-response url="../Project/MyMilestones"/></transition>
+    <transition name="milestoneSummary"><default-response url="../Project/MilestoneSummary"/></transition>
 
     <transition name="getProjectParties">
         <actions>
@@ -56,10 +57,9 @@ This Work includes contributions authored by David E. Jones, not as a
                 <!-- TODO: also include non-public spaces associated with current user -->
             </econditions>
         </entity-find>
-        <entity-find entity-name="WorkEffortAndParty" list="myTaskList">
+        <entity-find entity-name="PartyTaskSummary" list="myTaskList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-            <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
             <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
             <order-by field-name="priority"/>
         </entity-find>
@@ -187,6 +187,9 @@ This Work includes contributions authored by David E. Jones, not as a
                             <default-field title="Project"><link url="editProject" text="${rootWorkEffortId?:'--'}">
                                 <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
                         </field>
+                        <field name="milestoneWorkEffortId"><default-field title="Milestone">
+                            <link text="${milestoneWorkEffortName?:milestoneWorkEffortId}" url="milestoneSummary"/>
+                        </default-field></field>
                         <field name="workEffortId"><default-field title="Task">
                             <link text="${workEffortId}" url="editTask"/>
                         </default-field></field>

@@ -61,4 +61,36 @@ and those parts may be licensed under the Apache License 2.0.
         <relationship type="one" related-entity-name="WikiSpace"/>
         <relationship type="one" related-entity-name="moqui.security.UserAccount"/>
     </entity>
+
+    <view-entity entity-name="PartyTaskSummary" package-name="mantle.work.effort">
+        <member-entity entity-alias="WEFF" entity-name="WorkEffort"/>
+        <member-entity entity-alias="WEP" entity-name="WorkEffortParty" join-from-alias="WEFF">
+            <key-map field-name="workEffortId"/>
+        </member-entity>
+        <member-entity entity-alias="WEFF_ASSOC" entity-name="WorkEffortAssoc" join-from-alias="WEFF" join-optional="true">
+            <key-map field-name="workEffortId" related-field-name="toWorkEffortId"/>
+        </member-entity>
+        <member-entity entity-alias="WEFF_MLSTN" entity-name="WorkEffort" join-from-alias="WEFF_ASSOC" join-optional="true">
+            <key-map field-name="workEffortId"/>
+        </member-entity>
+
+        <alias-all entity-alias="WEFF"/>
+        <alias-all entity-alias="WEFF_MLSTN" prefix="milestone"/>
+        <alias-all entity-alias="WEP"><exclude field="workEffortId"/><exclude field="statusId"/></alias-all>
+        <alias name="partyStatusId" entity-alias="WEP" field="statusId"/>
+
+        <!-- <alias name="workEffortAssocTypeEnumId" entity-alias="WEFF_ASSOC"/> -->
+        <alias name="assocFromDate" entity-alias="WEFF_ASSOC" field="fromDate"/>
+        <alias name="assocThruDate" entity-alias="WEFF_ASSOC" field="thruDate"/>
+
+        <entity-condition>
+            <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
+            <econditions combine="or">
+                <econdition entity-alias="WEFF_ASSOC" field-name="workEffortAssocTypeEnumId" value="WEAT_MILESTONE"/>
+                <econdition entity-alias="WEFF_ASSOC" field-name="workEffortAssocTypeEnumId" value=""/>
+            </econditions>
+            <date-filter from-field-name="assocFromDate" thru-field-name="assocThruDate"/>
+        </entity-condition>
+    </view-entity>
+
 </entities>
