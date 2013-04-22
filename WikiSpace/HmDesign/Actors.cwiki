@@ -5,8 +5,8 @@ h2. Actors
 
 * Provider
 ** Account Manager - person in Account Services responsible for a specific Client, or a project for that Client
-** Contributor - anyone who does work requested by a Client (task assignee, request handler, group member)
-** Group Manager - person who manages a group of Contributors
+** Contributor - anyone who does work requested by a Client; may act as task assignee, request handler, and group member
+** Group Manager - person who manages a group of Contributors, may also be a Contributor
 * Client
 ** Client Representative - client agent who drives requirements and gets information about project status and finances
 
@@ -44,21 +44,22 @@ desired information is not recorded Account Manager will find someone who knows 
 
 h3. Group Manager reviews group tasks
 
-Group Manager reviews tasks assigned to a group they manage. Group Manager *assigns*
-tasks to a member of their group, or *delegates* the task to another group.
-Group Manager reviews tasks assigned to all members of their group. Group Manager
-may *assign* a task assigned to a Contributor in their group to another Contributor in their group, or
-*delegate* it to another group.
+Group Manager reviews tasks assigned to a group they manage including information such as task name, task type,
+description, priority, estimated work time, actual work time (work time so far), status, and due date. Group Manager
+assigns tasks to a member of their group, or delegates the task to another group.
+
+Group Manager reviews tasks assigned to all members of their group. Group Manager may assign a task assigned to a
+Contributor in their group to another Contributor in their group, or delegate it to another group.
 
 Group Manager and Contributors review outstanding tasks not associated with a milestone and the tasks associated with
 the next two milestones along with a total estimated time for all open tasks and the working time available for the
-group in each milestone work period. Group Manager moves tasks between milestones and the unassociated column to plan
-the work for the next milestone.
+group in each milestone work period. Group Manager moves tasks between milestones and the unassociated set to plan work
+for the next milestone.
 
 Group Manager and all Contributors assigned to a group review a task plan chart that shows for each
 Contributor the recent tasks worked on (1 day into the past) and projects future tasks for the next milestone (sorted
 by priority/dependency, then by estimated time shortest first for equal priorities), with task working time determined by
-available calendar configured for the user. Group Manager reassigns tasks to Contributors as needed to balance the work
+available calendar configured for each Contributor. Group Manager reassigns tasks to Contributors as needed to balance the work
 load for the coming milestone.
 
 When Contributor has no tasks assigned to them needing attention or when wondering about other work to be done,
