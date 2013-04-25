@@ -75,6 +75,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         <range-find/></default-field></field>
                     <field name="actualWorkTime"><default-field title="Actual Hours">
                         <range-find/></default-field></field>
+                    <!-- TODO: add user filter -->
                     <field name="searchButton"><default-field title="Find Task"><submit/></default-field></field>
                 </form-single>
             </container-dialog>

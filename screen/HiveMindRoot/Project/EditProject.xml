@@ -37,8 +37,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="workEffortId"><default-field title="Project ID"><display/></default-field></field>
             <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
             <field name="priority"><default-field>
-                <drop-down><option key="1"/><option key="2"/><option key="3"/><option key="4"/><option key="5"/>
-                    <option key="6"/><option key="7"/><option key="8"/><option key="9"/></drop-down>
+                <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
             </default-field></field>
             <field name="statusId">
                 <default-field title="Status">

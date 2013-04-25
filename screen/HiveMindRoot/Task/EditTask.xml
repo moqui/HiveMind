@@ -52,20 +52,22 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <form-single name="EditTask" transition="updateTask" map="task">
             <field name="workEffortId"><default-field><hidden/></default-field></field>
-            <field name="rootWorkEffortId"><default-field title="Project">
-                <drop-down>
-                    <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
-                        <entity-find entity-name="WorkEffortAndParty">
-                            <date-filter/>
-                            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-                            <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down>
-                <link text="Edit ${task.rootWorkEffortId}" url="editProject">
-                    <parameter name="workEffortId" from="task.rootWorkEffortId"/>
-                </link>
-            </default-field></field>
+            <field name="rootWorkEffortId">
+                <default-field title="Project">
+                    <drop-down>
+                        <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
+                            <entity-find entity-name="WorkEffortAndParty">
+                                <date-filter/>
+                                <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                                <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
+                            </entity-find>
+                        </entity-options>
+                    </drop-down>
+                    <link text="Edit ${task.rootWorkEffortId}" url="editProject">
+                        <parameter name="workEffortId" from="task.rootWorkEffortId"/>
+                    </link>
+                </default-field>
+            </field>
             <field name="milestoneWorkEffortId" entry-name="milestoneAssoc.workEffortId"><default-field title="Milestone">
                 <drop-down combo-box="true">
                     <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
@@ -85,8 +87,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </default-field></field>
             <field name="workEffortName"><default-field title="Task Name"><text-line/></default-field></field>
             <field name="priority"><default-field>
-                <drop-down><option key="1"/><option key="2"/><option key="3"/><option key="4"/><option key="5"/>
-                    <option key="6"/><option key="7"/><option key="8"/><option key="9"/></drop-down>
+                <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
             </default-field></field>
             <field name="purposeEnumId">
                 <default-field title="Purpose">
