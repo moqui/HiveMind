@@ -24,6 +24,7 @@ and those parts may be licensed under the Apache License 2.0.
         <field name="createdByUserAccountId" type="id"/>
         <field name="restrictView" type="text-indicator"/>
         <field name="restrictUpdate" type="text-indicator"/>
+        <relationship type="one" related-entity-name="HiveMind.wiki.WikiSpace"/>
     </entity>
     <entity entity-name="WikiPageHistory" package-name="HiveMind.wiki">
         <field name="wikiPageId" type="id" is-pk="true"/>
