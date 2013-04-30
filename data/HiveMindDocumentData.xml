@@ -37,7 +37,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="WorkEffortParty:Person:firstName"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="WorkEffortParty:Person:lastName"/>
     <moqui.entity.document.DataDocumentCondition dataDocumentId="HmProject"
-            fieldPath="workEffortTypeEnumId" value="WET_PROJECT"/>
+            fieldNameAlias="workEffortTypeEnumId" fieldValue="WET_PROJECT"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmProject" label="Edit Project"
             linkUrl="/apps/hm/Project/EditProject?workEffortId=${workEffortId}"/>
 
@@ -56,7 +56,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="WorkEffortParty:Person:firstName"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="WorkEffortParty:Person:lastName"/>
     <moqui.entity.document.DataDocumentCondition dataDocumentId="HmTask"
-            fieldPath="workEffortTypeEnumId" value="WET_TASK"/>
+            fieldNameAlias="workEffortTypeEnumId" fieldValue="WET_TASK"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmTask" label="Edit Task"
             linkUrl="/apps/hm/Task/EditTask?workEffortId=${workEffortId}"/>
 </entity-facade-xml>
