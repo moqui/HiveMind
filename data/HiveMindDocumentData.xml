@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <!-- WikiPage -->
     <moqui.entity.document.DataDocument dataDocumentId="HmWikiPage" documentName="WikiPage" indexName="HiveMind"
             primaryEntityName="HiveMind.wiki.WikiPage" manualDataServiceName="HiveMind.WikiServices.getWikiPageManualDocumentData"/>
-    <!-- NOTE: service to get wiki page contents from the file (resource) -->
+    <!-- NOTE: service purpose is to get wiki page contents from the file (resource) -->
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="wikiPageId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="wikiSpaceId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="pagePath"/>
@@ -27,6 +27,7 @@ This Work includes contributions authored by David E. Jones, not as a
             primaryEntityName="mantle.work.effort.WorkEffort"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortName"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortTypeEnumId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
             fieldPath="moqui.basic.StatusItem:description" fieldNameAlias="status"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
@@ -45,6 +46,7 @@ This Work includes contributions authored by David E. Jones, not as a
             primaryEntityName="mantle.work.effort.WorkEffort"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortName"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortTypeEnumId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="moqui.basic.StatusItem:description" fieldNameAlias="status"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
