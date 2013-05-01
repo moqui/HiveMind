@@ -64,6 +64,15 @@ This Work includes contributions authored by David E. Jones, not as a
             <order-by field-name="milestoneEstimatedStartDate"/>
             <order-by field-name="priority"/>
         </entity-find>
+
+        <!--
+        <script>
+            import org.moqui.context.ExecutionContext
+            ExecutionContext ec = context.ec
+            documentMapList = ec.entity.getDataDocuments("HmProject", null, null, null)
+        </script>
+        <log level="warn" message="=========== HmProject documentMapList=${documentMapList}"/>
+        -->
     </actions>
     <widgets>
         <container-panel id="dashboard-panel">

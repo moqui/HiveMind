@@ -29,13 +29,15 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortName"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortTypeEnumId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
-            fieldPath="moqui.basic.StatusItem:description" fieldNameAlias="status"/>
+            fieldPath="WorkEffort#moqui.basic.StatusItem:description" fieldNameAlias="status"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
             fieldPath="WorkEffortType#moqui.basic.Enumeration:description" fieldNameAlias="type"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
             fieldPath="WorkEffortPurpose#moqui.basic.Enumeration:description" fieldNameAlias="purpose"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="WorkEffortParty:Person:firstName"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="WorkEffortParty:Person:lastName"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
+            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.Person:firstName"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
+            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.Person:lastName"/>
     <moqui.entity.document.DataDocumentCondition dataDocumentId="HmProject"
             fieldNameAlias="workEffortTypeEnumId" fieldValue="WET_PROJECT"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmProject" label="Edit Project"
@@ -48,13 +50,15 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortName"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortTypeEnumId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="moqui.basic.StatusItem:description" fieldNameAlias="status"/>
+            fieldPath="WorkEffort#moqui.basic.StatusItem:description" fieldNameAlias="status"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="WorkEffortType#moqui.basic.Enumeration:description" fieldNameAlias="type"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="WorkEffortPurpose#moqui.basic.Enumeration:description" fieldNameAlias="purpose"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="WorkEffortParty:Person:firstName"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="WorkEffortParty:Person:lastName"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
+            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.Person:firstName"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
+            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.Person:lastName"/>
     <moqui.entity.document.DataDocumentCondition dataDocumentId="HmTask"
             fieldNameAlias="workEffortTypeEnumId" fieldValue="WET_TASK"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmTask" label="Edit Task"
