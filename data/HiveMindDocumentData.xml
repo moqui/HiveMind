@@ -63,4 +63,12 @@ This Work includes contributions authored by David E. Jones, not as a
             fieldNameAlias="workEffortTypeEnumId" fieldValue="WET_TASK"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmTask" label="Edit Task"
             linkUrl="/apps/hm/Task/EditTask?workEffortId=${workEffortId}"/>
+
+    <!-- ================ -->
+    <!-- Search Data Feed -->
+    <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataFeedTypeEnumId="DTFDTP_RT_PUSH"
+            feedName="HiveMind Search" feedReceiveServiceName="HiveMind.SearchServices.index#DataDocument"/>
+    <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataDocumentId="HmWikiPage"/>
+    <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataDocumentId="HmProject"/>
+    <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataDocumentId="HmTask"/>
 </entity-facade-xml>
