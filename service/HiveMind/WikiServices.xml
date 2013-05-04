@@ -174,25 +174,19 @@ This Work includes contributions authored by David E. Jones, not as a
     </service>
 
     <service verb="get" noun="WikiPageManualDocumentData">
-        <in-parameters>
-            <parameter name="dataDocumentId" required="true"/>
-            <parameter name="documentMap" type="Map" required="true"/>
-        </in-parameters>
-        <out-parameters>
-            <parameter name="manualData" type="Map"/>
-        </out-parameters>
+        <implements service="org.moqui.EntityServices.add#ManualDocumentData"/>
         <actions>
             <!-- primaryEntityValue is a WikiPage entity value -->
-            <set field="wikiPageMap" from="documentMap.get('HiveMind.wiki.WikiPage')"/>
+            <set field="wikiPageMap" from="document.get('HiveMind.wiki.WikiPage')"/>
             <service-call name="HiveMind.WikiServices.get#WikiPageInfo" out-map="wikiPageInfo"
                     in-map="[wikiSpaceId:wikiPageMap.wikiSpaceId, pagePath:wikiPageMap.pagePath]"/>
-            <set field="baseLinkUrl" value="/apps/hm/wiki/${primaryEntityValue.wikiSpaceId}"/>
+            <set field="baseLinkUrl" value="/apps/hm/wiki/${wikiPageMap.wikiSpaceId}"/>
             <script>
                 pageContent = new StringWriter()
                 ec.resource.renderTemplateInCurrentContext(wikiPageInfo.pageLocation, pageContent)
             </script>
             <!-- TODO: add attachments too (for indexing)? -->
-            <set field="dataToAdd" from="[content:pageContent]"/>
+            <set field="document.content" from="pageContent.toString()"/>
         </actions>
     </service>
 
