@@ -27,7 +27,7 @@ This Work includes contributions authored by David E. Jones, not as a
             primaryEntityName="mantle.work.effort.WorkEffort"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortName"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortTypeEnumId"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortTypeEnumId"/><!-- this is aliased so we can have a condition on it -->
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
             fieldPath="WorkEffort#moqui.basic.StatusItem:description" fieldNameAlias="status"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
@@ -48,7 +48,7 @@ This Work includes contributions authored by David E. Jones, not as a
             primaryEntityName="mantle.work.effort.WorkEffort"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortName"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortTypeEnumId"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortTypeEnumId"/><!-- this is aliased so we can have a condition on it -->
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="WorkEffort#moqui.basic.StatusItem:description" fieldNameAlias="status"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
@@ -68,7 +68,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <!-- Search Data Feed -->
     <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataFeedTypeEnumId="DTFDTP_RT_PUSH"
             feedName="HiveMind Search" feedReceiveServiceName="HiveMind.SearchServices.index#DataDocument"/>
-    <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataDocumentId="HmWikiPage"/>
-    <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataDocumentId="HmProject"/>
-    <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataDocumentId="HmTask"/>
+    <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmWikiPage"/>
+    <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmProject"/>
+    <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmTask"/>
 </entity-facade-xml>
