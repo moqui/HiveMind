@@ -11,7 +11,7 @@ This Work includes contributions authored by David E. Jones, not as a
 "work for hire", who hereby disclaims any copyright to the same.
 -->
 <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-1.2.xsd">
-    <service verb="index" noun="DataDocument" authenticate="anonymous-view">
+    <service verb="index" noun="DataDocuments" authenticate="anonymous-view">
         <implements service="org.moqui.EntityServices.receive#DataFeed"/>
         <actions>
             <log level="info" message="=-=-=-=-=-=-=-=-=-= Call to index HiveMind DataDocument, documentList: ${documentList}"/>

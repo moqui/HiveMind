@@ -68,7 +68,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <!-- ================ -->
     <!-- Search Data Feed -->
     <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataFeedTypeEnumId="DTFDTP_RT_PUSH"
-            feedName="HiveMind Search" feedReceiveServiceName="org.moqui.EntityServices.index#DataDocument"/>
+            feedName="HiveMind Search" feedReceiveServiceName="org.moqui.EntityServices.index#DataDocuments"/>
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmWikiPage"/>
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmProject"/>
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmTask"/>
