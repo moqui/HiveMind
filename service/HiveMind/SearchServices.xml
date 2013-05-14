@@ -14,9 +14,39 @@ This Work includes contributions authored by David E. Jones, not as a
     <service verb="index" noun="DataDocument" authenticate="anonymous-view">
         <implements service="org.moqui.EntityServices.receive#DataFeed"/>
         <actions>
-            <!-- TODO: implement actual elasticsearch indexing -->
-            <!-- for now just log the documentList -->
             <log level="info" message="=-=-=-=-=-=-=-=-=-= Call to index HiveMind DataDocument, documentList: ${documentList}"/>
+            <script>
+            import org.elasticsearch.action.ListenableActionFuture
+            import org.elasticsearch.action.index.IndexResponse
+            import org.elasticsearch.action.search.SearchResponse
+            import org.elasticsearch.index.query.QueryBuilders
+            import org.elasticsearch.search.SearchHit
+            import org.elasticsearch.search.SearchHits
+
+            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("index_DataDocument")
+
+            org.moqui.context.ExecutionContext ec = context.ec
+            String index = null
+            String type = null
+            for (Map document in documentList) {
+                index = document._index
+                type = document._type
+                IndexResponse ir = ec.elasticSearchClient
+                        .prepareIndex((String) document._index, (String) document._type, (String) document._id)
+                        .setSource(document).execute().actionGet()
+                // TODO: do anything with response?
+                ListenableActionFuture laf = ec.elasticSearchClient.prepareGet((String) document._index, (String) document._type, (String) document._id).execute()
+                logger.warn("=-=-=-=-=-=-=-=-=-= Got result for ID [${document._id}]: ${laf.actionGet().getSourceAsString()}")
+            }
+
+            // NOTE: this works but the index updates asynchronously and takes a moment so isn't typically updated when this is run immediately like this:
+            ListenableActionFuture laf = ec.elasticSearchClient.prepareSearch().setIndices(index).setTypes(type)
+                    .setQuery(QueryBuilders.queryString("my").field("workEffortName")).execute()
+            SearchHits hits = laf.actionGet().getHits()
+            for (SearchHit hit in hits) {
+                logger.warn("=-=-=-=-=-=-=-=-=-= Got ElasticSearch result ID [${hit.getId()}]")
+            }
+            </script>
         </actions>
     </service>
 </services>

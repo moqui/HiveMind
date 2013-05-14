@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.2.xsd"
+        default-menu-title="Search" default-menu-index="1">
+
+    <transition name="submitSearch"><default-response url="."/></transition>
+
+    <actions>
+        <script>
+            import org.elasticsearch.index.query.QueryBuilders
+            import org.elasticsearch.search.SearchHit
+            import org.elasticsearch.search.SearchHits
+            import org.elasticsearch.action.ListenableActionFuture
+            import org.moqui.context.ExecutionContext
+            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("search_actions")
+            ExecutionContext ec = context.ec
+
+            logger.warn("========= search query=${query}")
+
+            resultList = []
+            if (query) {
+                // TODO: add pagination (with setFrom() and setSize()?)
+                ListenableActionFuture laf = ec.elasticSearchClient.prepareSearch().setIndices("hivemind")
+                        .setQuery(QueryBuilders.queryString(query)).setSize(50).execute()
+                SearchHits hits = laf.actionGet().getHits()
+                for (SearchHit hit in hits) {
+                    document = ec.elasticSearchClient.prepareGet(hit.getIndex(), hit.getType(), hit.getId())
+                            .execute().actionGet().getSourceAsMap()
+                    Map result = org.moqui.impl.StupidUtilities.flattenNestedMap(document)
+                    resultList.add(result)
+                    logger.warn("========= search hit id=${hit.getId()}, result: ${result}")
+                }
+            }
+        </script>
+    </actions>
+    <widgets>
+        <form-single name="SearchOptions" transition="submitSearch">
+            <field name="query"><default-field>
+                <!-- TODO: add autocomplete transition with search hints using ElasticSearch feature -->
+                <text-line size="40"/>
+            </default-field></field>
+            <field name="submitButton"><default-field title="Search"><submit/></default-field></field>
+            <field-layout>
+                <field-row><field-ref name="query"/><field-ref name="submitButton"/></field-row>
+            </field-layout>
+        </form-single>
+
+        <form-list name="SearchResults" list="resultList">
+            <row-actions>
+                <entity-find-one entity-name="DataDocument" value-field="dataDocument" cache="true">
+                    <field-map field-name="dataDocumentId" from="_type"/>
+                </entity-find-one>
+                <entity-find-related-one value-field="dataDocument" relationship-name="moqui.entity.document.DataDocumentLink" to-value-field="dataDocumentLink"/>
+                <set field="linkUrl" from="ec.resource.evaluateStringExpand(dataDocumentLink.linkUrl, '')"/>
+            </row-actions>
+            <field name="Type"><default-field>
+                <display text="${dataDocument.documentName}"/>
+            </default-field></field>
+            <field name="ID"><default-field>
+                <display text="${_id}"/>
+                <link url="${linkUrl}" text="${dataDocumentLink.label}" link-type="anchor" url-type="plain"/>
+            </default-field></field>
+        </form-list>
+    </widgets>
+</screen>

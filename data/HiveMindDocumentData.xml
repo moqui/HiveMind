@@ -12,7 +12,7 @@ This Work includes contributions authored by David E. Jones, not as a
 -->
 <entity-facade-xml type="seed">
     <!-- WikiPage -->
-    <moqui.entity.document.DataDocument dataDocumentId="HmWikiPage" documentName="WikiPage" indexName="HiveMind"
+    <moqui.entity.document.DataDocument dataDocumentId="HmWikiPage" documentName="WikiPage" indexName="hivemind"
             primaryEntityName="HiveMind.wiki.WikiPage" manualDataServiceName="HiveMind.WikiServices.getWikiPageManualDocumentData"/>
     <!-- NOTE: service purpose is to get wiki page contents from the file (resource) -->
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="wikiPageId"/>
@@ -23,7 +23,7 @@ This Work includes contributions authored by David E. Jones, not as a
             linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath}"/>
 
     <!-- Project -->
-    <moqui.entity.document.DataDocument dataDocumentId="HmProject" documentName="Project" indexName="HiveMind"
+    <moqui.entity.document.DataDocument dataDocumentId="HmProject" documentName="Project" indexName="hivemind"
             primaryEntityName="mantle.work.effort.WorkEffort"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortName"/>
@@ -44,7 +44,7 @@ This Work includes contributions authored by David E. Jones, not as a
             linkUrl="/apps/hm/Project/EditProject?workEffortId=${workEffortId}"/>
 
     <!-- Task -->
-    <moqui.entity.document.DataDocument dataDocumentId="HmTask" documentName="Task" indexName="HiveMind"
+    <moqui.entity.document.DataDocument dataDocumentId="HmTask" documentName="Task" indexName="hivemind"
             primaryEntityName="mantle.work.effort.WorkEffort"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortName"/>
