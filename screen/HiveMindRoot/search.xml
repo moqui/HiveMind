@@ -21,32 +21,25 @@ This Work includes contributions authored by David E. Jones, not as a
             import org.elasticsearch.index.query.QueryBuilders
             import org.elasticsearch.search.SearchHit
             import org.elasticsearch.search.SearchHits
-            import org.elasticsearch.action.ListenableActionFuture
-            import org.moqui.context.ExecutionContext
             org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("search_actions")
-            ExecutionContext ec = context.ec
-
-            logger.warn("========= search query=${query}")
+            org.moqui.context.ExecutionContext ec = context.ec
 
             resultList = []
             if (query) {
                 // TODO: add pagination (with setFrom() and setSize()?)
-                ListenableActionFuture laf = ec.elasticSearchClient.prepareSearch().setIndices("hivemind")
-                        .setQuery(QueryBuilders.queryString(query)).setSize(50).execute()
-                SearchHits hits = laf.actionGet().getHits()
+                SearchHits hits = ec.elasticSearchClient.prepareSearch().setIndices("hivemind")
+                        .setQuery(QueryBuilders.queryString(query)).setSize(50).execute().actionGet().getHits()
                 for (SearchHit hit in hits) {
                     document = ec.elasticSearchClient.prepareGet(hit.getIndex(), hit.getType(), hit.getId())
                             .execute().actionGet().getSourceAsMap()
-                    Map result = org.moqui.impl.StupidUtilities.flattenNestedMap(document)
-                    resultList.add(result)
-                    logger.warn("========= search hit id=${hit.getId()}, result: ${result}")
+                    resultList.add(StupidUtilities.flattenNestedMap(document))
                 }
             }
         </script>
     </actions>
     <widgets>
         <form-single name="SearchOptions" transition="submitSearch">
-            <field name="query"><default-field>
+            <field name="query"><default-field title="">
                 <!-- TODO: add autocomplete transition with search hints using ElasticSearch feature -->
                 <text-line size="40"/>
             </default-field></field>
@@ -61,14 +54,16 @@ This Work includes contributions authored by David E. Jones, not as a
                 <entity-find-one entity-name="DataDocument" value-field="dataDocument" cache="true">
                     <field-map field-name="dataDocumentId" from="_type"/>
                 </entity-find-one>
-                <entity-find-related-one value-field="dataDocument" relationship-name="moqui.entity.document.DataDocumentLink" to-value-field="dataDocumentLink"/>
-                <set field="linkUrl" from="ec.resource.evaluateStringExpand(dataDocumentLink.linkUrl, '')"/>
+                <!-- this is a type=many relationship, but we just want one here: -->
+                <entity-find-related-one value-field="dataDocument" cache="true"
+                        relationship-name="moqui.entity.document.DataDocumentLink" to-value-field="dataDocumentLink"/>
+                <set field="linkUrl" from="ec.resource.evaluateStringExpand(dataDocumentLink?.linkUrl, '')"/>
+                <set field="documentTitle" from="ec.resource.evaluateStringExpand(dataDocument?.documentTitle, '')"/>
             </row-actions>
-            <field name="Type"><default-field>
-                <display text="${dataDocument.documentName}"/>
-            </default-field></field>
-            <field name="ID"><default-field>
-                <display text="${_id}"/>
+            <field name="type"><default-field><display text="${dataDocument.documentName}"/></default-field></field>
+            <field name="id"><default-field><display text="${_id}"/></default-field></field>
+            <field name="documentTitle"><default-field title="Title"><display/></default-field></field>
+            <field name="link"><default-field>
                 <link url="${linkUrl}" text="${dataDocumentLink.label}" link-type="anchor" url-type="plain"/>
             </default-field></field>
         </form-list>

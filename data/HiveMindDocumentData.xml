@@ -11,9 +11,10 @@ This Work includes contributions authored by David E. Jones, not as a
 "work for hire", who hereby disclaims any copyright to the same.
 -->
 <entity-facade-xml type="seed">
-    <!-- WikiPage -->
-    <moqui.entity.document.DataDocument dataDocumentId="HmWikiPage" documentName="WikiPage" indexName="hivemind"
-            primaryEntityName="HiveMind.wiki.WikiPage" manualDataServiceName="HiveMind.WikiServices.getWikiPageManualDocumentData"/>
+    <!-- Wiki Page -->
+    <moqui.entity.document.DataDocument dataDocumentId="HmWikiPage" indexName="hivemind" documentName="Wiki Page"
+            primaryEntityName="HiveMind.wiki.WikiPage" documentTitle="${wikiSpaceId}/${pagePath}"
+            manualDataServiceName="HiveMind.WikiServices.getWikiPageManualDocumentData"/>
     <!-- NOTE: service purpose is to get wiki page contents from the file (resource) -->
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="wikiPageId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="wikiSpaceId"/>
@@ -23,8 +24,8 @@ This Work includes contributions authored by David E. Jones, not as a
             linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath}"/>
 
     <!-- Project -->
-    <moqui.entity.document.DataDocument dataDocumentId="HmProject" documentName="Project" indexName="hivemind"
-            primaryEntityName="mantle.work.effort.WorkEffort"/>
+    <moqui.entity.document.DataDocument dataDocumentId="HmProject" indexName="hivemind" documentName="Project"
+            primaryEntityName="mantle.work.effort.WorkEffort" documentTitle="${workEffortName}"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortName"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortTypeEnumId"/><!-- this is aliased so we can have a condition on it -->
@@ -44,8 +45,8 @@ This Work includes contributions authored by David E. Jones, not as a
             linkUrl="/apps/hm/Project/EditProject?workEffortId=${workEffortId}"/>
 
     <!-- Task -->
-    <moqui.entity.document.DataDocument dataDocumentId="HmTask" documentName="Task" indexName="hivemind"
-            primaryEntityName="mantle.work.effort.WorkEffort"/>
+    <moqui.entity.document.DataDocument dataDocumentId="HmTask" indexName="hivemind" documentName="Task"
+            primaryEntityName="mantle.work.effort.WorkEffort" documentTitle="${workEffortName}"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortName"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortTypeEnumId"/><!-- this is aliased so we can have a condition on it -->
@@ -67,7 +68,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <!-- ================ -->
     <!-- Search Data Feed -->
     <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataFeedTypeEnumId="DTFDTP_RT_PUSH"
-            feedName="HiveMind Search" feedReceiveServiceName="HiveMind.SearchServices.index#DataDocument"/>
+            feedName="HiveMind Search" feedReceiveServiceName="org.moqui.EntityServices.index#DataDocument"/>
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmWikiPage"/>
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmProject"/>
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmTask"/>
