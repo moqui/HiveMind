@@ -16,40 +16,72 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <transition name="submitSearch"><default-response url="."/></transition>
 
-    <actions>
-        <script>
-            import org.elasticsearch.index.query.QueryBuilders
-            import org.elasticsearch.search.SearchHit
-            import org.elasticsearch.search.SearchHits
-            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("search_actions")
-            org.moqui.context.ExecutionContext ec = context.ec
+    <transition name="searchSuggest">
+        <actions>
+            <script>
+                import org.elasticsearch.search.suggest.Suggest
+                import org.elasticsearch.search.suggest.phrase.DirectCandidateGenerator
+                import org.elasticsearch.search.suggest.phrase.PhraseSuggestionBuilder
+                import org.elasticsearch.search.suggest.term.TermSuggestionBuilder
 
-            resultList = []
-            if (query) {
-                // TODO: add pagination (with setFrom() and setSize()?)
-                SearchHits hits = ec.elasticSearchClient.prepareSearch().setIndices("hivemind")
-                        .setQuery(QueryBuilders.queryString(query)).setSize(50).execute().actionGet().getHits()
-                for (SearchHit hit in hits) {
-                    document = ec.elasticSearchClient.prepareGet(hit.getIndex(), hit.getType(), hit.getId())
-                            .execute().actionGet().getSourceAsMap()
-                    resultList.add(StupidUtilities.flattenNestedMap(document))
+                org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("search_actions")
+
+                org.moqui.context.ExecutionContext ec = context.ec
+                String field = "name"
+                // TODO: get this working - for whatever reason no suggestions come back in spite of trying dozens of combinations of parameters, maybe wait for next ES release...
+                // see ES suggest docs at: http://www.elasticsearch.org/guide/reference/api/search/suggest/
+                Suggest suggest = ec.elasticSearchClient.prepareSuggest("hivemind")
+                        .addSuggestion(new PhraseSuggestionBuilder("phraseSb").analyzer("body").maxErrors(1.0F)
+                            .addCandidateGenerator(PhraseSuggestionBuilder.candidateGenerator(field).suggestMode("always").minWordLength(3).sort("score").minDocFreq(0F).maxTermFreq(1.0F))
+                            .gramSize(2).confidence(0.0F).size(1).field(field).text(term))
+                        .execute().actionGet().getSuggest()
+                //.addSuggestion(new TermSuggestionBuilder("termSb").size(20).minWordLength(3).suggestMode("always").sort("score").field("name").text(term))
+
+
+                logger.warn("========= suggest term=${term}, size=${suggest.size()}")
+
+                Iterator it = suggest.iterator()
+                List optionList = []
+                while (it.hasNext()) {
+                    Suggest.Suggestion suggestion = it.next()
+                    logger.warn("========= suggest term=${term}, suggestion name ${suggestion.getName()}, size=${suggestion.getEntries().size()}")
+
+                    for (Suggest.Suggestion.Entry entry in suggestion.getEntries()) {
+                        String entryText = entry.getText()
+                        logger.warn("========== entryText [${entryText}] options size ${entry.getOptions().size()}")
+                        for (Suggest.Suggestion.Entry.Option option in entry.getOptions()) {
+                            logger.warn("========== entryText [${entryText}], optionText [${option.getText()}]")
+                        }
+                    }
                 }
-            }
-        </script>
+
+                def outList = []
+                for (String option in optionList) outList.add([value: option, label: option])
+                ec.web.sendJsonResponse(outList)
+            </script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
+    <actions>
+        <if condition="queryString">
+            <service-call name="org.moqui.EntityServices.search#DataDocuments" out-map="context"
+                    in-map="context + [indexName:'hivemind']"/>
+        </if>
     </actions>
     <widgets>
         <form-single name="SearchOptions" transition="submitSearch">
-            <field name="query"><default-field title="">
-                <!-- TODO: add autocomplete transition with search hints using ElasticSearch feature -->
+            <field name="queryString"><default-field title="">
                 <text-line size="40"/>
+                <!-- <text-line ac-transition="searchSuggest" ac-min-length="3" size="40"/> -->
             </default-field></field>
             <field name="submitButton"><default-field title="Search"><submit/></default-field></field>
             <field-layout>
-                <field-row><field-ref name="query"/><field-ref name="submitButton"/></field-row>
+                <field-row><field-ref name="queryString"/><field-ref name="submitButton"/></field-row>
             </field-layout>
         </form-single>
 
-        <form-list name="SearchResults" list="resultList">
+        <form-list name="SearchResults" list="documentList" paginate="true" paginate-always-show="true">
             <row-actions>
                 <entity-find-one entity-name="DataDocument" value-field="dataDocument" cache="true">
                     <field-map field-name="dataDocumentId" from="_type"/>

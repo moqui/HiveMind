@@ -25,9 +25,9 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <!-- Project -->
     <moqui.entity.document.DataDocument dataDocumentId="HmProject" indexName="hivemind" documentName="Project"
-            primaryEntityName="mantle.work.effort.WorkEffort" documentTitle="${workEffortName}"/>
+            primaryEntityName="mantle.work.effort.WorkEffort" documentTitle="${name}"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortName"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortName" fieldNameAlias="name"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortTypeEnumId"/><!-- this is aliased so we can have a condition on it -->
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
             fieldPath="WorkEffort#moqui.basic.StatusItem:description" fieldNameAlias="status"/>
@@ -46,9 +46,9 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <!-- Task -->
     <moqui.entity.document.DataDocument dataDocumentId="HmTask" indexName="hivemind" documentName="Task"
-            primaryEntityName="mantle.work.effort.WorkEffort" documentTitle="${workEffortName}"/>
+            primaryEntityName="mantle.work.effort.WorkEffort" documentTitle="${name}"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortName"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortName" fieldNameAlias="name"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortTypeEnumId"/><!-- this is aliased so we can have a condition on it -->
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="WorkEffort#moqui.basic.StatusItem:description" fieldNameAlias="status"/>
