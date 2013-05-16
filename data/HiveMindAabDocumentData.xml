@@ -20,6 +20,8 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="wikiSpaceId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="pagePath"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="HiveMind.wiki.WikiSpace:description" fieldNameAlias="space"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmWikiPage"
+            relationshipName="HiveMind.wiki.WikiSpace" documentAlias="WikiSpace"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmWikiPage" label="Wiki Page"
             linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath}"/>
 
@@ -72,6 +74,18 @@ This Work includes contributions authored by David E. Jones, not as a
             fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.Person:firstName"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.Person:lastName"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
+            relationshipName="mantle.work.effort.WorkEffort" documentAlias="WorkEffort"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
+            relationshipName="WorkEffort#moqui.basic.StatusItem" documentAlias="StatusItem"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
+            relationshipName="WorkEffortType#moqui.basic.Enumeration" documentAlias="WorkEffortType"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
+            relationshipName="WorkEffortPurpose#moqui.basic.Enumeration" documentAlias="WorkEffortPurpose"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
+            relationshipName="mantle.work.effort.WorkEffortParty" documentAlias="Party"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
+            relationshipName="mantle.party.party.Person" documentAlias="Person"/>
     <moqui.entity.document.DataDocumentCondition dataDocumentId="HmTask"
             fieldNameAlias="workEffortTypeEnumId" fieldValue="WET_TASK"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmTask" label="Edit Task"
