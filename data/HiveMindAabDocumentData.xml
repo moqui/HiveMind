@@ -39,6 +39,18 @@ This Work includes contributions authored by David E. Jones, not as a
             fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.Person:firstName"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
             fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.Person:lastName"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
+            relationshipName="mantle.work.effort.WorkEffort" documentAlias="WorkEffort"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
+            relationshipName="WorkEffort#moqui.basic.StatusItem" documentAlias="StatusItem"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
+            relationshipName="WorkEffortType#moqui.basic.Enumeration" documentAlias="WorkEffortType"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
+            relationshipName="WorkEffortPurpose#moqui.basic.Enumeration" documentAlias="WorkEffortPurpose"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
+            relationshipName="mantle.work.effort.WorkEffortParty" documentAlias="Party"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
+            relationshipName="mantle.party.party.Person" documentAlias="Person"/>
     <moqui.entity.document.DataDocumentCondition dataDocumentId="HmProject"
             fieldNameAlias="workEffortTypeEnumId" fieldValue="WET_PROJECT"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmProject" label="Edit Project"
