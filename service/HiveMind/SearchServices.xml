@@ -42,7 +42,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             EntityList workEffortPartyList = ec.entity.makeFind("mantle.work.effort.WorkEffortParty")
                                     .condition([workEffortId:document._id,  receiveNotifications:"Y"])
                                     .conditionDate(null, null, null).list()
-                            for (EntityValue workEffortParty in workEffortPartyList) {
+                            if (workEffortPartyList) for (EntityValue workEffortParty in workEffortPartyList) {
                                 Map emailAddressMap = ec.service.sync().name("mantle.party.ContactServices.get#PrimaryEmailAddress")
                                         .parameter("partyId", workEffortParty.partyId).call()
                                 if (emailAddressMap.emailAddress) {
@@ -53,10 +53,12 @@ This Work includes contributions authored by David E. Jones, not as a
 
                             Map bodyParameters = [document: document, originalDocument: originalDocument]
 
-                            ec.service.sync().name("org.moqui.impl.EmailServices.send#EmailTemplate")
-                                    .parameters([emailTemplateId: "HM_TASK_UPDATE", toAddresses: toAddresses.toString(),
-                                        bodyParameters: bodyParameters])
-                                    .call()
+                            if (toAddresses) {
+                                ec.service.sync().name("org.moqui.impl.EmailServices.send#EmailTemplate")
+                                        .parameters([emailTemplateId: "HM_TASK_UPDATE",
+                                        toAddresses: toAddresses.toString(), bodyParameters: bodyParameters])
+                                        .call()
+                            }
                         }
                     }
                 }
