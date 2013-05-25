@@ -13,9 +13,20 @@ This Work includes contributions authored by David E. Jones, not as a
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd">
     <widgets>
         <render-mode><text type="html"><![CDATA[<html><body>]]></text></render-mode>
-        <container><label text="Task Updated: ${document._id} - ${document.WorkEffort.name}"/></container>
+        <container><label text="Task Updated: ${document._id} - ${document.WorkEffort.name}" type="h2"/></container>
+        <section name="NameChange">
+            <condition><expression>document.WorkEffort.name != originalDocument.WorkEffort.name</expression></condition>
+            <widgets><container><label text="Task name changed from '${originalDocument.WorkEffort.name}' to '${document.WorkEffort.name}'"/></container></widgets>
+        </section>
+        <section name="StatusChange">
+            <condition><expression>document.StatusItem.status != originalDocument.StatusItem.status</expression></condition>
+            <widgets><container><label text="Status changed from '${originalDocument.StatusItem.status}' to '${document.StatusItem.status}'"/></container></widgets>
+        </section>
         <!-- TODO: go through document and originalDocument elements to show what has been updated -->
-        <container><label text=" "/></container>
+        <container><label text="New Task Document" type="h2"/></container>
+        <container><label text="${groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(document))}" type="pre"/></container>
+        <container><label text="Original Task Document" type="h2"/></container>
+        <container><label text="${groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(originalDocument))}" type="pre"/></container>
         <render-mode><text type="html"><![CDATA[</body></html>]]></text></render-mode>
     </widgets>
 </screen>
