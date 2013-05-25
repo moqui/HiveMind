@@ -10,43 +10,57 @@ this Work and assume any risks associated with your use of this Work.
 This Work includes contributions authored by David E. Jones, not as a
 "work for hire", who hereby disclaims any copyright to the same.
 -->
-<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-1.2.xsd">
-    <service verb="index" noun="DataDocuments" authenticate="anonymous-view">
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-1.3.xsd">
+    <service verb="indexAndNotify" noun="HiveMindDocuments" authenticate="anonymous-view">
         <implements service="org.moqui.EntityServices.receive#DataFeed"/>
         <actions>
-            <log level="info" message="=-=-=-=-=-=-=-=-=-= Call to index HiveMind DataDocument, documentList: ${documentList}"/>
-            <script>
-            import org.elasticsearch.action.ListenableActionFuture
-            import org.elasticsearch.action.index.IndexResponse
-            import org.elasticsearch.action.search.SearchResponse
-            import org.elasticsearch.index.query.QueryBuilders
-            import org.elasticsearch.search.SearchHit
-            import org.elasticsearch.search.SearchHits
+            <script><![CDATA[
+                import org.moqui.context.ExecutionContext
+                import org.moqui.entity.EntityList
+                import org.moqui.entity.EntityValue
 
-            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("index_DataDocument")
+                ExecutionContext ec = context.ec
 
-            org.moqui.context.ExecutionContext ec = context.ec
-            String index = null
-            String type = null
-            for (Map document in documentList) {
-                index = document._index
-                type = document._type
-                IndexResponse ir = ec.elasticSearchClient
-                        .prepareIndex((String) document._index, (String) document._type, (String) document._id)
-                        .setSource(document).execute().actionGet()
-                // TODO: do anything with response?
-                ListenableActionFuture laf = ec.elasticSearchClient.prepareGet((String) document._index, (String) document._type, (String) document._id).execute()
-                logger.warn("=-=-=-=-=-=-=-=-=-= Got result for ID [${document._id}]: ${laf.actionGet().getSourceAsString()}")
-            }
+                // call the indexing service
+                Map indexResults = ec.service.sync().name("org.moqui.EntityServices", "index", "DataDocuments")
+                        .parameters((Map) context).parameter("getOriginalDocuments", true).call()
 
-            // NOTE: this works but the index updates asynchronously and takes a moment so isn't typically updated when this is run immediately like this:
-            ListenableActionFuture laf = ec.elasticSearchClient.prepareSearch().setIndices(index).setTypes(type)
-                    .setQuery(QueryBuilders.queryString("my").field("workEffortName")).execute()
-            SearchHits hits = laf.actionGet().getHits()
-            for (SearchHit hit in hits) {
-                logger.warn("=-=-=-=-=-=-=-=-=-= Got ElasticSearch result ID [${hit.getId()}]")
-            }
-            </script>
+                // send email notifications
+                List documentList = context.documentList
+                List originalDocumentList = (List) indexResults.originalDocumentList
+
+                for (int i = 0; i < documentList.size(); i++) {
+                    Map document = (Map) documentList.get(i)
+                    Map originalDocument = (Map) originalDocumentList.get(i)
+
+                    if (!originalDocument || document != originalDocument) {
+                        // send document updated notification
+
+                        if (document._type == "HmTask") {
+                            // send task updated notification
+                            StringBuilder toAddresses = new StringBuilder()
+                            EntityList workEffortPartyList = ec.entity.makeFind("mantle.work.effort.WorkEffortParty")
+                                    .condition([workEffortId:document._id,  receiveNotifications:"Y"])
+                                    .conditionDate(null, null, null).list()
+                            for (EntityValue workEffortParty in workEffortPartyList) {
+                                Map emailAddressMap = ec.service.sync().name("mantle.party.ContactServices.get#PrimaryEmailAddress")
+                                        .parameter("partyId", workEffortParty.partyId).call()
+                                if (emailAddressMap.emailAddress) {
+                                    if (toAddresses) toAddresses.append(",")
+                                    toAddresses.append(emailAddressMap.emailAddress)
+                                }
+                            }
+
+                            Map bodyParameters = [document: document, originalDocument: originalDocument]
+
+                            ec.service.sync().name("org.moqui.impl.EmailServices.send#EmailTemplate")
+                                    .parameters([emailTemplateId: "HM_TASK_UPDATE", toAddresses: toAddresses.toString(),
+                                        bodyParameters: bodyParameters])
+                                    .call()
+                        }
+                    }
+                }
+                ]]></script>
         </actions>
     </service>
 </services>

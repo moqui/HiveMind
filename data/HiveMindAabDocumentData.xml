@@ -94,8 +94,15 @@ This Work includes contributions authored by David E. Jones, not as a
     <!-- ================ -->
     <!-- Search Data Feed -->
     <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataFeedTypeEnumId="DTFDTP_RT_PUSH"
-            feedName="HiveMind Search" feedReceiveServiceName="org.moqui.EntityServices.index#DataDocuments"/>
+            feedName="HiveMind Search" feedReceiveServiceName="HiveMind.SearchServices.indexAndNotify#HiveMindDocuments"/>
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmWikiPage"/>
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmProject"/>
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmTask"/>
+
+    <!-- EmailTemplates for Feed-driven Update Notifications -->
+    <moqui.basic.email.EmailTemplate emailTemplateId="HM_TASK_UPDATE" description="HiveMind Task Update Notification"
+            emailServerId="SYSTEM" bodyScreenLocation="component://HiveMind/screen/TaskUpdateNotification.xml"
+            webappName="webroot" fromAddress="" ccAddresses="" bccAddresses=""
+            subject="Task Updated: ${document._id} - ${document.WorkEffort.name}" sendPartial="Y"/>
+
 </entity-facade-xml>
