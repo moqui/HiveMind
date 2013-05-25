@@ -37,6 +37,8 @@ This Work includes contributions authored by David E. Jones, not as a
                         // send document updated notification
 
                         if (document._type == "HmTask") {
+                            // TODO: also check to see if fields shown in email are actually changed, otherwise don't send email
+
                             // send task updated notification
                             StringBuilder toAddresses = new StringBuilder()
                             EntityList workEffortPartyList = ec.entity.makeFind("mantle.work.effort.WorkEffortParty")
@@ -54,7 +56,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             Map bodyParameters = [document: document, originalDocument: originalDocument]
 
                             if (toAddresses) {
-                                ec.service.sync().name("org.moqui.impl.EmailServices.send#EmailTemplate")
+                                ec.service.async().name("org.moqui.impl.EmailServices.send#EmailTemplate")
                                         .parameters([emailTemplateId: "HM_TASK_UPDATE",
                                         toAddresses: toAddresses.toString(), bodyParameters: bodyParameters])
                                         .call()
