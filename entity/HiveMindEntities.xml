@@ -21,28 +21,33 @@ and those parts may be licensed under the Apache License 2.0.
         <field name="wikiSpaceId" type="id"/>
         <field name="pagePath" type="text-medium"/>
         <field name="parentWikiPageId" type="id"/><!-- TODO: really need this or derive from pagePath? -->
-        <field name="createdByUserAccountId" type="id"/>
+        <field name="createdByUserId" type="id-long"/>
         <field name="restrictView" type="text-indicator"/>
         <field name="restrictUpdate" type="text-indicator"/>
         <relationship type="one" related-entity-name="HiveMind.wiki.WikiSpace"/>
+        <relationship type="one-nofk" related-entity-name="moqui.security.UserAccount">
+            <key-map field-name="createdByUserId" related-field-name="userId"/>
+        </relationship>
+        <index name="WIKIPAGE_SPCPTH" unique="true"><index-field name="wikiSpaceId"/><index-field name="pagePath"/></index>
     </entity>
     <entity entity-name="WikiPageHistory" package-name="HiveMind.wiki">
         <field name="wikiPageId" type="id" is-pk="true"/>
         <field name="historySeqId" type="id" is-pk="true"/>
-        <field name="userAccountId" type="id"/>
+        <field name="oldPagePath" type="text-medium"/>
+        <field name="userId" type="id-long"/>
         <field name="changeDateTime" type="date-time"/>
         <!-- TODO: add rev data for pages in JCR -->
         <relationship type="one" related-entity-name="WikiPage"/>
-        <relationship type="one" related-entity-name="moqui.security.UserAccount"/>
+        <relationship type="one-nofk" related-entity-name="moqui.security.UserAccount"/>
     </entity>
     <entity entity-name="WikiPageUser" package-name="HiveMind.wiki">
         <field name="wikiPageId" type="id" is-pk="true"/>
-        <field name="userAccountId" type="id" is-pk="true"/>
-        <field name="notifyOnUpdate" type="text-indicator"/>
+        <field name="userId" type="id-long" is-pk="true"/>
+        <field name="receiveNotifications" type="text-indicator"/>
         <field name="allowView" type="text-indicator"/>
         <field name="allowUpdate" type="text-indicator"/>
         <relationship type="one" related-entity-name="WikiPage"/>
-        <relationship type="one" related-entity-name="moqui.security.UserAccount"/>
+        <relationship type="one-nofk" related-entity-name="moqui.security.UserAccount"/>
     </entity>
 
     <entity entity-name="WikiSpace" package-name="HiveMind.wiki">
@@ -55,12 +60,12 @@ and those parts may be licensed under the Apache License 2.0.
     </entity>
     <entity entity-name="WikiSpaceUser" package-name="HiveMind.wiki">
         <field name="wikiSpaceId" type="id" is-pk="true"/>
-        <field name="userAccountId" type="id" is-pk="true"/>
-        <field name="notifyOnUpdate" type="text-indicator"/>
+        <field name="userId" type="id-long" is-pk="true"/>
+        <field name="receiveNotifications" type="text-indicator"/>
         <field name="allowView" type="text-indicator"/>
         <field name="allowUpdate" type="text-indicator"/>
         <relationship type="one" related-entity-name="WikiSpace"/>
-        <relationship type="one" related-entity-name="moqui.security.UserAccount"/>
+        <relationship type="one-nofk" related-entity-name="moqui.security.UserAccount"/>
     </entity>
 
     <view-entity entity-name="PartyTaskSummary" package-name="mantle.work.effort">

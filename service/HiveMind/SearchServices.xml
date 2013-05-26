@@ -22,7 +22,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 ExecutionContext ec = context.ec
 
                 // call the indexing service
-                Map indexResults = ec.service.sync().name("org.moqui.EntityServices", "index", "DataDocuments")
+                Map indexResults = ec.service.sync().name("org.moqui.impl.EntityServices", "index", "DataDocuments")
                         .parameters((Map) context).parameter("getOriginalDocuments", true).call()
 
                 // send email notifications

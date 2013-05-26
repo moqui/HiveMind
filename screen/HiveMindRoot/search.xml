@@ -65,7 +65,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <actions>
         <if condition="queryString">
-            <service-call name="org.moqui.EntityServices.search#DataDocuments" out-map="context"
+            <service-call name="org.moqui.impl.EntityServices.search#DataDocuments" out-map="context"
                     in-map="context + [indexName:'hivemind']"/>
         </if>
     </actions>

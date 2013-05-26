@@ -41,8 +41,32 @@ This Work includes contributions authored by David E. Jones, not as a
 
             <if condition="!wikiSpaceId"><return error="true" message="Cannot get wiki page info without wikiSpaceId parameter or URL path element"/></if>
 
-            <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
+            <entity-find-one entity-name="HiveMind.wiki.WikiSpace" value-field="wikiSpace" cache="true"/>
+            <!-- NOTE: WikiPage record may not exist, but don't create one on get/view only -->
+            <entity-find entity-name="HiveMind.wiki.WikiPage" list="wikiPageList" cache="true">
+                <econdition-object field="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: 'ROOT')]"/>
+            </entity-find>
+            <set field="wikiPage" from="wikiPageList?.getAt(0)"/>
 
+            <!-- check restrictView for space and page -->
+            <if condition="wikiSpace.restrictView == 'Y'">
+                <entity-find entity-name="HiveMind.wiki.WikiSpaceUser" list="wsuList">
+                    <econdition-object field="[wikiSpaceId:wikiSpaceId, userId:ec.user.userId, allowView:'Y']"/>
+                </entity-find>
+                <if condition="!wsuList">
+                    <return error="true" message="Wiki Space [${wikiSpaceId}] has restricted view and user ${ec.user.username} [${ec.user.userId}] is not allowed."/>
+                </if>
+            </if>
+            <if condition="wikiPage &amp;&amp; wikiPage.restrictView == 'Y'">
+                <entity-find entity-name="HiveMind.wiki.WikiPageUser" list="wpuList">
+                    <econdition-object field="[wikiPageId:wikiPageId, userId:ec.user.userId, allowView:'Y']"/>
+                </entity-find>
+                <if condition="!wpuList">
+                    <return error="true" message="Wiki Page [${wikiSpaceId}/${pagePath}] has restricted view and user ${ec.user.username} [${ec.user.userId}] is not allowed."/>
+                </if>
+            </if>
+
+            <!-- get the ResourceReferences -->
             <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
             <set field="pageReference" from="rootPageRef.findChildFile(pagePath)"/>
             <set field="pageLocation" from="pageReference?.location"/>
@@ -140,7 +164,47 @@ This Work includes contributions authored by David E. Jones, not as a
             <parameter name="pagePath"/>
         </out-parameters>
         <actions>
-            <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
+            <entity-find-one entity-name="HiveMind.wiki.WikiSpace" value-field="wikiSpace" cache="true"/>
+            <!-- TODO: there seems to be an issue when cache=true; perhaps clearing fails when list in cache is empty? -->
+            <entity-find entity-name="HiveMind.wiki.WikiPage" list="wikiPageList" cache="false">
+                <econdition-object field="[wikiSpaceId:wikiSpaceId, pagePath:'ROOT']"/>
+            </entity-find>
+            <set field="wikiPage" from="wikiPageList?.getAt(0)"/>
+            <!--
+            <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage" cache="true">
+                <field-map field-name="wikiSpaceId"/>
+                <field-map field-name="pagePath" from="pagePath ?: 'ROOT'"/>
+            </entity-find-one>
+            -->
+            <log level="warn" message="============= Found WikiPage [${wikiPage}]"/>
+
+            <if condition="!wikiPage">
+                <!-- no WikiPage record, create one for this page -->
+                <service-call name="create#HiveMind.wiki.WikiPage" out-map="context"
+                        in-map="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: 'ROOT'), createdByUserId:ec.user.userId]"/>
+                <log level="warn" message="============= Created new WikiPage [${wikiPageId}]"/>
+                <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage" cache="false"/>
+
+                <else><set field="wikiPageId" from="wikiPage.wikiPageId"/></else>
+            </if>
+
+            <!-- check restrictUpdate for space and page -->
+            <if condition="wikiSpace.restrictUpdate == 'Y'">
+                <entity-find entity-name="HiveMind.wiki.WikiSpaceUser" list="wsuList">
+                    <econdition-object field="[wikiSpaceId:wikiSpaceId, userId:ec.user.userId, allowUpdate:'Y']"/>
+                </entity-find>
+                <if condition="!wsuList">
+                    <return error="true" message="Wiki Space [${wikiSpaceId}] has restricted update and user ${ec.user.username} [${ec.user.userId}] is not allowed."/>
+                </if>
+            </if>
+            <if condition="wikiPage.restrictUpdate == 'Y'">
+                <entity-find entity-name="HiveMind.wiki.WikiPageUser" list="wpuList">
+                    <econdition-object field="[wikiPageId:wikiPageId, userId:ec.user.userId, allowUpdate:'Y']"/>
+                </entity-find>
+                <if condition="!wpuList">
+                    <return error="true" message="Wiki Page [${wikiSpaceId}/${pagePath}] has restricted update and user ${ec.user.username} [${ec.user.userId}] is not allowed."/>
+                </if>
+            </if>
 
             <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
             <set field="pageReference" from="rootPageRef.findChildFile(pagePath)"/>
@@ -154,6 +218,9 @@ This Work includes contributions authored by David E. Jones, not as a
             <!-- do the update, then the move if applicable -->
             <script>pageReference.putText(pageText)</script>
 
+            <set field="wikiPageHistoryMap" from="[wikiPageId:wikiPageId, userId:ec.user.userId, changeDateTime:ec.user.nowTimestamp]"/>
+
+            <!-- move the page if applicable -->
             <set field="origParentPath" from="pagePath.contains('/') ? pagePath.substring(0, pagePath.indexOf('/')) : ''"/>
             <set field="origPageName" from="pagePath.contains('/') ? pagePath.substring(pagePath.indexOf('/')+1) : pagePath"/>
             <!-- TODO: support change of wikiType too -->
@@ -167,26 +234,29 @@ This Work includes contributions authored by David E. Jones, not as a
                 <set field="newPageDirLocation" value="${rootPageDirRef.location}/${parentPath}/${pageName}"/>
                 <script>pageDirReference.move(newPageDirLocation)</script>
 
+                <!-- save the old path in the WikiPageHistory (before the pagePath is set to the new path) -->
+                <set field="wikiPageHistoryMap.oldPagePath" from="pagePath"/>
+
                 <!-- return the new pagePath so the user is taken there -->
                 <set field="pagePath" value="${parentPath ? parentPath+'/' : ''}${pageName?:''}"/>
             </if>
+
+            <service-call name="create#HiveMind.wiki.WikiPageHistory" in-map="wikiPageHistoryMap"/>
         </actions>
     </service>
 
-    <service verb="get" noun="WikiPageManualDocumentData">
+    <service verb="get" noun="WikiPageManualDocumentData" authenticate="anonymous-view">
         <implements service="org.moqui.EntityServices.add#ManualDocumentData"/>
         <actions>
             <!-- primaryEntityValue is a WikiPage entity value -->
             <set field="wikiPageMap" from="document.get('HiveMind.wiki.WikiPage')"/>
+            <set field="pagePath" from="wikiPageMap.pagePath == 'ROOT' ? '' : wikiPageMap.pagePath"/>
             <service-call name="HiveMind.WikiServices.get#WikiPageInfo" out-map="wikiPageInfo"
-                    in-map="[wikiSpaceId:wikiPageMap.wikiSpaceId, pagePath:wikiPageMap.pagePath]"/>
+                    in-map="[wikiSpaceId:wikiPageMap.wikiSpaceId, pagePath:pagePath]"/>
             <set field="baseLinkUrl" value="/apps/hm/wiki/${wikiPageMap.wikiSpaceId}"/>
-            <script>
-                pageContent = new StringWriter()
-                ec.resource.renderTemplateInCurrentContext(wikiPageInfo.pageLocation, pageContent)
-            </script>
+            <set field="pageContent" from="new StringWriter()"/>
             <!-- TODO: add attachments too (for indexing)? -->
-            <set field="document.content" from="pageContent.toString()"/>
+            <set field="document.content" from="ec.resource.getLocationText(wikiPageInfo.pageLocation, false)"/>
         </actions>
     </service>
 
