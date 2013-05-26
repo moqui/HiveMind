@@ -11,6 +11,26 @@ This Work includes contributions authored by David E. Jones, not as a
 "work for hire", who hereby disclaims any copyright to the same.
 -->
 <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-1.3.xsd">
+    <service verb="get" noun="WikiPageInfoById">
+        <in-parameters><parameter name="wikiPageId"/></in-parameters>
+        <out-parameters>
+            <parameter name="wikiSpaceId"/>
+            <parameter name="pagePath"/>
+            <parameter name="wikiSpace" type="org.moqui.entity.EntityValue"/>
+            <parameter name="pageReference" type="org.moqui.content.ResourceReference"/>
+            <parameter name="attachmentList" type="List"/>
+            <parameter name="pageLocation"/>
+            <parameter name="pageName"/>
+            <parameter name="parentPath"/>
+            <parameter name="breadcrumbMapList" type="List"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage"/>
+            <set field="wikiSpaceId" from="wikiPage.wikiSpaceId"/>
+            <set field="pagePath" from="wikiPage.pagePath == 'ROOT' ? null : wikiPage.pagePath"/>
+            <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
+        </actions>
+    </service>
     <service verb="get" noun="WikiPageInfo">
         <in-parameters>
             <parameter name="wikiSpaceId"/>
