@@ -27,14 +27,14 @@ This Work includes contributions authored by David E. Jones, not as a
         <actions>
             <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage"/>
             <set field="wikiSpaceId" from="wikiPage.wikiSpaceId"/>
-            <set field="pagePath" from="wikiPage.pagePath == 'ROOT' ? null : wikiPage.pagePath"/>
+            <set field="pagePath" from="wikiPage.pagePath"/>
             <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
         </actions>
     </service>
     <service verb="get" noun="WikiPageId">
         <in-parameters>
             <parameter name="wikiSpaceId" required="true"/>
-            <parameter name="pagePath"/><!-- not required because for ROOT page will be empty -->
+            <parameter name="pagePath"/><!-- not required because for root page will be empty -->
             <parameter name="createIfMissing" type="Boolean" default-value="false"/>
         </in-parameters>
         <out-parameters>
@@ -44,21 +44,22 @@ This Work includes contributions authored by David E. Jones, not as a
         <actions>
             <!-- TODO: there seems to be an issue when cache=true; perhaps clearing fails when list in cache is empty? -->
             <entity-find entity-name="HiveMind.wiki.WikiPage" list="wikiPageList" cache="false">
-                <econdition-object field="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: 'ROOT')]"/>
+                <econdition-object field="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: null)]"/>
             </entity-find>
             <set field="wikiPage" from="wikiPageList?.getAt(0)"/>
+            <log level="warn" message="============= Found wikiPage [${wikiPage}]"/>
             <!--
             <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage" cache="true">
                 <field-map field-name="wikiSpaceId"/>
-                <field-map field-name="pagePath" from="pagePath ?: 'ROOT'"/>
+                <field-map field-name="pagePath" from="pagePath ?: null"/>
             </entity-find-one>
             -->
 
             <if condition="!wikiPage &amp;&amp; createIfMissing">
                 <!-- no WikiPage record, create one for this page -->
                 <service-call name="create#HiveMind.wiki.WikiPage" out-map="context"
-                        in-map="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: 'ROOT'), createdByUserId:ec.user.userId]"/>
-                <!-- <log level="warn" message="============= Created new WikiPage [${wikiPageId}]"/> -->
+                        in-map="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: null), createdByUserId:ec.user.userId]"/>
+                <log level="warn" message="============= Created new WikiPage [${wikiPageId}]"/>
                 <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage" cache="false"/>
             </if>
             <set field="wikiPageId" from="wikiPage?.wikiPageId"/>
@@ -278,12 +279,11 @@ This Work includes contributions authored by David E. Jones, not as a
         <implements service="org.moqui.EntityServices.add#ManualDocumentData"/>
         <actions>
             <!-- primaryEntityValue is a WikiPage entity value -->
-            <set field="wikiPageMap" from="document.get('HiveMind.wiki.WikiPage')"/>
-            <set field="pagePath" from="wikiPageMap.pagePath == 'ROOT' ? '' : wikiPageMap.pagePath"/>
+            <set field="wikiPageMap" from="document.get('WikiPage')"/>
+            <set field="pagePath" from="wikiPageMap.pagePath"/>
             <service-call name="HiveMind.WikiServices.get#WikiPageInfo" out-map="wikiPageInfo"
                     in-map="[wikiSpaceId:wikiPageMap.wikiSpaceId, pagePath:pagePath]"/>
             <set field="baseLinkUrl" value="/apps/hm/wiki/${wikiPageMap.wikiSpaceId}"/>
-            <set field="pageContent" from="new StringWriter()"/>
             <!-- TODO: add attachments too (for indexing)? -->
             <set field="document.content" from="ec.resource.getLocationText(wikiPageInfo.pageLocation, false)"/>
         </actions>

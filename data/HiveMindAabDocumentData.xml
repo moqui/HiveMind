@@ -13,7 +13,7 @@ This Work includes contributions authored by David E. Jones, not as a
 <entity-facade-xml type="seed">
     <!-- Wiki Page -->
     <moqui.entity.document.DataDocument dataDocumentId="HmWikiPage" indexName="hivemind" documentName="Wiki Page"
-            primaryEntityName="HiveMind.wiki.WikiPage" documentTitle="${wikiSpaceId}/${pagePath}"
+            primaryEntityName="HiveMind.wiki.WikiPage" documentTitle="${wikiSpaceId}/${pagePath?:''}"
             manualDataServiceName="HiveMind.WikiServices.getWikiPageManualDocumentData"/>
     <!-- NOTE: service purpose is to get wiki page contents from the file (resource) -->
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="wikiPageId"/>
@@ -36,7 +36,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmWikiPage"
             relationshipName="moqui.security.UserAccount" documentAlias="UserAccount"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmWikiPage" label="Wiki Page"
-            linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath}"/>
+            linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
 
     <!-- Project -->
     <moqui.entity.document.DataDocument dataDocumentId="HmProject" indexName="hivemind" documentName="Project"
