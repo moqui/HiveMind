@@ -21,10 +21,14 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="pagePath"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="HiveMind.wiki.WikiSpace:description" fieldNameAlias="space"/>
     <!-- the history fields are useful for update history and search by users who have updated a page, but also trigger indexing on page update -->
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="HiveMind.wiki.WikiPageHistory:historySeqId"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="HiveMind.wiki.WikiPageHistory:changeDateTime"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="HiveMind.wiki.WikiPageHistory:userId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage"
             fieldPath="HiveMind.wiki.WikiPageHistory:moqui.security.UserAccount:username"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="HiveMind.wiki.WikiPageHistory:changeDateTime"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmWikiPage"
+            relationshipName="HiveMind.wiki.WikiPage" documentAlias="WikiPage"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmWikiPage"
             relationshipName="HiveMind.wiki.WikiSpace" documentAlias="WikiSpace"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmWikiPage"
@@ -125,5 +129,9 @@ This Work includes contributions authored by David E. Jones, not as a
             emailServerId="SYSTEM" bodyScreenLocation="component://HiveMind/screen/TaskUpdateNotification.xml"
             webappName="webroot" fromAddress="" ccAddresses="" bccAddresses=""
             subject="Task Updated: ${document._id} - ${document.WorkEffort.name}" sendPartial="Y"/>
+    <moqui.basic.email.EmailTemplate emailTemplateId="HM_WIKI_PAGE_UPDATE" description="HiveMind WikiPage Update Notification"
+            emailServerId="SYSTEM" bodyScreenLocation="component://HiveMind/screen/WikiPageUpdateNotification.xml"
+            webappName="webroot" fromAddress="" ccAddresses="" bccAddresses=""
+            subject="Wiki Page Updated: ${document.WikiPage.wikiSpaceId}/${document.WikiPage.pagePath}" sendPartial="Y"/>
 
 </entity-facade-xml>

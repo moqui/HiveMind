@@ -24,6 +24,8 @@ This Work includes contributions authored by David E. Jones, not as a
     <!-- DEMO WIKI DATA -->
     <HiveMind.wiki.WikiSpace wikiSpaceId="DEMO" description="Demo Wiki Space" restrictView="N"
             rootPageLocation="component://HiveMind/WikiSpace/DEMO.cwiki" decoratorScreenLocation=""/>
+    <HiveMind.wiki.WikiSpaceUser wikiSpaceId="DEMO" userId="EX_JOHN_DOE"
+            receiveNotifications="Y" allowAdmin="Y" allowView="Y" allowUpdate="Y"/>
 
     <HiveMind.wiki.WikiSpace wikiSpaceId="DBDEMO" description="DB Demo Wiki Space" restrictView="N"
             rootPageLocation="dbresource://HiveMind/WikiSpace/DBDEMO.cwiki" decoratorScreenLocation=""/>

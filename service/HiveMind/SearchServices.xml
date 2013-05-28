@@ -36,6 +36,36 @@ This Work includes contributions authored by David E. Jones, not as a
                     if (!originalDocument || document != originalDocument) {
                         // send document updated notification
 
+                        if (document._type == "HmWikiPage") {
+                            // TODO: also check to see if fields shown in email are actually changed, otherwise don't send email
+
+                            // send task updated notification
+                            StringBuilder toAddresses = new StringBuilder()
+                            EntityList wikiSpaceUserList = ec.entity.makeFind("HiveMind.wiki.WikiSpaceUser")
+                                    .condition([wikiSpaceId:document.WikiPage.wikiSpaceId,  receiveNotifications:"Y"]).list()
+                            if (wikiSpaceUserList) for (EntityValue wikiSpaceUser in wikiSpaceUserList) {
+                                String emailAddress = ec.entity.makeFind("moqui.security.UserAccount")
+                                        .condition("userId", wikiSpaceUser.userId).one()?.emailAddress
+                                if (emailAddress) { if (toAddresses) toAddresses.append(",");  toAddresses.append(emailAddress) }
+                            }
+                            EntityList wikiPageUserList = ec.entity.makeFind("HiveMind.wiki.WikiPageUser")
+                                    .condition([wikiPageId:document._id,  receiveNotifications:"Y"]).list()
+                            if (wikiPageUserList) for (EntityValue wikiPageUser in wikiPageUserList) {
+                                String emailAddress = ec.entity.makeFind("moqui.security.UserAccount")
+                                        .condition("userId", wikiPageUser.userId).one()?.emailAddress
+                                if (emailAddress) { if (toAddresses) toAddresses.append(",");  toAddresses.append(emailAddress) }
+                            }
+
+                            Map bodyParameters = [document: document, originalDocument: originalDocument]
+
+                            if (toAddresses) {
+                                ec.service.async().name("org.moqui.impl.EmailServices.send#EmailTemplate")
+                                        .parameters([emailTemplateId: "HM_WIKI_PAGE_UPDATE",
+                                        toAddresses: toAddresses.toString(), bodyParameters: bodyParameters])
+                                        .call()
+                            }
+                        }
+
                         if (document._type == "HmTask") {
                             // TODO: also check to see if fields shown in email are actually changed, otherwise don't send email
 

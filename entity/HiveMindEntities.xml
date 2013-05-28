@@ -62,6 +62,7 @@ and those parts may be licensed under the Apache License 2.0.
         <field name="wikiSpaceId" type="id" is-pk="true"/>
         <field name="userId" type="id-long" is-pk="true"/>
         <field name="receiveNotifications" type="text-indicator"/>
+        <field name="allowAdmin" type="text-indicator"/>
         <field name="allowView" type="text-indicator"/>
         <field name="allowUpdate" type="text-indicator"/>
         <relationship type="one" related-entity-name="WikiSpace"/>
