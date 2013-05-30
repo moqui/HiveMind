@@ -15,11 +15,13 @@ This Work includes contributions authored by David E. Jones, not as a
         <implements service="org.moqui.EntityServices.receive#DataFeed"/>
         <actions>
             <script><![CDATA[
-                import org.moqui.context.ExecutionContext
                 import org.moqui.entity.EntityList
                 import org.moqui.entity.EntityValue
-
+                import org.slf4j.Logger
+                import org.slf4j.LoggerFactory
+                import org.moqui.context.ExecutionContext
                 ExecutionContext ec = context.ec
+                Logger logger = LoggerFactory.getLogger("index_DataDocuments")
 
                 // call the indexing service
                 Map indexResults = ec.service.sync().name("org.moqui.impl.EntityServices", "index", "DataDocuments")

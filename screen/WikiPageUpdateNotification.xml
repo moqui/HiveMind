@@ -21,11 +21,11 @@ This Work includes contributions authored by David E. Jones, not as a
         </section>
         -->
         <!-- TODO: show fancy diff of some sort for changed page content -->
-        <form-list name="PageHistory" list="document.History">
+        <form-list name="PageHistory" list="document.History" skip-form="true">
             <!-- TODO: probably need to sort this list, lookup additional info like UserAccount.username, UserAccount.userFullName -->
-            <field name="historySeqId"><default-field title="Rev"><display/></default-field></field>
-            <field name="userId"><default-field><display/></default-field></field>
-            <field name="changeDateTime"><default-field title="Change Date"><display/></default-field></field>
+            <field name="historySeqId"><default-field title="Rev"><display also-hidden="false"/></default-field></field>
+            <field name="userId"><default-field><display also-hidden="false"/></default-field></field>
+            <field name="changeDateTime"><default-field title="Change Date"><display also-hidden="false"/></default-field></field>
         </form-list>
         <!-- TODO: go through document and originalDocument elements to show what has been updated -->
         <container><label text="New WikiPage Document" type="h2"/></container>

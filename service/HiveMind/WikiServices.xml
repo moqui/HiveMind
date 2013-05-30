@@ -47,7 +47,6 @@ This Work includes contributions authored by David E. Jones, not as a
                 <econdition-object field="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: null)]"/>
             </entity-find>
             <set field="wikiPage" from="wikiPageList?.getAt(0)"/>
-            <log level="warn" message="============= Found wikiPage [${wikiPage}]"/>
             <!--
             <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage" cache="true">
                 <field-map field-name="wikiSpaceId"/>
@@ -59,7 +58,6 @@ This Work includes contributions authored by David E. Jones, not as a
                 <!-- no WikiPage record, create one for this page -->
                 <service-call name="create#HiveMind.wiki.WikiPage" out-map="context"
                         in-map="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: null), createdByUserId:ec.user.userId]"/>
-                <log level="warn" message="============= Created new WikiPage [${wikiPageId}]"/>
                 <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage" cache="false"/>
             </if>
             <set field="wikiPageId" from="wikiPage?.wikiPageId"/>
