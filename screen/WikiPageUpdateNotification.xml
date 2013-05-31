@@ -11,8 +11,13 @@ This Work includes contributions authored by David E. Jones, not as a
 "work for hire", who hereby disclaims any copyright to the same.
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd">
+    <actions>
+        <set field="rootUrl" from="org.moqui.impl.context.WebFacadeImpl.getWebappRootUrl('webroot', null, true, false, ec)"/>
+    </actions>
     <widgets>
-        <render-mode><text type="html"><![CDATA[<html><body>]]></text></render-mode>
+        <render-mode><text type="html"><![CDATA[
+            <html><head><link rel="stylesheet" href="${rootUrl}/css/default.css" type="text/css"></head>
+            <body>]]></text></render-mode>
         <container><label text="Wiki Page Updated: ${document.WikiPage.wikiSpaceId}/${document.WikiPage.pagePath} [${document._id}]" type="h2"/></container>
         <!--
         <section name="NameChange">
