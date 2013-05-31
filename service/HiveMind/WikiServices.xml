@@ -43,7 +43,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </out-parameters>
         <actions>
             <!-- TODO: there seems to be an issue when cache=true; perhaps clearing fails when list in cache is empty? -->
-            <entity-find entity-name="HiveMind.wiki.WikiPage" list="wikiPageList" cache="false">
+            <entity-find entity-name="HiveMind.wiki.WikiPage" list="wikiPageList" cache="true">
                 <econdition-object field="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: null)]"/>
             </entity-find>
             <set field="wikiPage" from="wikiPageList?.getAt(0)"/>
