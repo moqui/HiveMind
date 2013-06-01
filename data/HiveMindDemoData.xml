@@ -12,8 +12,8 @@ This Work includes contributions authored by David E. Jones, not as a
 -->
 <entity-facade-xml type="demo">
     <!-- Add Mantle data for the John Doe user -->
-    <mantle.party.party.Party partyId="EX_JOHN_DOE" partyTypeEnumId="PERSON"/>
-    <mantle.party.party.Person partyId="EX_JOHN_DOE" firstName="John" middleName="" lastName="Doe"/>
+    <mantle.party.Party partyId="EX_JOHN_DOE" partyTypeEnumId="PERSON"/>
+    <mantle.party.Person partyId="EX_JOHN_DOE" firstName="John" middleName="" lastName="Doe"/>
     <!-- a default billing rate for EX_JOHN_DOE -->
     <mantle.humanres.rate.RateAmount rateAmountId="EX_JOHN_DOE-001" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
             workEffortId="" partyId="EX_JOHN_DOE" emplPositionClassId="" fromDate="2010-02-03 00:00:00" thruDate=""

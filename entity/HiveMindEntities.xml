@@ -69,7 +69,7 @@ and those parts may be licensed under the Apache License 2.0.
         <relationship type="one-nofk" related-entity-name="moqui.security.UserAccount"/>
     </entity>
 
-    <view-entity entity-name="PartyTaskSummary" package-name="mantle.work.effort">
+    <view-entity entity-name="PartyTaskSummary" package-name="HiveMind.work.effort">
         <member-entity entity-alias="WEFF" entity-name="WorkEffort"/>
         <member-entity entity-alias="WEP" entity-name="WorkEffortParty" join-from-alias="WEFF">
             <key-map field-name="workEffortId"/>
@@ -100,4 +100,13 @@ and those parts may be licensed under the Apache License 2.0.
         </entity-condition>
     </view-entity>
 
+    <view-entity entity-name="PartyRequestSummary" package-name="HiveMind.request">
+        <member-entity entity-alias="REQ" entity-name="Request"/>
+        <member-entity entity-alias="REQPTY" entity-name="RequestParty" join-from-alias="REQ">
+            <key-map field-name="requestId"/>
+        </member-entity>
+
+        <alias-all entity-alias="REQ"/>
+        <alias-all entity-alias="REQPTY"/>
+    </view-entity>
 </entities>

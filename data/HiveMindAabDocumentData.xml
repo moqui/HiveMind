@@ -53,11 +53,11 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
             fieldPath="mantle.work.effort.WorkEffortParty:partyId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.RoleType:description" fieldNameAlias="role"/>
+            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.RoleType:description" fieldNameAlias="role"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.Person:firstName"/>
+            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Person:firstName"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.Person:lastName"/>
+            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Person:lastName"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
             relationshipName="mantle.work.effort.WorkEffort" documentAlias="WorkEffort"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
@@ -69,9 +69,9 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
             relationshipName="mantle.work.effort.WorkEffortParty" documentAlias="Party"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
-            relationshipName="mantle.party.party.RoleType" documentAlias="RoleType"/>
+            relationshipName="mantle.party.RoleType" documentAlias="RoleType"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
-            relationshipName="mantle.party.party.Person" documentAlias="Person"/>
+            relationshipName="mantle.party.Person" documentAlias="Person"/>
     <moqui.entity.document.DataDocumentCondition dataDocumentId="HmProject"
             fieldNameAlias="workEffortTypeEnumId" fieldValue="WET_PROJECT"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmProject" label="Edit Project"
@@ -92,11 +92,11 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="mantle.work.effort.WorkEffortParty:partyId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.RoleType:description" fieldNameAlias="role"/>
+            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.RoleType:description" fieldNameAlias="role"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.Person:firstName"/>
+            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Person:firstName"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.party.Person:lastName"/>
+            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Person:lastName"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
             relationshipName="mantle.work.effort.WorkEffort" documentAlias="WorkEffort"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
@@ -108,9 +108,9 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
             relationshipName="mantle.work.effort.WorkEffortParty" documentAlias="Party"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="mantle.party.party.RoleType" documentAlias="RoleType"/>
+            relationshipName="mantle.party.RoleType" documentAlias="RoleType"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="mantle.party.party.Person" documentAlias="Person"/>
+            relationshipName="mantle.party.Person" documentAlias="Person"/>
     <moqui.entity.document.DataDocumentCondition dataDocumentId="HmTask"
             fieldNameAlias="workEffortTypeEnumId" fieldValue="WET_TASK"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmTask" label="Edit Task"
