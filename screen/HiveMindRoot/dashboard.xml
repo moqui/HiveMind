@@ -25,6 +25,8 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
     <transition name="editTask"><default-response url="../Task/EditTask"/></transition>
 
+    <transition name="editRequest"><default-response url="../Request/EditRequest"/></transition>
+
     <transition name="myProjects"><default-response url="../Project/MyProjects"/></transition>
     <transition name="createProject">
         <service-call name="mantle.work.ProjectServices.create#Project" in-map="context"/>
@@ -62,6 +64,12 @@ This Work includes contributions authored by David E. Jones, not as a
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
             <order-by field-name="milestoneEstimatedStartDate"/>
+            <order-by field-name="priority"/>
+        </entity-find>
+        <entity-find entity-name="PartyRequestSummary" list="myRequestList">
+            <date-filter/>
+            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+            <econdition field-name="statusId" operator="not-in" value="REQUEST_COMPLETED,REQUEST_REJECTED,REQUEST_CANCELLED"/>
             <order-by field-name="priority"/>
         </entity-find>
     </actions>
@@ -208,7 +216,20 @@ This Work includes contributions authored by David E. Jones, not as a
 
                 <container id="dashboard-requests-section">
                     <label text="Requests" type="h2"/>
-                    <!-- my requests, etc -->
+                    <form-list name="MyRequests" list="myRequestList">
+                        <field name="requestId">
+                            <default-field><link url="editRequest" text="${requestId}"/></default-field>
+                        </field>
+                        <field name="description">
+                            <default-field><display also-hidden="false"/></default-field>
+                        </field>
+                        <field name="requestTypeEnumId">
+                            <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
+                        </field>
+                        <field name="statusId">
+                            <default-field title="Status"><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
+                        </field>
+                    </form-list>
                 </container>
             </panel-center>
         </container-panel>
