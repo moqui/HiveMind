@@ -37,7 +37,7 @@ and those parts may be licensed under the Apache License 2.0.
         <field name="userId" type="id-long"/>
         <field name="changeDateTime" type="date-time"/>
         <!-- TODO: add rev data for pages in JCR -->
-        <relationship type="one" related-entity-name="WikiPage"/>
+        <relationship type="one" related-entity-name="HiveMind.wiki.WikiPage"/>
         <relationship type="one-nofk" related-entity-name="moqui.security.UserAccount"/>
     </entity>
     <entity entity-name="WikiPageUser" package-name="HiveMind.wiki">
@@ -46,8 +46,21 @@ and those parts may be licensed under the Apache License 2.0.
         <field name="receiveNotifications" type="text-indicator"/>
         <field name="allowView" type="text-indicator"/>
         <field name="allowUpdate" type="text-indicator"/>
-        <relationship type="one" related-entity-name="WikiPage"/>
+        <relationship type="one" related-entity-name="HiveMind.wiki.WikiPage"/>
         <relationship type="one-nofk" related-entity-name="moqui.security.UserAccount"/>
+    </entity>
+
+    <entity entity-name="WikiPageRequest" package-name="HiveMind.wiki">
+        <field name="wikiPageId" type="id" is-pk="true"/>
+        <field name="requestId" type="id" is-pk="true"/>
+        <relationship type="one" related-entity-name="HiveMind.wiki.WikiPage"/>
+        <relationship type="one" related-entity-name="mantle.request.Request"/>
+    </entity>
+    <entity entity-name="WikiPageWorkEffort" package-name="HiveMind.wiki">
+        <field name="wikiPageId" type="id" is-pk="true"/>
+        <field name="workEffortId" type="id" is-pk="true"/>
+        <relationship type="one" related-entity-name="HiveMind.wiki.WikiPage"/>
+        <relationship type="one" related-entity-name="mantle.work.effort.WorkEffort"/>
     </entity>
 
     <entity entity-name="WikiSpace" package-name="HiveMind.wiki">
