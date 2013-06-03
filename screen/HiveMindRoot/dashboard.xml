@@ -25,6 +25,10 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
     <transition name="editTask"><default-response url="../Task/EditTask"/></transition>
 
+    <transition name="createRequest">
+        <service-call name="mantle.request.RequestServices.create#Request" in-map="context"/>
+        <default-response url="."/>
+    </transition>
     <transition name="editRequest"><default-response url="../Request/EditRequest"/></transition>
 
     <transition name="myProjects"><default-response url="../Project/MyProjects"/></transition>
@@ -155,29 +159,25 @@ This Work includes contributions authored by David E. Jones, not as a
                             <field name="priority"><default-field>
                                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
                             </default-field></field>
-                            <field name="purposeEnumId">
-                                <default-field title="Purpose">
-                                    <drop-down no-current-selected-key="WEP_TASK" current="selected">
-                                        <entity-options key="${enumId}" text="${description}">
-                                            <entity-find entity-name="Enumeration">
-                                                <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>
-                                                <econdition field-name="parentEnumId" value="WET_TASK"/>
-                                                <order-by field-name="description"/>
-                                            </entity-find>
-                                        </entity-options>
-                                    </drop-down>
-                                </default-field>
-                            </field>
-                            <field name="statusId">
-                                <default-field title="Status">
-                                    <drop-down><entity-options key="${statusId}" text="${description}">
-                                        <entity-find entity-name="StatusItem">
-                                            <econdition field-name="statusTypeId" value="WorkEffort"/>
-                                            <order-by field-name="sequenceNum"/>
+                            <field name="purposeEnumId"><default-field title="Purpose">
+                                <drop-down no-current-selected-key="WEP_TASK" current="selected">
+                                    <entity-options key="${enumId}" text="${description}">
+                                        <entity-find entity-name="moqui.basic.Enumeration">
+                                            <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>
+                                            <econdition field-name="parentEnumId" value="WET_TASK"/>
+                                            <order-by field-name="description"/>
                                         </entity-find>
-                                    </entity-options></drop-down>
-                                </default-field>
-                            </field>
+                                    </entity-options>
+                                </drop-down>
+                            </default-field></field>
+                            <field name="statusId"><default-field title="Status">
+                                <drop-down><entity-options key="${statusId}" text="${description}">
+                                    <entity-find entity-name="StatusItem">
+                                        <econdition field-name="statusTypeId" value="WorkEffort"/>
+                                        <order-by field-name="sequenceNum"/>
+                                    </entity-find>
+                                </entity-options></drop-down>
+                            </default-field></field>
                             <field name="estimatedCompletionDate">
                                 <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
                             </field>
@@ -215,6 +215,41 @@ This Work includes contributions authored by David E. Jones, not as a
                 </container>
 
                 <container id="dashboard-requests-section">
+                    <container-dialog id="NewRequestContainer" button-text="New Request">
+                        <form-single name="NewRequest" transition="createRequest">
+                            <field name="description"><default-field title="Description"><text-area rows="10" cols="60"/></default-field></field>
+
+                            <field name="priority"><default-field>
+                                <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
+                            </default-field></field>
+                            <field name="requestTypeEnumId"><default-field title="Type">
+                                <drop-down no-current-selected-key="RF_SUPPORT" current="selected">
+                                    <entity-options key="${enumId}" text="${description}">
+                                        <entity-find entity-name="moqui.basic.Enumeration">
+                                            <econdition field-name="enumTypeId" value="RequestType"/>
+                                            <order-by field-name="description"/>
+                                        </entity-find>
+                                    </entity-options>
+                                </drop-down>
+                            </default-field></field>
+                            <field name="statusId">
+                                <default-field title="Status">
+                                    <drop-down><entity-options key="${statusId}" text="${description}">
+                                        <entity-find entity-name="StatusItem">
+                                            <econdition field-name="statusTypeId" value="Request"/>
+                                            <order-by field-name="sequenceNum"/>
+                                        </entity-find>
+                                    </entity-options></drop-down>
+                                </default-field>
+                            </field>
+                            <field name="responseRequiredDate">
+                                <default-field title="Due Date"><date-time type="date-time" format="yyyy-MM-dd hh:mm"/></default-field>
+                            </field>
+
+                            <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
+                        </form-single>
+                    </container-dialog>
+
                     <label text="Requests" type="h2"/>
                     <form-list name="MyRequests" list="myRequestList">
                         <field name="requestId">

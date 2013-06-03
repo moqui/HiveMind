@@ -17,7 +17,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="requestId"/>
 
     <transition name="updateRequest">
-        <service-call name="update#Request" in-map="context"/>
+        <service-call name="update#mantle.request.Request" in-map="context"/>
         <default-response url="."/>
     </transition>
 
@@ -30,9 +30,19 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <form-single name="EditRequest" transition="updateRequest">
             <field name="requestId"><default-field title="Request ID"><display/></default-field></field>
-            <field name="description"><default-field><text-area rows="3" cols="80"/></default-field></field>
+            <field name="description"><default-field><text-area rows="10" cols="80"/></default-field></field>
             <field name="priority"><default-field>
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
+            </default-field></field>
+            <field name="requestTypeEnumId"><default-field title="Type">
+                <drop-down no-current-selected-key="RF_SUPPORT" current="selected">
+                    <entity-options key="${enumId}" text="${description}">
+                        <entity-find entity-name="moqui.basic.Enumeration">
+                            <econdition field-name="enumTypeId" value="RequestType"/>
+                            <order-by field-name="description"/>
+                        </entity-find>
+                    </entity-options>
+                </drop-down>
             </default-field></field>
             <field name="statusId">
                 <default-field title="Status">
