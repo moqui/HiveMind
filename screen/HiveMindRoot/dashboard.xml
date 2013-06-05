@@ -188,7 +188,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         </form-single>
                     </container-dialog>
 
-                    <label text="My Open Tasks" type="h2"/>
+                    <label text="My Open Tasks" type="h3"/>
                     <form-list name="MyTasks" list="myTaskList">
                         <field name="rootWorkEffortId">
                             <default-field title="Project"><link url="editProject" text="${rootWorkEffortId?:'--'}">
@@ -250,7 +250,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         </form-single>
                     </container-dialog>
 
-                    <label text="Requests" type="h2"/>
+                    <label text="My Open Requests" type="h3"/>
                     <form-list name="MyRequests" list="myRequestList">
                         <field name="requestId">
                             <default-field><link url="editRequest" text="${requestId}"/></default-field>
