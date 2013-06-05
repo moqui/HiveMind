@@ -21,7 +21,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <!-- NOTE: Party could have an email address ContactMech, but use the UserAccount.emailAddress as the primary address or when only one is needed/desired -->
     <moqui.security.UserAccount userId="EX_JOHN_DOE" partyId="EX_JOHN_DOE"/>
 
-    <!-- DEMO WIKI DATA -->
+    <!-- ========== DEMO WIKI DATA ========== -->
     <HiveMind.wiki.WikiSpace wikiSpaceId="DEMO" description="Demo Wiki Space" restrictView="N"
             rootPageLocation="component://HiveMind/WikiSpace/DEMO.cwiki" decoratorScreenLocation=""/>
     <HiveMind.wiki.WikiSpaceUser wikiSpaceId="DEMO" userId="EX_JOHN_DOE"
@@ -34,12 +34,39 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.resource.DbResource resourceId="DBDEMO_CWIKI" parentResourceId="WIKI_SPACE" filename="DBDEMO.cwiki" isFile="Y"/>
     <moqui.resource.DbResourceFile resourceId="DBDEMO_CWIKI" mimeType="text/plain" fileData="h2. The DB Demo Root Page"/>
 
+    <!-- ========== DEMO CLIENT DATA ========== -->
+    <mantle.party.Party partyId="HM_ACME" partyTypeEnumId="ORGANIZATION"/>
+    <mantle.party.Organization partyId="HM_ACME" organizationName="Another Company Making Everything"/>
+    <mantle.party.PartyRole partyId="HM_ACME" roleTypeId="CLIENT"/>
+
+    <mantle.party.Party partyId="HM_ACME_BA" partyTypeEnumId="PERSON"/>
+    <mantle.party.Person partyId="HM_ACME_BA" firstName="Bob" middleName="" lastName="Acme"/>
+    <mantle.party.PartyRole partyId="HM_ACME_BA" roleTypeId="CLIENT_BILLING"/>
+    <mantle.party.PartyRelationship partyRelationshipId="HM_ACME_BA_CB" relationshipTypeEnumId="REL_REPRESENTATIVE"
+            fromPartyId="HM_ACME_BA" fromRoleTypeId="CLIENT_BILLING" toPartyId="HM_ACME" toRoleTypeId="CLIENT"
+            fromDate="2010-02-03 00:00:00"/>
+    <mantle.party.contact.ContactMech contactMechId="HM_ACME_BA_EM" contactMechTypeEnumId="EMAIL_ADDRESS" infoString="bob.acme@test.com"/>
+    <mantle.party.contact.PartyContactMech partyId="HM_ACME" contactMechId="HM_ACME_BA_EM"
+            contactMechPurposeId="PRIMARY_EMAIL" fromDate="2010-02-03 00:00:00" thruDate=""/>
+
+    <mantle.party.Party partyId="HM_ACME_SA" partyTypeEnumId="PERSON"/>
+    <mantle.party.Person partyId="HM_ACME_SA" firstName="Sheldon" middleName="" lastName="Acme"/>
+    <mantle.party.PartyRole partyId="HM_ACME_SA" roleTypeId="CLIENT_MANAGER"/>
+    <mantle.party.PartyRelationship partyRelationshipId="HM_ACME_SA_CM" relationshipTypeEnumId="REL_REPRESENTATIVE"
+            fromPartyId="HM_ACME_SA" fromRoleTypeId="CLIENT_MANAGER" toPartyId="HM_ACME" toRoleTypeId="CLIENT"
+            fromDate="2010-02-03 00:00:00"/>
+    <mantle.party.contact.ContactMech contactMechId="HM_ACME_SA_EM" contactMechTypeEnumId="EMAIL_ADDRESS" infoString="sheldon.acme@test.com"/>
+    <mantle.party.contact.PartyContactMech partyId="HM_ACME" contactMechId="HM_ACME_SA_EM"
+            contactMechPurposeId="PRIMARY_EMAIL" fromDate="2010-02-03 00:00:00" thruDate=""/>
+
+
     <!-- ========== DEMO PROJECT DATA ========== -->
     <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="HiveMind PM Build Out"
             workEffortTypeEnumId="WET_PROJECT" statusId="WE_IN_PROGRESS"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="MANAGER"
             emplPositionClassId="SENIOR_PROGRAMMER"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_ACME" roleTypeId="CLIENT" fromDate="2010-02-03 00:00:00"/>
     <!-- Milestones -->
     <mantle.work.effort.WorkEffort workEffortId="HM-MS-001" workEffortName="HM Milestone 1"
             rootWorkEffortId="HM" workEffortTypeEnumId="WET_MILESTONE" statusId="WE_IN_PROGRESS"
@@ -126,6 +153,7 @@ This Work includes contributions authored by David E. Jones, not as a
             statusId="REQUEST_IN_PROGRESS" description="Please add Create Request popup on dashboard screen for convenient request creation."
             fromPartyId="" priority="2" requestDate="2010-02-03 00:00:00" responseRequiredDate="2013-07-31 12:00:00"/>
     <mantle.request.RequestParty requestId="DEMO_001" partyId="EX_JOHN_DOE" roleTypeId="WORKER" fromDate="2010-02-03 00:00:00" thruDate=""/>
+    <mantle.request.RequestParty requestId="DEMO_001" partyId="HM_ACME" roleTypeId="CLIENT" fromDate="2010-02-03 00:00:00" thruDate=""/>
     <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-007"/>
 
     <mantle.request.Request requestId="DEMO_002" requestTypeEnumId="RF_INFO" requestCategoryId=""
