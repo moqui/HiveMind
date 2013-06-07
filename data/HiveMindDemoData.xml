@@ -46,7 +46,7 @@ This Work includes contributions authored by David E. Jones, not as a
             fromPartyId="HM_ACME_BA" fromRoleTypeId="CLIENT_BILLING" toPartyId="HM_ACME" toRoleTypeId="CLIENT"
             fromDate="2010-02-03 00:00:00"/>
     <mantle.party.contact.ContactMech contactMechId="HM_ACME_BA_EM" contactMechTypeEnumId="EMAIL_ADDRESS" infoString="bob.acme@test.com"/>
-    <mantle.party.contact.PartyContactMech partyId="HM_ACME" contactMechId="HM_ACME_BA_EM"
+    <mantle.party.contact.PartyContactMech partyId="HM_ACME_BA" contactMechId="HM_ACME_BA_EM"
             contactMechPurposeId="PRIMARY_EMAIL" fromDate="2010-02-03 00:00:00" thruDate=""/>
 
     <mantle.party.Party partyId="HM_ACME_SA" partyTypeEnumId="PERSON"/>
@@ -56,8 +56,23 @@ This Work includes contributions authored by David E. Jones, not as a
             fromPartyId="HM_ACME_SA" fromRoleTypeId="CLIENT_MANAGER" toPartyId="HM_ACME" toRoleTypeId="CLIENT"
             fromDate="2010-02-03 00:00:00"/>
     <mantle.party.contact.ContactMech contactMechId="HM_ACME_SA_EM" contactMechTypeEnumId="EMAIL_ADDRESS" infoString="sheldon.acme@test.com"/>
-    <mantle.party.contact.PartyContactMech partyId="HM_ACME" contactMechId="HM_ACME_SA_EM"
+    <mantle.party.contact.PartyContactMech partyId="HM_ACME_SA" contactMechId="HM_ACME_SA_EM"
             contactMechPurposeId="PRIMARY_EMAIL" fromDate="2010-02-03 00:00:00" thruDate=""/>
+    <moqui.security.UserAccount userId="HM_ACME_SA" username="sheldon.acme" userFullName="Sheldon Acme"
+            currentPassword="16ac58bbfa332c1c55bd98b53e60720bfa90d394" passwordHashType="SHA"
+            passwordHint="framework name, lowercase" currencyUomId="USD" locale="en_us" timeZone="US/Eastern"
+            emailAddress="sheldon.acme@test.com" partyId="HM_ACME_SA"/>
+    <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="HM_ACME_SA" fromDate="2010-02-03 00:00:00.000"/>
+
+    <!-- A Person CLIENT -->
+    <mantle.party.Party partyId="HM_BLUTH" partyTypeEnumId="PERSON"/>
+    <mantle.party.Person partyId="HM_BLUTH" firstName="Gob" middleName="" lastName="Bluth"/>
+    <mantle.party.PartyRole partyId="HM_BLUTH" roleTypeId="CLIENT"/>
+    <moqui.security.UserAccount userId="HM_BLUTH" username="gob.bluth" userFullName="Gob Bluth"
+            currentPassword="16ac58bbfa332c1c55bd98b53e60720bfa90d394" passwordHashType="SHA"
+            passwordHint="framework name, lowercase" currencyUomId="USD" locale="en_us" timeZone="US/Pacific"
+            emailAddress="gob.bluth@test.com" partyId="HM_BLUTH"/>
+    <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="HM_BLUTH" fromDate="2010-02-03 00:00:00.000"/>
 
 
     <!-- ========== DEMO PROJECT DATA ========== -->
@@ -67,6 +82,8 @@ This Work includes contributions authored by David E. Jones, not as a
             emplPositionClassId="SENIOR_PROGRAMMER"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_ACME" roleTypeId="CLIENT" fromDate="2010-02-03 00:00:00"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_ACME_SA" roleTypeId="CLIENT_MANAGER"
+            fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <!-- Milestones -->
     <mantle.work.effort.WorkEffort workEffortId="HM-MS-001" workEffortName="HM Milestone 1"
             rootWorkEffortId="HM" workEffortTypeEnumId="WET_MILESTONE" statusId="WE_IN_PROGRESS"
