@@ -41,7 +41,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         if (document._type == "HmWikiPage") {
                             // TODO: also check to see if fields shown in email are actually changed, otherwise don't send email
 
-                            // send task updated notification
+                            // send WikiPage updated notification
                             StringBuilder toAddresses = new StringBuilder()
                             EntityList wikiSpaceUserList = ec.entity.makeFind("HiveMind.wiki.WikiSpaceUser")
                                     .condition([wikiSpaceId:document.WikiPage.wikiSpaceId,  receiveNotifications:"Y"]).list()
