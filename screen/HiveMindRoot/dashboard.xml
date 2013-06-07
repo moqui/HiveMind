@@ -63,6 +63,11 @@ This Work includes contributions authored by David E. Jones, not as a
                 <!-- TODO: also include non-public spaces associated with current user -->
             </econditions>
         </entity-find>
+        <entity-find entity-name="WorkEffortAndParty" list="myProjectList">
+            <date-filter/>
+            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
+        </entity-find>
         <entity-find entity-name="PartyTaskSummary" list="myTaskList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
