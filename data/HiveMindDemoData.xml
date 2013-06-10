@@ -82,6 +82,7 @@ This Work includes contributions authored by David E. Jones, not as a
             emplPositionClassId="SENIOR_PROGRAMMER"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_ACME" roleTypeId="CLIENT" fromDate="2010-02-03 00:00:00"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_ACME" roleTypeId="BILL_TO_CUSTOMER" fromDate="2010-02-03 00:00:00"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_ACME_SA" roleTypeId="CLIENT_MANAGER"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <!-- Milestones -->

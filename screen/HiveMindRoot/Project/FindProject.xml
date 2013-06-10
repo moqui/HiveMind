@@ -60,6 +60,17 @@ This Work includes contributions authored by David E. Jones, not as a
                 <form-single name="NewProject" transition="createProject">
                     <field name="workEffortId"><default-field title="ID"><text-line size="8" maxlength="8"/></default-field></field>
                     <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
+                    <field name="clientPartyId"><default-field title="Client">
+                        <drop-down allow-empty="true">
+                            <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
+                                <entity-find entity-name="mantle.party.PartyDetailAndRole">
+                                    <econdition field-name="roleTypeId" value="CLIENT"/>
+                                    <order-by field-name="organizationName"/>
+                                    <order-by field-name="firstName"/><order-by field-name="lastName"/>
+                                </entity-find>
+                            </entity-options>
+                        </drop-down>
+                    </default-field></field>
                     <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
                 </form-single>
             </container-dialog>

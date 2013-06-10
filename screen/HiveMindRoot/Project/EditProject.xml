@@ -27,7 +27,13 @@ This Work includes contributions authored by David E. Jones, not as a
         <set field="rootWorkEffortId" from="workEffortId"/>
     </pre-actions>
     <actions>
-        <entity-find-one entity-name="WorkEffort" value-field="fieldValues"/>
+        <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="fieldValues"/>
+        <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="clientWepList">
+            <date-filter/>
+            <econdition field-name="workEffortId"/>
+            <econdition field-name="roleTypeId" operator="in" value="CLIENT,BILL_TO_CUSTOMER"/>
+        </entity-find>
+        <set field="clientWep" from="clientWepList?.getAt(0)"/>
         <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
             <field-map field-name="statusId" from="fieldValues?.statusId"/>
         </entity-find-one>
@@ -36,20 +42,29 @@ This Work includes contributions authored by David E. Jones, not as a
         <form-single name="EditProject" transition="updateProject">
             <field name="workEffortId"><default-field title="Project ID"><display/></default-field></field>
             <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
+            <field name="clientPartyId" entry-name="clientWep?.partyId"><default-field title="Client">
+                <drop-down allow-empty="true">
+                    <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
+                        <entity-find entity-name="mantle.party.PartyDetailAndRole">
+                            <econdition field-name="roleTypeId" value="CLIENT"/>
+                            <order-by field-name="organizationName"/>
+                            <order-by field-name="firstName"/><order-by field-name="lastName"/>
+                        </entity-find>
+                    </entity-options>
+                </drop-down>
+            </default-field></field>
             <field name="priority"><default-field>
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
             </default-field></field>
-            <field name="statusId">
-                <default-field title="Status">
-                    <drop-down allow-empty="false" current-description="${currentStatus?.description}">
-                        <entity-options key="${toStatusId}" text="${transitionName} (${description})">
-                            <entity-find entity-name="StatusValidChangeToDetail">
-                                <econdition field-name="statusId" from="fieldValues.statusId"/>
-                            </entity-find>
-                        </entity-options>
-                    </drop-down>
-                </default-field>
-            </field>
+            <field name="statusId"><default-field title="Status">
+                <drop-down allow-empty="false" current-description="${currentStatus?.description}">
+                    <entity-options key="${toStatusId}" text="${transitionName} (${description})">
+                        <entity-find entity-name="StatusValidChangeToDetail">
+                            <econdition field-name="statusId" from="fieldValues.statusId"/>
+                        </entity-find>
+                    </entity-options>
+                </drop-down>
+            </default-field></field>
             <field name="estimatedCompletionDate">
                 <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
             </field>
