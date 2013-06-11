@@ -41,9 +41,23 @@ This Work includes contributions authored by David E. Jones, not as a
                     </entity-options>
                 </drop-down>
             </default-field></field>
-            <field name="hours"><default-field><text-line size="5"/></default-field></field>
             <field name="comments"><default-field><text-area cols="60" rows="3"/></default-field></field>
+            <field name="hours"><default-field><text-line size="5"/></default-field></field>
+            <field name="fromDate"><default-field title="From"><date-time format="yyyy-MM-dd hh:mm"/></default-field></field>
+            <field name="thruDate"><default-field title="Thru"><date-time format="yyyy-MM-dd hh:mm"/></default-field></field>
+            <field name="breakHours"><default-field><text-line size="5"/></default-field></field>
             <field name="submitButton"><default-field title="Add Time"><submit/></default-field></field>
+
+            <field-layout collapsible="true">
+                <fields-not-referenced/>
+                <field-group title="Enter Hours">
+                    <field-ref name="hours"/>
+                </field-group>
+                <field-group title="OR From/Thru/Break">
+                    <field-ref name="fromDate"/><field-ref name="thruDate"/><field-ref name="breakHours"/>
+                </field-group>
+                <field-ref name="submitButton"/>
+            </field-layout>
         </form-single>
         <form-list name="TimeEntryList" list="timeEntryList">
             <!-- <field name="timeEntryId"><default-field title="ID"><display also-hidden="false"/></default-field></field> -->
