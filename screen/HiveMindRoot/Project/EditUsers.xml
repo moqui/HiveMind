@@ -68,8 +68,8 @@ This Work includes contributions authored by David E. Jones, not as a
                     </drop-down>
                 </default-field></field>
 
-                <field name="fromDate"><header-field show-order-by="true"/><default-field><date-time default-value="${ec.user.nowTimestamp}"/></default-field></field>
-                <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
+                <field name="fromDate"><default-field><date-time default-value="${ec.user.nowTimestamp}"/></default-field></field>
+                <field name="thruDate"><default-field><date-time/></default-field></field>
 
                 <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/>
                     <default-field title="Purpose"><drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">
