@@ -20,6 +20,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="mantle.work.TaskServices.add#TaskTime" in-map="context"/>
         <default-response url="."/>
     </transition>
+    <transition name="editUser"><default-response url="../../User/EditUser"/></transition>
 
     <actions>
         <entity-find entity-name="TimeEntry" list="timeEntryList">
@@ -41,6 +42,11 @@ This Work includes contributions authored by David E. Jones, not as a
                     </entity-options>
                 </drop-down>
             </default-field></field>
+            <field name="rateTypeEnumId"><default-field title="Rate Type">
+                <drop-down no-current-selected-key="RT_STANDARD"><entity-options key="${enumId}" text="${description}">
+                    <entity-find entity-name="moqui.basic.Enumeration"><econdition field-name="enumTypeId" value="RateType"/></entity-find>
+                </entity-options></drop-down>
+            </default-field></field>
             <field name="comments"><default-field><text-area cols="60" rows="3"/></default-field></field>
             <field name="hours"><default-field><text-line size="5"/></default-field></field>
             <field name="fromDate"><default-field title="From"><date-time format="yyyy-MM-dd hh:mm"/></default-field></field>
@@ -59,15 +65,25 @@ This Work includes contributions authored by David E. Jones, not as a
                 <field-ref name="submitButton"/>
             </field-layout>
         </form-single>
-        <form-list name="TimeEntryList" list="timeEntryList">
+        <form-list name="TimeEntryList" list="timeEntryList" skip-form="true">
+            <row-actions>
+                <entity-find-one entity-name="mantle.humanres.rate.RateAmount" value-field="rateAmount"/>
+            </row-actions>
             <!-- <field name="timeEntryId"><default-field title="ID"><display also-hidden="false"/></default-field></field> -->
             <field name="partyId"><default-field>
                 <display-entity entity-name="Person" text="${firstName} ${lastName} (${partyId})" also-hidden="false"/>
+                <link url="editUser" text="Edit User"/>
             </default-field></field>
             <field name="comments"><default-field><display also-hidden="false"/></default-field></field>
             <field name="hours"><default-field><display format="#.00" also-hidden="false"/></default-field></field>
             <field name="breakHours"><default-field title="Break"><display format="#.00" also-hidden="false"/></default-field></field>
             <field name="date"><default-field><display text="${fromDate?:''} - ${thruDate?:''}" also-hidden="false"/></default-field></field>
+            <field name="amount">
+                <conditional-field condition="rateAmount">
+                    <display text="${hours*rateAmount.rateAmount}" currency-unit-field="rateAmount.rateCurrencyUomId"/>
+                </conditional-field>
+                <default-field><display text=""/></default-field>
+            </field>
             <field name="invoice"><default-field><display text="${invoiceId?:''}:${invoiceItemSeqId?:''}" also-hidden="false"/></default-field></field>
         </form-list>
     </widgets>

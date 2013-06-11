@@ -106,11 +106,11 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffort workEffortId="HM-MS-003" workEffortName="HM Milestone 3"
             rootWorkEffortId="HM" workEffortTypeEnumId="WET_MILESTONE" statusId="WE_IN_PLANNING"
             estimatedStartDate="2013-04-01 00:00:00" estimatedCompletionDate="2013-04-14 00:00:00"/>
-    <!-- Standard hourly rates in USD (not restricted to any particular Party) -->
+    <!-- Project Standard hourly rates in USD (not restricted to any particular Party) -->
     <mantle.humanres.rate.RateAmount rateAmountId="HM-001" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
             workEffortId="HM" partyId="" emplPositionClassId="SENIOR_PROGRAMMER" fromDate="2010-02-03 00:00:00" thruDate=""
             rateAmount="100.00" rateCurrencyUomId="USD"/>
-    <mantle.humanres.rate.RateAmount rateAmountId="HM-001" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
+    <mantle.humanres.rate.RateAmount rateAmountId="HM-002" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
             workEffortId="HM" partyId="" emplPositionClassId="PROGRAMMER" fromDate="2010-02-03 00:00:00" thruDate=""
             rateAmount="60.00" rateCurrencyUomId="USD"/>
 
