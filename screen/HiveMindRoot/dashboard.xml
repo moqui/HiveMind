@@ -248,16 +248,14 @@ This Work includes contributions authored by David E. Jones, not as a
                                     </entity-options>
                                 </drop-down>
                             </default-field></field>
-                            <field name="statusId">
-                                <default-field title="Status">
-                                    <drop-down><entity-options key="${statusId}" text="${description}">
-                                        <entity-find entity-name="StatusItem">
-                                            <econdition field-name="statusTypeId" value="Request"/>
-                                            <order-by field-name="sequenceNum"/>
-                                        </entity-find>
-                                    </entity-options></drop-down>
-                                </default-field>
-                            </field>
+                            <field name="statusId"><default-field title="Status">
+                                <drop-down><entity-options key="${statusId}" text="${description}">
+                                    <entity-find entity-name="StatusItem">
+                                        <econdition field-name="statusTypeId" value="Request"/>
+                                        <order-by field-name="sequenceNum"/>
+                                    </entity-find>
+                                </entity-options></drop-down>
+                            </default-field></field>
                             <field name="responseRequiredDate">
                                 <default-field title="Due Date"><date-time type="date-time" format="yyyy-MM-dd hh:mm"/></default-field>
                             </field>

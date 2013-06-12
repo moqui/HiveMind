@@ -80,6 +80,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.party.Party partyId="HM_BLUTH" partyTypeEnumId="ORGANIZATION"/>
     <mantle.party.Organization partyId="HM_BLUTH" organizationName="Bluth Corp"/>
     <mantle.party.PartyRole partyId="HM_BLUTH" roleTypeId="CLIENT"/>
+    <mantle.party.PartyRole partyId="HM_BLUTH" roleTypeId="BILL_TO_CUSTOMER"/>
 
     <mantle.party.Party partyId="HM_BLUTH_GOB" partyTypeEnumId="PERSON"/>
     <mantle.party.Person partyId="HM_BLUTH_GOB" firstName="Gob" middleName="" lastName="Bluth"/>

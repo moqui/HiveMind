@@ -17,6 +17,10 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="workEffortId"/>
     <parameter name="rootWorkEffortId"/>
 
+    <transition name="createProjectInvoice">
+        <service-call name="mantle.accounting.InvoiceServices.create#ProjectInvoiceItems" in-map="context"/>
+        <default-response url="."/>
+    </transition>
     <transition name="updateProject">
         <service-call name="mantle.work.ProjectServices.update#Project" in-map="context"/>
         <default-response url="."/>
@@ -40,6 +44,19 @@ This Work includes contributions authored by David E. Jones, not as a
         </entity-find-one>
     </actions>
     <widgets>
+        <container>
+            <container-dialog id="CreateInvoiceDialog" button-text="Create Project Invoice" width="700">
+                <form-single name="CreateInvoice" transition="createProjectInvoice">
+                    <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+                    <field name="workEffortId"><default-field title="Project ID"><display/></default-field></field>
+                    <field name="workEffortName"><default-field title="Project Name"><display/></default-field></field>
+
+                    <field name="thruDate"><default-field><date-time type="date-time"/></default-field></field>
+                    <field name="submitButton"><default-field title="Invoice Time Entries"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+        </container>
+
         <form-single name="EditProject" transition="updateProject">
             <field name="workEffortId"><default-field title="Project ID"><display/></default-field></field>
             <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
@@ -76,7 +93,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <display format="#.00"/></default-field></field>
             <field name="actualWorkTime"><default-field title="Actual Hours">
                 <display format="#.00"/></default-field></field>
-            <field name="description"><default-field title="Description"><text-area rows="20" cols="100"/></default-field></field>
+            <field name="description"><default-field title="Description"><text-area rows="12" cols="100"/></default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
             
             <field-layout>

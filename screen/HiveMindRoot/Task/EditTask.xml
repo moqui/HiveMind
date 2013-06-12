@@ -89,30 +89,24 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="priority"><default-field>
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
             </default-field></field>
-            <field name="purposeEnumId">
-                <default-field title="Purpose">
-                    <drop-down>
-                        <entity-options key="${enumId}" text="${description}">
-                            <entity-find entity-name="Enumeration">
-                                <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>
-                                <econdition field-name="parentEnumId" value="WET_TASK"/>
-                                <order-by field-name="description"/>
-                            </entity-find>
-                        </entity-options>
-                    </drop-down>
-                </default-field>
-            </field>
-            <field name="statusId">
-                <default-field title="Status">
-                    <drop-down allow-empty="false" current-description="${currentStatus?.description}">
-                        <entity-options key="${toStatusId}" text="${transitionName} (${description})">
-                            <entity-find entity-name="StatusValidChangeToDetail">
-                                <econdition field-name="statusId" from="task.statusId"/>
-                            </entity-find>
-                        </entity-options>
-                    </drop-down>
-                </default-field>
-            </field>
+            <field name="purposeEnumId"><default-field title="Purpose">
+                <drop-down><entity-options key="${enumId}" text="${description}">
+                    <entity-find entity-name="Enumeration">
+                        <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>
+                        <econdition field-name="parentEnumId" value="WET_TASK"/>
+                        <order-by field-name="description"/>
+                    </entity-find>
+                </entity-options></drop-down>
+            </default-field></field>
+            <field name="statusId"><default-field title="Status">
+                <drop-down allow-empty="false" current-description="${currentStatus?.description}">
+                    <entity-options key="${toStatusId}" text="${transitionName} (${description})">
+                        <entity-find entity-name="StatusValidChangeToDetail">
+                            <econdition field-name="statusId" from="task.statusId"/>
+                        </entity-find>
+                    </entity-options>
+                </drop-down>
+            </default-field></field>
             <field name="estimatedCompletionDate">
                 <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
             </field>
