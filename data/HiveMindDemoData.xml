@@ -11,15 +11,6 @@ This Work includes contributions authored by David E. Jones, not as a
 "work for hire", who hereby disclaims any copyright to the same.
 -->
 <entity-facade-xml type="demo">
-    <!-- Add Mantle data for the John Doe user -->
-    <mantle.party.Party partyId="EX_JOHN_DOE" partyTypeEnumId="PERSON"/>
-    <mantle.party.Person partyId="EX_JOHN_DOE" firstName="John" middleName="" lastName="Doe"/>
-    <!-- a default billing rate for EX_JOHN_DOE -->
-    <mantle.humanres.rate.RateAmount rateAmountId="EX_JOHN_DOE-001" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
-            workEffortId="" partyId="EX_JOHN_DOE" emplPositionClassId="" fromDate="2010-02-03 00:00:00" thruDate=""
-            rateAmount="120.00" rateCurrencyUomId="USD"/>
-    <!-- NOTE: Party could have an email address ContactMech, but use the UserAccount.emailAddress as the primary address or when only one is needed/desired -->
-    <moqui.security.UserAccount userId="EX_JOHN_DOE" partyId="EX_JOHN_DOE"/>
 
     <!-- ========== DEMO WIKI DATA ========== -->
     <HiveMind.wiki.WikiSpace wikiSpaceId="DEMO" description="Demo Wiki Space" restrictView="N"
@@ -34,10 +25,31 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.resource.DbResource resourceId="DBDEMO_CWIKI" parentResourceId="WIKI_SPACE" filename="DBDEMO.cwiki" isFile="Y"/>
     <moqui.resource.DbResourceFile resourceId="DBDEMO_CWIKI" mimeType="text/plain" fileData="h2. The DB Demo Root Page"/>
 
+    <!-- ========== DEMO VENDOR (internal organization) DATA ========== -->
+    <mantle.party.Party partyId="HM_BIZI" partyTypeEnumId="ORGANIZATION"/>
+    <mantle.party.Organization partyId="HM_BIZI" organizationName="Biziwork Consulting"/>
+    <mantle.party.PartyRole partyId="HM_BIZI" roleTypeId="INTERNAL_ORG"/>
+    <mantle.party.PartyRole partyId="HM_BIZI" roleTypeId="BILL_FROM_VENDOR"/>
+
+    <!-- Add Mantle data for the John Doe user -->
+    <mantle.party.Party partyId="EX_JOHN_DOE" partyTypeEnumId="PERSON"/>
+    <mantle.party.Person partyId="EX_JOHN_DOE" firstName="John" middleName="" lastName="Doe"/>
+    <mantle.party.PartyRole partyId="EX_JOHN_DOE" roleTypeId="MANAGER"/>
+    <mantle.party.PartyRelationship partyRelationshipId="HM_BIZI_JD" relationshipTypeEnumId="REL_REPRESENTATIVE"
+            fromPartyId="EX_JOHN_DOE" fromRoleTypeId="MANAGER" toPartyId="HM_BIZI" toRoleTypeId="BILL_FROM_VENDOR"
+            fromDate="2010-02-03 00:00:00"/>
+    <!-- a default billing rate for EX_JOHN_DOE -->
+    <mantle.humanres.rate.RateAmount rateAmountId="EX_JOHN_DOE-001" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
+            workEffortId="" partyId="EX_JOHN_DOE" emplPositionClassId="" fromDate="2010-02-03 00:00:00" thruDate=""
+            rateAmount="120.00" rateCurrencyUomId="USD"/>
+    <!-- NOTE: Party could have an email address ContactMech, but use the UserAccount.emailAddress as the primary address or when only one is needed/desired -->
+    <moqui.security.UserAccount userId="EX_JOHN_DOE" partyId="EX_JOHN_DOE"/>
+
     <!-- ========== DEMO CLIENT DATA ========== -->
     <mantle.party.Party partyId="HM_ACME" partyTypeEnumId="ORGANIZATION"/>
     <mantle.party.Organization partyId="HM_ACME" organizationName="Another Company Making Everything"/>
     <mantle.party.PartyRole partyId="HM_ACME" roleTypeId="CLIENT"/>
+    <mantle.party.PartyRole partyId="HM_ACME" roleTypeId="BILL_TO_CUSTOMER"/>
 
     <mantle.party.Party partyId="HM_ACME_BA" partyTypeEnumId="PERSON"/>
     <mantle.party.Person partyId="HM_ACME_BA" firstName="Bob" middleName="" lastName="Acme"/>
@@ -89,6 +101,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <!-- ========== DEMO PROJECT DATA ========== -->
     <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="HiveMind PM Build Out"
             workEffortTypeEnumId="WET_PROJECT" statusId="WE_IN_PROGRESS"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_BIZI" roleTypeId="BILL_FROM_VENDOR" fromDate="2010-02-03 00:00:00"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="MANAGER"
             emplPositionClassId="SENIOR_PROGRAMMER"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
