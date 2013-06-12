@@ -20,7 +20,16 @@ https://github.com/jonesde/moqui
 https://github.com/jonesde/mantle
 https://github.com/jonesde/HiveMind
 
-To download and run locally use the following steps:
+Java can be downloaded here (make sure to use the Download button under
+the "JDK" column, not the under the "JRE" column):
+
+http://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+Gradle can be downloaded here:
+
+http://www.gradle.org/downloads
+
+To download Moqui/Mantle/HiveMind and run locally use the following steps:
 
 1. Download Moqui Framework
 
