@@ -24,7 +24,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="update#WorkEffortParty" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
+    <transition name="editProject"><default-response url="../../../Project/EditProject"/></transition>
 
     <actions>
         <entity-find entity-name="WorkEffortAndParty" list="weapList">
