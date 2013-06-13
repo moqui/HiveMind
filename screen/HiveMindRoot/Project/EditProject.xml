@@ -26,6 +26,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response url="."/>
     </transition>
     <transition name="editClient"><default-response url="../../Client/EditClient"/></transition>
+    <transition name="editVendor"><default-response url="../../Vendor/EditVendor"/></transition>
 
     <pre-actions>
         <if condition="rootWorkEffortId"><set field="workEffortId" from="rootWorkEffortId"/></if>
@@ -33,12 +34,18 @@ This Work includes contributions authored by David E. Jones, not as a
     </pre-actions>
     <actions>
         <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="fieldValues"/>
+
         <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="clientWepList">
-            <date-filter/>
-            <econdition field-name="workEffortId"/>
-            <econdition field-name="roleTypeId" operator="in" value="CLIENT,BILL_TO_CUSTOMER"/>
+            <date-filter/><econdition field-name="workEffortId"/>
+            <econdition field-name="roleTypeId" operator="in" value="BILL_TO_CUSTOMER"/>
         </entity-find>
         <set field="clientWep" from="clientWepList?.getAt(0)"/>
+        <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="vendorWepList">
+            <date-filter/><econdition field-name="workEffortId"/>
+            <econdition field-name="roleTypeId" operator="in" value="BILL_FROM_VENDOR"/>
+        </entity-find>
+        <set field="vendorWep" from="vendorWepList?.getAt(0)"/>
+
         <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
             <field-map field-name="statusId" from="fieldValues?.statusId"/>
         </entity-find-one>
@@ -64,7 +71,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <drop-down allow-empty="true">
                     <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
                         <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                            <econdition field-name="roleTypeId" value="CLIENT"/>
+                            <econdition field-name="roleTypeId" value="BILL_TO_CUSTOMER"/>
                             <order-by field-name="organizationName"/>
                             <order-by field-name="firstName"/><order-by field-name="lastName"/>
                         </entity-find>
@@ -72,6 +79,20 @@ This Work includes contributions authored by David E. Jones, not as a
                 </drop-down>
                 <link url="editClient" text="Edit Client">
                     <parameter name="partyId" from="clientWep?.partyId"/>
+                </link>
+            </default-field></field>
+            <field name="vendorPartyId" entry-name="vendorWep?.partyId"><default-field title="Client">
+                <drop-down allow-empty="true">
+                    <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
+                        <entity-find entity-name="mantle.party.PartyDetailAndRole">
+                            <econdition field-name="roleTypeId" value="BILL_FROM_VENDOR"/>
+                            <order-by field-name="organizationName"/>
+                            <order-by field-name="firstName"/><order-by field-name="lastName"/>
+                        </entity-find>
+                    </entity-options>
+                </drop-down>
+                <link url="editVendor" text="Edit Vendor">
+                    <parameter name="partyId" from="vendorWep?.partyId"/>
                 </link>
             </default-field></field>
             <field name="priority"><default-field>

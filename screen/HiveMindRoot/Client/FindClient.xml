@@ -31,7 +31,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <actions>
         <entity-find entity-name="mantle.party.PartyDetailAndRole" list="clientList">
             <search-form-inputs default-order-by="organizationName,firstName,lastName"/>
-            <econdition field-name="roleTypeId" value="CLIENT"/>
+            <econdition field-name="roleTypeId" value="BILL_TO_CUSTOMER"/>
         </entity-find>
     </actions>
     <widgets>

@@ -67,7 +67,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </form-single>
         <form-list name="TimeEntryList" list="timeEntryList" skip-form="true">
             <row-actions>
-                <entity-find-one entity-name="mantle.humanres.rate.RateAmount" value-field="rateAmount"/>
+                <entity-find-one entity-name="mantle.humanres.rate.RateAmount" value-field="rateAmount" cache="true"/>
             </row-actions>
             <!-- <field name="timeEntryId"><default-field title="ID"><display also-hidden="false"/></default-field></field> -->
             <field name="partyId"><default-field>
