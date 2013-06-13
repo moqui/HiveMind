@@ -20,7 +20,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="mantle.work.TaskServices.add#TaskTime" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editUser"><default-response url="../../User/EditUser"/></transition>
+    <transition name="editUser"><default-response url="../../Admin/User/EditUser"/></transition>
 
     <actions>
         <entity-find entity-name="TimeEntry" list="timeEntryList">
