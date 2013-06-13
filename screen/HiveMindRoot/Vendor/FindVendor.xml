@@ -14,46 +14,46 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
         default-menu-include="false">
 
-    <!-- TODO: add ClientSummary (like dashboard... reuse dashboard forms?), Projects, Tasks, TimeEntries, Requests, Invoices -->
+    <!-- TODO: add VendorSummary (like dashboard... reuse dashboard forms?), Projects, Tasks, TimeEntries, Requests, Invoices -->
 
-    <transition name="findClient"><default-response url="."/></transition>
-    <transition name="createClient">
+    <transition name="findVendor"><default-response url="."/></transition>
+    <transition name="createVendor">
         <service-call name="mantle.party.PartyServices.create#Organization" in-map="context"/>
-        <default-response url="../EditClient"/>
+        <default-response url="../EditVendor"/>
         <error-response url="."/>
     </transition>
-    <transition name="editClient"><default-response url="../EditClient"/></transition>
+    <transition name="editVendor"><default-response url="../EditVendor"/></transition>
 
     <pre-actions>
-        <set field="html_title" value="Find Client"/>
+        <set field="html_title" value="Find Vendor"/>
     </pre-actions>
     
     <actions>
-        <entity-find entity-name="mantle.party.PartyDetailAndRole" list="clientList">
+        <entity-find entity-name="mantle.party.PartyDetailAndRole" list="vendorList">
             <search-form-inputs default-order-by="organizationName,firstName,lastName"/>
-            <econdition field-name="roleTypeId" value="BILL_TO_CUSTOMER"/>
+            <econdition field-name="roleTypeId" value="BILL_FROM_VENDOR"/>
         </entity-find>
     </actions>
     <widgets>
         <container>
-            <container-dialog id="FindClientDialog" button-text="Search Clients" width="700">
-                <form-single name="FindClient" transition="findClient">
+            <container-dialog id="FindVendorDialog" button-text="Search Vendors" width="700">
+                <form-single name="FindVendor" transition="findVendor">
                     <field name="organizationName"><default-field title="Name"><text-find/></default-field></field>
                     <field name="searchButton"><default-field title="Find"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
-            <container-dialog id="AddClientDialog" button-text="Add Client">
-                <form-single name="CreateClient" transition="createClient">
-                    <field name="roleTypeId"><default-field><hidden default-value="BILL_TO_CUSTOMER"/></default-field></field>
+            <container-dialog id="AddVendorDialog" button-text="Add Vendor">
+                <form-single name="CreateVendor" transition="createVendor">
+                    <field name="roleTypeId"><default-field><hidden default-value="BILL_FROM_VENDOR"/></default-field></field>
                     <field name="organizationName"><default-field title="Name"><text-line/></default-field></field>
-                    <field name="submitButton"><default-field title="Create Client"><submit/></default-field></field>
+                    <field name="submitButton"><default-field title="Create Vendor"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
         </container>
 
-        <form-list name="ClientList" list="clientList">
-            <field name="editClientLink"><header-field show-order-by="case-insensitive"/><default-field>
-                <link url="editClient" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
+        <form-list name="VendorList" list="vendorList">
+            <field name="editVendorLink"><header-field show-order-by="case-insensitive"/><default-field>
+                <link url="editVendor" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
             </default-field></field>
             <field name="disabled"><header-field title="Disabled?" show-order-by="case-insensitive"/><default-field><display text="${disabled?:'N'}"/></default-field></field>
         </form-list>

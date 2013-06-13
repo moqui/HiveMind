@@ -12,11 +12,11 @@ This Work includes contributions authored by David E. Jones, not as a
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
-        default-menu-title="Client" default-menu-index="1">
+        default-menu-title="Vendor" default-menu-index="1">
 
     <parameter name="partyId"/>
 
-    <transition name="updateClient">
+    <transition name="updateVendor">
         <service-call name="mantle.party.PartyServices.update#PartyDetail" in-map="context"/>
         <default-response url="."/>
     </transition>
@@ -25,7 +25,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find-one entity-name="mantle.party.PartyDetail" value-field="fieldValues"/>
     </actions>
     <widgets>
-        <form-single name="EditClient" transition="updateClient">
+        <form-single name="EditVendor" transition="updateVendor">
             <field name="partyId"><default-field><hidden/></default-field></field>
             <field name="organizationName"><default-field><text-line size="60"/></default-field></field>
 
