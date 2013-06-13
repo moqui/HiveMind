@@ -20,7 +20,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="mantle.work.ProjectServices.create#Project" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="updateClientProject">
+    <transition name="updateVendorProject">
         <service-call name="update#WorkEffortParty" in-map="context"/>
         <default-response url="."/>
     </transition>
@@ -38,12 +38,12 @@ This Work includes contributions authored by David E. Jones, not as a
                 <field name="partyId"><default-field><hidden/></default-field></field>
                 <field name="workEffortId"><default-field title="ID"><text-line size="8" maxlength="8"/></default-field></field>
                 <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
-                <field name="clientPartyId" entry-name="partyId"><default-field><hidden/></default-field></field>
-                <field name="vendorPartyId"><default-field title="Vendor">
+                <field name="vendorPartyId" entry-name="partyId"><default-field><hidden/></default-field></field>
+                <field name="clientPartyId"><default-field title="Client">
                     <drop-down allow-empty="true">
                         <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
                             <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                                <econdition field-name="roleTypeId" value="BILL_FROM_VENDOR"/>
+                                <econdition field-name="roleTypeId" value="BILL_TO_CUSTOMER"/>
                                 <order-by field-name="organizationName"/>
                                 <order-by field-name="firstName"/><order-by field-name="lastName"/>
                             </entity-find>
@@ -54,7 +54,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </form-single>
         </container-dialog>
 
-        <form-list name="UpdateClientProjectForm" list="weapList" transition="updateClientProject">
+        <form-list name="UpdateVendorProjectForm" list="weapList" transition="updateVendorProject">
             <row-actions>
                 <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus"/>
             </row-actions>
