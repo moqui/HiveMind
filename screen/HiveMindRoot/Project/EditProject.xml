@@ -25,8 +25,8 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="mantle.work.ProjectServices.update#Project" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editClient"><default-response url="../../Client/EditClient"/></transition>
-    <transition name="editVendor"><default-response url="../../Vendor/EditVendor"/></transition>
+    <transition name="editClient"><default-response url="../../Admin/Client/EditClient"/></transition>
+    <transition name="editVendor"><default-response url="../../Admin/Vendor/EditVendor"/></transition>
 
     <pre-actions>
         <if condition="rootWorkEffortId"><set field="workEffortId" from="rootWorkEffortId"/></if>
