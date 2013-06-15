@@ -55,6 +55,25 @@ This Work includes contributions authored by David E. Jones, not as a
         </actions>
         <default-response type="none"/>
     </transition>
+    <transition name="getPersonList">
+        <actions>
+            <entity-find entity-name="mantle.party.PersonAndUserAccount" list="pauList" limit="20">
+                <econditions combine="or">
+                    <econdition field-name="firstName" operator="like" value="%${term}%" ignore-case="true"/>
+                    <econdition field-name="lastName" operator="like" value="%${term}%" ignore-case="true"/>
+                    <econdition field-name="username" operator="like" value="%${term}%" ignore-case="true"/>
+                </econditions>
+                <order-by field-name="^firstName"/><order-by field-name="^lastName"/><order-by field-name="^username"/>
+            </entity-find>
+            <script>
+                def outList = []
+                for (def pau in pauList)
+                    outList.add([value:pau.partyId, label:"${pau.firstName} ${pau.lastName} (${pau.username})".toString()])
+                ec.web.sendJsonResponse(outList)
+            </script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
 
     <actions>
         <entity-find entity-name="WikiSpace" list="wikiSpaceList">
@@ -233,6 +252,20 @@ This Work includes contributions authored by David E. Jones, not as a
                 <container id="dashboard-requests-section">
                     <container-dialog id="NewRequestContainer" button-text="New Request">
                         <form-single name="NewRequest" transition="createRequest">
+                            <field name="clientPartyId"><default-field title="Client">
+                                <drop-down allow-empty="true">
+                                    <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
+                                        <entity-find entity-name="mantle.party.PartyDetailAndRole">
+                                            <econdition field-name="roleTypeId" value="BILL_TO_CUSTOMER"/>
+                                            <order-by field-name="organizationName"/>
+                                            <order-by field-name="firstName"/><order-by field-name="lastName"/>
+                                        </entity-find>
+                                    </entity-options>
+                                </drop-down>
+                            </default-field></field>
+                            <field name="assignToPartyId"><default-field title="Assign To">
+                                <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
+                            </default-field></field>
                             <field name="description"><default-field title="Description"><text-area rows="10" cols="60"/></default-field></field>
 
                             <field name="priority"><default-field>

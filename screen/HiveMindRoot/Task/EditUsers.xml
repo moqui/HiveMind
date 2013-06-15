@@ -17,18 +17,18 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="workEffortId"/>
 
     <transition name="addUserAssign">
-        <service-call name="create#WorkEffortParty" in-map="context"/>
+        <service-call name="create#mantle.work.effort.WorkEffortParty" in-map="context"/>
         <default-response url="."/>
     </transition>
     <transition name="updateUserAssign">
-        <service-call name="update#WorkEffortParty" in-map="context"/>
+        <service-call name="update#mantle.work.effort.WorkEffortParty" in-map="context"/>
         <default-response url="."/>
     </transition>
     <transition name="editUser"><default-response url="../../Admin/User/EditUser"/></transition>
 
     <transition name="getPersonList">
         <actions>
-            <entity-find entity-name="PersonAndUserAccount" list="pauList" limit="20">
+            <entity-find entity-name="mantle.party.PersonAndUserAccount" list="pauList" limit="20">
                 <econditions combine="or">
                     <econdition field-name="firstName" operator="like" value="%${term}%" ignore-case="true"/>
                     <econdition field-name="lastName" operator="like" value="%${term}%" ignore-case="true"/>
@@ -47,7 +47,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
 
     <actions>
-        <entity-find entity-name="WorkEffortPartyAndPerson" list="wepapList">
+        <entity-find entity-name="mantle.work.effort.WorkEffortPartyAndPerson" list="wepapList">
             <econdition field-name="workEffortId"/>
         </entity-find>
     </actions>
@@ -69,15 +69,6 @@ This Work includes contributions authored by David E. Jones, not as a
 
                 <field name="fromDate"><header-field show-order-by="true"/><default-field><date-time default-value="${ec.user.nowTimestamp}"/></default-field></field>
                 <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
-
-                <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/>
-                    <default-field title="Purpose"><drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">
-                        <entity-find entity-name="Enumeration">
-                            <econdition field-name="enumTypeId" value="WorkEffortPartyExpectation"/>
-                            <order-by field-name="description"/>
-                        </entity-find>
-                    </entity-options></drop-down></default-field>
-                </field>
 
                 <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/>
                     <default-field title="Purpose"><drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">

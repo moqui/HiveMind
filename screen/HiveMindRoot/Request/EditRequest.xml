@@ -17,19 +17,40 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="requestId"/>
 
     <transition name="updateRequest">
-        <service-call name="update#mantle.request.Request" in-map="context"/>
+        <service-call name="mantle.request.RequestServices.update#Request" in-map="context"/>
         <default-response url="."/>
     </transition>
+    <transition name="editClient"><default-response url="../../Admin/Client/EditClient"/></transition>
 
     <actions>
         <entity-find-one entity-name="mantle.request.Request" value-field="fieldValues"/>
         <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
             <field-map field-name="statusId" from="fieldValues?.statusId"/>
         </entity-find-one>
+
+        <entity-find entity-name="mantle.request.RequestParty" list="clientRpList">
+            <date-filter/><econdition field-name="requestId"/>
+            <econdition field-name="roleTypeId" operator="in" value="BILL_TO_CUSTOMER"/>
+        </entity-find>
+        <set field="clientRp" from="clientRpList?.getAt(0)"/>
     </actions>
     <widgets>
         <form-single name="EditRequest" transition="updateRequest">
             <field name="requestId"><default-field title="Request ID"><display/></default-field></field>
+            <field name="clientPartyId" entry-name="clientRp?.partyId"><default-field title="Client">
+                <drop-down allow-empty="true">
+                    <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
+                        <entity-find entity-name="mantle.party.PartyDetailAndRole">
+                            <econdition field-name="roleTypeId" value="BILL_TO_CUSTOMER"/>
+                            <order-by field-name="organizationName"/>
+                            <order-by field-name="firstName"/><order-by field-name="lastName"/>
+                        </entity-find>
+                    </entity-options>
+                </drop-down>
+                <link url="editClient" text="Edit Client">
+                    <parameter name="partyId" from="clientRp?.partyId"/>
+                </link>
+            </default-field></field>
             <field name="description"><default-field><text-area rows="10" cols="80"/></default-field></field>
             <field name="priority"><default-field>
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
