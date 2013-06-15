@@ -18,6 +18,17 @@ This Work includes contributions authored by David E. Jones, not as a
     <HiveMind.wiki.WikiSpaceUser wikiSpaceId="DEMO" userId="EX_JOHN_DOE"
             receiveNotifications="Y" allowAdmin="Y" allowView="Y" allowUpdate="Y"/>
 
+    <HiveMind.wiki.WikiPage wikiPageId="DEMO_DP1" wikiSpaceId="DEMO" pagePath="Demo Page 1" createdByUserId="EX_JOHN_DOE"/>
+    <HiveMind.wiki.WikiPageHistory wikiPageId="DEMO_DP1" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="2010-02-03 00:00:00"/>
+    <HiveMind.wiki.WikiPage wikiPageId="DEMO_DP1_CP1" wikiSpaceId="DEMO" pagePath="Demo Page 1/Child Page 1" createdByUserId="EX_JOHN_DOE"/>
+    <HiveMind.wiki.WikiPageHistory wikiPageId="DEMO_DP1_CP1" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="2010-02-03 00:00:00"/>
+    <HiveMind.wiki.WikiPage wikiPageId="DEMO_DP1_CP2" wikiSpaceId="DEMO" pagePath="Demo Page 1/Child Page 2" createdByUserId="EX_JOHN_DOE"/>
+    <HiveMind.wiki.WikiPageHistory wikiPageId="DEMO_DP1_CP2" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="2010-02-03 00:00:00"/>
+    <HiveMind.wiki.WikiPage wikiPageId="DEMO_DP2" wikiSpaceId="DEMO" pagePath="Demo Page 2" createdByUserId="EX_JOHN_DOE"/>
+    <HiveMind.wiki.WikiPageHistory wikiPageId="DEMO_DP2" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="2010-02-03 00:00:00"/>
+    <HiveMind.wiki.WikiPage wikiPageId="DEMO_DP2_CP1" wikiSpaceId="DEMO" pagePath="Demo Page 2/Child Page 1" createdByUserId="EX_JOHN_DOE"/>
+    <HiveMind.wiki.WikiPageHistory wikiPageId="DEMO_DP2_CP1" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="2010-02-03 00:00:00"/>
+
     <HiveMind.wiki.WikiSpace wikiSpaceId="DBDEMO" description="DB Demo Wiki Space" restrictView="N"
             rootPageLocation="dbresource://HiveMind/WikiSpace/DBDEMO.cwiki" decoratorScreenLocation=""/>
     <moqui.resource.DbResource resourceId="HIVE_MIND" parentResourceId="" filename="HiveMind" isFile="N"/>
