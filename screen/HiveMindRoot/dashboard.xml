@@ -82,19 +82,19 @@ This Work includes contributions authored by David E. Jones, not as a
                 <!-- TODO: also include non-public spaces associated with current user -->
             </econditions>
         </entity-find>
-        <entity-find entity-name="WorkEffortAndParty" list="myProjectList">
+        <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
         </entity-find>
-        <entity-find entity-name="PartyTaskSummary" list="myTaskList">
+        <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="myTaskList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
             <order-by field-name="milestoneEstimatedStartDate"/>
             <order-by field-name="priority"/>
         </entity-find>
-        <entity-find entity-name="PartyRequestSummary" list="myRequestList">
+        <entity-find entity-name="mantle.request.RequestAndParty" list="myRequestList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="statusId" operator="not-in" value="REQUEST_COMPLETED,REQUEST_REJECTED,REQUEST_CANCELLED"/>

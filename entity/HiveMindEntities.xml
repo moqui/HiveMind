@@ -112,14 +112,4 @@ and those parts may be licensed under the Apache License 2.0.
             <date-filter from-field-name="assocFromDate" thru-field-name="assocThruDate"/>
         </entity-condition>
     </view-entity>
-
-    <view-entity entity-name="PartyRequestSummary" package-name="HiveMind.request">
-        <member-entity entity-alias="REQ" entity-name="Request"/>
-        <member-entity entity-alias="REQPTY" entity-name="RequestParty" join-from-alias="REQ">
-            <key-map field-name="requestId"/>
-        </member-entity>
-
-        <alias-all entity-alias="REQ"/>
-        <alias-all entity-alias="REQPTY"/>
-    </view-entity>
 </entities>
