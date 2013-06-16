@@ -29,9 +29,22 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
     <transition name="editTask"><default-response url="../../Task/EditTask"/></transition>
 
+    <transition name="getProjectTasks">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
     <actions>
         <entity-find entity-name="mantle.request.RequestWorkEffortDetail" list="rwedList">
             <econdition field-name="requestId"/>
+        </entity-find>
+        <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
+            <date-filter/>
+            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
         </entity-find>
     </actions>
     <widgets>
@@ -39,14 +52,16 @@ This Work includes contributions authored by David E. Jones, not as a
             <form-single name="AddRweForm" transition="addRwe">
                 <field name="requestId"><default-field><hidden/></default-field></field>
 
-                <field name="workEffortId"><default-field title="Task"><drop-down combo-box="true">
-                    <entity-options key="${workEffortId}" text="${workEffortId} - ${workEffortName}">
-                        <entity-find entity-name="WorkEffort">
-                            <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
-                            <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down></default-field></field>
+                <field name="rootWorkEffortId"><default-field title="Project">
+                    <drop-down><list-options list="myProjectList" key="${workEffortId}" text="${workEffortId}: ${workEffortName}"/></drop-down>
+                </default-field></field>
+                <field name="workEffortId"><default-field title="Task">
+                    <drop-down combo-box="true">
+                        <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
+                            <depends-on field="rootWorkEffortId"/>
+                        </dynamic-options>
+                    </drop-down>
+                </default-field></field>
 
                 <field name="submitButton"><default-field title="Add Task"><submit/></default-field></field>
             </form-single>

@@ -76,12 +76,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
 
     <actions>
-        <entity-find entity-name="WikiSpace" list="wikiSpaceList">
-            <econditions combine="or">
-                <econdition field-name="restrictView" value="N"/>
-                <!-- TODO: also include non-public spaces associated with current user -->
-            </econditions>
-        </entity-find>
+        <service-call name="HiveMind.WikiServices.get#UserWikiSpaces" in-map="[userId:ec.user.userId]" out-map="context"/>
         <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
@@ -130,14 +125,14 @@ This Work includes contributions authored by David E. Jones, not as a
                             </form-single>
                         </container-dialog>
                     </container>
-                    <container id="dashboard-wiki-title"><label text="Wiki Spaces" type="h2"/></container>
-                    <section-iterate name="WikiSpaces" list="wikiSpaceList" entry="wikiSpace">
+                    <container id="dashboard-wiki-title"><label text="Wiki Spaces" type="h3"/></container>
+                    <section-iterate name="WikiSpaces" list="wikiSpaceAndUserList" entry="wikiSpace">
                         <widgets><container>
                             <link text="- ${wikiSpace.wikiSpaceId}: ${wikiSpace.description}" url="wiki/${wikiSpace.wikiSpaceId}" url-type="plain"/>
                         </container></widgets>
                     </section-iterate>
                     <!--
-                    <form-list name="WikiSpaces" list="wikiSpaceList" skip-start="true" skip-end="true">
+                    <form-list name="WikiSpaces" list="wikiSpaceAndUserList" skip-start="true" skip-end="true">
                         <field name="viewLink"><default-field title="Space">
                             <link text="${wikiSpaceId}" url="wiki/${wikiSpaceId}" url-type="plain"/>
                         </default-field></field>

@@ -314,4 +314,44 @@ h2. Root page for ${description?:wikiSpaceId}
             </if>
         </actions>
     </service>
+    <service verb="get" noun="UserWikiSpaces">
+        <in-parameters><parameter name="userId"/></in-parameters>
+        <out-parameters><parameter name="wikiSpaceAndUserList" type="List"/></out-parameters>
+        <actions>
+            <entity-find entity-name="HiveMind.wiki.WikiSpaceAndUser" list="wikiSpaceAndUserList">
+                <econditions combine="or">
+                    <econdition field-name="restrictView" value="N"/>
+                    <econdition field-name="restrictView" from="null"/>
+                    <econditions>
+                        <econdition field-name="userId"/>
+                        <econdition field-name="restrictView" value="Y"/>
+                        <econditions combine="or">
+                            <econdition field-name="allowAdmin" value="Y"/>
+                            <econdition field-name="allowView" value="Y"/>
+                        </econditions>
+                    </econditions>
+                </econditions>
+            </entity-find>
+        </actions>
+    </service>
+    <service verb="get" noun="UserSpaceWikiPages">
+        <in-parameters>
+            <parameter name="userId"/>
+            <parameter name="wikiSpaceId"/>
+        </in-parameters>
+        <out-parameters><parameter name="wikiPageAndUserList" type="List"/></out-parameters>
+        <actions>
+            <entity-find entity-name="HiveMind.wiki.WikiPageAndUser" list="wikiPageAndUserList">
+                <econditions combine="or">
+                    <econdition field-name="restrictView" value="N"/>
+                    <econdition field-name="restrictView" from="null"/>
+                    <econditions>
+                        <econdition field-name="userId"/>
+                        <econdition field-name="restrictView" value="Y"/>
+                        <econdition field-name="allowView" value="Y"/>
+                    </econditions>
+                </econditions>
+            </entity-find>
+        </actions>
+    </service>
 </services>

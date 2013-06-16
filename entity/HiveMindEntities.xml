@@ -49,6 +49,14 @@ and those parts may be licensed under the Apache License 2.0.
         <relationship type="one" related-entity-name="HiveMind.wiki.WikiPage"/>
         <relationship type="one-nofk" related-entity-name="moqui.security.UserAccount"/>
     </entity>
+    <view-entity entity-name="WikiPageAndUser" package-name="HiveMind.wiki">
+        <member-entity entity-alias="WKPG" entity-name="HiveMind.wiki.WikiPage"/>
+        <member-entity entity-alias="WPU" entity-name="HiveMind.wiki.WikiPageUser" join-from-alias="WKPG" join-optional="true">
+            <key-map field-name="wikiPageId"/>
+        </member-entity>
+        <alias-all entity-alias="WKPG"/>
+        <alias-all entity-alias="WPU"><exclude field="wikiPageId"/></alias-all>
+    </view-entity>
 
     <entity entity-name="WikiPageRequest" package-name="HiveMind.wiki">
         <field name="wikiPageId" type="id" is-pk="true"/>
@@ -81,6 +89,14 @@ and those parts may be licensed under the Apache License 2.0.
         <relationship type="one" related-entity-name="WikiSpace"/>
         <relationship type="one-nofk" related-entity-name="moqui.security.UserAccount"/>
     </entity>
+    <view-entity entity-name="WikiSpaceAndUser" package-name="HiveMind.wiki">
+        <member-entity entity-alias="WKSP" entity-name="HiveMind.wiki.WikiSpace"/>
+        <member-entity entity-alias="WSU" entity-name="HiveMind.wiki.WikiSpaceUser" join-from-alias="WKSP" join-optional="true">
+            <key-map field-name="wikiSpaceId"/>
+        </member-entity>
+        <alias-all entity-alias="WKSP"/>
+        <alias-all entity-alias="WSU"><exclude field="wikiSpaceId"/></alias-all>
+    </view-entity>
 
     <view-entity entity-name="PartyTaskSummary" package-name="HiveMind.work.effort">
         <member-entity entity-alias="WEFF" entity-name="WorkEffort"/>
