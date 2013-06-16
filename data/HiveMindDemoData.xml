@@ -201,14 +201,15 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <!-- ========== DEMO REQUEST DATA ========== -->
     <mantle.request.Request requestId="DEMO_001" requestTypeEnumId="RF_FEATURE" requestCategoryId=""
-            statusId="REQUEST_IN_PROGRESS" description="Please add Create Request popup on dashboard screen for convenient request creation."
+            statusId="REQUEST_IN_PROGRESS" requestName="Add Create Request on dashboard"
+            description="Please add Create Request popup on dashboard screen for convenient request creation."
             fromPartyId="" priority="2" requestDate="2010-02-03 00:00:00" responseRequiredDate="2013-07-31 12:00:00"/>
     <mantle.request.RequestParty requestId="DEMO_001" partyId="EX_JOHN_DOE" roleTypeId="WORKER" fromDate="2010-02-03 00:00:00" thruDate=""/>
     <mantle.request.RequestParty requestId="DEMO_001" partyId="HM_ACME" roleTypeId="BILL_TO_CUSTOMER" fromDate="2010-02-03 00:00:00" thruDate=""/>
     <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-007"/>
 
     <mantle.request.Request requestId="DEMO_002" requestTypeEnumId="RF_INFO" requestCategoryId=""
-            statusId="REQUEST_SUBMITTED" description="Why is there so little color in the app?"
+            statusId="REQUEST_SUBMITTED" requestName="Why is there so little color in the app?" description=""
             fromPartyId="" priority="2" requestDate="2010-02-03 00:00:00" responseRequiredDate="2013-07-31 12:00:00"/>
     <mantle.request.RequestParty requestId="DEMO_002" partyId="EX_JOHN_DOE" roleTypeId="WORKER" fromDate="2010-02-03 00:00:00" thruDate=""/>
 </entity-facade-xml>

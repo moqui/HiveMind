@@ -41,6 +41,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     <entity-options key="${workEffortId}" text="${workEffortId} - ${workEffortName}">
                         <entity-find entity-name="WorkEffort">
                             <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
+                            <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
                         </entity-find>
                     </entity-options>
                 </drop-down></default-field></field>
@@ -77,6 +78,10 @@ This Work includes contributions authored by David E. Jones, not as a
                         </entity-options></drop-down>
                     </default-field>
                 </field>
+
+                <field name="receiveNotifications"><default-field>
+                    <drop-down no-current-selected-key="N"><option key="Y"/><option key="N"/></drop-down>
+                </default-field></field>
                 <field name="submitButton"><default-field title="Add Assignment"><submit/></default-field></field>
             </form-single>
         </container-dialog>
@@ -121,12 +126,17 @@ This Work includes contributions authored by David E. Jones, not as a
                     </drop-down>
                 </default-field>
             </field>
+
+            <field name="receiveNotifications"><default-field title="Notifs?">
+                <drop-down no-current-selected-key="N"><option key="Y"/><option key="N"/></drop-down>
+            </default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
 
             <form-list-column><field-ref name="workEffortId"/><field-ref name="roleTypeId"/></form-list-column>
             <form-list-column><field-ref name="fromDate"/><field-ref name="thruDate"/></form-list-column>
             <form-list-column><field-ref name="expectationEnumId"/><field-ref name="emplPositionClassId"/></form-list-column>
-            <form-list-column><field-ref name="statusId"/><field-ref name="submitButton"/></form-list-column>
+            <form-list-column><field-ref name="statusId"/><field-ref name="receiveNotifications"/></form-list-column>
+            <form-list-column><field-ref name="submitButton"/></form-list-column>
         </form-list>
     </widgets>
 </screen>

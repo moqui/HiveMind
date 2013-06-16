@@ -29,10 +29,10 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <form-list name="ListRequests" list="requestList">
             <field name="requestId">
-                <default-field><link url="editRequest" text="${requestId}"/></default-field>
+                <default-field title="ID"><link url="editRequest" text="${requestId}"/></default-field>
             </field>
-            <field name="description">
-                <header-field title="Description" show-order-by="case-insensitive"/>
+            <field name="requestName">
+                <header-field title="Name" show-order-by="case-insensitive"/>
                 <default-field><display also-hidden="false"/></default-field>
             </field>
             <field name="requestTypeEnumId">

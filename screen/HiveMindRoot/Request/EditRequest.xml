@@ -51,6 +51,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     <parameter name="partyId" from="clientRp?.partyId"/>
                 </link>
             </default-field></field>
+            <field name="requestName"><default-field title="Name"><text-line size="80"/></default-field></field>
             <field name="description"><default-field><text-area rows="10" cols="80"/></default-field></field>
             <field name="priority"><default-field>
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>

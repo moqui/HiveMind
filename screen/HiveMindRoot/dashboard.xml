@@ -266,6 +266,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             <field name="assignToPartyId"><default-field title="Assign To">
                                 <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
                             </default-field></field>
+                            <field name="requestName"><default-field title="Name"><text-line size="60"/></default-field></field>
                             <field name="description"><default-field title="Description"><text-area rows="10" cols="60"/></default-field></field>
 
                             <field name="priority"><default-field>
@@ -300,10 +301,10 @@ This Work includes contributions authored by David E. Jones, not as a
                     <label text="My Open Requests" type="h3"/>
                     <form-list name="MyRequests" list="myRequestList">
                         <field name="requestId">
-                            <default-field><link url="editRequest" text="${requestId}"/></default-field>
+                            <default-field title="ID"><link url="editRequest" text="${requestId}"/></default-field>
                         </field>
-                        <field name="description">
-                            <default-field><display also-hidden="false"/></default-field>
+                        <field name="requestName">
+                            <default-field title="Name"><display also-hidden="false"/></default-field>
                         </field>
                         <field name="requestTypeEnumId">
                             <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
