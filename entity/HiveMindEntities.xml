@@ -64,12 +64,36 @@ and those parts may be licensed under the Apache License 2.0.
         <relationship type="one" related-entity-name="HiveMind.wiki.WikiPage"/>
         <relationship type="one" related-entity-name="mantle.request.Request"/>
     </entity>
+    <view-entity entity-name="WikiPageAndRequest" package-name="HiveMind.wiki">
+        <member-entity entity-alias="WPR" entity-name="HiveMind.wiki.WikiPageRequest"/>
+        <member-entity entity-alias="WKP" entity-name="HiveMind.wiki.WikiPage" join-from-alias="WPR">
+            <key-map field-name="wikiPageId"/>
+        </member-entity>
+        <member-entity entity-alias="REQ" entity-name="mantle.request.Request" join-from-alias="WPR">
+            <key-map field-name="requestId"/>
+        </member-entity>
+        <alias-all entity-alias="WPR"/>
+        <alias-all entity-alias="WKP"><exclude field="wikiPageId"/></alias-all>
+        <alias-all entity-alias="REQ"><exclude field="requestId"/></alias-all>
+    </view-entity>
     <entity entity-name="WikiPageWorkEffort" package-name="HiveMind.wiki">
         <field name="wikiPageId" type="id" is-pk="true"/>
         <field name="workEffortId" type="id" is-pk="true"/>
         <relationship type="one" related-entity-name="HiveMind.wiki.WikiPage"/>
         <relationship type="one" related-entity-name="mantle.work.effort.WorkEffort"/>
     </entity>
+    <view-entity entity-name="WikiPageAndWorkEffort" package-name="HiveMind.wiki">
+        <member-entity entity-alias="WPWE" entity-name="HiveMind.wiki.WikiPageWorkEffort"/>
+        <member-entity entity-alias="WKP" entity-name="HiveMind.wiki.WikiPage" join-from-alias="WPWE">
+            <key-map field-name="wikiPageId"/>
+        </member-entity>
+        <member-entity entity-alias="WEF" entity-name="mantle.work.effort.WorkEffort" join-from-alias="WPWE">
+            <key-map field-name="workEffortId"/>
+        </member-entity>
+        <alias-all entity-alias="WPWE"/>
+        <alias-all entity-alias="WKP"><exclude field="wikiPageId"/></alias-all>
+        <alias-all entity-alias="WEF"><exclude field="workEffortId"/></alias-all>
+    </view-entity>
 
     <entity entity-name="WikiSpace" package-name="HiveMind.wiki">
         <field name="wikiSpaceId" type="id" is-pk="true"/>

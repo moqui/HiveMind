@@ -342,6 +342,7 @@ h2. Root page for ${description?:wikiSpaceId}
         <out-parameters><parameter name="wikiPageAndUserList" type="List"/></out-parameters>
         <actions>
             <entity-find entity-name="HiveMind.wiki.WikiPageAndUser" list="wikiPageAndUserList">
+                <econdition field-name="wikiSpaceId"/>
                 <econditions combine="or">
                     <econdition field-name="restrictView" value="N"/>
                     <econdition field-name="restrictView" from="null"/>
@@ -352,6 +353,21 @@ h2. Root page for ${description?:wikiSpaceId}
                     </econditions>
                 </econditions>
             </entity-find>
+        </actions>
+    </service>
+    <service verb="get" noun="UserSpaceWikiPageSimpleList">
+        <in-parameters>
+            <parameter name="userId"/>
+            <parameter name="wikiSpaceId"/>
+        </in-parameters>
+        <out-parameters><parameter name="resultList" type="List"/></out-parameters>
+        <actions>
+            <service-call name="HiveMind.WikiServices.get#UserSpaceWikiPages" in-map="context" out-map="context"/>
+            <script>
+                resultList = []
+                for (def wikiPageAndUser in wikiPageAndUserList)
+                    resultList.add([wikiPageId:wikiPageAndUser.wikiPageId, pageLabel:"${wikiPageAndUser.wikiSpaceId}/${wikiPageAndUser.pagePath}"])
+            </script>
         </actions>
     </service>
 </services>
