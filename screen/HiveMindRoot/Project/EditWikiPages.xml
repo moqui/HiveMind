@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
+        default-menu-title="Wiki Pages" default-menu-index="5">
+
+    <parameter name="rootWorkEffortId"/>
+
+    <transition name="addWpwe">
+        <service-call name="create#HiveMind.wiki.WikiPageWorkEffort" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+    <transition name="deleteWpwe">
+        <service-call name="delete#HiveMind.wiki.WikiPageWorkEffort" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+
+    <transition name="getSpacePages">
+        <actions>
+            <service-call name="HiveMind.WikiServices.get#UserSpaceWikiPageSimpleList" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
+    <actions>
+        <set field="workEffortId" from="rootWorkEffortId"/>
+        <set field="projectWorkEffortId" from="rootWorkEffortId"/>
+
+        <entity-find entity-name="HiveMind.wiki.WikiPageAndWorkEffort" list="wpaweList">
+            <econdition field-name="workEffortId"/>
+        </entity-find>
+
+        <service-call name="HiveMind.WikiServices.get#UserWikiSpaces" in-map="[userId:ec.user.userId]" out-map="context"/>
+    </actions>
+    <widgets>
+        <container-dialog id="AddWpweDialog" button-text="Add Wiki Page">
+            <form-single name="AddWpweForm" transition="addWpwe">
+                <field name="userId" entry-name="ec.user.userId"><default-field><hidden/></default-field></field>
+                <field name="workEffortId"><default-field><hidden/></default-field></field>
+                <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+
+                <field name="wikiSpaceId"><default-field title="Space"><drop-down>
+                    <list-options list="wikiSpaceAndUserList" key="${wikiSpaceId}" text="${wikiSpaceId}: ${description}"/>
+                </drop-down></default-field></field>
+                <field name="wikiPageId"><default-field title="Page">
+                    <drop-down combo-box="true">
+                        <dynamic-options transition="getSpacePages" value-field="wikiPageId" label-field="pageLabel">
+                            <depends-on field="userId"/>
+                            <depends-on field="wikiSpaceId"/>
+                        </dynamic-options>
+                    </drop-down>
+                </default-field></field>
+
+                <field name="submitButton"><default-field title="Add Page"><submit/></default-field></field>
+            </form-single>
+        </container-dialog>
+
+        <form-list name="DeleteWpweForm" list="wpaweList" transition="deleteWpwe">
+            <field name="workEffortId"><default-field><hidden/></default-field></field>
+            <field name="rootWorkEffortId" entry-name="projectWorkEffortId"><default-field><hidden/></default-field></field>
+            <field name="wikiPageId"><default-field><hidden/></default-field></field>
+
+            <field name="wikiSpaceId"><default-field title="Space"><display text=""/>
+                <link text="${wikiSpaceId}" url="/apps/hm/wiki/${wikiSpaceId}" url-type="plain"/>
+            </default-field></field>
+            <field name="pagePath"><default-field title="Page"><display text=""/>
+                <link text="${pagePath}" url="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}" url-type="plain"/>
+            </default-field></field>
+
+            <field name="submitButton"><default-field title="Delete"><submit/></default-field></field>
+        </form-list>
+    </widgets>
+</screen>
