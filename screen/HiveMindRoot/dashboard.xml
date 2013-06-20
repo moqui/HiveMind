@@ -14,11 +14,6 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
         default-menu-title="Dashboard" default-menu-index="1">
 
-    <transition name="createSpace">
-        <service-call name="HiveMind.WikiServices.create#WikiSpace" in-map="context"/>
-        <default-response url="."/>
-    </transition>
-
     <transition name="createTask">
         <service-call name="mantle.work.TaskServices.create#Task" in-map="context"/>
         <default-response url="."/>
@@ -100,31 +95,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <container-panel id="dashboard-panel">
             <panel-left>
                 <container id="dashboard-wiki-section">
-                    <container id="dashboard-wiki-links">
-                        <container-dialog id="NewSpaceContainer" button-text="New Space">
-                            <form-single name="NewSpace" transition="createSpace">
-                                <field name="wikiSpaceId"><default-field><text-line size="8"/></default-field></field>
-                                <field name="description"><default-field><text-line size="40"/></default-field></field>
-                                <field name="restrictView"><default-field>
-                                    <drop-down><option key="Y"/><option key="N"/></drop-down>
-                                </default-field></field>
-                                <field name="rootPageDirectory"><default-field>
-                                    <drop-down combo-box="true">
-                                        <option key="runtime/WikiSpace"/>
-                                        <option key="content://main/HiveMind/WikiSpace"/>
-                                        <option key="dbresource://HiveMind/WikiSpace"/>
-                                    </drop-down>
-                                </default-field></field>
-                                <!--
-                                <field name="rootPageLocation"><default-field title="Root Page">
-                                    <text-line size="60" default-value="component://HiveMind/WikiSpace/\${wikiSpaceId}.cwiki"/>
-                                </default-field></field>
-                                -->
-
-                                <field name="submitButton"><default-field title="Create Space"><submit/></default-field></field>
-                            </form-single>
-                        </container-dialog>
-                    </container>
+                    <!-- <container id="dashboard-wiki-links"> </container> -->
                     <container id="dashboard-wiki-title"><label text="Wiki Spaces" type="h3"/></container>
                     <section-iterate name="WikiSpaces" list="wikiSpaceAndUserList" entry="wikiSpace">
                         <widgets><container>
