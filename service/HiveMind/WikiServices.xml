@@ -40,9 +40,9 @@ This Work includes contributions authored by David E. Jones, not as a
         <out-parameters>
             <parameter name="wikiPageId"/>
             <parameter name="wikiPage" type="org.moqui.entity.EntityValue"/>
+            <parameter name="createdRecord" type="Boolean"/>
         </out-parameters>
         <actions>
-            <!-- TODO: there seems to be an issue when cache=true; perhaps clearing fails when list in cache is empty? -->
             <entity-find entity-name="HiveMind.wiki.WikiPage" list="wikiPageList" cache="true">
                 <econdition-object field="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: null)]"/>
             </entity-find>
@@ -59,6 +59,11 @@ This Work includes contributions authored by David E. Jones, not as a
                 <service-call name="create#HiveMind.wiki.WikiPage" out-map="context"
                         in-map="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: null), createdByUserId:ec.user.userId]"/>
                 <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage" cache="false"/>
+                <set field="createdRecord" from="true"/>
+
+                <else>
+                    <set field="createdRecord" from="false"/>
+                </else>
             </if>
             <set field="wikiPageId" from="wikiPage?.wikiPageId"/>
         </actions>
@@ -176,29 +181,6 @@ This Work includes contributions authored by David E. Jones, not as a
             <set field="attachmentReference" from="pageAttachmentsDirectoryRef?.getChild(filename)"/>
         </actions>
     </service>
-    <service verb="get" noun="WikiSpacePages">
-        <in-parameters>
-            <parameter name="wikiSpaceId" required="true"/>
-        </in-parameters>
-        <out-parameters>
-            <parameter name="allChildFileFlatList"/>
-            <parameter name="rootChildResourceList"/>
-        </out-parameters>
-        <actions>
-            <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
-            <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
-            <set field="rootPageDirRef" from="rootPageRef.findMatchingDirectory()"/>
-            <!-- walk the entire tree of pages under the space root and add them to the flat list and the tree of pages -->
-            <set field="allChildFileFlatList" from="[[path:'', name:'Root Page', location:rootPageRef.getLocation()]]"/>
-            <set field="rootChildResourceList" from="[]"/>
-            <script>rootPageDirRef.walkChildTree(allChildFileFlatList, rootChildResourceList)</script>
-
-            <!-- <iterate list="allChildFileFlatList" entry="allChildFileFlat">
-                <log level="warn" message="============= allChildFileFlat=${allChildFileFlat}"/>
-            </iterate>
-            <log level="warn" message="============= rootChildResourceList=${rootChildResourceList}"/> -->
-        </actions>
-    </service>
 
     <service verb="update" noun="WikiPage">
         <in-parameters>
@@ -265,8 +247,12 @@ This Work includes contributions authored by David E. Jones, not as a
                 <!-- save the old path in the WikiPageHistory (before the pagePath is set to the new path) -->
                 <set field="wikiPageHistoryMap.oldPagePath" from="pagePath"/>
 
-                <!-- return the new pagePath so the user is taken there -->
+                <!-- set the new pagePath (it is returned so the user is taken there) -->
                 <set field="pagePath" value="${parentPath ? parentPath+'/' : ''}${pageName?:''}"/>
+                
+                <!-- save the new pagePath on the WikiPage record -->
+                <set field="wikiPage.pagePath" from="pagePath"/>
+                <entity-update value-field="wikiPage"/>
             </if>
 
             <service-call name="create#HiveMind.wiki.WikiPageHistory" in-map="wikiPageHistoryMap"/>
@@ -308,12 +294,57 @@ This Work includes contributions authored by David E. Jones, not as a
             <!-- create a root page if no file exists at the given location -->
             <set field="rootPageReference" from="ec.resource.getLocationReference(rootPageLocation)"/>
             <if condition="!rootPageReference.exists">
-                <script>rootPageReference.putText("""
-h2. Root page for ${description?:wikiSpaceId}
-""")</script>
+                <script>rootPageReference.putText("\nh2. Automatic root page for ${description?:wikiSpaceId}\n")</script>
             </if>
         </actions>
     </service>
+    <service verb="get" noun="WikiSpacePages">
+        <in-parameters>
+            <parameter name="wikiSpaceId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="allChildFileFlatList"/>
+            <parameter name="rootChildResourceList"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="WikiSpace" value-field="wikiSpace" cache="true"/>
+            <set field="rootPageRef" from="ec.resource.getLocationReference(wikiSpace.rootPageLocation)"/>
+            <set field="rootPageDirRef" from="rootPageRef.findMatchingDirectory()"/>
+            <!-- walk the entire tree of pages under the space root and add them to the flat list and the tree of pages -->
+            <set field="allChildFileFlatList" from="[[path:'', name:'Root Page', location:rootPageRef.getLocation()]]"/>
+            <set field="rootChildResourceList" from="[]"/>
+            <script>rootPageDirRef.walkChildTree(allChildFileFlatList, rootChildResourceList)</script>
+
+            <!-- <iterate list="allChildFileFlatList" entry="allChildFileFlat">
+                <log level="warn" message="============= allChildFileFlat=${allChildFileFlat}"/>
+            </iterate>
+            <log level="warn" message="============= rootChildResourceList=${rootChildResourceList}"/> -->
+        </actions>
+    </service>
+    <service verb="index" noun="WikiSpacePages">
+        <description>Find all pages in space, make sure each has a WikiPage record, and index the page for searching.</description>
+        <in-parameters><parameter name="wikiSpaceId"/></in-parameters>
+        <actions>
+            <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="[wikiSpaceId:wikiSpaceId]" out-map="context"/>
+
+            <set field="recordsCreated" from="0"/>
+            <set field="documentList" from="[]"/>
+            <iterate list="allChildFileFlatList" entry="allChildFileFlat">
+                <service-call name="HiveMind.WikiServices.get#WikiPageId" out-map="getWpiResult"
+                        in-map="[wikiSpaceId:wikiSpaceId, pagePath:allChildFileFlat.path, createIfMissing:true]"/>
+                <if condition="getWpiResult.createdRecord"><set field="recordsCreated" from="recordsCreated + 1"/></if>
+
+                <script>documentList.addAll(ec.entity.getEntityDataDocument().getDataDocuments("HmWikiPage",
+                        ec.entity.conditionFactory.makeCondition([wikiPageId:getWpiResult.wikiPageId]), null, null))</script>
+            </iterate>
+            <script>ec.service.sync().name("org.moqui.impl.EntityServices", "index", "DataDocuments")
+                    .parameters([documentList:documentList]).call()
+            </script>
+
+            <message>Found ${allChildFileFlatList.size()} page in Wiki Space [${wikiSpaceId}], created records for ${recordsCreated}.</message>
+        </actions>
+    </service>
+
     <service verb="get" noun="UserWikiSpaces">
         <in-parameters><parameter name="userId"/></in-parameters>
         <out-parameters><parameter name="wikiSpaceAndUserList" type="List"/></out-parameters>
