@@ -42,7 +42,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         <option key="N"/><option key="Y"/></drop-down></default-field></field>
                     <field name="rootPageDirectory"><default-field>
                         <drop-down combo-box="true">
-                            <option key="runtime/WikiSpace"/>
+                            <option key="WikiSpace" text="runtime/WikiSpace"/>
                             <option key="content://main/HiveMind/WikiSpace"/>
                             <option key="dbresource://HiveMind/WikiSpace"/>
                         </drop-down>
