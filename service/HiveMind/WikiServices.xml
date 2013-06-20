@@ -334,14 +334,14 @@ This Work includes contributions authored by David E. Jones, not as a
                         in-map="[wikiSpaceId:wikiSpaceId, pagePath:allChildFileFlat.path, createIfMissing:true]"/>
                 <if condition="getWpiResult.createdRecord"><set field="recordsCreated" from="recordsCreated + 1"/></if>
 
-                <script>documentList.addAll(ec.entity.getEntityDataDocument().getDataDocuments("HmWikiPage",
+                <script>documentList.addAll(ec.entity.getDataDocuments("HmWikiPage",
                         ec.entity.conditionFactory.makeCondition([wikiPageId:getWpiResult.wikiPageId]), null, null))</script>
             </iterate>
             <script>ec.service.sync().name("org.moqui.impl.EntityServices", "index", "DataDocuments")
                     .parameters([documentList:documentList]).call()
             </script>
 
-            <message>Found ${allChildFileFlatList.size()} pages in Wiki Space [${wikiSpaceId}], created records for ${recordsCreated}.</message>
+            <message>Found and indexed ${allChildFileFlatList.size()} pages in Wiki Space [${wikiSpaceId}], created DB records for ${recordsCreated}.</message>
         </actions>
     </service>
 
