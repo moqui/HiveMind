@@ -294,7 +294,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <!-- create a root page if no file exists at the given location -->
             <set field="rootPageReference" from="ec.resource.getLocationReference(rootPageLocation)"/>
             <if condition="!rootPageReference.exists">
-                <script>rootPageReference.putText("\nh2. Automatic root page for ${description?:wikiSpaceId}\n")</script>
+                <script>rootPageReference.putText("\nh2. Automatic root page for space ${description?:wikiSpaceId}\n\n")</script>
             </if>
         </actions>
     </service>
@@ -341,7 +341,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     .parameters([documentList:documentList]).call()
             </script>
 
-            <message>Found ${allChildFileFlatList.size()} page in Wiki Space [${wikiSpaceId}], created records for ${recordsCreated}.</message>
+            <message>Found ${allChildFileFlatList.size()} pages in Wiki Space [${wikiSpaceId}], created records for ${recordsCreated}.</message>
         </actions>
     </service>
 
