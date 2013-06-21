@@ -22,8 +22,13 @@ h2. TODO Lists
 
 h3. HiveMind General
 
-* user account setup: at least name, email, space associations, project associations
-* Admin screen with separate authz and user group, and example users (add john.doe to the group in demo data)
+* improve wiki page and task update notification emails; show more specific fields, only send if supported fields changed, etc
+
+* implement general GL posting
+* implement automatic invoice GL posting
+* implement basic financial reports (income statement, balance sheet, etc)
+
+* implement payment receiving and application to invoice instead of simple invoice status change
 
 h3. HiveMind Wiki
 
@@ -32,31 +37,14 @@ h3. HiveMind Wiki
 
 * comment list and add comment form (files in a subdir like _attachments?)
 * generate PDF from wiki source
-* wiki search - use solr, or elastic search ([http://www.elasticsearch.org])?
 * space page tree - change to use AJAX so entire space tree isn't loaded each time (maybe make page view change without reloading?)
 * visual editor for cwiki and/or others
 * reference for wiki syntax supported, link to wikitext docs or add some to app
 
-* access control: for non-public spaces check to see if user is associated as admin, contributor, or viewer
-* page subscriptions with email notification for page change, or any change in a space
-
 h3. HiveMind Tasks
 
-* Dashboard
-** New Project dialog
-** Project list
-* Project Summary Screen
-** Task tree
-** My task list
-** Recent task list
-* Task Screen
-** Edit task fields
-** Task comment list, add comment
-** Task attachment (content)
+* add task summary screen
 
-h3. HiveMind Issues
+h3. HiveMind Requests
 
-* Dashboard
-** New Issue dialog
-** Issue list form with find in header
-* Issue Screen
+* add request summary screen
