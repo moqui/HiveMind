@@ -51,7 +51,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <form-single name="EditTask" transition="updateTask" map="task">
-            <field name="workEffortId"><default-field><hidden/></default-field></field>
+            <field name="workEffortId"><default-field title="Task ID"><display/></default-field></field>
             <field name="rootWorkEffortId">
                 <default-field title="Project">
                     <drop-down>

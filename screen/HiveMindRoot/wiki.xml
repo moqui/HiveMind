@@ -17,12 +17,13 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="wikiSpaceId"/>
     <parameter name="pagePath"/>
 
-    <transition name="editPage">
-        <default-response url="../EditWikiPage"/>
-    </transition>
-    <transition name="createPage">
-        <default-response url="../EditWikiPage"/>
-    </transition>
+    <transition name="editPage"><default-response url="../EditWikiPage"/></transition>
+    <transition name="createPage"><default-response url="../EditWikiPage"/></transition>
+
+    <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
+    <transition name="editTask"><default-response url="../Task/EditTask"/></transition>
+    <transition name="editRequest"><default-response url="../Request/EditRequest"/></transition>
+
     <transition name="uploadAttachment">
         <actions>
             <set field="filename" from="attachmentFile.getName()"/>
@@ -108,6 +109,119 @@ This Work includes contributions authored by David E. Jones, not as a
                 <render-mode>
                     <text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/>
                 </render-mode>
+
+                <section name="WikiPageAttachments">
+                    <!-- this is only needed if it is below the wiki page render: <actions><script>sri.baseLinkUrl(null)</script></actions> -->
+                    <widgets>
+                        <container id="wiki-page-attachments">
+                            <container style="ui-helper-clearfix">
+                                <label text="Attachments" id="wiki-attachments-label"/>
+                                <container id="wiki-attachments-links">
+                                    <container-dialog id="UploadAttachmentDialog" button-text="Upload">
+                                        <form-single name="UploadAttachment" transition="uploadAttachment">
+                                            <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
+                                            <field name="pagePath"><default-field><hidden/></default-field></field>
+                                            <field name="attachmentFile"><default-field><file/></default-field></field>
+                                            <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
+                                        </form-single>
+                                    </container-dialog>
+                                </container>
+                            </container>
+                            <section-iterate name="AttachmentList" list="attachmentList" entry="attachment">
+                                <widgets>
+                                    <link url="downloadAttachment" text="${attachment.filename}" link-type="hidden-form-link">
+                                        <parameter name="wikiSpaceId" from="attachment.wikiSpaceId"/>
+                                        <parameter name="pagePath" from="attachment.pagePath"/>
+                                        <parameter name="filename" from="attachment.filename"/>
+                                    </link>
+                                    <container>
+                                        <label text="${attachment.contentType}"/>
+                                        <label text="${ec.l10n.formatValue(new Timestamp(attachment.lastModified), null)}"/>
+                                    </container>
+                                    <!-- TODO: add delete link; maybe just move to a _trash directory? -->
+                                </widgets>
+                            </section-iterate>
+                        </container>
+                    </widgets>
+                </section>
+
+                <section name="PageRelatedSection">
+                    <condition><expression>wikiPageId</expression></condition>
+                    <actions>
+                        <entity-find entity-name="HiveMind.wiki.WikiPageAndWorkEffort" list="wpaweList">
+                            <econdition field-name="wikiPageId"/>
+                        </entity-find>
+                        <filter-map-list list="wpaweList" to-list="projectWpaweList">
+                            <field-map field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
+                        </filter-map-list>
+                        <filter-map-list list="wpaweList" to-list="taskWpaweList">
+                            <field-map field-name="workEffortTypeEnumId" value="WET_TASK"/>
+                        </filter-map-list>
+
+                        <entity-find entity-name="HiveMind.wiki.WikiPageAndRequest" list="wparList">
+                            <econdition field-name="wikiPageId"/>
+                        </entity-find>
+                    </actions>
+                    <widgets>
+                        <section name="ProjectSection">
+                            <condition><expression>projectWpaweList</expression></condition>
+                            <widgets>
+                                <label text="Page Projects" id="wiki-page-projects-label"/>
+                                <section-iterate name="ProjectItemSection" list="projectWpaweList" entry="projectWpawe">
+                                    <widgets>
+                                        <link url="editProject" text="${projectWpawe.workEffortId} - ${projectWpawe.workEffortName}" link-type="anchor">
+                                            <parameter name="rootWorkEffortId" from="projectWpawe.workEffortId"/>
+                                        </link>
+                                    </widgets>
+                                </section-iterate>
+                            </widgets>
+                        </section>
+                        <section name="TaskSection">
+                            <condition><expression>taskWpaweList</expression></condition>
+                            <widgets>
+                                <label text="Page Tasks" id="wiki-page-tasks-label"/>
+                                <section-iterate name="TaskItemSection" list="taskWpaweList" entry="taskWpawe">
+                                    <actions>
+                                        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="taskStatusItem" cache="true">
+                                            <field-map field-name="statusId" from="taskWpawe.statusId"/>
+                                        </entity-find-one>
+                                        <entity-find-one entity-name="moqui.basic.Enumeration" value-field="taskPurposeEnum" cache="true">
+                                            <field-map field-name="enumId" from="taskWpawe.purposeEnumId"/>
+                                        </entity-find-one>
+                                    </actions>
+                                    <widgets>
+                                        <link url="editTask" text="${taskWpawe.workEffortId} - ${taskWpawe.workEffortName}" link-type="anchor">
+                                            <parameter name="workEffortId" from="taskWpawe.workEffortId"/>
+                                        </link>
+                                        <label text="P: ${taskPurposeEnum.description} - S: ${taskStatusItem.description} - P: ${taskWpawe.priority?:''}" type="p"/>
+                                    </widgets>
+                                </section-iterate>
+                            </widgets>
+                        </section>
+                        <section name="RequestSection">
+                            <condition><expression>wparList</expression></condition>
+                            <widgets>
+                                <label text="Page Requests" id="wiki-page-requests-label"/>
+                                <section-iterate name="RequestItemSection" list="wparList" entry="wpar">
+                                    <actions>
+                                        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="requestStatusItem" cache="true">
+                                            <field-map field-name="statusId" from="wpar.statusId"/>
+                                        </entity-find-one>
+                                        <entity-find-one entity-name="moqui.basic.Enumeration" value-field="requestTypeEnum" cache="true">
+                                            <field-map field-name="enumId" from="wpar.requestTypeEnumId"/>
+                                        </entity-find-one>
+                                    </actions>
+                                    <widgets>
+                                        <link url="editRequest" text="${wpar.requestId} - ${wpar.requestName}" link-type="anchor">
+                                            <parameter name="requestId" from="wpar.requestId"/>
+                                        </link>
+                                        <label text="T: ${requestTypeEnum.description} - S: ${requestStatusItem.description} - P: ${wpar.priority?:''}" type="p"/>
+                                    </widgets>
+                                </section-iterate>
+                            </widgets>
+                        </section>
+                    </widgets>
+                </section>
             </panel-left>
             <panel-center>
                 <container id="wiki-breadcrumbs">
@@ -154,36 +268,6 @@ This Work includes contributions authored by David E. Jones, not as a
                        instead of including it explicitly as above
                 <subscreens-active id="wiki-container"/>
                 -->
-                <section name="WikiPageAttachments">
-                    <actions><script>sri.baseLinkUrl(null)</script></actions>
-                    <widgets>
-                        <container id="wiki-page-attachments">
-                            <container style="ui-helper-clearfix">
-                                <container id="wiki-attachment-name">
-                                    <label text="Attachments" type="h2"/>
-                                </container>
-                                <container id="wiki-attachment-links">
-                                    <container-dialog id="UploadAttachmentDialog" button-text="Upload Attachment">
-                                        <form-single name="UploadAttachment" transition="uploadAttachment">
-                                            <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
-                                            <field name="pagePath"><default-field><hidden/></default-field></field>
-                                            <field name="attachmentFile"><default-field><file/></default-field></field>
-                                            <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
-                                        </form-single>
-                                    </container-dialog>
-                                </container>
-                            </container>
-                            <form-list name="AttachmentList" list="attachmentList" skip-start="true" skip-end="true">
-                                <field name="filename"><default-field><link url="downloadAttachment" text="${filename}">
-                                    <parameter name="wikiSpaceId"/><parameter name="pagePath"/><parameter name="filename"/>
-                                </link></default-field></field>
-                                <field name="contentType"><default-field><display/></default-field></field>
-                                <field name="lastModified"><default-field><display text="${ec.l10n.formatValue(new Timestamp(lastModified), null)}"/></default-field></field>
-                                <!-- TODO: add delete link; maybe just move to a _trash directory? -->
-                            </form-list>
-                        </container>
-                    </widgets>
-                </section>
             </panel-center>
         </container-panel>
     </widgets>

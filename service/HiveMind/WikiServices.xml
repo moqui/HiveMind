@@ -76,6 +76,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </in-parameters>
         <out-parameters>
             <parameter name="wikiSpaceId"/>
+            <parameter name="wikiPageId"/>
             <parameter name="pagePath"/>
             <parameter name="wikiSpace" type="org.moqui.entity.EntityValue"/>
             <parameter name="pageReference" type="org.moqui.content.ResourceReference"/>
