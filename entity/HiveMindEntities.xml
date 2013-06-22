@@ -55,7 +55,7 @@ and those parts may be licensed under the Apache License 2.0.
             <key-map field-name="wikiPageId"/>
         </member-entity>
         <alias-all entity-alias="WKPG"/>
-        <alias-all entity-alias="WPU"><exclude field="wikiPageId"/></alias-all>
+        <alias-all entity-alias="WPU"/>
     </view-entity>
 
     <entity entity-name="WikiPageRequest" package-name="HiveMind.wiki">
@@ -73,8 +73,8 @@ and those parts may be licensed under the Apache License 2.0.
             <key-map field-name="requestId"/>
         </member-entity>
         <alias-all entity-alias="WPR"/>
-        <alias-all entity-alias="WKP"><exclude field="wikiPageId"/></alias-all>
-        <alias-all entity-alias="REQ"><exclude field="requestId"/></alias-all>
+        <alias-all entity-alias="WKP"/>
+        <alias-all entity-alias="REQ"/>
     </view-entity>
     <entity entity-name="WikiPageWorkEffort" package-name="HiveMind.wiki">
         <field name="wikiPageId" type="id" is-pk="true"/>
@@ -91,8 +91,8 @@ and those parts may be licensed under the Apache License 2.0.
             <key-map field-name="workEffortId"/>
         </member-entity>
         <alias-all entity-alias="WPWE"/>
-        <alias-all entity-alias="WKP"><exclude field="wikiPageId"/></alias-all>
-        <alias-all entity-alias="WEF"><exclude field="workEffortId"/></alias-all>
+        <alias-all entity-alias="WKP"/>
+        <alias-all entity-alias="WEF"/>
     </view-entity>
 
     <entity entity-name="WikiSpace" package-name="HiveMind.wiki">
@@ -119,7 +119,7 @@ and those parts may be licensed under the Apache License 2.0.
             <key-map field-name="wikiSpaceId"/>
         </member-entity>
         <alias-all entity-alias="WKSP"/>
-        <alias-all entity-alias="WSU"><exclude field="wikiSpaceId"/></alias-all>
+        <alias-all entity-alias="WSU"/>
     </view-entity>
 
     <view-entity entity-name="PartyTaskSummary" package-name="HiveMind.work.effort">
@@ -136,7 +136,7 @@ and those parts may be licensed under the Apache License 2.0.
 
         <alias-all entity-alias="WEFF"/>
         <alias-all entity-alias="WEFF_MLSTN" prefix="milestone"/>
-        <alias-all entity-alias="WEP"><exclude field="workEffortId"/><exclude field="statusId"/></alias-all>
+        <alias-all entity-alias="WEP"><exclude field="statusId"/></alias-all>
         <alias name="partyStatusId" entity-alias="WEP" field="statusId"/>
 
         <!-- <alias name="workEffortAssocTypeEnumId" entity-alias="WEFF_ASSOC"/> -->
