@@ -18,19 +18,19 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="invoiceId_0"/>
 
     <transition name="createInvoiceItem">
-        <service-call name="create#mantle.accounting.account.invoice.InvoiceItem" in-map="context"/>
+        <service-call name="create#mantle.account.invoice.InvoiceItem" in-map="context"/>
         <default-response url="."/>
     </transition>
     <transition name="updateInvoiceItem">
-        <service-call name="update#mantle.accounting.account.invoice.InvoiceItem" in-map="context"/>
+        <service-call name="update#mantle.account.invoice.InvoiceItem" in-map="context"/>
         <default-response url="."/>
     </transition>
 
     <actions>
         <set field="invoiceId" from="invoiceId ?: invoiceId_0"/>
-        <entity-find-one entity-name="mantle.accounting.account.invoice.Invoice" value-field="invoice"/>
-        <service-call name="mantle.accounting.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
-        <entity-find entity-name="mantle.accounting.account.invoice.InvoiceItem" list="invoiceItemList">
+        <entity-find-one entity-name="mantle.account.invoice.Invoice" value-field="invoice"/>
+        <service-call name="mantle.account.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
+        <entity-find entity-name="mantle.account.invoice.InvoiceItem" list="invoiceItemList">
             <econdition field-name="invoiceId"/>
         </entity-find>
     </actions>

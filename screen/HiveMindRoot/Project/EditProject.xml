@@ -18,7 +18,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="rootWorkEffortId"/>
 
     <transition name="createProjectInvoice">
-        <service-call name="mantle.accounting.InvoiceServices.create#ProjectInvoiceItems" in-map="context"/>
+        <service-call name="mantle.account.InvoiceServices.create#ProjectInvoiceItems" in-map="context"/>
         <default-response url="."/>
     </transition>
     <transition name="updateProject">

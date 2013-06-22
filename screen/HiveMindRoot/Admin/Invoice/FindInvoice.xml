@@ -22,7 +22,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </pre-actions>
     
     <actions>
-        <entity-find entity-name="mantle.accounting.account.invoice.Invoice" list="invoiceList">
+        <entity-find entity-name="mantle.account.invoice.Invoice" list="invoiceList">
             <search-form-inputs default-order-by="-invoiceDate"/>
         </entity-find>
     </actions>
@@ -64,7 +64,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
         <form-list name="InvoiceList" list="invoiceList" skip-form="true">
             <row-actions>
-                <service-call name="mantle.accounting.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
+                <service-call name="mantle.account.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
             </row-actions>
             <field name="editInvoiceLink"><header-field show-order-by="case-insensitive" title="Edit"/><default-field>
                 <link url="editInvoice" text="Edit ${invoiceId}"/>

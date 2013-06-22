@@ -17,16 +17,16 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="invoiceId"/>
 
     <transition name="updateInvoice">
-        <service-call name="update#mantle.accounting.account.invoice.Invoice" in-map="context"/>
+        <service-call name="update#mantle.account.invoice.Invoice" in-map="context"/>
         <default-response url="."/>
     </transition>
 
     <actions>
-        <entity-find-one entity-name="mantle.accounting.account.invoice.Invoice" value-field="fieldValues"/>
+        <entity-find-one entity-name="mantle.account.invoice.Invoice" value-field="fieldValues"/>
         <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
             <field-map field-name="statusId" from="fieldValues?.statusId"/>
         </entity-find-one>
-        <service-call name="mantle.accounting.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
+        <service-call name="mantle.account.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
     </actions>
     <widgets>
         <form-single name="EditInvoice" transition="updateInvoice">
