@@ -158,8 +158,17 @@ This Work includes contributions authored by David E. Jones, not as a
             workEffortAssocTypeEnumId="WEAT_MILESTONE" fromDate="2010-02-03 00:00:00" sequenceNum="3"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-004" workEffortName="Dashboard My Tasks" priority="1"
-            rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="5" timeUomId="TF_hr"
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_IN_PROGRESS"/>
+            rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="5" actualWorkTime="3.25" timeUomId="TF_hr"
+            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_IN_PROGRESS">
+        <description><![CDATA[
+            Show a list of open tasks (statusId not in WE_CLOSED,WE_CANCELLED) for the current logged in user.
+
+            For each task include a link to the Project and Milestone the task is associated with. Also display the
+            priority, purpose, status, due date, estimated hours and actual hours.
+
+            The actual hours is populated automatically based on a sum of the TimeEntry records associated to the task.
+        ]]></description>
+    </mantle.work.effort.WorkEffort>
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="WORKER"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED" receiveNotifications="Y"/>
     <mantle.work.time.TimeEntry timeEntryId="HM-004-01" partyId="EX_JOHN_DOE" hours="2" breakHours="3"
@@ -170,6 +179,8 @@ This Work includes contributions authored by David E. Jones, not as a
             rateAmountId="HM-001" fromDate="2013-03-04 14:00:00" thruDate="2013-03-02 17:00:00"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-004"
             workEffortAssocTypeEnumId="WEAT_MILESTONE" fromDate="2010-02-03 00:00:00" sequenceNum="4"/>
+    <HiveMind.wiki.WikiPageWorkEffort wikiPageId="DEMO_DP1" workEffortId="HM-004"/>
+    <HiveMind.wiki.WikiPageWorkEffort wikiPageId="DEMO_DP2_CP1" workEffortId="HM-004"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-005" workEffortName="Dashboard Create Task" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001"
@@ -212,4 +223,7 @@ This Work includes contributions authored by David E. Jones, not as a
             statusId="REQUEST_SUBMITTED" requestName="Why is there so little color in the app?" description=""
             fromPartyId="" priority="2" requestDate="2010-02-03 00:00:00" responseRequiredDate="2013-07-31 12:00:00"/>
     <mantle.request.RequestParty requestId="DEMO_002" partyId="EX_JOHN_DOE" roleTypeId="WORKER" fromDate="2010-02-03 00:00:00" thruDate=""/>
+
+    <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-004"/>
+    <mantle.request.RequestWorkEffort requestId="DEMO_002" workEffortId="HM-004"/>
 </entity-facade-xml>
