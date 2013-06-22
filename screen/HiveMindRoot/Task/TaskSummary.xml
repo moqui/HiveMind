@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
+        default-menu-title="Task Summary" default-menu-index="0">
+
+    <parameter name="workEffortId"/>
+
+    <transition name="taskSummary"><default-response url="../../Task/TaskSummary"/></transition>
+    <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
+    <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
+
+    <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
+
+    <actions>
+        <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="task"/>
+        <entity-find-related-one value-field="task" relationship-name="Root#mantle.work.effort.WorkEffort" to-value-field="project"/>
+        <entity-find-related-one value-field="task" relationship-name="Parent#mantle.work.effort.WorkEffort" to-value-field="parentTask"/>
+        <entity-find-related-one value-field="task" relationship-name="WorkEffortPurpose#moqui.basic.Enumeration" to-value-field="purposeEnum"/>
+        <entity-find-related-one value-field="task" relationship-name="WorkEffort#moqui.basic.StatusItem" to-value-field="currentStatus"/>
+
+        <entity-find entity-name="mantle.work.effort.WorkEffortAssoc" list="milestoneAssocList">
+            <date-filter/>
+            <econdition field-name="toWorkEffortId" from="task?.workEffortId"/>
+            <econdition field-name="workEffortAssocTypeEnumId" value="WEAT_MILESTONE"/>
+        </entity-find>
+        <set field="milestoneAssoc" from="milestoneAssocList?.getAt(0)"/>
+        <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="milestone">
+            <field-map field-name="workEffortId" from="milestoneAssoc?.workEffortId"/>
+        </entity-find-one>
+
+        <entity-find entity-name="TimeEntry" list="timeEntryList">
+            <econdition field-name="workEffortId"/>
+            <order-by field-name="fromDate"/><order-by field-name="lastUpdatedStamp"/>
+        </entity-find>
+
+        <entity-find entity-name="mantle.work.effort.WorkEffortPartyAndPerson" list="wepapList">
+            <date-filter/>
+            <econdition field-name="workEffortId"/>
+        </entity-find>
+
+        <entity-find entity-name="mantle.request.WorkEffortRequestDetail" list="werdList">
+            <econdition field-name="workEffortId"/>
+        </entity-find>
+
+        <entity-find entity-name="HiveMind.wiki.WikiPageAndWorkEffort" list="wpaweList">
+            <econdition field-name="workEffortId"/>
+        </entity-find>
+    </actions>
+    <widgets>
+        <container-panel id="task-summary-panel">
+            <panel-left>
+                <label text="Task ID: ${workEffortId}" type="strong"/>
+                <container><label text="Project: " type="strong"/></container>
+                <link text="${project.workEffortId} - ${project.workEffortName}" url="editProject">
+                    <parameter name="workEffortId" from="project.workEffortId"/>
+                </link>
+                <container><label text="Milestone: " type="strong"/></container>
+                <link text="${milestone.workEffortId} - ${milestone.workEffortName}" url="milestoneSummary">
+                    <parameter name="milestoneWorkEffortId" from="milestone.workEffortId"/>
+                </link>
+
+                <section name="ParentTaskSection"><condition><expression>parentTask</expression></condition>
+                    <widgets>
+                        <container><label text="Parent Task: " type="strong"/></container>
+                        <link text="${parentTask.workEffortId} - ${parentTask.workEffortName}" url="taskSummary">
+                            <parameter name="workEffortId" from="parentTask.workEffortId"/>
+                        </link>
+                    </widgets>
+                </section>
+
+                <container><label text="Priority: " type="strong"/><label text="${task.priority}"/></container>
+                <container><label text="Purpose: " type="strong"/><label text="${purposeEnum.description}"/></container>
+                <container><label text="Status: " type="strong"/><label text="${currentStatus.description}"/></container>
+                <container><label text="Due Date: " type="strong"/><label text="${ec.l10n.formatValue(task.estimatedCompletionDate, 'yyyy-MM-dd')}"/></container>
+                <container><label text="Estimated Hours: " type="strong"/><label text="${ec.l10n.formatValue(task.estimatedWorkTime, '#.00')}"/></container>
+                <container><label text="Actual Hours: " type="strong"/><label text="${ec.l10n.formatValue(task.actualWorkTime, '#.00')}"/></container>
+
+                <label text="Time Entries" id="task-time-label"/>
+                <section-iterate name="TimeEntryList" list="timeEntryList" entry="timeEntry">
+                    <actions>
+                        <entity-find-one entity-name="mantle.party.PersonAndUserAccount" value-field="paua">
+                            <field-map field-name="partyId" from="timeEntry.partyId"/>
+                        </entity-find-one>
+                    </actions>
+                    <widgets>
+                        <label text="- ${ec.l10n.formatValue(timeEntry.hours, '#.00')}h at ${timeEntry.fromDate?:''} by ${paua.firstName} ${paua.lastName} ${paua.username ? '(' + paua.username + ')' :''}" type="p"/>
+                    </widgets>
+                </section-iterate>
+            </panel-left>
+            <panel-center>
+                <container><label text="Task: " type="strong"/><label text="${task.workEffortName}"/></container>
+                <label text="Description: " type="strong"/>
+                <label text="${task.description ?: 'No description'}" type="p"/>
+            </panel-center>
+            <panel-right>
+                <label text="Users" type="strong"/>
+                <section-iterate name="TaskUserList" list="wepapList" entry="wepap">
+                    <actions>
+                        <entity-find-one entity-name="mantle.party.RoleType" value-field="roleType" cache="true">
+                            <field-map field-name="roleTypeId" from="wepap.roleTypeId"/>
+                        </entity-find-one>
+                        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="statusItem" cache="true">
+                            <field-map field-name="statusId" from="wepap.statusId"/>
+                        </entity-find-one>
+                    </actions>
+                    <widgets>
+                        <container style="task-user-block">
+                            <label text="${(wepap.username? '[' + wepap.username + ']' :'')} ${wepap.firstName} ${wepap.lastName}" type="p"/>
+                            <label text="${roleType.description} - ${statusItem.description}" type="p"/>
+                            <label text="Notifications? ${wepap.receiveNotifications}" type="p"/>
+                        </container>
+                    </widgets>
+                </section-iterate>
+
+                <label text="Requests" id="task-requests-label"/>
+                <section-iterate name="TaskRequestList" list="werdList" entry="werd">
+                    <actions>
+                        <entity-find-one entity-name="moqui.basic.Enumeration" value-field="requestType" cache="true">
+                            <field-map field-name="enumId" from="werd.requestTypeEnumId"/>
+                        </entity-find-one>
+                        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="statusItem" cache="true">
+                            <field-map field-name="statusId" from="werd.statusId"/>
+                        </entity-find-one>
+                    </actions>
+                    <widgets>
+                        <container style="task-request-block">
+                            <link text="${werd.requestId} - ${werd.requestName}" url="editRequest">
+                                <parameter name="requestId" from="werd.requestId"/>
+                            </link>
+                            <label text="${requestType.description} - ${statusItem.description}" type="p"/>
+                        </container>
+                    </widgets>
+                </section-iterate>
+
+                <label text="Wiki Pages" id="task-wiki-pages-label"/>
+                <section-iterate name="TaskWikiPageList" list="wpaweList" entry="wpawe">
+                    <widgets><container>
+                        <link text="${wpawe.wikiSpaceId}" url="/apps/hm/wiki/${wpawe.wikiSpaceId}" url-type="plain"/>
+                        <link text="/${wpawe.pagePath}" url="/apps/hm/wiki/${wpawe.wikiSpaceId}/${wpawe.pagePath?:''}" url-type="plain"/>
+                    </container></widgets>
+                </section-iterate>
+            </panel-right>
+        </container-panel>
+    </widgets>
+</screen>

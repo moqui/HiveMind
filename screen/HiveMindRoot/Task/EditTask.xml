@@ -38,8 +38,8 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
 
     <actions>
-        <entity-find-one entity-name="WorkEffort" value-field="task"/>
-        <entity-find entity-name="WorkEffortAssoc" list="milestoneAssocList">
+        <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="task"/>
+        <entity-find entity-name="mantle.work.effort.WorkEffortAssoc" list="milestoneAssocList">
             <date-filter/>
             <econdition field-name="toWorkEffortId" from="task.workEffortId"/>
             <econdition field-name="workEffortAssocTypeEnumId" value="WEAT_MILESTONE"/>

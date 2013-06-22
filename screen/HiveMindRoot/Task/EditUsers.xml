@@ -111,13 +111,13 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="firstName"><header-field title="First" show-order-by="case-insensitive"/><default-field><display also-hidden="false"/></default-field></field>
             <field name="lastName"><header-field title="Last" show-order-by="case-insensitive"/><default-field><display also-hidden="false"/></default-field></field>
             <field name="roleTypeId"><header-field title="Role" show-order-by="true"/>
-                <default-field><display-entity entity-name="RoleType" text="${description}"/></default-field>
+                <default-field><display-entity entity-name="mantle.party.RoleType" text="${description}"/></default-field>
             </field>
             <field name="fromDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
             <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
             <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/>
                 <default-field title="Purpose"><drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">
-                    <entity-find entity-name="Enumeration">
+                    <entity-find entity-name="moqui.basic.Enumeration">
                         <econdition field-name="enumTypeId" value="WorkEffortPartyExpectation"/>
                         <order-by field-name="description"/>
                     </entity-find>
@@ -131,7 +131,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <default-field>
                     <drop-down allow-empty="false" current-description="${currentStatus?.description}">
                         <entity-options key="${toStatusId}" text="${transitionName} (${description})">
-                            <entity-find entity-name="StatusValidChangeToDetail">
+                            <entity-find entity-name="moqui.basic.StatusValidChangeToDetail">
                                 <econdition field-name="statusId"/>
                             </entity-find>
                         </entity-options>

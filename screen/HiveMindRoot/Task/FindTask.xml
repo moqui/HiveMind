@@ -16,7 +16,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <transition name="newTask"><default-response url="../EditTask"/></transition>
     <transition name="findTask"><default-response url="."/></transition>
-    <transition name="editTask"><default-response url="../EditTask"/></transition>
+    <transition name="editTask"><default-response url="../TaskSummary"/></transition>
     <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
 
     <pre-actions>

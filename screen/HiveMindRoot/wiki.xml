@@ -21,7 +21,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="createPage"><default-response url="../EditWikiPage"/></transition>
 
     <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
-    <transition name="editTask"><default-response url="../Task/EditTask"/></transition>
+    <transition name="editTask"><default-response url="../Task/TaskSummary"/></transition>
     <transition name="editRequest"><default-response url="../Request/EditRequest"/></transition>
 
     <transition name="uploadAttachment">

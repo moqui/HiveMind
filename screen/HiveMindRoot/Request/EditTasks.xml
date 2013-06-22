@@ -27,7 +27,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
-    <transition name="editTask"><default-response url="../../Task/EditTask"/></transition>
+    <transition name="editTask"><default-response url="../../Task/TaskSummary"/></transition>
 
     <transition name="getProjectTasks">
         <actions>

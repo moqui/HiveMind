@@ -1,7 +1,9 @@
 
+/* ========== Wiki Page Styles ========== */
+
 /* the default panel styles are okay, but override here to be more explicit with width/etc */
 #wiki-view-left { float: left; width: 260px; }
-#wiki-view-center { float: left; width: 700px; }
+#wiki-view-center { float: left; width: 680px; }
 
 #wiki-breadcrumbs a.button { border: 0; color: #00008b; padding: 1px; margin: 1px; }
 #wiki-breadcrumbs a.button:hover { text-decoration: underline; }
@@ -26,3 +28,13 @@
 #wiki-page-area h3 { margin: 4px 0 4px 0; text-decoration: underline; }
 
 #wiki-view-left { border-right: #cccccc solid 1px; padding-right: 4px; margin-right: 4px; }
+
+/* ========== Task Summary Styles ========== */
+#task-summary-panel {  }
+#task-summary-panel-left { width: 240px; }
+#task-summary-panel-center { width: 440px; padding-left: 8px; padding-right: 8px; background: #dddddd; min-height: 100%; }
+/* border-left: black 1px solid; border-right: black 1px solid; */
+#task-summary-panel-right { width: 240px; }
+#task-time-label, #task-requests-label, #task-wiki-pages-label {
+    margin-top: 16px; padding-top: 4px; display: block; font-weight: bold; border-top: black solid 1px; }
+.task-user-block, .task-request-block { border-top: #cccccc solid 1px; }
