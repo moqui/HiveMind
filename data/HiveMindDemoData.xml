@@ -164,10 +164,10 @@ This Work includes contributions authored by David E. Jones, not as a
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED" receiveNotifications="Y"/>
     <mantle.work.time.TimeEntry timeEntryId="HM-004-01" partyId="EX_JOHN_DOE" hours="2" breakHours="3"
             workEffortId="HM-004" comments="Create Task and My Tasks first pass" rateTypeEnumId="RT_STANDARD"
-            fromDate="2013-03-02 12:00:00" thruDate="2013-03-02 17:00:00"/>
+            rateAmountId="HM-001" fromDate="2013-03-02 12:00:00" thruDate="2013-03-02 17:00:00"/>
     <mantle.work.time.TimeEntry timeEntryId="HM-004-02" partyId="EX_JOHN_DOE" hours="1.25" breakHours="1.75"
             workEffortId="HM-004" comments="Create Task and My Tasks add more fields" rateTypeEnumId="RT_STANDARD"
-            fromDate="2013-03-04 14:00:00" thruDate="2013-03-02 17:00:00"/>
+            rateAmountId="HM-001" fromDate="2013-03-04 14:00:00" thruDate="2013-03-02 17:00:00"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-004"
             workEffortAssocTypeEnumId="WEAT_MILESTONE" fromDate="2010-02-03 00:00:00" sequenceNum="4"/>
 
