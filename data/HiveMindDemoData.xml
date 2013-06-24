@@ -160,11 +160,12 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffort workEffortId="HM-004" workEffortName="Dashboard My Tasks" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="5" actualWorkTime="3.25" timeUomId="TF_hr"
             workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_IN_PROGRESS">
-        <description><![CDATA[Show a list of open tasks (statusId not in WE_CLOSED,WE_CANCELLED) for the current logged in user.
+        <description><![CDATA[
+Show a list of open tasks (statusId not in WE_CLOSED,WE_CANCELLED) for the current logged in user.
 
-            For each task include a link to the Project and Milestone the task is associated with. Also display the priority, purpose, status, due date, estimated hours and actual hours.
+For each task include a link to the Project and Milestone the task is associated with. Also display the priority, purpose, status, due date, estimated hours and actual hours.
 
-            The actual hours is populated automatically based on a sum of the TimeEntry records associated to the task.
+The actual hours is populated automatically based on a sum of the TimeEntry records associated to the task.
         ]]></description>
     </mantle.work.effort.WorkEffort>
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="WORKER"
