@@ -69,6 +69,27 @@ This Work includes contributions authored by David E. Jones, not as a
         </actions>
         <default-response type="none"/>
     </transition>
+    <transition name="getSearchOptions">
+        <actions>
+            <service-call name="org.moqui.impl.EntityServices.search#DataDocuments" out-map="context"
+                    in-map="[queryString:term, indexName:'hivemind']"/>
+            <set field="outList" from="[]"/>
+            <iterate list="documentList" entry="document">
+                <script>context.putAll(document)</script>
+                <entity-find-one entity-name="moqui.entity.document.DataDocument" value-field="dataDocument" cache="true">
+                    <field-map field-name="dataDocumentId" from="document._type"/>
+                </entity-find-one>
+                <!-- this is a type=many relationship, but we just want one here: -->
+                <entity-find-related-one value-field="dataDocument" cache="true"
+                        relationship-name="moqui.entity.document.DataDocumentLink" to-value-field="dataDocumentLink"/>
+                <set field="linkUrl" from="ec.resource.evaluateStringExpand(dataDocumentLink?.linkUrl, '')"/>
+                <set field="documentTitle" from="ec.resource.evaluateStringExpand(dataDocument?.documentTitle, '')"/>
+                <script>outList.add([value:document._id, urlToOpen:linkUrl, label:"${dataDocument.documentName} - ${documentTitle}".toString()])</script>
+            </iterate>
+            <script>ec.web.sendJsonResponse(outList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
 
     <actions>
         <service-call name="HiveMind.WikiServices.get#UserWikiSpaces" in-map="[userId:ec.user.userId]" out-map="context"/>
@@ -96,6 +117,28 @@ This Work includes contributions authored by David E. Jones, not as a
             <panel-left>
                 <container id="dashboard-wiki-section">
                     <!-- <container id="dashboard-wiki-links"> </container> -->
+                    <container><label text="Search" type="h3"/></container>
+                    <render-mode>
+                        <text type="html"><![CDATA[
+    <input type="text" size="20" id="SearchBox">
+    <script>
+        $("#SearchBox").autocomplete({
+            source: function(request, response) { $.ajax({
+                url: "${sri.screenUrlInfo.url}/getSearchOptions", type: "POST", dataType: "json", data: { term: request.term },
+                success: function(data) { response($.map(data, function(item) { return { label: item.label, value: item.value, urlToOpen: item.urlToOpen } })); }
+            });	},
+            minLength: 2,
+            select: function( event, ui ) {
+                if (ui.item) {
+                    this.value = ui.item.value;
+                    window.open(ui.item.urlToOpen);
+                }
+            }
+        });
+        $("#SearchBox").focus();
+    </script>
+                        ]]></text>
+                    </render-mode>
                     <container id="dashboard-wiki-title"><label text="Wiki Spaces" type="h3"/></container>
                     <section-iterate name="WikiSpaces" list="wikiSpaceAndUserList" entry="wikiSpace">
                         <widgets><container>

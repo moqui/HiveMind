@@ -83,7 +83,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
         <form-list name="SearchResults" list="documentList" paginate="true" paginate-always-show="true">
             <row-actions>
-                <entity-find-one entity-name="DataDocument" value-field="dataDocument" cache="true">
+                <entity-find-one entity-name="moqui.entity.document.DataDocument" value-field="dataDocument" cache="true">
                     <field-map field-name="dataDocumentId" from="_type"/>
                 </entity-find-one>
                 <!-- this is a type=many relationship, but we just want one here: -->
