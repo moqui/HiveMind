@@ -62,8 +62,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </entity-find>
             <script>
                 def outList = []
-                for (def pau in pauList)
-                    outList.add([value:pau.partyId, label:"${pau.firstName} ${pau.lastName} (${pau.username})".toString()])
+                for (def pau in pauList) outList.add([value:pau.partyId, label:"${pau.firstName} ${pau.lastName} (${pau.username})".toString()])
                 ec.web.sendJsonResponse(outList)
             </script>
         </actions>
@@ -75,15 +74,14 @@ This Work includes contributions authored by David E. Jones, not as a
                     in-map="[queryString:term, indexName:'hivemind']"/>
             <set field="outList" from="[]"/>
             <iterate list="documentList" entry="document">
-                <script>context.putAll(document)</script>
                 <entity-find-one entity-name="moqui.entity.document.DataDocument" value-field="dataDocument" cache="true">
                     <field-map field-name="dataDocumentId" from="document._type"/>
                 </entity-find-one>
                 <!-- this is a type=many relationship, but we just want one here: -->
                 <entity-find-related-one value-field="dataDocument" cache="true"
                         relationship-name="moqui.entity.document.DataDocumentLink" to-value-field="dataDocumentLink"/>
-                <set field="linkUrl" from="ec.resource.evaluateStringExpand(dataDocumentLink?.linkUrl, '')"/>
-                <set field="documentTitle" from="ec.resource.evaluateStringExpand(dataDocument?.documentTitle, '')"/>
+                <set field="linkUrl" from="ec.resource.evaluateStringExpand(dataDocumentLink?.linkUrl, '', document)"/>
+                <set field="documentTitle" from="ec.resource.evaluateStringExpand(dataDocument?.documentTitle, '', document)"/>
                 <script>outList.add([value:document._id, urlToOpen:linkUrl, label:"${dataDocument.documentName} - ${documentTitle}".toString()])</script>
             </iterate>
             <script>ec.web.sendJsonResponse(outList)</script>
@@ -117,7 +115,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <panel-left>
                 <container id="dashboard-wiki-section">
                     <!-- <container id="dashboard-wiki-links"> </container> -->
-                    <container><label text="Search" type="h3"/></container>
+                    <container><label text="Quick Search" type="h3"/></container>
                     <render-mode>
                         <text type="html"><![CDATA[
     <input type="text" size="20" id="SearchBox">
@@ -126,14 +124,8 @@ This Work includes contributions authored by David E. Jones, not as a
             source: function(request, response) { $.ajax({
                 url: "${sri.screenUrlInfo.url}/getSearchOptions", type: "POST", dataType: "json", data: { term: request.term },
                 success: function(data) { response($.map(data, function(item) { return { label: item.label, value: item.value, urlToOpen: item.urlToOpen } })); }
-            });	},
-            minLength: 2,
-            select: function( event, ui ) {
-                if (ui.item) {
-                    this.value = ui.item.value;
-                    window.open(ui.item.urlToOpen);
-                }
-            }
+            });	}, minLength: 2,
+            select: function(event, ui) { if (ui.item) { this.value = ui.item.value; window.open(ui.item.urlToOpen, "_self"); } }
         });
         $("#SearchBox").focus();
     </script>
