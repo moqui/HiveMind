@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
+        default-menu-include="false" standalone="true">
+
+    <transition name="getSearchOptions">
+        <actions>
+            <service-call name="org.moqui.impl.EntityServices.search#DataDocuments" out-map="context"
+                    in-map="[queryString:term, indexName:'hivemind']"/>
+            <set field="outList" from="[]"/>
+            <iterate list="documentList" entry="document">
+                <entity-find-one entity-name="moqui.entity.document.DataDocument" value-field="dataDocument" cache="true">
+                    <field-map field-name="dataDocumentId" from="document._type"/>
+                </entity-find-one>
+                <!-- this is a type=many relationship, but we just want one here: -->
+                <entity-find-related-one value-field="dataDocument" cache="true"
+                        relationship-name="moqui.entity.document.DataDocumentLink" to-value-field="dataDocumentLink"/>
+                <set field="linkUrl" from="ec.resource.evaluateStringExpand(dataDocumentLink?.linkUrl, '', document)"/>
+                <set field="documentTitle" from="ec.resource.evaluateStringExpand(dataDocument?.documentTitle, '', document)"/>
+                <script>outList.add([value:document._id, urlToOpen:linkUrl, label:"${dataDocument.documentName} - ${documentTitle}".toString()])</script>
+            </iterate>
+            <script>ec.web.sendJsonResponse(outList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
+    <widgets>
+        <container id="dashboard-search-section">
+            <label text="Quick Search" type="h3"/>
+            <render-mode>
+                <text type="html"><![CDATA[
+    <input type="text" size="20" id="SearchBox">
+    <script>
+        $("#SearchBox").autocomplete({
+            source: function(request, response) { $.ajax({
+                url: "${sri.screenUrlInfo.url}/getSearchOptions", type: "POST", dataType: "json", data: { term: request.term },
+                success: function(data) { response($.map(data, function(item) { return { label: item.label, value: item.value, urlToOpen: item.urlToOpen } })); }
+            });	}, minLength: 2,
+            select: function(event, ui) { if (ui.item) { this.value = ui.item.value; window.open(ui.item.urlToOpen, "_self"); } }
+        });
+        $("#SearchBox").focus();
+    </script>
+                ]]></text>
+            </render-mode>
+        </container>
+    </widgets>
+</screen>
