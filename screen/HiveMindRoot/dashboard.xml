@@ -14,38 +14,9 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
         default-menu-title="Dashboard" default-menu-index="1">
 
-    <transition name="createTask">
-        <service-call name="mantle.work.TaskServices.create#Task" in-map="context"/>
-        <default-response url="."/>
-    </transition>
-    <transition name="editTask"><default-response url="../Task/TaskSummary"/></transition>
-
+    <transition name="myTasks"><default-response url="MyTasks"/></transition>
     <transition name="myRequests"><default-response url="MyRequests"/></transition>
 
-    <transition name="myProjects"><default-response url="../Project/MyProjects"/></transition>
-    <transition name="createProject">
-        <service-call name="mantle.work.ProjectServices.create#Project" in-map="context"/>
-        <default-response url="."/>
-    </transition>
-    <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
-
-    <transition name="myMilestones"><default-response url="../Project/MyMilestones"/></transition>
-    <transition name="milestoneSummary"><default-response url="../Project/MilestoneSummary"/></transition>
-
-    <transition name="getProjectParties">
-        <actions>
-            <service-call name="mantle.work.ProjectServices.get#ProjectParties" in-map="context" out-map="context"/>
-            <script>ec.web.sendJsonResponse(resultList)</script>
-        </actions>
-        <default-response type="none"/>
-    </transition>
-    <transition name="getProjectTasks">
-        <actions>
-            <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>
-            <script>ec.web.sendJsonResponse(resultList)</script>
-        </actions>
-        <default-response type="none"/>
-    </transition>
     <transition name="getSearchOptions">
         <actions>
             <service-call name="org.moqui.impl.EntityServices.search#DataDocuments" out-map="context"
@@ -69,18 +40,6 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <actions>
         <service-call name="HiveMind.WikiServices.get#UserWikiSpaces" in-map="[userId:ec.user.userId]" out-map="context"/>
-        <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
-            <date-filter/>
-            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-            <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
-        </entity-find>
-        <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="myTaskList">
-            <date-filter/>
-            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-            <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
-            <order-by field-name="milestoneEstimatedStartDate"/>
-            <order-by field-name="priority"/>
-        </entity-find>
     </actions>
     <widgets>
         <container-panel id="dashboard-panel">
@@ -120,109 +79,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 </container>
             </panel-left>
             <panel-center>
-                <container id="dashboard-tasks-section">
-                    <!-- my top tasks, my projects, etc -->
-                    <!-- TODO: these are not showing up any more: -->
-                    <dynamic-dialog id="MyProjectsContainer" button-text="My Projects" transition="myProjects"/>
-                    <dynamic-dialog id="MyMilestonesContainer" button-text="My Milestones" transition="myMilestones"/>
-
-                    <container-dialog id="NewProjectContainer" button-text="New Project">
-                        <form-single name="NewProject" transition="createProject">
-                            <field name="workEffortId"><default-field title="ID"><text-line size="8" maxlength="8"/></default-field></field>
-                            <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
-                            <field name="clientPartyId"><default-field title="Client">
-                                <drop-down allow-empty="true">
-                                    <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
-                                        <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                                            <econdition field-name="roleTypeId" value="BILL_TO_CUSTOMER"/>
-                                            <order-by field-name="organizationName"/>
-                                            <order-by field-name="firstName"/><order-by field-name="lastName"/>
-                                        </entity-find>
-                                    </entity-options>
-                                </drop-down>
-                            </default-field></field>
-                            <field name="submitButton"><default-field title="Create Project"><submit/></default-field></field>
-                        </form-single>
-                    </container-dialog>
-
-                    <container-dialog id="NewTaskContainer" button-text="New Task">
-                        <form-single name="NewTask" transition="createTask">
-                            <field name="rootWorkEffortId"><default-field title="Project">
-                                <drop-down><list-options list="myProjectList" key="${workEffortId}" text="${workEffortId}: ${workEffortName}"/></drop-down>
-                            </default-field></field>
-                            <field name="parentWorkEffortId"><default-field title="Parent Task">
-                                <drop-down combo-box="true">
-                                    <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
-                                        <depends-on field="rootWorkEffortId"/>
-                                    </dynamic-options>
-                                </drop-down>
-                            </default-field></field>
-                            <field name="assignToPartyId"><default-field title="Assign To">
-                                <drop-down no-current-selected-key="${ec.user.userAccount.partyId}" current="selected" allow-empty="true">
-                                    <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name">
-                                        <depends-on field="rootWorkEffortId"/>
-                                    </dynamic-options>
-                                </drop-down>
-                            </default-field></field>
-                            <field name="workEffortName"><default-field title="Task Name"><text-line/></default-field></field>
-                            <field name="priority"><default-field>
-                                <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
-                            </default-field></field>
-                            <field name="purposeEnumId"><default-field title="Purpose">
-                                <drop-down no-current-selected-key="WEP_TASK" current="selected">
-                                    <entity-options key="${enumId}" text="${description}">
-                                        <entity-find entity-name="moqui.basic.Enumeration">
-                                            <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>
-                                            <econdition field-name="parentEnumId" value="WET_TASK"/>
-                                            <order-by field-name="description"/>
-                                        </entity-find>
-                                    </entity-options>
-                                </drop-down>
-                            </default-field></field>
-                            <field name="statusId"><default-field title="Status">
-                                <drop-down><entity-options key="${statusId}" text="${description}">
-                                    <entity-find entity-name="StatusItem">
-                                        <econdition field-name="statusTypeId" value="WorkEffort"/>
-                                        <order-by field-name="sequenceNum"/>
-                                    </entity-find>
-                                </entity-options></drop-down>
-                            </default-field></field>
-                            <field name="estimatedCompletionDate">
-                                <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
-                            </field>
-                            <field name="estimatedWorkTime"><default-field title="Estimated Hours">
-                                <text-line size="5"/></default-field></field>
-                            <field name="description"><default-field title="Description"><text-area rows="10" cols="60"/></default-field></field>
-                            <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
-                        </form-single>
-                    </container-dialog>
-
-                    <label text="My Open Tasks" type="h3"/>
-                    <form-list name="MyTasks" list="myTaskList">
-                        <field name="rootWorkEffortId">
-                            <default-field title="Project"><link url="editProject" text="${rootWorkEffortId?:'--'}">
-                                <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
-                        </field>
-                        <field name="milestoneWorkEffortId"><default-field title="Milestone">
-                            <link text="${milestoneWorkEffortId}" url="milestoneSummary"/>
-                        </default-field></field>
-                        <field name="workEffortId"><default-field title="Task">
-                            <link text="${workEffortId}: ${workEffortName}" url="editTask"/>
-                        </default-field></field>
-                        <!-- <field name="workEffortName"><default-field title="Name"><display/></default-field></field> -->
-                        <field name="priority"><default-field title="Pri"><display/></default-field></field>
-                        <field name="purposeEnumId">
-                            <default-field title="Purpose"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
-                        </field>
-                        <field name="statusId">
-                            <default-field title="Status"><display-entity entity-name="StatusItem" text="${description}"/></default-field>
-                        </field>
-                        <field name="estimatedCompletionDate"><default-field title="Due"><display format="yyyy-MM-dd"/></default-field></field>
-                        <field name="estimatedWorkTime"><default-field title="Est"><display format="#.00"/></default-field></field>
-                        <field name="actualWorkTime"><default-field title="Act"><display format="#.00"/></default-field></field>
-                    </form-list>
-                </container>
-
+                <dynamic-container id="MyTasksContainer" transition="myTasks"/>
                 <dynamic-container id="MyRequestsContainer" transition="myRequests"/>
             </panel-center>
         </container-panel>

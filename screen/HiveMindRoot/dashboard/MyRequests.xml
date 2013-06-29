@@ -16,7 +16,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <transition name="createRequest">
         <service-call name="mantle.request.RequestServices.create#Request" in-map="context"/>
-        <default-response url="."/>
+        <default-response url=".."/>
     </transition>
     <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
 
