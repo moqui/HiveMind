@@ -65,10 +65,16 @@ This Work includes contributions authored by David E. Jones, not as a
                 <link text="${project.workEffortId} - ${project.workEffortName}" url="editProject">
                     <parameter name="workEffortId" from="project.workEffortId"/>
                 </link>
-                <container><label text="Milestone: " type="strong"/></container>
-                <link text="${milestone.workEffortId} - ${milestone.workEffortName}" url="milestoneSummary">
-                    <parameter name="milestoneWorkEffortId" from="milestone.workEffortId"/>
-                </link>
+
+
+                <section name="MilestoneSection"><condition><expression>milestone</expression></condition>
+                    <widgets>
+                        <container><label text="Milestone: " type="strong"/></container>
+                        <link text="${milestone.workEffortId} - ${milestone.workEffortName}" url="milestoneSummary">
+                            <parameter name="milestoneWorkEffortId" from="milestone.workEffortId"/>
+                        </link>
+                    </widgets>
+                </section>
 
                 <section name="ParentTaskSection"><condition><expression>parentTask</expression></condition>
                     <widgets>
@@ -116,9 +122,9 @@ This Work includes contributions authored by David E. Jones, not as a
                     </actions>
                     <widgets>
                         <container style="task-user-block">
-                            <label text="${(wepap.username? '[' + wepap.username + ']' :'')} ${wepap.firstName} ${wepap.lastName}" type="p"/>
-                            <label text="${roleType.description} - ${statusItem.description}" type="p"/>
-                            <label text="Notifications? ${wepap.receiveNotifications}" type="p"/>
+                            <label text="${(wepap.username ? '[' + wepap.username + ']' : '')} ${wepap.firstName} ${wepap.lastName}" type="p"/>
+                            <label text="${roleType?.description} - ${statusItem?.description}" type="p"/>
+                            <label text="Notifications? ${wepap.receiveNotifications?:'N'}" type="p"/>
                         </container>
                     </widgets>
                 </section-iterate>

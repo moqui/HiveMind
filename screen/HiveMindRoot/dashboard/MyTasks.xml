@@ -144,7 +144,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
                 </field>
                 <field name="milestoneWorkEffortId"><default-field title="Milestone">
-                    <link text="${milestoneWorkEffortId}" url="milestoneSummary"/>
+                    <link text="${milestoneWorkEffortId?:''}" url="milestoneSummary"/>
                 </default-field></field>
                 <field name="workEffortId"><default-field title="Task">
                     <link text="${workEffortId}: ${workEffortName}" url="editTask"/>
