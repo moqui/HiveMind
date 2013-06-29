@@ -14,6 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
         default-menu-title="Dashboard" default-menu-index="1">
 
+    <transition name="myWikiSpaces"><default-response url="MyWikiSpaces"/></transition>
     <transition name="myTasks"><default-response url="MyTasks"/></transition>
     <transition name="myRequests"><default-response url="MyRequests"/></transition>
 
@@ -38,15 +39,11 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response type="none"/>
     </transition>
 
-    <actions>
-        <service-call name="HiveMind.WikiServices.get#UserWikiSpaces" in-map="[userId:ec.user.userId]" out-map="context"/>
-    </actions>
     <widgets>
         <container-panel id="dashboard-panel">
             <panel-left>
-                <container id="dashboard-wiki-section">
-                    <!-- <container id="dashboard-wiki-links"> </container> -->
-                    <container><label text="Quick Search" type="h3"/></container>
+                <container id="dashboard-search-section">
+                    <label text="Quick Search" type="h3"/>
                     <render-mode>
                         <text type="html"><![CDATA[
     <input type="text" size="20" id="SearchBox">
@@ -62,21 +59,8 @@ This Work includes contributions authored by David E. Jones, not as a
     </script>
                         ]]></text>
                     </render-mode>
-                    <container id="dashboard-wiki-title"><label text="Wiki Spaces" type="h3"/></container>
-                    <section-iterate name="WikiSpaces" list="wikiSpaceAndUserList" entry="wikiSpace">
-                        <widgets><container>
-                            <link text="- ${wikiSpace.wikiSpaceId}: ${wikiSpace.description}" url="wiki/${wikiSpace.wikiSpaceId}" url-type="plain"/>
-                        </container></widgets>
-                    </section-iterate>
-                    <!--
-                    <form-list name="WikiSpaces" list="wikiSpaceAndUserList" skip-start="true" skip-end="true">
-                        <field name="viewLink"><default-field title="Space">
-                            <link text="${wikiSpaceId}" url="wiki/${wikiSpaceId}" url-type="plain"/>
-                        </default-field></field>
-                        <field name="description"><default-field><display/></default-field></field>
-                    </form-list>
-                    -->
                 </container>
+                <dynamic-container id="MyWikiSpacesContainer" transition="myWikiSpaces"/>
             </panel-left>
             <panel-center>
                 <dynamic-container id="MyTasksContainer" transition="myTasks"/>
