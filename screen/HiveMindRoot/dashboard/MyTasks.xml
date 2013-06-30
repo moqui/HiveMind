@@ -20,8 +20,8 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
     <transition name="editTask"><default-response url="../../Task/TaskSummary"/></transition>
 
-    <transition name="myProjects"><default-response url="../../Project/MyProjects"/></transition>
-    <transition name="myMilestones"><default-response url="../../Project/MyMilestones"/></transition>
+    <transition name="myProjects"><default-response url="../MyProjects"/></transition>
+    <transition name="myMilestones"><default-response url="../MyMilestones"/></transition>
 
     <transition name="createProject">
         <service-call name="mantle.work.ProjectServices.create#Project" in-map="context"/>

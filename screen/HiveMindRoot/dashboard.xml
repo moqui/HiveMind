@@ -22,12 +22,16 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <container-panel id="dashboard-panel">
             <panel-left>
-                <dynamic-container id="QuickSearchContainer" transition="quickSearch"/>
-                <dynamic-container id="MyWikiSpacesContainer" transition="myWikiSpaces"/>
+                <section name="DashboardLeft"><widgets>
+                    <dynamic-container id="QuickSearchContainer" transition="quickSearch"/>
+                    <dynamic-container id="MyWikiSpacesContainer" transition="myWikiSpaces"/>
+                </widgets></section>
             </panel-left>
             <panel-center>
-                <dynamic-container id="MyTasksContainer" transition="myTasks"/>
-                <dynamic-container id="MyRequestsContainer" transition="myRequests"/>
+                <section name="DashboardCenter"><widgets>
+                    <dynamic-container id="MyTasksContainer" transition="myTasks"/>
+                    <dynamic-container id="MyRequestsContainer" transition="myRequests"/>
+                </widgets></section>
             </panel-center>
         </container-panel>
     </widgets>

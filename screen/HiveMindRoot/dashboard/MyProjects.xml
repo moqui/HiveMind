@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
         default-menu-include="false" standalone="true">
 
-    <transition name="editProject"><default-response url="../EditProject"/></transition>
+    <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
 
     <actions>
         <entity-find entity-name="WorkEffortAndParty" list="myProjectList">
