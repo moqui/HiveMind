@@ -90,6 +90,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <container><label text="Status: " type="strong"/><label text="${currentStatus.description}"/></container>
                 <container><label text="Due Date: " type="strong"/><label text="${ec.l10n.formatValue(task.estimatedCompletionDate, 'yyyy-MM-dd')}"/></container>
                 <container><label text="Estimated Hours: " type="strong"/><label text="${ec.l10n.formatValue(task.estimatedWorkTime, '#.00')}"/></container>
+                <container><label text="Remaining Hours: " type="strong"/><label text="${ec.l10n.formatValue(task.remainingWorkTime, '#.00')}"/></container>
                 <container><label text="Actual Hours: " type="strong"/><label text="${ec.l10n.formatValue(task.actualWorkTime, '#.00')}"/></container>
 
                 <label text="Time Entries" id="task-time-label"/>

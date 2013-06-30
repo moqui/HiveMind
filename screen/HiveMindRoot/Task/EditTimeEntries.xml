@@ -23,6 +23,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="editTimeEntryList"><default-response url="../EditTimeEntryList"/></transition>
 
     <actions>
+        <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="workEffort"/>
     </actions>
     <widgets>
         <form-single name="AddTaskTime" transition="addTaskTime" background-submit="true"
@@ -44,6 +45,8 @@ This Work includes contributions authored by David E. Jones, not as a
                 </entity-options></drop-down>
             </default-field></field>
             <field name="comments"><default-field><text-area cols="60" rows="3"/></default-field></field>
+            <field name="remainingWorkTime" entry-name="workEffort.remainingWorkTime"><default-field title="Remaining Hours">
+                <text-line size="5"/></default-field></field>
             <field name="hours"><default-field><text-line size="5"/></default-field></field>
             <field name="fromDate"><default-field title="From"><date-time format="yyyy-MM-dd hh:mm"/></default-field></field>
             <field name="thruDate"><default-field title="Thru"><date-time format="yyyy-MM-dd hh:mm"/></default-field></field>

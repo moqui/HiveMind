@@ -112,6 +112,8 @@ This Work includes contributions authored by David E. Jones, not as a
             </field>
             <field name="estimatedWorkTime"><default-field title="Estimated Hours">
                 <text-line size="5"/></default-field></field>
+            <field name="remainingWorkTime"><default-field title="Remaining Hours">
+                <text-line size="5"/></default-field></field>
             <field name="actualWorkTime"><default-field title="Actual Hours">
                 <display format="#.00"/></default-field></field>
             <field name="description"><default-field title="Description"><text-area rows="20" cols="100"/></default-field></field>
@@ -121,7 +123,8 @@ This Work includes contributions authored by David E. Jones, not as a
                 <fields-not-referenced/>
                 <field-row><field-ref name="purposeEnumId"/><field-ref name="priority"/></field-row>
                 <field-row><field-ref name="statusId"/><field-ref name="estimatedCompletionDate"/></field-row>
-                <field-row><field-ref name="estimatedWorkTime"/><field-ref name="actualWorkTime"/></field-row>
+                <field-row><field-ref name="estimatedWorkTime"/><field-ref name="remainingWorkTime"/></field-row>
+                <field-ref name="actualWorkTime"/>
                 <field-ref name="description"/>
                 <field-ref name="submitButton"/>
             </field-layout>
