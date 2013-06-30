@@ -61,8 +61,6 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <container id="dashboard-tasks-section">
-            <!-- my top tasks, my projects, etc -->
-            <!-- TODO: these are not showing up any more: -->
             <dynamic-dialog id="MyProjectsContainer" button-text="My Projects" transition="myProjects"/>
             <dynamic-dialog id="MyMilestonesContainer" button-text="My Milestones" transition="myMilestones"/>
 
