@@ -16,6 +16,14 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <parameter name="workEffortId"/>
 
+    <transition name="updateDescription">
+        <actions>
+            <service-call name="update#mantle.work.effort.WorkEffort" in-map="context"/>
+            <script>ec.web.sendTextResponse(description)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
     <transition name="taskSummary"><default-response url="../../Task/TaskSummary"/></transition>
     <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
@@ -108,7 +116,8 @@ This Work includes contributions authored by David E. Jones, not as a
             <panel-center>
                 <container><label text="Task: " type="strong"/><label text="${task.workEffortName}"/></container>
                 <label text="Description: " type="strong"/>
-                <label text="${task.description ?: 'No description'}" type="p"/>
+                <editable id="TaskDescription" text="${task.description?:''}" transition="updateDescription" type="pre"
+                        parameter-name="description"/>
             </panel-center>
             <panel-right>
                 <label text="Users" type="strong"/>
