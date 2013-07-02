@@ -16,10 +16,10 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <parameter name="workEffortId"/>
 
-    <transition name="updateDescription">
+    <transition name="updateTaskField">
         <actions>
             <service-call name="update#mantle.work.effort.WorkEffort" in-map="context"/>
-            <script>ec.web.sendTextResponse(description)</script>
+            <script>ec.web.sendTextResponse(context.get(parameterName))</script>
         </actions>
         <default-response type="none"/>
     </transition>
@@ -114,9 +114,13 @@ This Work includes contributions authored by David E. Jones, not as a
                 </section-iterate>
             </panel-left>
             <panel-center>
-                <container><label text="Task: " type="strong"/><label text="${task.workEffortName}"/></container>
+                <container>
+                    <label text="Task: " type="strong"/>
+                    <editable id="TaskName" text="${task.workEffortName?:''}" transition="updateTaskField"
+                            parameter-name="workEffortName"/>
+                </container>
                 <label text="Description: " type="strong"/>
-                <editable id="TaskDescription" text="${task.description?:''}" transition="updateDescription" type="pre"
+                <editable id="TaskDescription" text="${task.description?:''}" transition="updateTaskField" type="pre"
                         parameter-name="description"/>
             </panel-center>
             <panel-right>
