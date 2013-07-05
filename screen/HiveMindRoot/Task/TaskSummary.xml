@@ -23,6 +23,33 @@ This Work includes contributions authored by David E. Jones, not as a
         </actions>
         <default-response type="none"/>
     </transition>
+    <transition name="updateTaskStatus">
+        <actions>
+            <service-call name="update#mantle.work.effort.WorkEffort" in-map="context"/>
+            <entity-find-one entity-name="moqui.basic.StatusItem" value-field="newStatus"/>
+            <script>ec.web.sendTextResponse(newStatus.description)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+    <transition name="getTaskStatuses">
+        <actions>
+            <!-- get current status from description in currentValue parameter -->
+            <!-- TODO: this probably won't work when localized... -->
+            <entity-find-one entity-name="StatusItem" value-field="currentStatus">
+                <field-map field-name="description" from="currentValue?.trim()"/>
+                <field-map field-name="statusTypeId" value="WorkEffort"/>
+            </entity-find-one>
+            <entity-find entity-name="StatusValidChangeToDetail" list="svctdList" cache="true">
+                <econdition field-name="statusId" from="currentStatus?.statusId"/>
+            </entity-find>
+            <set field="optionsMap" from="[:]"/>
+            <iterate list="svctdList" entry="svctd">
+                <set field="optionsMap[svctd.toStatusId]" value="${svctd.transitionName} (${svctd.description})"/>
+            </iterate>
+            <script>ec.web.sendJsonResponse(optionsMap)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
 
     <transition name="taskSummary"><default-response url="../../Task/TaskSummary"/></transition>
     <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
@@ -95,7 +122,12 @@ This Work includes contributions authored by David E. Jones, not as a
 
                 <container><label text="Priority: " type="strong"/><label text="${task.priority}"/></container>
                 <container><label text="Purpose: " type="strong"/><label text="${purposeEnum.description}"/></container>
-                <container><label text="Status: " type="strong"/><label text="${currentStatus.description}"/></container>
+                <container><label text="Status: " type="strong"/>
+                    <editable id="TaskStatus" text="${currentStatus.description}" transition="updateTaskStatus"
+                            parameter-name="statusId" widget-type="select">
+                        <editable-load transition="getTaskStatuses"/>
+                    </editable>
+                </container>
                 <container><label text="Due Date: " type="strong"/><label text="${ec.l10n.formatValue(task.estimatedCompletionDate, 'yyyy-MM-dd')}"/></container>
                 <container><label text="Estimated Hours: " type="strong"/><label text="${ec.l10n.formatValue(task.estimatedWorkTime, '#.00')}"/></container>
                 <container><label text="Remaining Hours: " type="strong"/><label text="${ec.l10n.formatValue(task.remainingWorkTime, '#.00')}"/></container>
