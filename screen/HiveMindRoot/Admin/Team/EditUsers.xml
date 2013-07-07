@@ -47,7 +47,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
 
     <actions>
-        <set field="clientPartyId" from="partyId"/><!-- set this for the user rel update form since it gets a partyId in each Map in the list -->
+        <set field="teamPartyId" from="partyId"/><!-- set this for the user rel update form since it gets a partyId in each Map in the list -->
         <entity-find entity-name="PartyFromAndRelationship" list="pfarList">
             <econdition field-name="toPartyId" from="partyId"/>
         </entity-find>
@@ -57,16 +57,15 @@ This Work includes contributions authored by David E. Jones, not as a
             <form-single name="AddUserRelationshipForm" transition="addRelationship">
                 <field name="partyId"><default-field><hidden/></default-field></field>
                 <field name="toPartyId" entry-name="partyId"><default-field><hidden/></default-field></field>
-                <field name="toRoleTypeId"><default-field><hidden default-value="BILL_TO_CUSTOMER"/></default-field></field>
-                <field name="relationshipTypeEnumId"><default-field><hidden default-value="REL_REPRESENTATIVE"/></default-field></field>
+                <field name="toRoleTypeId"><default-field><hidden default-value="TEAM"/></default-field></field>
+                <field name="relationshipTypeEnumId"><default-field><hidden default-value="REL_MEMBER"/></default-field></field>
 
                 <field name="fromPartyId"><default-field title="Person">
                     <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
                 </default-field></field>
                 <field name="fromRoleTypeId"><default-field title="Role">
                     <drop-down>
-                        <option key="CLIENT_BILLING" text="Billing"/>
-                        <option key="CLIENT_MANAGER" text="Manager"/>
+                        <option key="MANAGER" text="Manager (Lead)"/>
                         <option key="WORKER" text="Worker"/>
                     </drop-down>
                 </default-field></field>
@@ -78,7 +77,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </container-dialog>
 
         <form-list name="UpdateUserRelForm" list="pfarList" transition="updateRelationship">
-            <field name="partyId" entry-name="clientPartyId"><default-field><hidden/></default-field></field>
+            <field name="partyId" entry-name="teamPartyId"><default-field><hidden/></default-field></field>
             <field name="partyRelationshipId"><default-field><hidden/></default-field></field>
             <field name="firstName"><header-field title="First" show-order-by="case-insensitive"/><default-field>
                 <link url="editUser" text="${firstName}"><parameter name="partyId" from="fromPartyId"/></link>
@@ -88,8 +87,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </default-field></field>
             <field name="fromRoleTypeId"><header-field title="Role" show-order-by="true"/><default-field>
                 <drop-down>
-                    <option key="CLIENT_BILLING" text="Billing"/>
-                    <option key="CLIENT_MANAGER" text="Manager"/>
+                    <option key="MANAGER" text="Manager (Lead)"/>
                     <option key="WORKER" text="Worker"/>
                 </drop-down>
                 <!-- <display-entity entity-name="RoleType" text="${description}"/> -->
