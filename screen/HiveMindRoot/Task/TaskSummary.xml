@@ -79,7 +79,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <order-by field-name="fromDate"/><order-by field-name="lastUpdatedStamp"/>
         </entity-find>
 
-        <entity-find entity-name="mantle.work.effort.WorkEffortPartyAndPerson" list="wepapList">
+        <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
             <date-filter/>
             <econdition field-name="workEffortId"/>
         </entity-find>
@@ -156,21 +156,23 @@ This Work includes contributions authored by David E. Jones, not as a
                         parameter-name="description"/>
             </panel-center>
             <panel-right>
-                <label text="Users" type="strong"/>
-                <section-iterate name="TaskUserList" list="wepapList" entry="wepap">
+                <label text="Assignments" type="strong"/>
+                <section-iterate name="TaskAssignList" list="weapdList" entry="weapd">
                     <actions>
                         <entity-find-one entity-name="mantle.party.RoleType" value-field="roleType" cache="true">
-                            <field-map field-name="roleTypeId" from="wepap.roleTypeId"/>
+                            <field-map field-name="roleTypeId" from="weapd.roleTypeId"/>
                         </entity-find-one>
                         <entity-find-one entity-name="moqui.basic.StatusItem" value-field="statusItem" cache="true">
-                            <field-map field-name="statusId" from="wepap.statusId"/>
+                            <field-map field-name="statusId" from="weapd.statusId"/>
                         </entity-find-one>
                     </actions>
                     <widgets>
                         <container style="task-user-block">
-                            <label text="${(wepap.username ? '[' + wepap.username + ']' : '')} ${wepap.firstName} ${wepap.lastName}" type="p"/>
+                            <label text="${(weapd.username ? '[' + weapd.username + ']' : '')} ${weapd.firstName?:''} ${weapd.lastName?:''} ${weapd.organizationName?:''}" type="p"/>
                             <label text="${roleType?.description} - ${statusItem?.description}" type="p"/>
-                            <label text="Notifications? ${wepap.receiveNotifications?:'N'}" type="p"/>
+                            <section name="AssignNotificationSection"><condition><expression>weapd.partyTypeEnumId=="PERSON"</expression></condition>
+                                <widgets><label text="Notifications? ${weapd.receiveNotifications?:'N'}" type="p"/></widgets>
+                            </section>
                         </container>
                     </widgets>
                 </section-iterate>
