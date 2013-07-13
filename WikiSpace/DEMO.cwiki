@@ -50,16 +50,24 @@ h3. HiveMind Wiki
 * visual editor for cwiki and/or others
 * reference for wiki syntax supported, link to wikitext docs or add some to app
 
-h3. HiveMind Tasks
+h3. HiveMind Projects and Tasks
 
 * specify task StatusType ID per project, use for tasks in project to support a sort of workflow per project; or better
   perhaps different sets of StatusValidTransition records per projects
 * add task comments
-* add task associations for dependencies, etc
+* add task associations for dependencies, duplicates, related/relevant, etc
+* user defined fields using moqui.entity.UserField (in edit task, find task, etc)
+
+* add reports
+** time entries by user and team for time periods (month, week)
+** estimated remaining time by project, task/subtask, team, user
+** task aging (by priority, then by created date)
 
 * improve find task screen
 ** various filters
+** configurable displayed columns
 ** big view-entity with specific fields selected to use auto-minimize query
+** sum numeric columns
 
 h3. HiveMind Requests
 
