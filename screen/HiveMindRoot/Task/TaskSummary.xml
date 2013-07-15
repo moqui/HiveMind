@@ -39,7 +39,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <field-map field-name="description" from="currentValue?.trim()"/>
                 <field-map field-name="statusTypeId" value="WorkEffort"/>
             </entity-find-one>
-            <entity-find entity-name="StatusValidChangeToDetail" list="svctdList" cache="true">
+            <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail" list="svctdList" cache="true">
                 <econdition field-name="statusId" from="currentStatus?.statusId"/>
             </entity-find>
             <set field="optionsMap" from="[:]"/>

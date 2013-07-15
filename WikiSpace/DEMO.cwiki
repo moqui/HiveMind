@@ -55,6 +55,8 @@ h3. HiveMind Projects and Tasks
 * specify task StatusType ID per project, use for tasks in project to support a sort of workflow per project; or better
   perhaps different sets of StatusValidTransition records per projects
 * add task comments
+** send comment notification emails to associated users with notifications on
+** send mentioned notifications for usernames or first/last name of user mentioned in comment (flexible parse? special syntax?)
 * add task associations for dependencies, duplicates, related/relevant, etc
 * user defined fields using moqui.entity.UserField (in edit task, find task, etc)
 
