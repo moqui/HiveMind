@@ -110,7 +110,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <!-- ========== DEMO PROJECT DATA ========== -->
     <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="HiveMind PM Build Out"
-            workEffortTypeEnumId="WET_PROJECT" statusId="WE_IN_PROGRESS"/>
+            workEffortTypeEnumId="WET_PROJECT" statusId="WE_IN_PROGRESS" statusFlowId="HmTaskSimple"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_BIZI" roleTypeId="BILL_FROM_VENDOR" fromDate="2010-02-03 00:00:00"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="MANAGER"
             emplPositionClassId="SENIOR_PROGRAMMER"
@@ -135,6 +135,16 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.humanres.rate.RateAmount rateAmountId="HM-002" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
             workEffortId="HM" partyId="" emplPositionClassId="PROGRAMMER" fromDate="2010-02-03 00:00:00" thruDate=""
             rateAmount="60.00" rateCurrencyUomId="USD"/>
+    <!-- Project StatusFlow -->
+    <moqui.basic.StatusFlow statusFlowId="HmTaskSimple" statusTypeId="WorkEffort" description="HiveMind Task Simple Status Flow"/>
+    <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WE_APPROVED" isInitial="Y"/>
+    <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WE_IN_PROGRESS" isInitial="Y"/>
+    <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WE_CLOSED" isInitial="N"/>
+    <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WE_CANCELLED" isInitial="N"/>
+    <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WE_APPROVED" toStatusId="WE_IN_PROGRESS" transitionName="Begin"/>
+    <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WE_IN_PROGRESS" toStatusId="WE_CLOSED" transitionName="Complete"/>
+    <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WE_APPROVED" toStatusId="WE_CANCELLED" transitionName="Cancel"/>
+    <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WE_IN_PROGRESS" toStatusId="WE_CANCELLED" transitionName="Cancel"/>
 
 
     <mantle.work.effort.WorkEffort workEffortId="HM-001" workEffortName="HM Dashboard" priority="1"
@@ -160,7 +170,8 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffort workEffortId="HM-004" workEffortName="Dashboard My Tasks" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="5" remainingWorkTime="2.5"
             actualWorkTime="3.25" timeUomId="TF_hr" workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK"
-            statusId="WE_IN_PROGRESS">
+            statusId="WE_IN_PROGRESS" statusFlowId="Default">
+        <!-- NOTE: this task uses the Default StatusFlow instead of HmTaskSimple used for the rest of the project -->
         <description><![CDATA[
 Show a list of open tasks (statusId not in WE_CLOSED,WE_CANCELLED) for the current logged in user.
 
