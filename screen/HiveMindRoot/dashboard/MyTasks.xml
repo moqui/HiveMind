@@ -49,12 +49,12 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-            <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
         </entity-find>
         <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="myTaskList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-            <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
+            <econdition field-name="statusId" operator="not-in" value="WeClosed,WeCancelled"/>
             <order-by field-name="milestoneEstimatedStartDate"/>
             <order-by field-name="priority"/>
         </entity-find>
@@ -107,11 +107,11 @@ This Work includes contributions authored by David E. Jones, not as a
                         <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
                     </default-field></field>
                     <field name="purposeEnumId"><default-field title="Purpose">
-                        <drop-down no-current-selected-key="WEP_TASK" current="selected">
+                        <drop-down no-current-selected-key="WepTask" current="selected">
                             <entity-options key="${enumId}" text="${description}">
                                 <entity-find entity-name="moqui.basic.Enumeration">
                                     <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>
-                                    <econdition field-name="parentEnumId" value="WET_TASK"/>
+                                    <econdition field-name="parentEnumId" value="WetTask"/>
                                     <order-by field-name="description"/>
                                 </entity-find>
                             </entity-options>

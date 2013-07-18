@@ -46,7 +46,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find entity-name="mantle.work.effort.WorkEffortAssoc" list="milestoneAssocList">
             <date-filter/>
             <econdition field-name="toWorkEffortId" from="task.workEffortId"/>
-            <econdition field-name="workEffortAssocTypeEnumId" value="WEAT_MILESTONE"/>
+            <econdition field-name="workEffortAssocTypeEnumId" value="WeatMilestone"/>
         </entity-find>
         <set field="milestoneAssoc" from="milestoneAssocList?.getAt(0)"/>
 
@@ -65,7 +65,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             <entity-find entity-name="WorkEffortAndParty">
                                 <date-filter/>
                                 <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-                                <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
+                                <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
                             </entity-find>
                         </entity-options>
                     </drop-down>
@@ -99,7 +99,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <drop-down><entity-options key="${enumId}" text="${description}">
                     <entity-find entity-name="Enumeration">
                         <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>
-                        <econdition field-name="parentEnumId" value="WET_TASK"/>
+                        <econdition field-name="parentEnumId" value="WetTask"/>
                         <order-by field-name="description"/>
                     </entity-find>
                 </entity-options></drop-down>

@@ -21,10 +21,10 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find entity-name="WorkEffortAndRootByParty" list="myMilestoneList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-            <econdition field-name="rootWorkEffortTypeEnumId" value="WET_PROJECT"/>
-            <econdition field-name="rootStatusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
-            <econdition field-name="workEffortTypeEnumId" value="WET_MILESTONE"/>
-            <econdition field-name="statusId" operator="not-in" value="WE_CLOSED,WE_CANCELLED"/>
+            <econdition field-name="rootWorkEffortTypeEnumId" value="WetProject"/>
+            <econdition field-name="rootStatusId" operator="not-in" value="WeClosed,WeCancelled"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetMilestone"/>
+            <econdition field-name="statusId" operator="not-in" value="WeClosed,WeCancelled"/>
             <select-field field-name="rootWorkEffortId"/><select-field field-name="workEffortId"/>
             <select-field field-name="workEffortName"/><select-field field-name="statusId"/>
             <order-by field-name="estimatedStartDate"/><order-by field-name="workEffortId"/>

@@ -29,7 +29,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <actions>
         <entity-find entity-name="WorkEffortAndParty" list="weapList">
             <econdition field-name="partyId"/>
-            <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
         </entity-find>
     </actions>
     <widgets>

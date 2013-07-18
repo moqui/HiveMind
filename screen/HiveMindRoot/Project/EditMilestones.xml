@@ -29,7 +29,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <actions>
         <entity-find entity-name="WorkEffort" list="milestoneList">
             <econdition field-name="rootWorkEffortId"/>
-            <econdition field-name="workEffortTypeEnumId" value="WET_MILESTONE"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetMilestone"/>
             <order-by field-name="estimatedStartDate"/>
         </entity-find>
     </actions>

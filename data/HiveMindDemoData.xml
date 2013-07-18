@@ -67,7 +67,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.party.PartyRelationship partyRelationshipId="HM_ACME_BA_CB" relationshipTypeEnumId="REL_REPRESENTATIVE"
             fromPartyId="HM_ACME_BA" fromRoleTypeId="CLIENT_BILLING" toPartyId="HM_ACME" toRoleTypeId="BILL_TO_CUSTOMER"
             fromDate="2010-02-03 00:00:00"/>
-    <mantle.party.contact.ContactMech contactMechId="HM_ACME_BA_EM" contactMechTypeEnumId="EMAIL_ADDRESS" infoString="bob.acme@test.com"/>
+    <mantle.party.contact.ContactMech contactMechId="HM_ACME_BA_EM" contactMechTypeEnumId="CmtEmailAddress" infoString="bob.acme@test.com"/>
     <mantle.party.contact.PartyContactMech partyId="HM_ACME_BA" contactMechId="HM_ACME_BA_EM"
             contactMechPurposeId="PRIMARY_EMAIL" fromDate="2010-02-03 00:00:00" thruDate=""/>
 
@@ -77,7 +77,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.party.PartyRelationship partyRelationshipId="HM_ACME_SA_CM" relationshipTypeEnumId="REL_REPRESENTATIVE"
             fromPartyId="HM_ACME_SA" fromRoleTypeId="CLIENT_MANAGER" toPartyId="HM_ACME" toRoleTypeId="BILL_TO_CUSTOMER"
             fromDate="2010-02-03 00:00:00"/>
-    <mantle.party.contact.ContactMech contactMechId="HM_ACME_SA_EM" contactMechTypeEnumId="EMAIL_ADDRESS" infoString="sheldon.acme@test.com"/>
+    <mantle.party.contact.ContactMech contactMechId="HM_ACME_SA_EM" contactMechTypeEnumId="CmtEmailAddress" infoString="sheldon.acme@test.com"/>
     <mantle.party.contact.PartyContactMech partyId="HM_ACME_SA" contactMechId="HM_ACME_SA_EM"
             contactMechPurposeId="PRIMARY_EMAIL" fromDate="2010-02-03 00:00:00" thruDate=""/>
     <moqui.security.UserAccount userId="HM_ACME_SA" username="sheldon.acme" userFullName="Sheldon Acme"
@@ -110,7 +110,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <!-- ========== DEMO PROJECT DATA ========== -->
     <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="HiveMind PM Build Out"
-            workEffortTypeEnumId="WET_PROJECT" statusId="WE_IN_PROGRESS" statusFlowId="HmTaskSimple"/>
+            workEffortTypeEnumId="WetProject" statusId="WeInProgress" statusFlowId="HmTaskSimple"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_BIZI" roleTypeId="BILL_FROM_VENDOR" fromDate="2010-02-03 00:00:00"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="MANAGER"
             emplPositionClassId="SENIOR_PROGRAMMER"
@@ -120,13 +120,13 @@ This Work includes contributions authored by David E. Jones, not as a
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <!-- Milestones -->
     <mantle.work.effort.WorkEffort workEffortId="HM-MS-001" workEffortName="HM Milestone 1"
-            rootWorkEffortId="HM" workEffortTypeEnumId="WET_MILESTONE" statusId="WE_IN_PROGRESS"
+            rootWorkEffortId="HM" workEffortTypeEnumId="WetMilestone" statusId="WeInProgress"
             estimatedStartDate="2013-03-04 00:00:00" estimatedCompletionDate="2013-03-17 00:00:00"/>
     <mantle.work.effort.WorkEffort workEffortId="HM-MS-002" workEffortName="HM Milestone 2"
-            rootWorkEffortId="HM" workEffortTypeEnumId="WET_MILESTONE" statusId="WE_IN_PLANNING"
+            rootWorkEffortId="HM" workEffortTypeEnumId="WetMilestone" statusId="WeInPlanning"
             estimatedStartDate="2013-03-18 00:00:00" estimatedCompletionDate="2013-03-31 00:00:00"/>
     <mantle.work.effort.WorkEffort workEffortId="HM-MS-003" workEffortName="HM Milestone 3"
-            rootWorkEffortId="HM" workEffortTypeEnumId="WET_MILESTONE" statusId="WE_IN_PLANNING"
+            rootWorkEffortId="HM" workEffortTypeEnumId="WetMilestone" statusId="WeInPlanning"
             estimatedStartDate="2013-04-01 00:00:00" estimatedCompletionDate="2013-04-14 00:00:00"/>
     <!-- Project Standard hourly rates in USD (not restricted to any particular Party) -->
     <mantle.humanres.rate.RateAmount rateAmountId="HM-001" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
@@ -137,49 +137,50 @@ This Work includes contributions authored by David E. Jones, not as a
             rateAmount="60.00" rateCurrencyUomId="USD"/>
     <!-- Project StatusFlow -->
     <moqui.basic.StatusFlow statusFlowId="HmTaskSimple" statusTypeId="WorkEffort" description="HiveMind Task Simple Status Flow"/>
-    <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WE_APPROVED" isInitial="Y"/>
-    <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WE_IN_PROGRESS" isInitial="Y"/>
-    <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WE_CLOSED" isInitial="N"/>
-    <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WE_CANCELLED" isInitial="N"/>
-    <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WE_APPROVED" toStatusId="WE_IN_PROGRESS" transitionName="Begin"/>
-    <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WE_IN_PROGRESS" toStatusId="WE_CLOSED" transitionName="Complete"/>
-    <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WE_APPROVED" toStatusId="WE_CANCELLED" transitionName="Cancel"/>
-    <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WE_IN_PROGRESS" toStatusId="WE_CANCELLED" transitionName="Cancel"/>
+    <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeApproved" isInitial="Y"/>
+    <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeInProgress" isInitial="Y"/>
+    <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeClosed" isInitial="N"/>
+    <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeCancelled" isInitial="N"/>
+    <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeApproved" toStatusId="WeInProgress" transitionName="Begin"/>
+    <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeInProgress" toStatusId="WeClosed" transitionName="Complete"/>
+    <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeApproved" toStatusId="WeCancelled" transitionName="Cancel"/>
+    <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeInProgress" toStatusId="WeCancelled" transitionName="Cancel"/>
 
 
     <mantle.work.effort.WorkEffort workEffortId="HM-001" workEffortName="HM Dashboard" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId=""
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_IN_PROGRESS"/>
+            workEffortTypeEnumId="WetTask" purposeEnumId="WepTask" statusId="WeInProgress"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-001"
-            workEffortAssocTypeEnumId="WEAT_MILESTONE" fromDate="2010-02-03 00:00:00" sequenceNum="1"/>
+            workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="1"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-002" workEffortName="Dashboard Project List" priority="2"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="4" remainingWorkTime="4"
-            timeUomId="TF_hr" workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_NEW_FEATURE" statusId="WE_IN_PROGRESS"/>
+            timeUomId="TF_hr" workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeInProgress"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM-002" partyId="EX_JOHN_DOE" roleTypeId="WORKER"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-002"
-            workEffortAssocTypeEnumId="WEAT_MILESTONE" fromDate="2010-02-03 00:00:00" sequenceNum="2"/>
+            workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="2"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-003" workEffortName="Dashboard Create Project" priority="2"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001"
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_NEW_FEATURE" statusId="WE_APPROVED"/>
+            workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-003"
-            workEffortAssocTypeEnumId="WEAT_MILESTONE" fromDate="2010-02-03 00:00:00" sequenceNum="3"/>
+            workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="3"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-004" workEffortName="Dashboard My Tasks" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="5" remainingWorkTime="2.5"
-            actualWorkTime="3.25" timeUomId="TF_hr" workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK"
-            statusId="WE_IN_PROGRESS" statusFlowId="Default">
+            actualWorkTime="3.25" timeUomId="TF_hr" workEffortTypeEnumId="WetTask" purposeEnumId="WepTask"
+            statusId="WeInProgress" statusFlowId="Default">
         <!-- NOTE: this task uses the Default StatusFlow instead of HmTaskSimple used for the rest of the project -->
         <description><![CDATA[
-Show a list of open tasks (statusId not in WE_CLOSED,WE_CANCELLED) for the current logged in user.
+Show a list of open tasks (statusId not in WeClosed,WeCancelled) for the current logged in user.
 
 For each task include a link to the Project and Milestone the task is associated with. Also display the priority, purpose, status, due date, estimated hours and actual hours.
 
 The actual hours is populated automatically based on a sum of the TimeEntry records associated to the task.
         ]]></description>
     </mantle.work.effort.WorkEffort>
+    <!-- task worker and time entries -->
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="WORKER"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED" receiveNotifications="Y"/>
     <mantle.work.time.TimeEntry timeEntryId="HM-004-01" partyId="EX_JOHN_DOE" hours="2" breakHours="3"
@@ -188,38 +189,82 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
     <mantle.work.time.TimeEntry timeEntryId="HM-004-02" partyId="EX_JOHN_DOE" hours="1.25" breakHours="1.75"
             workEffortId="HM-004" comments="Create Task and My Tasks add more fields" rateTypeEnumId="RT_STANDARD"
             rateAmountId="HM-001" fromDate="2013-03-04 14:00:00" thruDate="2013-03-02 17:00:00"/>
+    <!-- task milestone -->
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-004"
-            workEffortAssocTypeEnumId="WEAT_MILESTONE" fromDate="2010-02-03 00:00:00" sequenceNum="4"/>
+            workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="4"/>
+    <!-- task wiki pages -->
     <HiveMind.wiki.WikiPageWorkEffort wikiPageId="DEMO_DP1" workEffortId="HM-004"/>
     <HiveMind.wiki.WikiPageWorkEffort wikiPageId="DEMO_DP2_CP1" workEffortId="HM-004"/>
+    <!-- task comments -->
+    <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-01" sequenceNum="1"/>
+    <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01" communicationEventTypeId="Comment"
+            contactMechTypeEnumId="CmtWebForm" statusId="COM_ENTERED" parentCommEventId="" rootCommEventId="HM-004-01"
+            fromPartyId="EX_JOHN_DOE" entryDate="2013-03-02 17:00:00" contentType="text/plain"
+            subject="Remaining hours question">
+        <body><![CDATA[
+Should we also display remaining hours?
+
+BTW, who would be using this? Whatever this is all just a demo anyway.
+
+BTW2: this has newlines just to demonstrate formatting.
+        ]]></body>
+    </mantle.party.communication.CommunicationEvent>
+    <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A" communicationEventTypeId="Comment"
+            contactMechTypeEnumId="CmtWebForm" statusId="COM_ENTERED" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
+            fromPartyId="HM_BLUTH_GOB" entryDate="2013-03-02 18:00:00" contentType="text/plain"
+            subject="RE: Remaining hours question"
+            body="Yes, please also display remaining hours."/>
+    <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A1" communicationEventTypeId="Comment"
+            contactMechTypeEnumId="CmtWebForm" statusId="COM_ENTERED" parentCommEventId="HM-004-01-A" rootCommEventId="HM-004-01"
+            fromPartyId="EX_JOHN_DOE" entryDate="2013-03-02 20:00:00" contentType="text/plain"
+            subject="RE: Remaining hours question"
+            body="It is done."/>
+    <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A1A" communicationEventTypeId="Comment"
+            contactMechTypeEnumId="CmtWebForm" statusId="COM_ENTERED" parentCommEventId="HM-004-01-A1" rootCommEventId="HM-004-01"
+            fromPartyId="HM_BLUTH_GOB" entryDate="2013-03-02 21:00:00" contentType="text/plain"
+            subject="RE: Remaining hours question"
+            body="It's about time..."/>
+    <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-B" communicationEventTypeId="Comment"
+            contactMechTypeEnumId="CmtWebForm" statusId="COM_ENTERED" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
+            fromPartyId="HM_BLUTH_GOB" entryDate="2013-03-02 19:00:00" contentType="text/plain"
+            subject="RE: Remaining hours question"
+            body="Make it pretty please! And fix your attitude while you're at it."/>
+
+    <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-02" sequenceNum="2"/>
+    <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-02" communicationEventTypeId="Comment"
+            contactMechTypeEnumId="CmtWebForm" statusId="COM_ENTERED" parentCommEventId="" rootCommEventId="HM-004-02"
+            fromPartyId="HM_BLUTH_GOB" entryDate="2013-03-02 17:00:00" contentType="text/plain"
+            subject="Why isn't this working yet?!?"
+            body="This still doesn't seem to be right. You guys aren't even worth a detailed bug report so I won't bother. Just fix it."/>
+
 
     <mantle.work.effort.WorkEffort workEffortId="HM-005" workEffortName="Dashboard Create Task" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001"
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_NEW_FEATURE" statusId="WE_IN_PROGRESS"/>
+            workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeInProgress"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-002" toWorkEffortId="HM-005"
-            workEffortAssocTypeEnumId="WEAT_MILESTONE" fromDate="2010-02-03 00:00:00" sequenceNum="1"/>
+            workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="1"/>
     <mantle.work.effort.WorkEffort workEffortId="HM-006" workEffortName="Dashboard My Requests" priority="5"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001"
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_NEW_FEATURE" statusId="WE_APPROVED"/>
+            workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-002" toWorkEffortId="HM-006"
-            workEffortAssocTypeEnumId="WEAT_MILESTONE" fromDate="2010-02-03 00:00:00" sequenceNum="2"/>
+            workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="2"/>
     <mantle.work.effort.WorkEffort workEffortId="HM-007" workEffortName="Dashboard Create Request" priority="5"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001"
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_NEW_FEATURE" statusId="WE_APPROVED"/>
+            workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-002" toWorkEffortId="HM-007"
-            workEffortAssocTypeEnumId="WEAT_MILESTONE" fromDate="2010-02-03 00:00:00" sequenceNum="3"/>
+            workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="3"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-010" workEffortName="HM Task Screen"
             rootWorkEffortId="HM" parentWorkEffortId=""
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_APPROVED"/>
+            workEffortTypeEnumId="WetTask" purposeEnumId="WepTask" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-003" toWorkEffortId="HM-010"
-            workEffortAssocTypeEnumId="WEAT_MILESTONE" fromDate="2010-02-03 00:00:00" sequenceNum="1"/>
+            workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="1"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-020" workEffortName="HM Request Screen"
             rootWorkEffortId="HM" parentWorkEffortId=""
-            workEffortTypeEnumId="WET_TASK" purposeEnumId="WEP_TASK" statusId="WE_APPROVED"/>
+            workEffortTypeEnumId="WetTask" purposeEnumId="WepTask" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-003" toWorkEffortId="HM-020"
-            workEffortAssocTypeEnumId="WEAT_MILESTONE" fromDate="2010-02-03 00:00:00" sequenceNum="2"/>
+            workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="2"/>
 
     <!-- ========== DEMO REQUEST DATA ========== -->
     <mantle.request.Request requestId="DEMO_001" requestTypeEnumId="RF_FEATURE" requestCategoryId=""

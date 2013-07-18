@@ -144,9 +144,9 @@ and those parts may be licensed under the Apache License 2.0.
         <alias name="assocThruDate" entity-alias="WEFF_ASSOC" field="thruDate"/>
 
         <entity-condition>
-            <econdition field-name="workEffortTypeEnumId" value="WET_TASK"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
             <econditions combine="or">
-                <econdition entity-alias="WEFF_ASSOC" field-name="workEffortAssocTypeEnumId" value="WEAT_MILESTONE"/>
+                <econdition entity-alias="WEFF_ASSOC" field-name="workEffortAssocTypeEnumId" value="WeatMilestone"/>
                 <econdition entity-alias="WEFF_ASSOC" field-name="workEffortAssocTypeEnumId" value=""/>
             </econditions>
             <date-filter from-field-name="assocFromDate" thru-field-name="assocThruDate"/>

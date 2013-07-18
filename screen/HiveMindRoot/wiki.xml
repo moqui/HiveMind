@@ -152,10 +152,10 @@ This Work includes contributions authored by David E. Jones, not as a
                             <econdition field-name="wikiPageId"/>
                         </entity-find>
                         <filter-map-list list="wpaweList" to-list="projectWpaweList">
-                            <field-map field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
+                            <field-map field-name="workEffortTypeEnumId" value="WetProject"/>
                         </filter-map-list>
                         <filter-map-list list="wpaweList" to-list="taskWpaweList">
-                            <field-map field-name="workEffortTypeEnumId" value="WET_TASK"/>
+                            <field-map field-name="workEffortTypeEnumId" value="WetTask"/>
                         </filter-map-list>
 
                         <entity-find entity-name="HiveMind.wiki.WikiPageAndRequest" list="wparList">

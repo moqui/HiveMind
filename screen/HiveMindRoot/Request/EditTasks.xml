@@ -44,7 +44,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-            <econdition field-name="workEffortTypeEnumId" value="WET_PROJECT"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
         </entity-find>
     </actions>
     <widgets>
