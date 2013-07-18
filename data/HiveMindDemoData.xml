@@ -167,6 +167,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-003"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="3"/>
 
+    <!-- this task has the most complete demo data -->
     <mantle.work.effort.WorkEffort workEffortId="HM-004" workEffortName="Dashboard My Tasks" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="5" remainingWorkTime="2.5"
             actualWorkTime="3.25" timeUomId="TF_hr" workEffortTypeEnumId="WetTask" purposeEnumId="WepTask"
@@ -204,7 +205,7 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
         <body><![CDATA[
 Should we also display remaining hours?
 
-BTW, who would be using this? Whatever this is all just a demo anyway.
+BTW: who would be using this? Whatever this is all just a demo anyway.
 
 BTW2: this has newlines just to demonstrate formatting.
         ]]></body>
@@ -237,7 +238,7 @@ BTW2: this has newlines just to demonstrate formatting.
             subject="Why isn't this working yet?!?"
             body="This still doesn't seem to be right. You guys aren't even worth a detailed bug report so I won't bother. Just fix it."/>
 
-
+    <!-- more demo tasks -->
     <mantle.work.effort.WorkEffort workEffortId="HM-005" workEffortName="Dashboard Create Task" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeInProgress"/>

@@ -36,7 +36,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <section name="AddInvoiceItemSection">
-            <condition><expression>invoice.statusId == 'INVOICE_IN_PROCESS'</expression></condition>
+            <condition><expression>invoice.statusId == 'InvoiceInProcess'</expression></condition>
             <widgets>
                 <container>
                     <container-dialog id="AddInvoiceItemDialog" button-text="Add Invoice Item" width="700">
@@ -71,15 +71,15 @@ This Work includes contributions authored by David E. Jones, not as a
                 <display-entity entity-name="moqui.basic.Enumeration" text="${description}" key-field-name="enumId"/>
             </default-field></field>
             <field name="description">
-                <conditional-field condition="invoice.statusId == 'INVOICE_IN_PROCESS'"><text-line size="40"/></conditional-field>
+                <conditional-field condition="invoice.statusId == 'InvoiceInProcess'"><text-line size="40"/></conditional-field>
                 <default-field><display/></default-field>
             </field>
             <field name="quantity">
-                <conditional-field condition="invoice.statusId == 'INVOICE_IN_PROCESS'"><text-line size="4"/></conditional-field>
+                <conditional-field condition="invoice.statusId == 'InvoiceInProcess'"><text-line size="4"/></conditional-field>
                 <default-field><display/></default-field>
             </field>
             <field name="amount">
-                <conditional-field condition="invoice.statusId == 'INVOICE_IN_PROCESS'"><text-line size="8"/></conditional-field>
+                <conditional-field condition="invoice.statusId == 'InvoiceInProcess'"><text-line size="8"/></conditional-field>
                 <default-field><display currency-unit-field="invoice.currencyUomId"/></default-field>
             </field>
             <field name="total"><default-field><display text="${ec.l10n.formatCurrency((quantity * amount), invoice.currencyUomId, 2)}"/></default-field></field>
