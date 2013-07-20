@@ -41,6 +41,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.party.Organization partyId="HM_BIZI" organizationName="Biziwork Consulting"/>
     <mantle.party.PartyRole partyId="HM_BIZI" roleTypeId="INTERNAL_ORG"/>
     <mantle.party.PartyRole partyId="HM_BIZI" roleTypeId="BILL_FROM_VENDOR"/>
+    <mantle.party.PartyRole partyId="HM_BIZI" roleTypeId="BILL_TO_CUSTOMER"/>
 
     <!-- Add Mantle data for the John Doe user -->
     <mantle.party.Party partyId="EX_JOHN_DOE" partyTypeEnumId="PERSON"/>
@@ -145,6 +146,35 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeInProgress" toStatusId="WeClosed" transitionName="Complete"/>
     <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeApproved" toStatusId="WeCancelled" transitionName="Cancel"/>
     <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeInProgress" toStatusId="WeCancelled" transitionName="Cancel"/>
+    <!-- Project Expense (Purchase) Invoice - Travel paid by individual -->
+    <mantle.account.invoice.Invoice invoiceId="HM-001" invoiceTypeEnumId="InvoiceSales" fromPartyId="_NA_"
+            toPartyId="EX_JOHN_DOE" statusId="InvoicePaid" invoiceDate="2013-03-17 12:00:00" currencyUomId="USD"
+            description="March visit travel expenses"/>
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="01" itemTypeEnumId="ItemExpenseTravel"
+            quantity="1" amount="299.75" description="United Airfare"/>
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="02" itemTypeEnumId="ItemExpenseTravel"
+            quantity="1" amount="25.00" description="Seat upgrade (no standard economy seats left)"/>
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="03" itemTypeEnumId="ItemExpenseTravel"
+            quantity="1" amount="1499.67" description="Hilton Hotel"/>
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="04" itemTypeEnumId="ItemExpenseTravel"
+            quantity="1" amount="560.00" description="Avis Car Rental"/>
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="05" itemTypeEnumId="ItemExpenseTravel"
+            quantity="1" amount="84.00" description="Airport Parking"/>
+    <mantle.work.effort.WorkEffortInvoice invoiceId="HM-001" workEffortId="HM"/>
+    <!-- Project Expense (Purchase) Invoice - Hosting paid by Biziwork company-->
+    <mantle.party.Party partyId="HM_AWS" partyTypeEnumId="ORGANIZATION"/>
+    <mantle.party.Organization partyId="HM_AWS" organizationName="Amazon Web Services"/>
+    <mantle.party.PartyRole partyId="HM_AWS" roleTypeId="BILL_FROM_VENDOR"/>
+    <mantle.account.invoice.Invoice invoiceId="HM-002" invoiceTypeEnumId="InvoiceSales" fromPartyId="HM_AWS"
+            toPartyId="HM_BIZI" statusId="InvoicePaid" invoiceDate="2013-03-01 12:00:00" currencyUomId="USD"
+            description="Amazon web hosting March 2013"/>
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="01" itemTypeEnumId="ItemExpenseHosting"
+            quantity="1" amount="216.00" description="RDS Services"/>
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="02" itemTypeEnumId="ItemExpenseHosting"
+            quantity="1" amount="315.80" description="Elastic Compute Cloud"/>
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="03" itemTypeEnumId="ItemExpenseHosting"
+            quantity="1" amount="7.12" description="Simple Storage Service"/>
+    <mantle.work.effort.WorkEffortInvoice invoiceId="HM-002" workEffortId="HM"/>
 
 
     <mantle.work.effort.WorkEffort workEffortId="HM-001" workEffortName="HM Dashboard" priority="1"
