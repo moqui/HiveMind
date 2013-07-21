@@ -35,8 +35,6 @@ h3. HiveMind General
 * implement automatic invoice GL posting
 * implement basic financial reports (income statement, balance sheet, etc)
 
-* add project expenses modeled as expense invoices
-* add service and UI to apply project expense invoices to a project invoice along with time entries
 * implement payment receiving and application to invoice instead of simple invoice status change
 
 h3. HiveMind Wiki
@@ -51,6 +49,9 @@ h3. HiveMind Wiki
 * reference for wiki syntax supported, link to wikitext docs or add some to app
 
 h3. HiveMind Projects and Tasks
+
+* add project expenses modeled as expense invoices
+* add service and UI to apply project expense invoices to a project invoice along with time entries
 
 * add task comments
 ** send comment notification emails to associated users with notifications on

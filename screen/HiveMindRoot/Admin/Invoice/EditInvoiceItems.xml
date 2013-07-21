@@ -26,8 +26,10 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response url="."/>
     </transition>
 
-    <actions>
+    <pre-actions>
         <set field="invoiceId" from="invoiceId ?: invoiceId_0"/>
+    </pre-actions>
+    <actions>
         <entity-find-one entity-name="mantle.account.invoice.Invoice" value-field="invoice"/>
         <service-call name="mantle.account.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
         <entity-find entity-name="mantle.account.invoice.InvoiceItem" list="invoiceItemList">

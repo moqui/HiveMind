@@ -31,7 +31,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <actions>
         <entity-find entity-name="mantle.party.PartyDetailAndRole" list="vendorList">
             <search-form-inputs default-order-by="organizationName,firstName,lastName"/>
-            <econdition field-name="roleTypeId" value="BILL_FROM_VENDOR"/>
+            <econdition field-name="roleTypeId" value="VendorBillFrom"/>
         </entity-find>
     </actions>
     <widgets>
@@ -44,7 +44,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </container-dialog>
             <container-dialog id="AddVendorDialog" button-text="Add Vendor">
                 <form-single name="CreateVendor" transition="createVendor">
-                    <field name="roleTypeId"><default-field><hidden default-value="BILL_FROM_VENDOR"/></default-field></field>
+                    <field name="roleTypeId"><default-field><hidden default-value="VendorBillFrom"/></default-field></field>
                     <field name="organizationName"><default-field title="Name"><text-line/></default-field></field>
                     <field name="submitButton"><default-field title="Create Vendor"><submit/></default-field></field>
                 </form-single>

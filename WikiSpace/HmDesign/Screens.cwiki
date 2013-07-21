@@ -96,13 +96,13 @@ h3. Area: Create or Edit Project
 ## Project Name
 ## Project Description
 ## Start Date (schedules project from Start Date)
-## Bill-to Customer (select client, based on BILL_TO_CUSTOMER role)
-## Client billing person responsible; role type: CLIENT_BILLING
-## Client manager(s); role type: CLIENT_MANAGER
-## Bill-from Vendor (select provider, based on BILL_FROM_VENDOR role)
-## Account Manager for the project (use MANAGER role)
+## Bill-to Customer (select client, based on CustomerBillTo role)
+## Client billing person responsible; role type: ClientBilling
+## Client manager(s); role type: ClientManager
+## Bill-from Vendor (select provider, based on VendorBillFrom role)
+## Account Manager for the project (use Manager role)
 # View names and titles of client-side project personnel (client personnel information is managed on the CLIENTS screen below)
-# Set one or more MANAGERs who can create tasks and manage any in the project (change status, and other task fields; create/move tasks)
+# Set one or more Managers who can create tasks and manage any in the project (change status, and other task fields; create/move tasks)
 # Optionally Add Billing Rate Overrides for provider/vendor individuals
 # Document upload (repository for contract documents such as MEA, MNDA, SOWs)
 ## It would be great to have an electronic repository with version control to manage contractual documents such as MEAs, MNDAs, and SOWs (currently, all are produced in MS Word)

@@ -178,7 +178,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         <container style="task-user-block">
                             <label text="${(weapd.username ? '[' + weapd.username + ']' : '')} ${weapd.firstName?:''} ${weapd.lastName?:''} ${weapd.organizationName?:''}" type="p"/>
                             <label text="${roleType?.description} - ${statusItem?.description}" type="p"/>
-                            <section name="AssignNotificationSection"><condition><expression>weapd.partyTypeEnumId=="PERSON"</expression></condition>
+                            <section name="AssignNotificationSection"><condition><expression>weapd.partyTypeEnumId=="PtyPerson"</expression></condition>
                                 <widgets><label text="Notifications? ${weapd.receiveNotifications?:'N'}" type="p"/></widgets>
                             </section>
                         </container>

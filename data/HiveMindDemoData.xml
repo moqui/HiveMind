@@ -37,18 +37,18 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.resource.DbResourceFile resourceId="DBDEMO_CWIKI" mimeType="text/plain" fileData="h2. The DB Demo Root Page"/>
 
     <!-- ========== DEMO VENDOR (internal organization) DATA ========== -->
-    <mantle.party.Party partyId="HM_BIZI" partyTypeEnumId="ORGANIZATION"/>
+    <mantle.party.Party partyId="HM_BIZI" partyTypeEnumId="PtyOrganization"/>
     <mantle.party.Organization partyId="HM_BIZI" organizationName="Biziwork Consulting"/>
-    <mantle.party.PartyRole partyId="HM_BIZI" roleTypeId="INTERNAL_ORG"/>
-    <mantle.party.PartyRole partyId="HM_BIZI" roleTypeId="BILL_FROM_VENDOR"/>
-    <mantle.party.PartyRole partyId="HM_BIZI" roleTypeId="BILL_TO_CUSTOMER"/>
+    <mantle.party.PartyRole partyId="HM_BIZI" roleTypeId="OrgInternal"/>
+    <mantle.party.PartyRole partyId="HM_BIZI" roleTypeId="VendorBillFrom"/>
+    <mantle.party.PartyRole partyId="HM_BIZI" roleTypeId="CustomerBillTo"/>
 
     <!-- Add Mantle data for the John Doe user -->
-    <mantle.party.Party partyId="EX_JOHN_DOE" partyTypeEnumId="PERSON"/>
+    <mantle.party.Party partyId="EX_JOHN_DOE" partyTypeEnumId="PtyPerson"/>
     <mantle.party.Person partyId="EX_JOHN_DOE" firstName="John" middleName="" lastName="Doe"/>
-    <mantle.party.PartyRole partyId="EX_JOHN_DOE" roleTypeId="MANAGER"/>
-    <mantle.party.PartyRelationship partyRelationshipId="HM_BIZI_JD" relationshipTypeEnumId="REL_REPRESENTATIVE"
-            fromPartyId="EX_JOHN_DOE" fromRoleTypeId="MANAGER" toPartyId="HM_BIZI" toRoleTypeId="BILL_FROM_VENDOR"
+    <mantle.party.PartyRole partyId="EX_JOHN_DOE" roleTypeId="Manager"/>
+    <mantle.party.PartyRelationship partyRelationshipId="HM_BIZI_JD" relationshipTypeEnumId="PrtRepresentative"
+            fromPartyId="EX_JOHN_DOE" fromRoleTypeId="Manager" toPartyId="HM_BIZI" toRoleTypeId="VendorBillFrom"
             fromDate="2010-02-03 00:00:00"/>
     <!-- a default billing rate for EX_JOHN_DOE -->
     <mantle.humanres.rate.RateAmount rateAmountId="EX_JOHN_DOE-001" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
@@ -58,29 +58,29 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.security.UserAccount userId="EX_JOHN_DOE" partyId="EX_JOHN_DOE"/>
 
     <!-- ========== DEMO CLIENT DATA ========== -->
-    <mantle.party.Party partyId="HM_ACME" partyTypeEnumId="ORGANIZATION"/>
+    <mantle.party.Party partyId="HM_ACME" partyTypeEnumId="PtyOrganization"/>
     <mantle.party.Organization partyId="HM_ACME" organizationName="Another Company Making Everything"/>
-    <mantle.party.PartyRole partyId="HM_ACME" roleTypeId="BILL_TO_CUSTOMER"/>
+    <mantle.party.PartyRole partyId="HM_ACME" roleTypeId="CustomerBillTo"/>
 
-    <mantle.party.Party partyId="HM_ACME_BA" partyTypeEnumId="PERSON"/>
+    <mantle.party.Party partyId="HM_ACME_BA" partyTypeEnumId="PtyPerson"/>
     <mantle.party.Person partyId="HM_ACME_BA" firstName="Bob" middleName="" lastName="Acme"/>
-    <mantle.party.PartyRole partyId="HM_ACME_BA" roleTypeId="CLIENT_BILLING"/>
-    <mantle.party.PartyRelationship partyRelationshipId="HM_ACME_BA_CB" relationshipTypeEnumId="REL_REPRESENTATIVE"
-            fromPartyId="HM_ACME_BA" fromRoleTypeId="CLIENT_BILLING" toPartyId="HM_ACME" toRoleTypeId="BILL_TO_CUSTOMER"
+    <mantle.party.PartyRole partyId="HM_ACME_BA" roleTypeId="ClientBilling"/>
+    <mantle.party.PartyRelationship partyRelationshipId="HM_ACME_BA_CB" relationshipTypeEnumId="PrtRepresentative"
+            fromPartyId="HM_ACME_BA" fromRoleTypeId="ClientBilling" toPartyId="HM_ACME" toRoleTypeId="CustomerBillTo"
             fromDate="2010-02-03 00:00:00"/>
     <mantle.party.contact.ContactMech contactMechId="HM_ACME_BA_EM" contactMechTypeEnumId="CmtEmailAddress" infoString="bob.acme@test.com"/>
     <mantle.party.contact.PartyContactMech partyId="HM_ACME_BA" contactMechId="HM_ACME_BA_EM"
-            contactMechPurposeId="PRIMARY_EMAIL" fromDate="2010-02-03 00:00:00" thruDate=""/>
+            contactMechPurposeId="EmailPrimary" fromDate="2010-02-03 00:00:00" thruDate=""/>
 
-    <mantle.party.Party partyId="HM_ACME_SA" partyTypeEnumId="PERSON"/>
+    <mantle.party.Party partyId="HM_ACME_SA" partyTypeEnumId="PtyPerson"/>
     <mantle.party.Person partyId="HM_ACME_SA" firstName="Sheldon" middleName="" lastName="Acme"/>
-    <mantle.party.PartyRole partyId="HM_ACME_SA" roleTypeId="CLIENT_MANAGER"/>
-    <mantle.party.PartyRelationship partyRelationshipId="HM_ACME_SA_CM" relationshipTypeEnumId="REL_REPRESENTATIVE"
-            fromPartyId="HM_ACME_SA" fromRoleTypeId="CLIENT_MANAGER" toPartyId="HM_ACME" toRoleTypeId="BILL_TO_CUSTOMER"
+    <mantle.party.PartyRole partyId="HM_ACME_SA" roleTypeId="ClientManager"/>
+    <mantle.party.PartyRelationship partyRelationshipId="HM_ACME_SA_CM" relationshipTypeEnumId="PrtRepresentative"
+            fromPartyId="HM_ACME_SA" fromRoleTypeId="ClientManager" toPartyId="HM_ACME" toRoleTypeId="CustomerBillTo"
             fromDate="2010-02-03 00:00:00"/>
     <mantle.party.contact.ContactMech contactMechId="HM_ACME_SA_EM" contactMechTypeEnumId="CmtEmailAddress" infoString="sheldon.acme@test.com"/>
     <mantle.party.contact.PartyContactMech partyId="HM_ACME_SA" contactMechId="HM_ACME_SA_EM"
-            contactMechPurposeId="PRIMARY_EMAIL" fromDate="2010-02-03 00:00:00" thruDate=""/>
+            contactMechPurposeId="EmailPrimary" fromDate="2010-02-03 00:00:00" thruDate=""/>
     <moqui.security.UserAccount userId="HM_ACME_SA" username="sheldon.acme" userFullName="Sheldon Acme"
             currentPassword="16ac58bbfa332c1c55bd98b53e60720bfa90d394" passwordHashType="SHA"
             passwordHint="framework name, lowercase" currencyUomId="USD" locale="en_us" timeZone="US/Eastern"
@@ -88,19 +88,19 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="HM_ACME_SA" fromDate="2010-02-03 00:00:00.000"/>
 
     <!-- Another CLIENT -->
-    <mantle.party.Party partyId="HM_BLUTH" partyTypeEnumId="ORGANIZATION"/>
+    <mantle.party.Party partyId="HM_BLUTH" partyTypeEnumId="PtyOrganization"/>
     <mantle.party.Organization partyId="HM_BLUTH" organizationName="Bluth Corp"/>
-    <mantle.party.PartyRole partyId="HM_BLUTH" roleTypeId="BILL_TO_CUSTOMER"/>
+    <mantle.party.PartyRole partyId="HM_BLUTH" roleTypeId="CustomerBillTo"/>
 
-    <mantle.party.Party partyId="HM_BLUTH_GOB" partyTypeEnumId="PERSON"/>
+    <mantle.party.Party partyId="HM_BLUTH_GOB" partyTypeEnumId="PtyPerson"/>
     <mantle.party.Person partyId="HM_BLUTH_GOB" firstName="Gob" middleName="" lastName="Bluth"/>
-    <mantle.party.PartyRole partyId="HM_BLUTH_GOB" roleTypeId="CLIENT_BILLING"/>
-    <mantle.party.PartyRole partyId="HM_BLUTH_GOB" roleTypeId="CLIENT_MANAGER"/>
-    <mantle.party.PartyRelationship partyRelationshipId="HM_BLUTH_GOB_BL" relationshipTypeEnumId="REL_REPRESENTATIVE"
-            fromPartyId="HM_BLUTH_GOB" fromRoleTypeId="CLIENT_BILLING" toPartyId="HM_BLUTH" toRoleTypeId="BILL_TO_CUSTOMER"
+    <mantle.party.PartyRole partyId="HM_BLUTH_GOB" roleTypeId="ClientBilling"/>
+    <mantle.party.PartyRole partyId="HM_BLUTH_GOB" roleTypeId="ClientManager"/>
+    <mantle.party.PartyRelationship partyRelationshipId="HM_BLUTH_GOB_BL" relationshipTypeEnumId="PrtRepresentative"
+            fromPartyId="HM_BLUTH_GOB" fromRoleTypeId="ClientBilling" toPartyId="HM_BLUTH" toRoleTypeId="CustomerBillTo"
             fromDate="2010-02-03 00:00:00"/>
-    <mantle.party.PartyRelationship partyRelationshipId="HM_BLUTH_GOB_MGR" relationshipTypeEnumId="REL_REPRESENTATIVE"
-            fromPartyId="HM_BLUTH_GOB" fromRoleTypeId="CLIENT_MANAGER" toPartyId="HM_BLUTH" toRoleTypeId="BILL_TO_CUSTOMER"
+    <mantle.party.PartyRelationship partyRelationshipId="HM_BLUTH_GOB_MGR" relationshipTypeEnumId="PrtRepresentative"
+            fromPartyId="HM_BLUTH_GOB" fromRoleTypeId="ClientManager" toPartyId="HM_BLUTH" toRoleTypeId="CustomerBillTo"
             fromDate="2010-02-03 00:00:00"/>
     <moqui.security.UserAccount userId="HM_BLUTH_GOB" username="gob.bluth" userFullName="Gob Bluth"
             currentPassword="16ac58bbfa332c1c55bd98b53e60720bfa90d394" passwordHashType="SHA"
@@ -112,12 +112,12 @@ This Work includes contributions authored by David E. Jones, not as a
     <!-- ========== DEMO PROJECT DATA ========== -->
     <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="HiveMind PM Build Out"
             workEffortTypeEnumId="WetProject" statusId="WeInProgress" statusFlowId="HmTaskSimple"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_BIZI" roleTypeId="BILL_FROM_VENDOR" fromDate="2010-02-03 00:00:00"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="MANAGER"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_BIZI" roleTypeId="VendorBillFrom" fromDate="2010-02-03 00:00:00"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="Manager"
             emplPositionClassId="SENIOR_PROGRAMMER"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_ACME" roleTypeId="BILL_TO_CUSTOMER" fromDate="2010-02-03 00:00:00"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_ACME_SA" roleTypeId="CLIENT_MANAGER"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_ACME" roleTypeId="CustomerBillTo" fromDate="2010-02-03 00:00:00"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="HM_ACME_SA" roleTypeId="ClientManager"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <!-- Milestones -->
     <mantle.work.effort.WorkEffort workEffortId="HM-MS-001" workEffortName="HM Milestone 1"
@@ -162,9 +162,9 @@ This Work includes contributions authored by David E. Jones, not as a
             quantity="1" amount="84.00" description="Airport Parking"/>
     <mantle.work.effort.WorkEffortInvoice invoiceId="HM-001" workEffortId="HM"/>
     <!-- Project Expense (Purchase) Invoice - Hosting paid by Biziwork company-->
-    <mantle.party.Party partyId="HM_AWS" partyTypeEnumId="ORGANIZATION"/>
+    <mantle.party.Party partyId="HM_AWS" partyTypeEnumId="PtyOrganization"/>
     <mantle.party.Organization partyId="HM_AWS" organizationName="Amazon Web Services"/>
-    <mantle.party.PartyRole partyId="HM_AWS" roleTypeId="BILL_FROM_VENDOR"/>
+    <mantle.party.PartyRole partyId="HM_AWS" roleTypeId="VendorBillFrom"/>
     <mantle.account.invoice.Invoice invoiceId="HM-002" invoiceTypeEnumId="InvoiceSales" fromPartyId="HM_AWS"
             toPartyId="HM_BIZI" statusId="InvoicePaid" invoiceDate="2013-03-01 12:00:00" currencyUomId="USD"
             description="Amazon web hosting March 2013"/>
@@ -186,7 +186,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffort workEffortId="HM-002" workEffortName="Dashboard Project List" priority="2"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="4" remainingWorkTime="4"
             timeUomId="TF_hr" workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeInProgress"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM-002" partyId="EX_JOHN_DOE" roleTypeId="WORKER"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM-002" partyId="EX_JOHN_DOE" roleTypeId="Worker"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-002"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="2"/>
@@ -212,7 +212,7 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
         ]]></description>
     </mantle.work.effort.WorkEffort>
     <!-- task worker and time entries -->
-    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="WORKER"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="Worker"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED" receiveNotifications="Y"/>
     <mantle.work.time.TimeEntry timeEntryId="HM-004-01" partyId="EX_JOHN_DOE" hours="2" breakHours="3"
             workEffortId="HM-004" comments="Create Task and My Tasks first pass" rateTypeEnumId="RT_STANDARD"
@@ -229,7 +229,7 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
     <!-- task comments -->
     <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-01" sequenceNum="1"/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="COM_ENTERED" parentCommEventId="" rootCommEventId="HM-004-01"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="" rootCommEventId="HM-004-01"
             fromPartyId="EX_JOHN_DOE" entryDate="2013-03-02 17:00:00" contentType="text/plain"
             subject="Remaining hours question">
         <body><![CDATA[
@@ -241,29 +241,29 @@ BTW2: this has newlines just to demonstrate formatting.
         ]]></body>
     </mantle.party.communication.CommunicationEvent>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="COM_ENTERED" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
             fromPartyId="HM_BLUTH_GOB" entryDate="2013-03-02 18:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
             body="Yes, please also display remaining hours."/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A1" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="COM_ENTERED" parentCommEventId="HM-004-01-A" rootCommEventId="HM-004-01"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01-A" rootCommEventId="HM-004-01"
             fromPartyId="EX_JOHN_DOE" entryDate="2013-03-02 20:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
             body="It is done."/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A1A" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="COM_ENTERED" parentCommEventId="HM-004-01-A1" rootCommEventId="HM-004-01"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01-A1" rootCommEventId="HM-004-01"
             fromPartyId="HM_BLUTH_GOB" entryDate="2013-03-02 21:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
             body="It's about time..."/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-B" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="COM_ENTERED" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
             fromPartyId="HM_BLUTH_GOB" entryDate="2013-03-02 19:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
             body="Make it pretty please! And fix your attitude while you're at it."/>
 
     <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-02" sequenceNum="2"/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-02" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="COM_ENTERED" parentCommEventId="" rootCommEventId="HM-004-02"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="" rootCommEventId="HM-004-02"
             fromPartyId="HM_BLUTH_GOB" entryDate="2013-03-02 17:00:00" contentType="text/plain"
             subject="Why isn't this working yet?!?"
             body="This still doesn't seem to be right. You guys aren't even worth a detailed bug report so I won't bother. Just fix it."/>
@@ -302,14 +302,14 @@ BTW2: this has newlines just to demonstrate formatting.
             statusId="REQUEST_IN_PROGRESS" requestName="Add Create Request on dashboard"
             description="Please add Create Request popup on dashboard screen for convenient request creation."
             fromPartyId="" priority="2" requestDate="2010-02-03 00:00:00" responseRequiredDate="2013-07-31 12:00:00"/>
-    <mantle.request.RequestParty requestId="DEMO_001" partyId="EX_JOHN_DOE" roleTypeId="WORKER" fromDate="2010-02-03 00:00:00" thruDate=""/>
-    <mantle.request.RequestParty requestId="DEMO_001" partyId="HM_ACME" roleTypeId="BILL_TO_CUSTOMER" fromDate="2010-02-03 00:00:00" thruDate=""/>
+    <mantle.request.RequestParty requestId="DEMO_001" partyId="EX_JOHN_DOE" roleTypeId="Worker" fromDate="2010-02-03 00:00:00" thruDate=""/>
+    <mantle.request.RequestParty requestId="DEMO_001" partyId="HM_ACME" roleTypeId="CustomerBillTo" fromDate="2010-02-03 00:00:00" thruDate=""/>
     <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-007"/>
 
     <mantle.request.Request requestId="DEMO_002" requestTypeEnumId="RF_INFO" requestCategoryId=""
             statusId="REQUEST_SUBMITTED" requestName="Why is there so little color in the app?" description=""
             fromPartyId="" priority="2" requestDate="2010-02-03 00:00:00" responseRequiredDate="2013-07-31 12:00:00"/>
-    <mantle.request.RequestParty requestId="DEMO_002" partyId="EX_JOHN_DOE" roleTypeId="WORKER" fromDate="2010-02-03 00:00:00" thruDate=""/>
+    <mantle.request.RequestParty requestId="DEMO_002" partyId="EX_JOHN_DOE" roleTypeId="Worker" fromDate="2010-02-03 00:00:00" thruDate=""/>
 
     <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-004"/>
     <mantle.request.RequestWorkEffort requestId="DEMO_002" workEffortId="HM-004"/>

@@ -24,8 +24,10 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response url="."/>
     </transition>
 
+    <pre-actions>
+        <set field="milestoneWorkEffortId" from="milestoneWorkEffortId ?: milestoneWorkEffortId_0"/>
+    </pre-actions>
     <actions>
-        <if condition="milestoneWorkEffortId_0"><set field="milestoneWorkEffortId" from="milestoneWorkEffortId_0"/></if>
         <entity-find-one entity-name="WorkEffort" value-field="milestoneWorkEffort">
             <field-map field-name="workEffortId" from="milestoneWorkEffortId"/>
         </entity-find-one>

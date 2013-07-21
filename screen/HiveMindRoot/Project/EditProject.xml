@@ -37,12 +37,12 @@ This Work includes contributions authored by David E. Jones, not as a
 
         <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="clientWepList">
             <date-filter/><econdition field-name="workEffortId"/>
-            <econdition field-name="roleTypeId" operator="in" value="BILL_TO_CUSTOMER"/>
+            <econdition field-name="roleTypeId" operator="in" value="CustomerBillTo"/>
         </entity-find>
         <set field="clientWep" from="clientWepList?.getAt(0)"/>
         <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="vendorWepList">
             <date-filter/><econdition field-name="workEffortId"/>
-            <econdition field-name="roleTypeId" operator="in" value="BILL_FROM_VENDOR"/>
+            <econdition field-name="roleTypeId" operator="in" value="VendorBillFrom"/>
         </entity-find>
         <set field="vendorWep" from="vendorWepList?.getAt(0)"/>
 
@@ -71,7 +71,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <drop-down allow-empty="true">
                     <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
                         <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                            <econdition field-name="roleTypeId" value="BILL_TO_CUSTOMER"/>
+                            <econdition field-name="roleTypeId" value="CustomerBillTo"/>
                             <order-by field-name="organizationName"/>
                             <order-by field-name="firstName"/><order-by field-name="lastName"/>
                         </entity-find>
@@ -85,7 +85,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <drop-down allow-empty="true">
                     <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
                         <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                            <econdition field-name="roleTypeId" value="BILL_FROM_VENDOR"/>
+                            <econdition field-name="roleTypeId" value="VendorBillFrom"/>
                             <order-by field-name="organizationName"/>
                             <order-by field-name="firstName"/><order-by field-name="lastName"/>
                         </entity-find>

@@ -57,17 +57,17 @@ This Work includes contributions authored by David E. Jones, not as a
             <form-single name="AddUserRelationshipForm" transition="addRelationship">
                 <field name="partyId"><default-field><hidden/></default-field></field>
                 <field name="toPartyId" entry-name="partyId"><default-field><hidden/></default-field></field>
-                <field name="toRoleTypeId"><default-field><hidden default-value="BILL_TO_CUSTOMER"/></default-field></field>
-                <field name="relationshipTypeEnumId"><default-field><hidden default-value="REL_REPRESENTATIVE"/></default-field></field>
+                <field name="toRoleTypeId"><default-field><hidden default-value="CustomerBillTo"/></default-field></field>
+                <field name="relationshipTypeEnumId"><default-field><hidden default-value="PrtRepresentative"/></default-field></field>
 
                 <field name="fromPartyId"><default-field title="Person">
                     <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
                 </default-field></field>
                 <field name="fromRoleTypeId"><default-field title="Role">
                     <drop-down>
-                        <option key="CLIENT_BILLING" text="Billing"/>
-                        <option key="CLIENT_MANAGER" text="Manager"/>
-                        <option key="WORKER" text="Worker"/>
+                        <option key="ClientBilling" text="Billing"/>
+                        <option key="ClientManager" text="Manager"/>
+                        <option key="Worker" text="Worker"/>
                     </drop-down>
                 </default-field></field>
 
@@ -88,9 +88,9 @@ This Work includes contributions authored by David E. Jones, not as a
             </default-field></field>
             <field name="fromRoleTypeId"><header-field title="Role" show-order-by="true"/><default-field>
                 <drop-down>
-                    <option key="CLIENT_BILLING" text="Billing"/>
-                    <option key="CLIENT_MANAGER" text="Manager"/>
-                    <option key="WORKER" text="Worker"/>
+                    <option key="ClientBilling" text="Billing"/>
+                    <option key="ClientManager" text="Manager"/>
+                    <option key="Worker" text="Worker"/>
                 </drop-down>
                 <!-- <display-entity entity-name="RoleType" text="${description}"/> -->
             </default-field></field>

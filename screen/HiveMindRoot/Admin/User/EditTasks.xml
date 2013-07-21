@@ -64,8 +64,8 @@ This Work includes contributions authored by David E. Jones, not as a
 
                 <field name="roleTypeId"><default-field title="Role">
                     <drop-down>
-                        <option key="WORKER" text="Worker"/>
-                        <option key="MANAGER" text="Manager"/>
+                        <option key="Worker" text="Worker"/>
+                        <option key="Manager" text="Manager"/>
                     </drop-down>
                 </default-field></field>
 

@@ -62,8 +62,8 @@ This Work includes contributions authored by David E. Jones, not as a
                     </default-field></field>
                     <field name="roleTypeId"><default-field title="Role">
                         <drop-down>
-                            <option key="WORKER" text="Worker"/>
-                            <option key="MANAGER" text="Manager"/>
+                            <option key="Worker" text="Worker"/>
+                            <option key="Manager" text="Manager"/>
                             <option key="_NA_" text="Not Applicable"/>
                         </drop-down>
                     </default-field></field>
@@ -149,7 +149,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="fromDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
             <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
             <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/>
-                <conditional-field condition="partyTypeEnumId=='PERSON'"><drop-down allow-empty="true">
+                <conditional-field condition="partyTypeEnumId=='PtyPerson'"><drop-down allow-empty="true">
                     <entity-options key="${enumId}" text="${description}"><entity-find entity-name="moqui.basic.Enumeration">
                         <econdition field-name="enumTypeId" value="WorkEffortPartyExpectation"/>
                         <order-by field-name="description"/>
@@ -158,7 +158,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <default-field><ignored/></default-field>
             </field>
             <field name="emplPositionClassId"><header-field title="Position Class" show-order-by="true"/>
-                <conditional-field condition="partyTypeEnumId=='PERSON'"><drop-down allow-empty="true">
+                <conditional-field condition="partyTypeEnumId=='PtyPerson'"><drop-down allow-empty="true">
                     <entity-options key="${emplPositionClassId}" text="${title}"><entity-find entity-name="EmplPositionClass"/></entity-options>
                 </drop-down></conditional-field>
                 <default-field><ignored/></default-field>
