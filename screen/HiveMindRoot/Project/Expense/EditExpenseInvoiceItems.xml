@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
+        default-menu-title="Items" default-menu-index="2">
+
+    <parameter name="rootWorkEffortId"/>
+    <parameter name="invoiceId"/>
+    <parameter name="invoiceId_0"/>
+
+    <transition name="createInvoiceItem">
+        <service-call name="create#mantle.account.invoice.InvoiceItem" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+    <transition name="updateInvoiceItem">
+        <service-call name="update#mantle.account.invoice.InvoiceItem" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+
+    <pre-actions>
+        <set field="invoiceId" from="invoiceId ?: invoiceId_0"/>
+    </pre-actions>
+    <actions>
+        <entity-find-one entity-name="mantle.account.invoice.Invoice" value-field="invoice"/>
+        <service-call name="mantle.account.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
+        <entity-find entity-name="mantle.account.invoice.InvoiceItem" list="invoiceItemList">
+            <econdition field-name="invoiceId"/>
+        </entity-find>
+    </actions>
+    <widgets>
+        <container>
+            <container-dialog id="AddInvoiceItemDialog" button-text="Add Invoice Item" width="700">
+                <form-single name="CreateInvoiceItem" transition="createInvoiceItem">
+                    <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+                    <field name="invoiceId"><default-field><hidden/></default-field></field>
+                    <field name="itemTypeEnumId"><default-field title="Type">
+                        <drop-down no-current-selected-key="ItemExpense">
+                            <entity-options key="${enumId}" text="${description}">
+                                <entity-find entity-name="moqui.basic.Enumeration">
+                                    <econdition field-name="enumTypeId" value="ItemType"/>
+                                    <order-by field-name="description"/>
+                                </entity-find>
+                            </entity-options>
+                        </drop-down>
+                    </default-field></field>
+                    <field name="description"><default-field><text-line size="50"/></default-field></field>
+                    <field name="quantity"><default-field><text-line size="4"/></default-field></field>
+                    <field name="amount"><default-field><text-line size="8"/></default-field></field>
+
+                    <field name="submitButton"><default-field title="Create Invoice Item"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+        </container>
+
+        <label text="Invoice Total: ${ec.l10n.formatCurrency(invoiceTotal, invoice.currencyUomId, 2)}"/>
+        <form-list name="EditInvoiceItems" list="invoiceItemList" transition="updateInvoiceItem" multi="true">
+            <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+            <field name="invoiceId"><default-field><hidden/></default-field></field>
+            <field name="invoiceItemSeqId"><default-field title="Item"><display/></default-field></field>
+            <field name="itemTypeEnumId"><default-field title="Type">
+                <display-entity entity-name="moqui.basic.Enumeration" text="${description}" key-field-name="enumId"/>
+            </default-field></field>
+            <field name="description">
+                <conditional-field condition="invoice.statusId == 'InvoiceInProcess'"><text-line size="40"/></conditional-field>
+                <default-field><display/></default-field>
+            </field>
+            <field name="quantity">
+                <conditional-field condition="invoice.statusId == 'InvoiceInProcess'"><text-line size="4"/></conditional-field>
+                <default-field><display/></default-field>
+            </field>
+            <field name="amount">
+                <conditional-field condition="invoice.statusId == 'InvoiceInProcess'"><text-line size="8"/></conditional-field>
+                <default-field><display currency-unit-field="invoice.currencyUomId"/></default-field>
+            </field>
+            <field name="total"><default-field><display text="${ec.l10n.formatCurrency((quantity * amount), invoice.currencyUomId, 2)}"/></default-field></field>
+
+            <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+        </form-list>
+    </widgets>
+</screen>

@@ -28,7 +28,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <transition name="getPersonList">
         <actions>
-            <entity-find entity-name="PersonAndUserAccount" list="pauList" limit="20">
+            <entity-find entity-name="mantle.party.PersonAndUserAccount" list="pauList" limit="20">
                 <econditions combine="or">
                     <econdition field-name="firstName" operator="like" value="%${term}%" ignore-case="true"/>
                     <econdition field-name="lastName" operator="like" value="%${term}%" ignore-case="true"/>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
+        default-menu-include="false">
+
+    <parameter name="rootWorkEffortId"/>
+
+    <transition name="findInvoice"><default-response url="."/></transition>
+    <transition name="editInvoice"><default-response url="../EditExpenseInvoice"/></transition>
+    <transition name="createInvoice">
+        <service-call name="mantle.account.InvoiceServices.create#ProjectExpenseInvoice" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+
+    <transition name="getPartyList">
+        <actions>
+            <entity-find entity-name="mantle.party.PartyDetail" list="pdList" limit="20">
+                <econditions combine="or">
+                    <econdition field-name="organizationName" operator="like" value="%${term}%" ignore-case="true"/>
+                    <econdition field-name="firstName" operator="like" value="%${term}%" ignore-case="true"/>
+                    <econdition field-name="lastName" operator="like" value="%${term}%" ignore-case="true"/>
+                    <econdition field-name="partyId" operator="like" value="%${term}%" ignore-case="true"/>
+                </econditions>
+                <order-by field-name="^organizationName"/><order-by field-name="^firstName"/><order-by field-name="^lastName"/><order-by field-name="^partyId"/>
+            </entity-find>
+            <script>
+                def outList = []
+                for (def pd in pdList)
+                    outList.add([value:pd.partyId, label:"${pd.organizationName?:''} ${pd.firstName?:''} ${pd.lastName?:''} (${pd.partyId})".toString()])
+                ec.web.sendJsonResponse(outList)
+            </script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
+    <pre-actions>
+        <set field="html_title" value="Find Invoice"/>
+    </pre-actions>
+    
+    <actions>
+        <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="project">
+            <field-map field-name="workEffortId" from="rootWorkEffortId"/>
+        </entity-find-one>
+
+        <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="clientWepList">
+            <date-filter/><econdition field-name="workEffortId" from="rootWorkEffortId"/>
+            <econdition field-name="roleTypeId" operator="in" value="CustomerBillTo"/>
+        </entity-find>
+        <set field="clientWep" from="clientWepList?.getAt(0)"/>
+        <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="vendorWepList">
+            <date-filter/><econdition field-name="workEffortId" from="rootWorkEffortId"/>
+            <econdition field-name="roleTypeId" operator="in" value="VendorBillFrom"/>
+        </entity-find>
+        <set field="vendorWep" from="vendorWepList?.getAt(0)"/>
+
+        <entity-find entity-name="mantle.work.effort.WorkEffortInvoiceDetail" list="invoiceList">
+            <econdition field-name="workEffortId" from="rootWorkEffortId"/>
+            <!-- don't include invoices to project CustomerBillTo partyId -->
+            <econdition field-name="toPartyId" operator="not-equals" from="clientWep.partyId"/>
+            <!-- don't include invoices from project VendorBillFrom partyId -->
+            <econdition field-name="fromPartyId" operator="not-equals" from="vendorWep.partyId"/>
+            <order-by field-name="-invoiceDate"/>
+        </entity-find>
+    </actions>
+    <widgets>
+        <container-dialog id="CreateInvoiceDialog" button-text="Create Expense Invoice">
+            <form-single name="CreateInvoice" transition="createInvoice">
+                <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+                <field name="workEffortId" entry-name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+                <field name="fromPartyId"><default-field title="From Party">
+                    <text-line ac-transition="getPartyList" ac-min-length="2" size="15"/>
+                </default-field></field>
+                <field name="toPartyId"><default-field title="To Party">
+                    <text-line ac-transition="getPartyList" ac-min-length="2" size="15"/>
+                </default-field></field>
+                <field name="invoiceDate"><default-field><date-time/></default-field></field>
+                <field name="currencyUomId"><default-field>
+                    <drop-down no-current-selected-key="USD"><entity-options key="${uomId}" text="${description}">
+                        <entity-find entity-name="moqui.basic.Uom">
+                            <econdition field-name="uomTypeEnumId" value="UT_CURRENCY_MEASURE"/>
+                        </entity-find>
+                    </entity-options></drop-down>
+                </default-field></field>
+                <field name="description"><default-field><text-line size="60"/></default-field></field>
+
+                <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
+            </form-single>
+        </container-dialog>
+
+        <label text="Expenses for project '${project.workEffortName}' [${project.workEffortId}]" type="h3"/>
+
+        <form-list name="InvoiceList" list="invoiceList" skip-form="true">
+            <row-actions>
+                <service-call name="mantle.account.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
+            </row-actions>
+            <field name="editInvoiceLink"><header-field show-order-by="case-insensitive" title="Edit"/><default-field>
+                <link url="editInvoice" text="Edit ${invoiceId}"/>
+            </default-field></field>
+            <field name="fromPartyId"><default-field title="From">
+                <display-entity entity-name="mantle.party.PartyDetail" also-hidden="false" key-field-name="partyId"
+                        text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]"/>
+            </default-field></field>
+            <field name="toPartyId"><default-field title="To">
+                <display-entity entity-name="mantle.party.PartyDetail" also-hidden="false" key-field-name="partyId"
+                        text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]"/>
+            </default-field></field>
+            <field name="description"><default-field><display/></default-field></field>
+            <field name="invoiceDate"><header-field show-order-by="true"/><default-field><display also-hidden="false"/></default-field></field>
+            <field name="invoiceTotal"><default-field title="Total"><display currency-unit-field="currencyUomId"/></default-field></field>
+            <!-- status not needed for expense invoices <field name="statusId"><header-field show-order-by="true"/>
+                <default-field title="Status"><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
+            </field> -->
+
+            <!-- TODO: add column for project invoice(s) where expense is billed to client -->
+        </form-list>
+    </widgets>
+</screen>

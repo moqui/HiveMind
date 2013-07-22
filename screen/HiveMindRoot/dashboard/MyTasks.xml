@@ -119,7 +119,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     </default-field></field>
                     <field name="statusId"><default-field title="Status">
                         <drop-down><entity-options key="${statusId}" text="${description}">
-                            <entity-find entity-name="StatusItem">
+                            <entity-find entity-name="moqui.basic.StatusItem">
                                 <econdition field-name="statusTypeId" value="WorkEffort"/>
                                 <order-by field-name="sequenceNum"/>
                             </entity-find>
