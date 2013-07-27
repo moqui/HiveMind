@@ -50,9 +50,6 @@ h3. HiveMind Wiki
 
 h3. HiveMind Projects and Tasks
 
-* add project expenses modeled as expense invoices
-* add service and UI to apply project expense invoices to a project invoice along with time entries
-
 * add task comments
 ** send comment notification emails to associated users with notifications on
 ** send mentioned notifications for usernames or first/last name of user mentioned in comment (flexible parse? special syntax?)
