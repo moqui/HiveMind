@@ -100,8 +100,8 @@ This Work includes contributions authored by David E. Jones, not as a
         </entity-find>
     </actions>
     <widgets>
-        <container-panel id="task-summary-panel">
-            <panel-left>
+        <container-panel id="task-summary-panel" dynamic="true">
+            <panel-left size="240">
                 <label text="Task ID: ${workEffortId}" type="strong"/>
                 <container><label text="Project: " type="strong"/></container>
                 <link text="${project.workEffortId} - ${project.workEffortName}" url="editProject">
@@ -163,7 +163,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <editable id="TaskDescription" text="${task.description?:''}" transition="updateTaskField" type="pre"
                         parameter-name="description"/>
             </panel-center>
-            <panel-right>
+            <panel-right size="240">
                 <label text="Assignments" type="strong"/>
                 <section-iterate name="TaskAssignList" list="weapdList" entry="weapd">
                     <actions>

@@ -31,10 +31,10 @@
 
 /* ========== Task Summary Styles ========== */
 #task-summary-panel {  }
-#task-summary-panel-left { width: 240px; }
-#task-summary-panel-center { width: 440px; padding-left: 8px; padding-right: 8px; background: #dddddd; min-height: 100%; }
+#task-summary-panel-left { /*width: 240px;*/ }
+#task-summary-panel-center { /*width: 440px;*/ padding-left: 8px; padding-right: 8px; background: #dddddd; }
 /* border-left: black 1px solid; border-right: black 1px solid; */
-#task-summary-panel-right { width: 240px; }
+#task-summary-panel-right { /*width: 240px;*/ }
 #task-time-label, #task-requests-label, #task-wiki-pages-label {
     margin-top: 16px; padding-top: 4px; display: block; font-weight: bold; border-top: black solid 1px; }
 .task-user-block, .task-request-block { border-top: #cccccc solid 1px; }

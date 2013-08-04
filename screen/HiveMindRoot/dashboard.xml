@@ -20,7 +20,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="myRequests"><default-response url="MyRequests"/></transition>
 
     <widgets>
-        <container-panel id="dashboard-panel">
+        <container-panel id="dashboard-panel" dynamic="true">
             <panel-left>
                 <section name="DashboardLeft"><widgets>
                     <dynamic-container id="QuickSearchContainer" transition="quickSearch"/>
