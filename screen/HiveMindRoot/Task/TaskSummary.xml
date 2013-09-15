@@ -64,6 +64,11 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
 
+    <transition name="addComment">
+        <service-call name="mantle.work.TaskServices.add#TaskComment" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+
     <actions>
         <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="task"/>
         <entity-find-related-one value-field="task" relationship-name="Root#mantle.work.effort.WorkEffort" to-value-field="project"/>
@@ -86,15 +91,21 @@ This Work includes contributions authored by David E. Jones, not as a
             <order-by field-name="fromDate"/><order-by field-name="lastUpdatedStamp"/>
         </entity-find>
 
+        <!-- Comments -->
+        <entity-find entity-name="mantle.work.effort.WorkEffortCommEventDetail" list="wecedList">
+            <econdition field-name="workEffortId"/>
+            <order-by field-name="entryDate"/>
+        </entity-find>
+        <!-- Assignments -->
         <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
             <date-filter/>
             <econdition field-name="workEffortId"/>
         </entity-find>
-
+        <!-- Requests -->
         <entity-find entity-name="mantle.request.WorkEffortRequestDetail" list="werdList">
             <econdition field-name="workEffortId"/>
         </entity-find>
-
+        <!-- Wiki Pages -->
         <entity-find entity-name="HiveMind.wiki.WikiPageAndWorkEffort" list="wpaweList">
             <econdition field-name="workEffortId"/>
         </entity-find>
@@ -157,11 +168,59 @@ This Work includes contributions authored by David E. Jones, not as a
                 <container>
                     <label text="Task: " type="strong"/>
                     <editable id="TaskName" text="${task.workEffortName?:''}" transition="updateTaskField"
-                            parameter-name="workEffortName"/>
+                            parameter-name="workEffortName" type="strong"/>
                 </container>
-                <label text="Description: " type="strong"/>
+                <label text="Description" type="h2"/>
                 <editable id="TaskDescription" text="${task.description?:''}" transition="updateTaskField" type="pre"
                         parameter-name="description"/>
+
+                <label text="Comments" type="h2"/>
+                <container-dialog id="AddCommentDialog" button-text="Add Comment">
+                    <form-single name="AddCommentForm" transition="addComment">
+                        <field name="workEffortId"><default-field><hidden/></default-field></field>
+                        <field name="subject"><default-field><text-line/></default-field></field>
+                        <field name="body"><default-field title="Comment"><text-area rows="10"/></default-field></field>
+                        <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
+                    </form-single>
+                </container-dialog>
+                <section-iterate name="CommentList" list="wecedList" entry="weced">
+                    <actions>
+                        <entity-find-one entity-name="mantle.party.Person" value-field="fromPerson" cache="true">
+                            <field-map field-name="partyId" from="weced.fromPartyId"/>
+                        </entity-find-one>
+                        <entity-find entity-name="mantle.party.communication.CommunicationEvent" list="childCeList">
+                            <econdition field-name="rootCommEventId" from="weced.communicationEventId"/>
+                            <order-by field-name="entryDate"/>
+                        </entity-find>
+                    </actions>
+                    <widgets>
+                        <container style="task-comment">
+                            <label text="Subject: ${weced.subject}" type="strong"/>
+                            <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
+                            <label text="at ${weced.entryDate}" type="span"/>
+
+                            <label text="${weced.body}" type="pre" encode="false"/>
+
+                            <!-- TODO: handle nested comments better instead if all child comments in a flat list -->
+                            <container style="task-comment-child">
+                                <section-iterate name="CommentChildList" list="childCeList" entry="childCe">
+                                    <actions>
+                                        <entity-find-one entity-name="mantle.party.Person" value-field="fromPerson" cache="true">
+                                            <field-map field-name="partyId" from="childCe.fromPartyId"/>
+                                        </entity-find-one>
+                                    </actions>
+                                    <widgets>
+                                        <label text="Subject: ${childCe.subject}" type="strong"/>
+                                        <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
+                                        <label text="at ${childCe.entryDate}" type="span"/>
+
+                                        <label text="${childCe.body}" type="pre" encode="false"/>
+                                    </widgets>
+                                </section-iterate>
+                            </container>
+                        </container>
+                    </widgets>
+                </section-iterate>
             </panel-center>
             <panel-right size="240">
                 <label text="Assignments" type="strong"/>

@@ -134,8 +134,7 @@ This Work includes contributions authored by David E. Jones, not as a
             actualWorkTime="3.25" timeUomId="TF_hr" workEffortTypeEnumId="WetTask" purposeEnumId="WepTask"
             statusId="WeInProgress" statusFlowId="Default">
         <!-- NOTE: this task uses the Default StatusFlow instead of HmTaskSimple used for the rest of the project -->
-        <description><![CDATA[
-Show a list of open tasks (statusId not in WeClosed,WeCancelled) for the current logged in user.
+        <description><![CDATA[Show a list of open tasks (statusId not in WeClosed,WeCancelled) for the current logged in user.
 
 For each task include a link to the Project and Milestone the task is associated with. Also display the priority, purpose, status, due date, estimated hours and actual hours.
 
@@ -158,18 +157,16 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
     <HiveMind.wiki.WikiPageWorkEffort wikiPageId="DEMO_DP1" workEffortId="HM-004"/>
     <HiveMind.wiki.WikiPageWorkEffort wikiPageId="DEMO_DP2_CP1" workEffortId="HM-004"/>
     <!-- task comments -->
-    <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-01" sequenceNum="1"/>
+    <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-01"/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="" rootCommEventId="HM-004-01"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="" rootCommEventId=""
             fromPartyId="EX_JOHN_DOE" entryDate="2013-03-02 17:00:00" contentType="text/plain"
             subject="Remaining hours question">
-        <body><![CDATA[
-Should we also display remaining hours?
+        <body><![CDATA[Should we also display remaining hours?
 
 BTW: who would be using this? Whatever this is all just a demo anyway.
 
-BTW2: this has newlines just to demonstrate formatting.
-        ]]></body>
+BTW2: this has newlines just to demonstrate formatting.]]></body>
     </mantle.party.communication.CommunicationEvent>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A" communicationEventTypeId="Comment"
             contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
@@ -190,12 +187,12 @@ BTW2: this has newlines just to demonstrate formatting.
             contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
             fromPartyId="ORG_BLUTH_GOB" entryDate="2013-03-02 19:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
-            body="Make it pretty please! And fix your attitude while you're at it."/>
+            body="Make it pretty as well! And fix your attitude while you're at it."/>
 
-    <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-02" sequenceNum="2"/>
+    <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-02"/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-02" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="" rootCommEventId="HM-004-02"
-            fromPartyId="ORG_BLUTH_GOB" entryDate="2013-03-02 17:00:00" contentType="text/plain"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="" rootCommEventId=""
+            fromPartyId="ORG_BLUTH_GOB" entryDate="2013-03-04 17:00:00" contentType="text/plain"
             subject="Why isn't this working yet?!?"
             body="This still doesn't seem to be right. You guys aren't even worth a detailed bug report so I won't bother. Just fix it."/>
 
