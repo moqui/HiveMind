@@ -64,6 +64,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
 
+    <transition name="taskCommentReply"><default-response url="TaskCommentReply"/></transition>
     <transition name="addComment">
         <service-call name="mantle.work.TaskServices.add#TaskComment" in-map="context"/>
         <default-response url="."/>
@@ -96,6 +97,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <econdition field-name="workEffortId"/>
             <order-by field-name="entryDate"/>
         </entity-find>
+
         <!-- Assignments -->
         <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
             <date-filter/>
@@ -185,6 +187,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 </container-dialog>
                 <section-iterate name="CommentList" list="wecedList" entry="weced">
                     <actions>
+                        <set field="uniqueExtension" from="weced_index"/>
                         <entity-find-one entity-name="mantle.party.Person" value-field="fromPerson" cache="true">
                             <field-map field-name="partyId" from="weced.fromPartyId"/>
                         </entity-find-one>
@@ -195,29 +198,20 @@ This Work includes contributions authored by David E. Jones, not as a
                     </actions>
                     <widgets>
                         <container style="task-comment">
-                            <label text="Subject: ${weced.subject}" type="strong"/>
+                            <label text="${weced.subject}" type="strong"/>
                             <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
                             <label text="at ${weced.entryDate}" type="span"/>
+                            <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="taskCommentReply">
+                                <parameter name="parentCommEventId" from="weced.communicationEventId"/>
+                            </dynamic-dialog>
 
                             <label text="${weced.body}" type="pre" encode="false"/>
 
-                            <!-- TODO: handle nested comments better instead if all child comments in a flat list -->
-                            <container style="task-comment-child">
-                                <section-iterate name="CommentChildList" list="childCeList" entry="childCe">
-                                    <actions>
-                                        <entity-find-one entity-name="mantle.party.Person" value-field="fromPerson" cache="true">
-                                            <field-map field-name="partyId" from="childCe.fromPartyId"/>
-                                        </entity-find-one>
-                                    </actions>
-                                    <widgets>
-                                        <label text="Subject: ${childCe.subject}" type="strong"/>
-                                        <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
-                                        <label text="at ${childCe.entryDate}" type="span"/>
-
-                                        <label text="${childCe.body}" type="pre" encode="false"/>
-                                    </widgets>
-                                </section-iterate>
-                            </container>
+                            <section name="ChildNestedComments">
+                                <condition><expression>childCeList</expression></condition>
+                                <actions><set field="currentCe" from="weced"/></actions>
+                                <widgets><include-screen location="component://HiveMind/screen/HiveMindRoot/Task/TaskSummary/TaskCommentNested.xml"/></widgets>
+                            </section>
                         </container>
                     </widgets>
                 </section-iterate>

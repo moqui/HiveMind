@@ -32,7 +32,7 @@
 /* ========== Task Summary Styles ========== */
 #task-summary-panel {  }
 #task-summary-panel-left { /*width: 240px;*/ }
-#task-summary-panel-center { /*width: 440px;*/ padding-left: 8px; padding-right: 8px; background: #dddddd; }
+#task-summary-panel-center { /*width: 440px;*/ padding-left: 8px; padding-right: 8px; background: #eeeeee; }
 /* border-left: black 1px solid; border-right: black 1px solid; */
 #task-summary-panel-right { /*width: 240px;*/ }
 .task-comment { margin-bottom: 8px; }
