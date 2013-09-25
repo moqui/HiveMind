@@ -73,7 +73,10 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="itemTypeEnumId"><default-field title="Type">
                 <display-entity entity-name="moqui.basic.Enumeration" text="${description}" key-field-name="enumId"/>
             </default-field></field>
-            <field name="itemDate"><default-field title="Date"><date-time/></default-field></field>
+            <field name="itemDate">
+                <conditional-field condition="invoice.statusId == 'InvoiceInProcess'" title="Date"><date-time/></conditional-field>
+                <default-field title="Date"><display/></default-field>
+            </field>
             <field name="description">
                 <conditional-field condition="invoice.statusId == 'InvoiceInProcess'"><text-line size="40"/></conditional-field>
                 <default-field><display/></default-field>
@@ -88,7 +91,10 @@ This Work includes contributions authored by David E. Jones, not as a
             </field>
             <field name="total"><default-field><display text="${ec.l10n.formatCurrency((quantity * amount), invoice.currencyUomId, 2)}"/></default-field></field>
 
-            <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+            <field name="submitButton">
+                <conditional-field condition="invoice.statusId == 'InvoiceInProcess'" title="Update"><submit/></conditional-field>
+                <default-field><ignored/></default-field>
+            </field>
         </form-list>
     </widgets>
 </screen>
