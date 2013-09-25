@@ -17,6 +17,11 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="findInvoice"><default-response url="."/></transition>
     <transition name="editInvoice"><default-response url="../EditInvoice"/></transition>
 
+    <transition name="createProjectInvoiceItems">
+        <service-call name="mantle.account.InvoiceServices.create#ProjectInvoiceItems" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+
     <pre-actions>
         <set field="html_title" value="Find Invoice"/>
     </pre-actions>
@@ -58,6 +63,35 @@ This Work includes contributions authored by David E. Jones, not as a
                         </entity-options></drop-down>
                     </default-field></field>
                     <field name="searchButton"><default-field title="Find"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+
+            <container-dialog id="ProjectInvoiceDialog" button-text="Invoice Project" width="700">
+                <form-single name="ProjectInvoice" transition="createProjectInvoiceItems">
+                    <field name="workEffortId"><default-field title="Project">
+                        <drop-down allow-empty="false" combo-box="true">
+                            <entity-options key="${workEffortId}" text="${workEffortId} - ${workEffortName}">
+                                <entity-find entity-name="mantle.work.effort.WorkEffort">
+                                    <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+                                    <order-by field-name="workEffortId"/>
+                                </entity-find>
+                            </entity-options>
+                        </drop-down>
+                    </default-field></field>
+
+                    <field name="thruDate"><default-field><date-time type="date-time"/></default-field></field>
+                    <field name="invoiceId"><default-field title="Existing Invoice">
+                        <drop-down allow-empty="true">
+                            <entity-options key="${invoiceId}" text="#${invoiceId}: ${invoiceDate}">
+                                <entity-find entity-name="mantle.account.invoice.Invoice">
+                                    <econdition field-name="invoiceTypeEnumId" value="InvoiceSales"/>
+                                    <econdition field-name="statusId" value="InvoiceInProcess"/>
+                                    <econdition field-name="toPartyId" from="clientWep?.partyId" ignore-if-empty="true"/>
+                                </entity-find>
+                            </entity-options>
+                        </drop-down>
+                    </default-field></field>
+                    <field name="submitButton"><default-field title="Invoice Time and Expenses"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
         </container>
