@@ -39,6 +39,13 @@ This Work includes contributions authored by David E. Jones, not as a
         </actions>
         <default-response type="none"/>
     </transition>
+    <transition name="getProjectTeams">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectTeams" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
 
     <pre-actions>
         <set field="html_title" value="Find Task"/>
@@ -84,17 +91,27 @@ This Work includes contributions authored by David E. Jones, not as a
                         </drop-down>
                     </default-field></field>
                     <field name="milestoneWorkEffortId"><default-field title="Milestone">
-                        <drop-down allow-empty="true">
+                        <drop-down>
                             <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
-                                <depends-on field="rootWorkEffortId"/>
-                            </dynamic-options>
+                                <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
                     <field name="partyId"><default-field title="Assigned To">
-                        <drop-down current="selected" allow-empty="true">
+                        <drop-down current="selected">
                             <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name">
-                                <depends-on field="rootWorkEffortId"/>
-                            </dynamic-options>
+                                <depends-on field="rootWorkEffortId"/></dynamic-options>
+                        </drop-down>
+                    </default-field></field>
+                    <field name="teamPartyId"><default-field title="Assigned To Team">
+                        <drop-down current="selected">
+                            <dynamic-options transition="getProjectTeams" value-field="partyId" label-field="name">
+                                <depends-on field="rootWorkEffortId"/></dynamic-options>
+                        </drop-down>
+                    </default-field></field>
+                    <field name="teamMemberPartyId"><default-field title="Assigned Team Member">
+                        <drop-down current="selected">
+                            <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name">
+                                <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
                     <field name="priority"><default-field><range-find/></default-field></field>

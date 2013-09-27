@@ -64,7 +64,6 @@ h3. HiveMind Projects and Tasks
 
 * improve find task screen
 ** configurable displayed columns
-** find by team (direct team assoc or any member in team)
 
 * track payments
 ** apply to invoice, change invoice status when sufficient payments applied

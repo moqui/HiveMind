@@ -13,6 +13,8 @@ This Work includes contributions authored by David E. Jones, not as a
 <entity-facade-xml type="demo">
 
     <!-- Security group memberships for Mantle demo parties -->
+    <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_BIZI_JD" fromDate="2010-02-03 00:00:00.000"/>
+    <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_BIZI_BD" fromDate="2010-02-03 00:00:00.000"/>
     <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_ACME_SA" fromDate="2010-02-03 00:00:00.000"/>
     <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_BLUTH_GOB" fromDate="2010-02-03 00:00:00.000"/>
 
@@ -45,11 +47,23 @@ This Work includes contributions authored by David E. Jones, not as a
             workEffortTypeEnumId="WetProject" statusId="WeInProgress" statusFlowId="HmTaskSimple"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_SERVICES" roleTypeId="VendorBillFrom" fromDate="2010-02-03 00:00:00"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="Manager"
-            emplPositionClassId="SENIOR_PROGRAMMER"
+            emplPositionClassId="SENIOR_PROGRAMMER" fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_JD" roleTypeId="Manager"
+            emplPositionClassId="PROGRAMMER" fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_BD" roleTypeId="Manager"
+            emplPositionClassId="PROGRAMMER" fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_DEVA" roleTypeId="OrgTeam"
+            fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_DEVB" roleTypeId="OrgTeam"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME" roleTypeId="CustomerBillTo" fromDate="2010-02-03 00:00:00"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME_SA" roleTypeId="ClientManager"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME_BA" roleTypeId="Worker"
+            fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME_TM" roleTypeId="OrgTeam"
+            fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
+
     <!-- Milestones -->
     <mantle.work.effort.WorkEffort workEffortId="HM-MS-001" workEffortName="HM Milestone 1"
             rootWorkEffortId="HM" workEffortTypeEnumId="WetMilestone" statusId="WeInProgress"
@@ -60,6 +74,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffort workEffortId="HM-MS-003" workEffortName="HM Milestone 3"
             rootWorkEffortId="HM" workEffortTypeEnumId="WetMilestone" statusId="WeInPlanning"
             estimatedStartDate="2013-04-01 00:00:00" estimatedCompletionDate="2013-04-14 00:00:00"/>
+
     <!-- Project Standard hourly rates in USD (not restricted to any particular Party) -->
     <mantle.humanres.rate.RateAmount rateAmountId="HM-001" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
             workEffortId="HM" partyId="" emplPositionClassId="SENIOR_PROGRAMMER" fromDate="2010-02-03 00:00:00" thruDate=""
@@ -67,6 +82,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.humanres.rate.RateAmount rateAmountId="HM-002" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
             workEffortId="HM" partyId="" emplPositionClassId="PROGRAMMER" fromDate="2010-02-03 00:00:00" thruDate=""
             rateAmount="60.00" rateCurrencyUomId="USD"/>
+
     <!-- Project StatusFlow -->
     <moqui.basic.StatusFlow statusFlowId="HmTaskSimple" statusTypeId="WorkEffort" description="HiveMind Task Simple Status Flow"/>
     <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeApproved" isInitial="Y"/>
@@ -77,6 +93,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeInProgress" toStatusId="WeClosed" transitionName="Complete"/>
     <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeApproved" toStatusId="WeCancelled" transitionName="Cancel"/>
     <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeInProgress" toStatusId="WeCancelled" transitionName="Cancel"/>
+
     <!-- Project Expense (Purchase) Invoice - Travel paid by individual -->
     <mantle.account.invoice.Invoice invoiceId="HM-001" invoiceTypeEnumId="InvoiceSales" fromPartyId="_NA_"
             toPartyId="EX_JOHN_DOE" statusId="InvoicePmtSent" invoiceDate="2013-03-17 12:00:00" currencyUomId="USD"
@@ -144,6 +161,8 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
     <!-- task worker and time entries -->
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="Worker"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED" receiveNotifications="Y"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_BIZI_DEVA" roleTypeId="OrgTeam"
+            fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.time.TimeEntry timeEntryId="HM-004-01" partyId="EX_JOHN_DOE" hours="2" breakHours="3"
             workEffortId="HM-004" comments="Create Task and My Tasks first pass" rateTypeEnumId="RT_STANDARD"
             rateAmountId="HM-001" fromDate="2013-03-02 12:00:00" thruDate="2013-03-02 17:00:00"/>

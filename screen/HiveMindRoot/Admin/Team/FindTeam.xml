@@ -30,14 +30,14 @@ This Work includes contributions authored by David E. Jones, not as a
     <actions>
         <entity-find entity-name="mantle.party.PartyDetailAndRole" list="teamList">
             <search-form-inputs default-order-by="organizationName,firstName,lastName"/>
-            <econdition field-name="roleTypeId" value="TEAM"/>
+            <econdition field-name="roleTypeId" value="OrgTeam"/>
         </entity-find>
     </actions>
     <widgets>
         <container>
             <container-dialog id="AddTeamDialog" button-text="Add Team">
                 <form-single name="CreateTeam" transition="createTeam">
-                    <field name="roleTypeId"><default-field><hidden default-value="TEAM"/></default-field></field>
+                    <field name="roleTypeId"><default-field><hidden default-value="OrgTeam"/></default-field></field>
                     <field name="organizationName"><default-field title="Name"><text-line/></default-field></field>
                     <field name="submitButton"><default-field title="Create Team"><submit/></default-field></field>
                 </form-single>
