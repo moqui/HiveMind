@@ -14,6 +14,11 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
         default-menu-include="false">
 
+    <transition name="TaskList.csv">
+        <default-response url="."><parameter name="renderMode" value="csv"/>
+            <parameter name="pageNoLimit" value="true"/><parameter name="lastStandalone" value="true"/></default-response>
+    </transition>
+
     <transition name="newTask"><default-response url="../EditTask"/></transition>
     <transition name="findTask"><default-response url="."/></transition>
     <transition name="editTask"><default-response url="../TaskSummary"/></transition>
@@ -54,7 +59,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <container>
-            <container-dialog id="FindTaskDialog" button-text="Search Tasks" width="800">
+            <container-dialog id="FindTaskDialog" button-text="Find Options" width="800">
                 <form-single name="FindTasks" transition="findTask">
                     <field name="rootWorkEffortId"><default-field title="Project">
                         <drop-down allow-empty="true">
@@ -113,9 +118,11 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="actualWorkTime"><default-field title="Actual Hours">
                         <range-find/></default-field></field>
                     <!-- TODO: add user filter -->
-                    <field name="searchButton"><default-field title="Find Task"><submit/></default-field></field>
+                    <field name="searchButton"><default-field title="Find Tasks"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
+
+            <link url="TaskList.csv" text="Get as CSV" target-window="_blank" expand-transition-url="false" link-type="anchor-button"/>
             <!-- TODO: add new task as a dialog in-screen <link url="newTask" text="New Task" link-type="hidden-form" icon="plusthick"/> -->
         </container>
 
@@ -140,8 +147,12 @@ This Work includes contributions authored by David E. Jones, not as a
                     <parameter name="workEffortId" from="parentWorkEffortId"/></link></default-field>
             </field>
             <field name="workEffortId">
-                <header-field title="Task" show-order-by="case-insensitive"/>
-                <default-field><link text="${workEffortId}: ${workEffortName}" url="editTask"/></default-field>
+                <header-field title="ID" show-order-by="true"/>
+                <default-field><link text="${workEffortId}" url="editTask"/></default-field>
+            </field>
+            <field name="workEffortName">
+                <header-field title="Name" show-order-by="case-insensitive"/>
+                <default-field><link text="${workEffortName}" url="editTask"/></default-field>
             </field>
             <field name="purposeEnumId">
                 <header-field title="Purpose" show-order-by="true"/>

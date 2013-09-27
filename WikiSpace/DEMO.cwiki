@@ -63,11 +63,8 @@ h3. HiveMind Projects and Tasks
 ** task aging (by priority, then by created date)
 
 * improve find task screen
-** various filters
 ** configurable displayed columns
-** big view-entity with specific fields selected to use auto-minimize query
 ** sum numeric columns
-** CSV export
 
 * track payments
 ** apply to invoice, change invoice status when sufficient payments applied
