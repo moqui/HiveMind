@@ -56,6 +56,17 @@ This Work includes contributions authored by David E. Jones, not as a
             <select-field field-name="estimatedWorkTime"/>
             <select-field field-name="remainingWorkTime"/><select-field field-name="actualWorkTime"/>
         </entity-find>
+
+        <set field="taskSummaryMap" from="[count:0, rootWorkEffortId:'', milestoneWorkEffortId:'', priority:'',
+                parentWorkEffortId:'', workEffortId:'', workEffortName:'', purposeEnumId:'', statusId:'',
+                estimatedCompletionDate:'', estimatedWorkTime:0, remainingWorkTime:0, actualWorkTime:0]"/>
+        <iterate list="taskList" entry="task">
+            <set field="taskSummaryMap.count" from="taskSummaryMap.count + 1"/>
+            <set field="taskSummaryMap.estimatedWorkTime" from="taskSummaryMap.estimatedWorkTime + (task.estimatedWorkTime ?: 0)"/>
+            <set field="taskSummaryMap.remainingWorkTime" from="taskSummaryMap.remainingWorkTime + (task.remainingWorkTime ?: 0)"/>
+            <set field="taskSummaryMap.actualWorkTime" from="taskSummaryMap.actualWorkTime + (task.actualWorkTime ?: 0)"/>
+        </iterate>
+        <set field="taskSummaryList" from="[taskSummaryMap]"/>
     </actions>
     <widgets>
         <container>
@@ -127,7 +138,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </container>
 
 
-        <form-list name="ListTasks" list="taskList">
+        <form-list name="ListTasks" list="taskList" skip-form="true" skip-end="true">
             <field name="rootWorkEffortId">
                 <header-field title="Project" show-order-by="case-insensitive"/>
                 <default-field><link url="editProject" text="${rootWorkEffortId?:'--'}">
@@ -169,6 +180,20 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="estimatedWorkTime"><default-field title="Est"><display format="#.00"/></default-field></field>
             <field name="remainingWorkTime"><default-field title="Rem"><display format="#.00"/></default-field></field>
             <field name="actualWorkTime"><default-field title="Act"><display format="#.00"/></default-field></field>
+        </form-list>
+        <form-list name="ListTasksSummary" list="taskSummaryList" skip-form="true" skip-start="true">
+            <field name="rootWorkEffortId"><default-field><display text="${count} tasks"/></default-field></field>
+            <field name="milestoneWorkEffortId"><default-field><display/></default-field></field>
+            <field name="priority"><default-field><display/></default-field></field>
+            <field name="parentWorkEffortId"><default-field><display/></default-field></field>
+            <field name="workEffortId"><default-field><display/></default-field></field>
+            <field name="workEffortName"><default-field><display/></default-field></field>
+            <field name="purposeEnumId"><default-field><display/></default-field></field>
+            <field name="statusId"><default-field><display/></default-field></field>
+            <field name="estimatedCompletionDate"><default-field><display/></default-field></field>
+            <field name="estimatedWorkTime"><default-field><display format="#.00"/></default-field></field>
+            <field name="remainingWorkTime"><default-field><display format="#.00"/></default-field></field>
+            <field name="actualWorkTime"><default-field><display format="#.00"/></default-field></field>
         </form-list>
     </widgets>
 </screen>
