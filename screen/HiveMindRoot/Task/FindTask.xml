@@ -20,13 +20,21 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
 
+    <transition name="getProjectMilestones">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectMilestones" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
     <pre-actions>
         <set field="html_title" value="Find Task"/>
     </pre-actions>
     
     <actions>
         <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="taskList">
-            <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,parentWorkEffortId NULLS FIRST,workEffortId"/>
+            <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"/>
             <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
             <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
             <select-field field-name="parentWorkEffortId"/><select-field field-name="workEffortId"/>
@@ -52,9 +60,16 @@ This Work includes contributions authored by David E. Jones, not as a
                             </entity-options>
                         </drop-down>
                     </default-field></field>
+                    <field name="milestoneWorkEffortId"><default-field title="Milestone">
+                        <drop-down allow-empty="true">
+                            <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
+                                <depends-on field="rootWorkEffortId"/>
+                            </dynamic-options>
+                        </drop-down>
+                    </default-field></field>
+                    <field name="priority"><default-field><range-find/></default-field></field>
                     <field name="workEffortId"><default-field title="Task ID"><text-find/></default-field></field>
                     <field name="workEffortName"><default-field title="Name"><text-find/></default-field></field>
-                    <field name="priority"><default-field><range-find/></default-field></field>
                     <field name="purposeEnumId">
                         <default-field title="Purpose">
                             <drop-down allow-empty="true">
@@ -101,6 +116,10 @@ This Work includes contributions authored by David E. Jones, not as a
                 <header-field title="Milestone" show-order-by="case-insensitive"/>
                 <default-field><link text="${milestoneWorkEffortId?:''}" url="milestoneSummary"/></default-field>
             </field>
+            <field name="priority">
+                <header-field show-order-by="true"/>
+                <default-field title="Pri"><display/></default-field>
+            </field>
             <field name="parentWorkEffortId">
                 <header-field title="Parent" show-order-by="case-insensitive"/>
                 <default-field><link url="editTask" text="${parentWorkEffortId?:'--'}">
@@ -109,10 +128,6 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="workEffortId">
                 <header-field title="Task" show-order-by="case-insensitive"/>
                 <default-field><link text="${workEffortId}: ${workEffortName}" url="editTask"/></default-field>
-            </field>
-            <field name="priority">
-                <header-field show-order-by="true"/>
-                <default-field><display/></default-field>
             </field>
             <field name="purposeEnumId">
                 <header-field title="Purpose" show-order-by="true"/>
