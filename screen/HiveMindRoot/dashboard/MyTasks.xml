@@ -55,6 +55,12 @@ This Work includes contributions authored by David E. Jones, not as a
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="statusId" operator="not-in" value="WeClosed,WeCancelled"/>
+            <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
+            <select-field field-name="workEffortId"/><select-field field-name="workEffortName"/>
+            <select-field field-name="priority"/><select-field field-name="purposeEnumId"/>
+            <select-field field-name="statusId"/><select-field field-name="estimatedCompletionDate"/>
+            <select-field field-name="estimatedWorkTime"/>
+            <select-field field-name="remainingWorkTime"/><select-field field-name="actualWorkTime"/>
             <order-by field-name="milestoneEstimatedStartDate"/>
             <order-by field-name="priority"/>
         </entity-find>
@@ -147,7 +153,6 @@ This Work includes contributions authored by David E. Jones, not as a
                 <field name="workEffortId"><default-field title="Task">
                     <link text="${workEffortId}: ${workEffortName}" url="editTask"/>
                 </default-field></field>
-                <!-- <field name="workEffortName"><default-field title="Name"><display/></default-field></field> -->
                 <field name="priority"><default-field title="Pri"><display/></default-field></field>
                 <field name="purposeEnumId">
                     <default-field title="Purpose"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>

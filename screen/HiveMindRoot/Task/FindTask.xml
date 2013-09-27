@@ -18,20 +18,28 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="findTask"><default-response url="."/></transition>
     <transition name="editTask"><default-response url="../TaskSummary"/></transition>
     <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
+    <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
 
     <pre-actions>
         <set field="html_title" value="Find Task"/>
     </pre-actions>
     
     <actions>
-        <entity-find entity-name="WorkEffort" list="taskList">
-            <search-form-inputs default-order-by="rootWorkEffortId,parentWorkEffortId NULLS FIRST,workEffortId"/>
+        <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="taskList">
+            <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,parentWorkEffortId NULLS FIRST,workEffortId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+            <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
+            <select-field field-name="parentWorkEffortId"/><select-field field-name="workEffortId"/>
+            <select-field field-name="workEffortName"/><select-field field-name="priority"/>
+            <select-field field-name="purposeEnumId"/><select-field field-name="statusId"/>
+            <select-field field-name="estimatedCompletionDate"/>
+            <select-field field-name="estimatedWorkTime"/>
+            <select-field field-name="remainingWorkTime"/><select-field field-name="actualWorkTime"/>
         </entity-find>
     </actions>
     <widgets>
         <container>
-            <container-dialog id="FindTaskDialog" button-text="Search Tasks">
+            <container-dialog id="FindTaskDialog" button-text="Search Tasks" width="800">
                 <form-single name="FindTasks" transition="findTask">
                     <field name="rootWorkEffortId"><default-field title="Project">
                         <drop-down allow-empty="true">
@@ -89,6 +97,10 @@ This Work includes contributions authored by David E. Jones, not as a
                 <default-field><link url="editProject" text="${rootWorkEffortId?:'--'}">
                     <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
             </field>
+            <field name="milestoneWorkEffortId">
+                <header-field title="Milestone" show-order-by="case-insensitive"/>
+                <default-field><link text="${milestoneWorkEffortId?:''}" url="milestoneSummary"/></default-field>
+            </field>
             <field name="parentWorkEffortId">
                 <header-field title="Parent" show-order-by="case-insensitive"/>
                 <default-field><link url="editTask" text="${parentWorkEffortId?:'--'}">
@@ -96,11 +108,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </field>
             <field name="workEffortId">
                 <header-field title="Task" show-order-by="case-insensitive"/>
-                <default-field><link url="editTask" text="${workEffortId}"/></default-field>
-            </field>
-            <field name="workEffortName">
-                <header-field title="Name" show-order-by="case-insensitive"/>
-                <default-field><display also-hidden="false"/></default-field>
+                <default-field><link text="${workEffortId}: ${workEffortName}" url="editTask"/></default-field>
             </field>
             <field name="priority">
                 <header-field show-order-by="true"/>
@@ -118,6 +126,9 @@ This Work includes contributions authored by David E. Jones, not as a
                 <header-field title="Due Date" show-order-by="true"/>
                 <default-field><display format="yyyy-MM-dd"/></default-field>
             </field>
+            <field name="estimatedWorkTime"><default-field title="Est"><display format="#.00"/></default-field></field>
+            <field name="remainingWorkTime"><default-field title="Rem"><display format="#.00"/></default-field></field>
+            <field name="actualWorkTime"><default-field title="Act"><display format="#.00"/></default-field></field>
         </form-list>
     </widgets>
 </screen>

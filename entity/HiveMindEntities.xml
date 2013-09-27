@@ -124,7 +124,7 @@ and those parts may be licensed under the Apache License 2.0.
 
     <view-entity entity-name="PartyTaskSummary" package-name="HiveMind.work.effort">
         <member-entity entity-alias="WEFF" entity-name="WorkEffort"/>
-        <member-entity entity-alias="WEP" entity-name="WorkEffortParty" join-from-alias="WEFF">
+        <member-entity entity-alias="WEP" entity-name="WorkEffortParty" join-from-alias="WEFF" join-optional="true">
             <key-map field-name="workEffortId"/>
         </member-entity>
         <member-entity entity-alias="WEFF_ASSOC" entity-name="WorkEffortAssoc" join-from-alias="WEFF" join-optional="true">
