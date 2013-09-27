@@ -98,6 +98,13 @@ This Work includes contributions authored by David E. Jones, not as a
             <order-by field-name="entryDate"/>
         </entity-find>
 
+        <!-- Status History -->
+        <entity-find entity-name="moqui.entity.EntityAuditLog" list="statusHistoryList">
+            <econdition field-name="changedEntityName" value="mantle.work.effort.WorkEffort"/>
+            <econdition field-name="changedFieldName" value="statusId"/>
+            <econdition field-name="pkPrimaryValue" from="workEffortId"/>
+            <order-by field-name="changedDate"/>
+        </entity-find>
         <!-- Assignments -->
         <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
             <date-filter/>
@@ -217,7 +224,27 @@ This Work includes contributions authored by David E. Jones, not as a
                 </section-iterate>
             </panel-center>
             <panel-right size="240">
-                <label text="Assignments" type="strong"/>
+                <label text="Status History" type="strong"/>
+                <section-iterate name="StatusHistoryList" list="statusHistoryList" entry="statusHistory">
+                    <actions>
+                        <entity-find-one entity-name="moqui.security.UserAccount" value-field="userAccount">
+                            <field-map field-name="userId" from="statusHistory?.changedByUserId"/>
+                        </entity-find-one>
+                        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="oldStatusItem" cache="true">
+                            <field-map field-name="statusId" from="statusHistory?.oldValueText"/>
+                        </entity-find-one>
+                        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="statusItem" cache="true">
+                            <field-map field-name="statusId" from="statusHistory?.newValueText"/>
+                        </entity-find-one>
+                    </actions>
+                    <widgets>
+                        <container style="task-status-block">
+                            <label text="${oldStatusItem ? oldStatusItem.description + ' to ' : ''}${statusItem?.description}${(userAccount?.username ? ' by ' + userAccount.username : '')} at ${statusHistory.changedDate}" type="p"/>
+                        </container>
+                    </widgets>
+                </section-iterate>
+
+                <label text="Assignments" id="task-assignments-label"/>
                 <section-iterate name="TaskAssignList" list="weapdList" entry="weapd">
                     <actions>
                         <entity-find-one entity-name="mantle.party.RoleType" value-field="roleType" cache="true">
