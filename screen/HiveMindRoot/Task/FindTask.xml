@@ -18,9 +18,9 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response url="."><parameter name="renderMode" value="csv"/>
             <parameter name="pageNoLimit" value="true"/><parameter name="lastStandalone" value="true"/></default-response>
     </transition>
+    <transition name="findTask"><default-response url="."/></transition>
 
     <transition name="newTask"><default-response url="../EditTask"/></transition>
-    <transition name="findTask"><default-response url="."/></transition>
     <transition name="editTask"><default-response url="../TaskSummary"/></transition>
     <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
@@ -52,28 +52,51 @@ This Work includes contributions authored by David E. Jones, not as a
     </pre-actions>
     
     <actions>
-        <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="taskList">
-            <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"/>
-            <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
-            <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
-            <select-field field-name="parentWorkEffortId"/><select-field field-name="workEffortId"/>
-            <select-field field-name="workEffortName"/><select-field field-name="priority"/>
-            <select-field field-name="purposeEnumId"/><select-field field-name="statusId"/>
-            <select-field field-name="estimatedCompletionDate"/>
-            <select-field field-name="estimatedWorkTime"/>
-            <select-field field-name="remainingWorkTime"/><select-field field-name="actualWorkTime"/>
-        </entity-find>
+        <if condition="!queryString">
+            <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="taskList">
+                <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"/>
+                <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+                <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
+                <select-field field-name="parentWorkEffortId"/><select-field field-name="workEffortId"/>
+                <select-field field-name="workEffortName"/><select-field field-name="priority"/>
+                <select-field field-name="purposeEnumId"/><select-field field-name="statusId"/>
+                <select-field field-name="estimatedCompletionDate"/>
+                <select-field field-name="estimatedWorkTime"/>
+                <select-field field-name="remainingWorkTime"/><select-field field-name="actualWorkTime"/>
+            </entity-find>
 
-        <set field="taskSummaryMap" from="[count:0, rootWorkEffortId:'', milestoneWorkEffortId:'', priority:'',
+            <set field="taskSummaryMap" from="[count:0, rootWorkEffortId:'', milestoneWorkEffortId:'', priority:'',
                 parentWorkEffortId:'', workEffortId:'', workEffortName:'', purposeEnumId:'', statusId:'',
                 estimatedCompletionDate:'', estimatedWorkTime:0, remainingWorkTime:0, actualWorkTime:0]"/>
-        <iterate list="taskList" entry="task">
-            <set field="taskSummaryMap.count" from="taskSummaryMap.count + 1"/>
-            <set field="taskSummaryMap.estimatedWorkTime" from="taskSummaryMap.estimatedWorkTime + (task.estimatedWorkTime ?: 0)"/>
-            <set field="taskSummaryMap.remainingWorkTime" from="taskSummaryMap.remainingWorkTime + (task.remainingWorkTime ?: 0)"/>
-            <set field="taskSummaryMap.actualWorkTime" from="taskSummaryMap.actualWorkTime + (task.actualWorkTime ?: 0)"/>
-        </iterate>
-        <set field="taskSummaryList" from="[taskSummaryMap]"/>
+            <iterate list="taskList" entry="task">
+                <set field="taskSummaryMap.count" from="taskSummaryMap.count + 1"/>
+                <set field="taskSummaryMap.estimatedWorkTime" from="taskSummaryMap.estimatedWorkTime + (task.estimatedWorkTime ?: 0)"/>
+                <set field="taskSummaryMap.remainingWorkTime" from="taskSummaryMap.remainingWorkTime + (task.remainingWorkTime ?: 0)"/>
+                <set field="taskSummaryMap.actualWorkTime" from="taskSummaryMap.actualWorkTime + (task.actualWorkTime ?: 0)"/>
+            </iterate>
+            <set field="taskSummaryList" from="[taskSummaryMap]"/>
+
+
+            <else>
+                <service-call name="org.moqui.impl.EntityServices.search#DataDocuments" out-map="context"
+                        in-map="context + [indexName:'hivemind', documentType:'HmTask']"/>
+                <set field="taskSummaryMap" from="[count:0, rootWorkEffortId:'', milestoneWorkEffortId:'', priority:'',
+                    parentWorkEffortId:'', workEffortId:'', workEffortName:'', purposeEnumId:'', statusId:'',
+                    estimatedCompletionDate:'', estimatedWorkTime:0, remainingWorkTime:0, actualWorkTime:0]"/>
+                <set field="taskList" from="[]"/>
+                <iterate list="documentList" entry="document">
+                    <entity-find-one entity-name="HiveMind.work.effort.PartyTaskSummary" value-field="task">
+                        <field-map field-name="workEffortId" from="document._id"/>
+                    </entity-find-one>
+                    <script>taskList.add(task)</script>
+                    <set field="taskSummaryMap.count" from="taskSummaryMap.count + 1"/>
+                    <set field="taskSummaryMap.estimatedWorkTime" from="taskSummaryMap.estimatedWorkTime + (task.estimatedWorkTime ?: 0)"/>
+                    <set field="taskSummaryMap.remainingWorkTime" from="taskSummaryMap.remainingWorkTime + (task.remainingWorkTime ?: 0)"/>
+                    <set field="taskSummaryMap.actualWorkTime" from="taskSummaryMap.actualWorkTime + (task.actualWorkTime ?: 0)"/>
+                </iterate>
+                <set field="taskSummaryList" from="[taskSummaryMap]"/>
+            </else>
+        </if>
     </actions>
     <widgets>
         <container>
@@ -153,7 +176,16 @@ This Work includes contributions authored by David E. Jones, not as a
             <link url="TaskList.csv" text="Get as CSV" target-window="_blank" expand-transition-url="false" link-type="anchor-button"/>
             <!-- TODO: add new task as a dialog in-screen <link url="newTask" text="New Task" link-type="hidden-form" icon="plusthick"/> -->
         </container>
-
+        <container>
+            <form-single name="SearchOptions" transition="findTask">
+                <field name="queryString"><default-field title="">
+                    <text-line size="40"/>
+                    <!-- <text-line ac-transition="searchSuggest" ac-min-length="3" size="40"/> -->
+                </default-field></field>
+                <field name="submitButton"><default-field title="Text Search"><submit/></default-field></field>
+                <field-layout><field-row><field-ref name="queryString"/><field-ref name="submitButton"/></field-row></field-layout>
+            </form-single>
+        </container>
 
         <form-list name="ListTasks" list="taskList" skip-form="true" skip-end="true">
             <field name="rootWorkEffortId">

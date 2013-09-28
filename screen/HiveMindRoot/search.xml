@@ -76,9 +76,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <!-- <text-line ac-transition="searchSuggest" ac-min-length="3" size="40"/> -->
             </default-field></field>
             <field name="submitButton"><default-field title="Search"><submit/></default-field></field>
-            <field-layout>
-                <field-row><field-ref name="queryString"/><field-ref name="submitButton"/></field-row>
-            </field-layout>
+            <field-layout><field-row><field-ref name="queryString"/><field-ref name="submitButton"/></field-row></field-layout>
         </form-single>
 
         <form-list name="SearchResults" list="documentList" paginate="true" paginate-always-show="true">
