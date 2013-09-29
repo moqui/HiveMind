@@ -95,7 +95,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </default-field></field>
             <field name="purposeEnumId"><default-field title="Purpose">
                 <drop-down><entity-options key="${enumId}" text="${description}">
-                    <entity-find entity-name="Enumeration">
+                    <entity-find entity-name="moqui.basic.Enumeration">
                         <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>
                         <econdition field-name="parentEnumId" value="WetTask"/>
                         <order-by field-name="description"/>
@@ -111,6 +111,14 @@ This Work includes contributions authored by David E. Jones, not as a
                         </entity-find>
                     </entity-options>
                 </drop-down>
+            </default-field></field>
+            <field name="resolutionEnumId"><default-field title="Resolution">
+                <drop-down><entity-options key="${enumId}" text="${description}">
+                    <entity-find entity-name="moqui.basic.Enumeration">
+                        <econdition field-name="enumTypeId" value="WorkEffortResolution"/>
+                        <order-by field-name="description"/>
+                    </entity-find>
+                </entity-options></drop-down>
             </default-field></field>
             <field name="estimatedCompletionDate">
                 <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>

@@ -57,6 +57,30 @@ This Work includes contributions authored by David E. Jones, not as a
         </actions>
         <default-response type="none"/>
     </transition>
+    <transition name="updateTaskResolution">
+        <actions>
+            <service-call name="update#mantle.work.effort.WorkEffort" in-map="context"/>
+            <entity-find-one entity-name="moqui.basic.Enumeration" value-field="newEnum">
+                <field-map field-name="enumId" from="resolutionEnumId"/>
+            </entity-find-one>
+            <script>ec.web.sendTextResponse(newEnum.description)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+    <transition name="getTaskResolutions">
+        <actions>
+            <entity-find entity-name="moqui.basic.Enumeration" list="enumList" cache="true">
+                <econdition field-name="enumTypeId" value="WorkEffortResolution"/>
+                <order-by field-name="description"/>
+            </entity-find>
+            <set field="optionsMap" from="[:]"/>
+            <iterate list="enumList" entry="enumItem">
+                <set field="optionsMap[enumItem.enumId]" value="${enumItem.description}"/>
+            </iterate>
+            <script>ec.web.sendJsonResponse(optionsMap)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
 
     <transition name="taskSummary"><default-response url="../../Task/TaskSummary"/></transition>
     <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
@@ -75,6 +99,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find-related-one value-field="task" relationship-name="Root#mantle.work.effort.WorkEffort" to-value-field="project"/>
         <entity-find-related-one value-field="task" relationship-name="Parent#mantle.work.effort.WorkEffort" to-value-field="parentTask"/>
         <entity-find-related-one value-field="task" relationship-name="WorkEffortPurpose#moqui.basic.Enumeration" to-value-field="purposeEnum"/>
+        <entity-find-related-one value-field="task" relationship-name="WorkEffortResolution#moqui.basic.Enumeration" to-value-field="resolutionEnum"/>
         <entity-find-related-one value-field="task" relationship-name="WorkEffort#moqui.basic.StatusItem" to-value-field="currentStatus"/>
 
         <entity-find entity-name="mantle.work.effort.WorkEffortAssoc" list="milestoneAssocList">
@@ -163,6 +188,13 @@ This Work includes contributions authored by David E. Jones, not as a
                             parameter-name="statusId" widget-type="select">
                         <parameter name="workEffortId" from="task.workEffortId"/>
                         <editable-load transition="getTaskStatuses"/>
+                    </editable>
+                </container>
+                <container><label text="Resolution: " type="strong"/>
+                    <editable id="TaskResolution" text="${resolutionEnum?.description?:''}" transition="updateTaskResolution"
+                            parameter-name="resolutionEnumId" widget-type="select">
+                        <parameter name="workEffortId" from="task.workEffortId"/>
+                        <editable-load transition="getTaskResolutions"/>
                     </editable>
                 </container>
                 <container><label text="Due Date: " type="strong"/><label text="${ec.l10n.formatValue(task.estimatedCompletionDate, 'yyyy-MM-dd')}"/></container>
