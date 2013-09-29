@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
+        default-menu-title="Related" default-menu-index="4">
+
+    <parameter name="workEffortId"/>
+
+    <transition name="addRelated">
+        <service-call name="create#mantle.work.effort.WorkEffortAssoc" in-map="context + [workEffortId:fromWorkEffortId]"/>
+        <default-response url="."/>
+    </transition>
+    <transition name="deleteRelated">
+        <service-call name="delete#mantle.work.effort.WorkEffortAssoc" in-map="context + [workEffortId:fromWorkEffortId]"/>
+        <default-response url="."/>
+    </transition>
+    <transition name="taskSummary"><default-response url="../TaskSummary"/></transition>
+
+    <transition name="getProjectTasks">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
+    <actions>
+        <set field="mainWorkEffortId" from="workEffortId"/>
+        <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="task"/>
+        <entity-find entity-name="mantle.work.effort.WorkEffortAssocAndTo" list="relatedToList">
+            <econdition field-name="fromWorkEffortId" from="workEffortId"/>
+        </entity-find>
+        <entity-find entity-name="mantle.work.effort.WorkEffortAssocAndFrom" list="relatedFromList">
+            <econdition field-name="toWorkEffortId" from="workEffortId"/>
+            <econdition field-name="workEffortAssocTypeEnumId" operator="not-equals" value="WeatMilestone"/>
+        </entity-find>
+    </actions>
+    <widgets>
+        <container>
+            <container-dialog id="AddRelatedToDialog" button-text="Add Related To">
+                <form-single name="AddRelatedToForm" transition="addRelated">
+                    <field name="workEffortId"><default-field><hidden/></default-field></field>
+                    <field name="fromWorkEffortId" entry-name="workEffortId"><default-field><hidden/></default-field></field>
+
+                    <field name="workEffortAssocTypeEnumId"><default-field title="Type"><drop-down>
+                        <entity-options key="${enumId}" text="${description}">
+                            <entity-find entity-name="moqui.basic.Enumeration">
+                                <econditions combine="or">
+                                    <econdition field-name="enumId" value="WeatRelatesTo"/>
+                                    <econdition field-name="parentEnumId" value="WeatRelatesTo"/>
+                                </econditions>
+                                <order-by field-name="description"/>
+                            </entity-find>
+                        </entity-options>
+                    </drop-down></default-field></field>
+                    <field name="rootWorkEffortId"><default-field title="Project"><drop-down>
+                        <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
+                            <entity-find entity-name="WorkEffortAndParty">
+                                <date-filter/>
+                                <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                                <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+                            </entity-find>
+                        </entity-options>
+                    </drop-down></default-field></field>
+                    <field name="toWorkEffortId"><default-field title="To Task">
+                        <drop-down combo-box="true">
+                            <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
+                                <depends-on field="rootWorkEffortId"/>
+                            </dynamic-options>
+                        </drop-down>
+                    </default-field></field>
+
+                    <field name="submitButton"><default-field title="Add Related"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+            <container-dialog id="AddRelatedFromDialog" button-text="Add Related From">
+                <form-single name="AddRelatedFromForm" transition="addRelated">
+                    <field name="workEffortId"><default-field><hidden/></default-field></field>
+                    <field name="toWorkEffortId" entry-name="workEffortId"><default-field><hidden/></default-field></field>
+
+                    <field name="rootWorkEffortId"><default-field title="Project"><drop-down>
+                        <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
+                            <entity-find entity-name="WorkEffortAndParty">
+                                <date-filter/>
+                                <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                                <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+                            </entity-find>
+                        </entity-options>
+                    </drop-down></default-field></field>
+                    <field name="fromWorkEffortId"><default-field title="From Task">
+                        <drop-down combo-box="true">
+                            <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
+                                <depends-on field="rootWorkEffortId"/>
+                            </dynamic-options>
+                        </drop-down>
+                    </default-field></field>
+                    <field name="workEffortAssocTypeEnumId"><default-field title="Type"><drop-down>
+                        <entity-options key="${enumId}" text="${description}">
+                            <entity-find entity-name="moqui.basic.Enumeration">
+                                <econditions combine="or">
+                                    <econdition field-name="enumId" value="WeatRelatesTo"/>
+                                    <econdition field-name="parentEnumId" value="WeatRelatesTo"/>
+                                </econditions>
+                                <order-by field-name="description"/>
+                            </entity-find>
+                        </entity-options>
+                    </drop-down></default-field></field>
+
+                    <field name="submitButton"><default-field title="Add Related"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+        </container>
+
+        <label text="Related From ${workEffortId} - ${task.workEffortName}" type="h2"/>
+        <form-list name="DeleteRelatedToForm" list="relatedToList" transition="deleteRelated">
+            <field name="workEffortId" entry-name="mainWorkEffortId"><default-field><hidden/></default-field></field>
+            <field name="fromWorkEffortId"><default-field><hidden/></default-field></field>
+
+            <field name="workEffortAssocTypeEnumId">
+                <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+            </field>
+            <field name="toWorkEffortId"><default-field title="To ID"><display text=""/>
+                <link text="${toWorkEffortId}" url="taskSummary"><parameter name="workEffortId" from="toWorkEffortId"/></link>
+            </default-field></field>
+            <field name="workEffortName"><default-field title="To Name"><display/></default-field></field>
+            <field name="fromDate"><default-field title="At"><display/></default-field></field>
+
+            <field name="submitButton"><default-field title="Delete"><submit/></default-field></field>
+        </form-list>
+
+        <label text="Related To ${workEffortId} - ${task.workEffortName}" type="h2"/>
+        <form-list name="DeleteRelatedFromForm" list="relatedFromList" transition="deleteRelated">
+            <field name="workEffortId" entry-name="mainWorkEffortId"><default-field><hidden/></default-field></field>
+            <field name="toWorkEffortId"><default-field><hidden/></default-field></field>
+
+            <field name="fromWorkEffortId"><default-field title="From ID"><display text=""/>
+                <link text="${fromWorkEffortId}" url="taskSummary"/>
+            </default-field></field>
+            <field name="workEffortName"><default-field title="From Name"><display/></default-field></field>
+            <field name="workEffortAssocTypeEnumId">
+                <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+            </field>
+            <field name="fromDate"><default-field title="At"><display/></default-field></field>
+
+            <field name="submitButton"><default-field title="Delete"><submit/></default-field></field>
+        </form-list>
+    </widgets>
+</screen>

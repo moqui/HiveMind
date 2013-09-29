@@ -58,22 +58,20 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <form-single name="EditTask" transition="updateTask" map="task">
             <field name="workEffortId"><default-field title="Task ID"><display/></default-field></field>
-            <field name="rootWorkEffortId">
-                <default-field title="Project">
-                    <drop-down>
-                        <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
-                            <entity-find entity-name="WorkEffortAndParty">
-                                <date-filter/>
-                                <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-                                <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
-                            </entity-find>
-                        </entity-options>
-                    </drop-down>
-                    <link text="Edit ${project.workEffortName} [${task.rootWorkEffortId}]" url="editProject">
-                        <parameter name="workEffortId" from="task.rootWorkEffortId"/>
-                    </link>
-                </default-field>
-            </field>
+            <field name="rootWorkEffortId"><default-field title="Project">
+                <drop-down>
+                    <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
+                        <entity-find entity-name="WorkEffortAndParty">
+                            <date-filter/>
+                            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                            <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+                        </entity-find>
+                    </entity-options>
+                </drop-down>
+                <link text="Edit ${project.workEffortName} [${task.rootWorkEffortId}]" url="editProject">
+                    <parameter name="workEffortId" from="task.rootWorkEffortId"/>
+                </link>
+            </default-field></field>
             <field name="milestoneWorkEffortId" entry-name="milestoneAssoc.workEffortId"><default-field title="Milestone">
                 <drop-down combo-box="true">
                     <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
