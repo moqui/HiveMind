@@ -95,6 +95,10 @@ This Work includes contributions authored by David E. Jones, not as a
                     <set field="taskSummaryMap.actualWorkTime" from="taskSummaryMap.actualWorkTime + (task.actualWorkTime ?: 0)"/>
                 </iterate>
                 <set field="taskSummaryList" from="[taskSummaryMap]"/>
+
+                <if condition="orderByField">
+                    <script>StupidUtilities.orderMapList(taskList, [orderByField])</script>
+                </if>
             </else>
         </if>
     </actions>
