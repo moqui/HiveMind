@@ -39,10 +39,11 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="task"/>
         <entity-find entity-name="mantle.work.effort.WorkEffortAssocAndTo" list="relatedToList">
             <econdition field-name="fromWorkEffortId" from="workEffortId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
         </entity-find>
         <entity-find entity-name="mantle.work.effort.WorkEffortAssocAndFrom" list="relatedFromList">
             <econdition field-name="toWorkEffortId" from="workEffortId"/>
-            <econdition field-name="workEffortAssocTypeEnumId" operator="not-equals" value="WeatMilestone"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
         </entity-find>
     </actions>
     <widgets>

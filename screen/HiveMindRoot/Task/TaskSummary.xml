@@ -110,6 +110,15 @@ This Work includes contributions authored by David E. Jones, not as a
             <date-filter/>
             <econdition field-name="workEffortId"/>
         </entity-find>
+        <!-- Related Tasks -->
+        <entity-find entity-name="mantle.work.effort.WorkEffortAssocAndTo" list="relatedToList">
+            <econdition field-name="fromWorkEffortId" from="workEffortId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+        </entity-find>
+        <entity-find entity-name="mantle.work.effort.WorkEffortAssocAndFrom" list="relatedFromList">
+            <econdition field-name="toWorkEffortId" from="workEffortId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+        </entity-find>
         <!-- Requests -->
         <entity-find entity-name="mantle.request.WorkEffortRequestDetail" list="werdList">
             <econdition field-name="workEffortId"/>
@@ -261,6 +270,38 @@ This Work includes contributions authored by David E. Jones, not as a
                             <section name="AssignNotificationSection"><condition><expression>weapd.partyTypeEnumId=="PtyPerson"</expression></condition>
                                 <widgets><label text="Notifications? ${weapd.receiveNotifications?:'N'}" type="p"/></widgets>
                             </section>
+                        </container>
+                    </widgets>
+                </section-iterate>
+
+                <label text="Related" id="task-related-label"/>
+                <section-iterate name="TaskRelatedToList" list="relatedToList" entry="relatedTo">
+                    <actions>
+                        <entity-find-one entity-name="moqui.basic.Enumeration" value-field="assocType" cache="true">
+                            <field-map field-name="enumId" from="relatedTo.workEffortAssocTypeEnumId"/>
+                        </entity-find-one>
+                    </actions>
+                    <widgets>
+                        <container style="task-related-block">
+                            <label text="This ${assocType.description}" type="p"/>
+                            <link text="${relatedTo.toWorkEffortId} - ${relatedTo.workEffortName}" url="taskSummary">
+                                <parameter name="workEffortId" from="relatedTo.toWorkEffortId"/>
+                            </link>
+                        </container>
+                    </widgets>
+                </section-iterate>
+                <section-iterate name="TaskRelatedFromList" list="relatedFromList" entry="relatedFrom">
+                    <actions>
+                        <entity-find-one entity-name="moqui.basic.Enumeration" value-field="assocType" cache="true">
+                            <field-map field-name="enumId" from="relatedFrom.workEffortAssocTypeEnumId"/>
+                        </entity-find-one>
+                    </actions>
+                    <widgets>
+                        <container style="task-related-block">
+                            <link text="${relatedFrom.fromWorkEffortId} - ${relatedFrom.workEffortName}" url="taskSummary">
+                                <parameter name="workEffortId" from="relatedFrom.fromWorkEffortId"/>
+                            </link>
+                            <label text="${assocType.description} This" type="p"/>
                         </container>
                     </widgets>
                 </section-iterate>
