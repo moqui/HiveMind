@@ -57,7 +57,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
             </default-field></field>
             <field name="requestTypeEnumId"><default-field title="Type">
-                <drop-down no-current-selected-key="RF_SUPPORT" current="selected">
+                <drop-down no-current-selected-key="RfSupport" current="selected">
                     <entity-options key="${enumId}" text="${description}">
                         <entity-find entity-name="moqui.basic.Enumeration">
                             <econdition field-name="enumTypeId" value="RequestType"/>
@@ -77,6 +77,16 @@ This Work includes contributions authored by David E. Jones, not as a
                     </drop-down>
                 </default-field>
             </field>
+            <field name="requestResolutionEnumId"><default-field title="Resolution">
+                <drop-down no-current-selected-key="RrUnresolved" current="selected">
+                    <entity-options key="${enumId}" text="${description}">
+                        <entity-find entity-name="moqui.basic.Enumeration">
+                            <econdition field-name="enumTypeId" value="RequestResolution"/>
+                            <order-by field-name="description"/>
+                        </entity-find>
+                    </entity-options>
+                </drop-down>
+            </default-field></field>
             <field name="responseRequiredDate">
                 <default-field title="Due Date"><date-time type="date-time" format="yyyy-MM-dd hh:mm"/></default-field>
             </field>

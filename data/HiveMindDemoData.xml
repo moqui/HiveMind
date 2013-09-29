@@ -126,7 +126,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
 
     <mantle.work.effort.WorkEffort workEffortId="HM-001" workEffortName="HM Dashboard" priority="1"
-            rootWorkEffortId="HM" parentWorkEffortId="" resolutionEnumId="WerIncomplete"
+            rootWorkEffortId="HM" parentWorkEffortId="" resolutionEnumId="WerUnresolved"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepTask" statusId="WeInProgress"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-001"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="1"/>
@@ -134,14 +134,14 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffort workEffortId="HM-002" workEffortName="Dashboard Project List" priority="2"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="4" remainingWorkTime="4"
             timeUomId="TF_hr" workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeInProgress"
-            resolutionEnumId="WerIncomplete"/>
+            resolutionEnumId="WerUnresolved"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM-002" partyId="EX_JOHN_DOE" roleTypeId="Worker"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-002"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="2"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-003" workEffortName="Dashboard Create Project" priority="2"
-            rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerIncomplete"
+            rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerUnresolved"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-003"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="3"/>
@@ -150,7 +150,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffort workEffortId="HM-004" workEffortName="Dashboard My Tasks" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="5" remainingWorkTime="2.5"
             actualWorkTime="3.25" timeUomId="TF_hr" workEffortTypeEnumId="WetTask" purposeEnumId="WepTask"
-            statusId="WeInProgress" resolutionEnumId="WerIncomplete" statusFlowId="Default">
+            statusId="WeInProgress" resolutionEnumId="WerUnresolved" statusFlowId="Default">
         <!-- NOTE: this task uses the Default StatusFlow instead of HmTaskSimple used for the rest of the project -->
         <description><![CDATA[Show a list of open tasks (statusId not in WeClosed,WeCancelled) for the current logged in user.
 
@@ -220,17 +220,17 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
 
     <!-- more demo tasks -->
     <mantle.work.effort.WorkEffort workEffortId="HM-005" workEffortName="Dashboard Create Task" priority="1"
-            rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerIncomplete"
+            rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerUnresolved"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeInProgress"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-002" toWorkEffortId="HM-005"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="1"/>
     <mantle.work.effort.WorkEffort workEffortId="HM-006" workEffortName="Dashboard My Requests" priority="5"
-            rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerIncomplete"
+            rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerUnresolved"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-002" toWorkEffortId="HM-006"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="2"/>
     <mantle.work.effort.WorkEffort workEffortId="HM-007" workEffortName="Dashboard Create Request" priority="5"
-            rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerIncomplete"
+            rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerUnresolved"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-002" toWorkEffortId="HM-007"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="3"/>
@@ -238,7 +238,7 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
             workEffortAssocTypeEnumId="WeatDependsOn" fromDate="2010-02-03 00:00:00"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-010" workEffortName="HM Task Screen"
-            rootWorkEffortId="HM" parentWorkEffortId="" resolutionEnumId="WerIncomplete"
+            rootWorkEffortId="HM" parentWorkEffortId="" resolutionEnumId="WerUnresolved"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepTask" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-003" toWorkEffortId="HM-010"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="1"/>
@@ -246,23 +246,24 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
             workEffortAssocTypeEnumId="WeatRelatesTo" fromDate="2010-02-03 00:00:00"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-020" workEffortName="HM Request Screen"
-            rootWorkEffortId="HM" parentWorkEffortId="" resolutionEnumId="WerIncomplete"
+            rootWorkEffortId="HM" parentWorkEffortId="" resolutionEnumId="WerUnresolved"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepTask" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-003" toWorkEffortId="HM-020"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="2"/>
 
     <!-- ========== DEMO REQUEST DATA ========== -->
-    <mantle.request.Request requestId="DEMO_001" requestTypeEnumId="RF_FEATURE" requestCategoryId=""
-            statusId="REQUEST_IN_PROGRESS" requestName="Add Create Request on dashboard"
+    <mantle.request.Request requestId="DEMO_001" requestTypeEnumId="RqtNewFeature" requestCategoryId=""
+            statusId="ReqInProgress" requestResolutionEnumId="RrUnresolved" requestName="Add Create Request on dashboard"
             description="Please add Create Request popup on dashboard screen for convenient request creation."
             fromPartyId="" priority="2" requestDate="2010-02-03 00:00:00" responseRequiredDate="2013-07-31 12:00:00"/>
     <mantle.request.RequestParty requestId="DEMO_001" partyId="EX_JOHN_DOE" roleTypeId="Worker" fromDate="2010-02-03 00:00:00" thruDate=""/>
     <mantle.request.RequestParty requestId="DEMO_001" partyId="ORG_ACME" roleTypeId="CustomerBillTo" fromDate="2010-02-03 00:00:00" thruDate=""/>
     <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-007"/>
 
-    <mantle.request.Request requestId="DEMO_002" requestTypeEnumId="RF_INFO" requestCategoryId=""
-            statusId="REQUEST_SUBMITTED" requestName="Why is there so little color in the app?" description=""
-            fromPartyId="" priority="2" requestDate="2010-02-03 00:00:00" responseRequiredDate="2013-07-31 12:00:00"/>
+    <mantle.request.Request requestId="DEMO_002" requestTypeEnumId="RqtInformation" requestCategoryId=""
+            statusId="ReqDraft" requestResolutionEnumId="RrUnresolved" requestName="Why is there so little color in the app?"
+            description="" fromPartyId="" priority="2" requestDate="2010-02-03 00:00:00"
+            responseRequiredDate="2013-07-31 12:00:00"/>
     <mantle.request.RequestParty requestId="DEMO_002" partyId="EX_JOHN_DOE" roleTypeId="Worker" fromDate="2010-02-03 00:00:00" thruDate=""/>
 
     <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-004"/>

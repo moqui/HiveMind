@@ -41,6 +41,9 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="statusId">
                 <default-field title="Status"><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
             </field>
+            <field name="requestResolutionEnumId">
+                <default-field title="Resolution"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
+            </field>
         </form-list>
     </widgets>
 </screen>

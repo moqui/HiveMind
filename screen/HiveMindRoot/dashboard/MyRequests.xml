@@ -43,7 +43,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find entity-name="mantle.request.RequestAndParty" list="myRequestList">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-            <econdition field-name="statusId" operator="not-in" value="REQUEST_COMPLETED,REQUEST_REJECTED,REQUEST_CANCELLED"/>
+            <econdition field-name="statusId" operator="not-in" value="ReqCompleted,ReqCancelled"/>
             <order-by field-name="priority"/>
         </entity-find>
     </actions>
@@ -72,7 +72,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
                     </default-field></field>
                     <field name="requestTypeEnumId"><default-field title="Type">
-                        <drop-down no-current-selected-key="RF_SUPPORT" current="selected">
+                        <drop-down no-current-selected-key="RqtSupport" current="selected">
                             <entity-options key="${enumId}" text="${description}">
                                 <entity-find entity-name="moqui.basic.Enumeration">
                                     <econdition field-name="enumTypeId" value="RequestType"/>
@@ -110,6 +110,9 @@ This Work includes contributions authored by David E. Jones, not as a
                 </field>
                 <field name="statusId">
                     <default-field title="Status"><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
+                </field>
+                <field name="requestResolutionEnumId">
+                    <default-field title="Resolution"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
                 </field>
             </form-list>
         </container>

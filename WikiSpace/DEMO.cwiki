@@ -54,8 +54,6 @@ h3. HiveMind Projects and Tasks
 ** send comment notification emails to associated users with notifications on
 ** send mentioned notifications for usernames or first/last name of user mentioned in comment (flexible parse? special syntax?)
 
-* add request resolution enum
-
 * add reports
 ** time entries by user and team for time periods (month, week)
 ** estimated remaining time by project, task/subtask, team, user
