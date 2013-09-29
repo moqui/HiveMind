@@ -81,8 +81,11 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocument dataDocumentId="HmTask" indexName="hivemind" documentName="Task"
             primaryEntityName="mantle.work.effort.WorkEffort" documentTitle="${name}"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortId"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="rootWorkEffortId" fieldNameAlias="project"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="parentWorkEffortId" fieldNameAlias="parent"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortName" fieldNameAlias="name"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortTypeEnumId"/><!-- this is aliased so we can have a condition on it -->
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="priority"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="WorkEffort#moqui.basic.StatusItem:description" fieldNameAlias="status"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
@@ -97,6 +100,10 @@ This Work includes contributions authored by David E. Jones, not as a
             fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Person:firstName"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Person:lastName"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="mantle.work.effort.WorkEffortAssoc:toWorkEffortId" fieldNameAlias="assocToId"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="mantle.work.effort.WorkEffortAssoc:WorkEffortAssocType#moqui.basic.Enumeration:description" fieldNameAlias="assocType"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="To#mantle.work.effort.WorkEffortAssoc:workEffortId" fieldNameAlias="assocFromId"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="To#mantle.work.effort.WorkEffortAssoc:WorkEffortAssocType#moqui.basic.Enumeration:description" fieldNameAlias="assocTypeTo"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
             relationshipName="mantle.work.effort.WorkEffort" documentAlias="WorkEffort"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
@@ -111,6 +118,12 @@ This Work includes contributions authored by David E. Jones, not as a
             relationshipName="mantle.party.RoleType" documentAlias="RoleType"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
             relationshipName="mantle.party.Person" documentAlias="Person"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
+            relationshipName="mantle.work.effort.WorkEffortAssoc" documentAlias="Assoc"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
+            relationshipName="To#mantle.work.effort.WorkEffortAssoc" documentAlias="AssocTo"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
+            relationshipName="WorkEffortAssocType#moqui.basic.Enumeration" documentAlias="WorkEffortAssocType"/>
     <moqui.entity.document.DataDocumentCondition dataDocumentId="HmTask"
             fieldNameAlias="workEffortTypeEnumId" fieldValue="WetTask"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmTask" label="Edit Task"
