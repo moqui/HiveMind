@@ -55,7 +55,7 @@ h3. HiveMind Projects and Tasks
 ** send mentioned notifications for usernames or first/last name of user mentioned in comment (flexible parse? special syntax?)
 
 * add task associations for depends on (depended on by), duplicates (duplicated by), related/relevant, based on (basis for), etc
-* user defined fields using moqui.entity.UserField (in edit task, find task, etc)
+* add task and request resolution status
 
 * add reports
 ** time entries by user and team for time periods (month, week)
@@ -64,6 +64,7 @@ h3. HiveMind Projects and Tasks
 
 * improve find task screen
 ** configurable displayed columns
+* user defined fields using moqui.entity.UserField (in edit task, find task, etc)
 
 * track payments
 ** apply to invoice, change invoice status when sufficient payments applied
