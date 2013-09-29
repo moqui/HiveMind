@@ -133,14 +133,15 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <mantle.work.effort.WorkEffort workEffortId="HM-002" workEffortName="Dashboard Project List" priority="2"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="4" remainingWorkTime="4"
-            timeUomId="TF_hr" workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeInProgress"/>
+            timeUomId="TF_hr" workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeInProgress"
+            resolutionEnumId="WerIncomplete"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM-002" partyId="EX_JOHN_DOE" roleTypeId="Worker"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-002"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="2"/>
 
     <mantle.work.effort.WorkEffort workEffortId="HM-003" workEffortName="Dashboard Create Project" priority="2"
-            rootWorkEffortId="HM" parentWorkEffortId="HM-001"
+            rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerIncomplete"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-003"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="2010-02-03 00:00:00" sequenceNum="3"/>

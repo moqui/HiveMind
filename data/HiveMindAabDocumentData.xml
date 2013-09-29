@@ -93,6 +93,8 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="WorkEffortPurpose#moqui.basic.Enumeration:description" fieldNameAlias="purpose"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
+            fieldPath="WorkEffortResolution#moqui.basic.Enumeration:description" fieldNameAlias="resolution"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="mantle.work.effort.WorkEffortParty:partyId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.RoleType:description" fieldNameAlias="role"/>
@@ -112,6 +114,8 @@ This Work includes contributions authored by David E. Jones, not as a
             relationshipName="WorkEffortType#moqui.basic.Enumeration" documentAlias="WorkEffortType"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
             relationshipName="WorkEffortPurpose#moqui.basic.Enumeration" documentAlias="WorkEffortPurpose"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
+            relationshipName="WorkEffortResolution#moqui.basic.Enumeration" documentAlias="WorkEffortResolution"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
             relationshipName="mantle.work.effort.WorkEffortParty" documentAlias="Party"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
