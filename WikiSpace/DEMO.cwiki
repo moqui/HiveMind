@@ -67,8 +67,6 @@ h3. HiveMind Projects and Tasks
 ** apply to invoice, change invoice status when sufficient payments applied
 ** GL posting for payments
 
-* invoice PDF with custom XSL-FO template
-
 * worker time invoices (ie invoice to service provider on behalf of worker in addition to invoice from provider to client)
 * worker invoice payments
 
