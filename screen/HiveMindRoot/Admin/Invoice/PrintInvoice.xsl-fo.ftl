@@ -78,7 +78,7 @@
                     <#assign rateTypeEnum = "">
                     <#if timeEntry?has_content><#assign rateTypeEnum = timeEntry.findRelatedOne("RateType#moqui.basic.Enumeration", true, false)?if_exists></#if>
                     <fo:table-row font-size="8pt" border-bottom="thin solid black">
-                        <fo:table-cell padding="${cellPadding}"><fo:block>${invoiceItem.invoiceItemSeqId}</fo:block></fo:table-cell>
+                        <fo:table-cell padding="${cellPadding}"><fo:block text-align="center">${invoiceItem.invoiceItemSeqId}</fo:block></fo:table-cell>
                         <fo:table-cell padding="${cellPadding}"><fo:block>${(itemTypeEnum.description)!""}</fo:block></fo:table-cell>
                         <fo:table-cell padding="${cellPadding}"><fo:block>${ec.l10n.formatValue(invoiceItem.itemDate, "dd MMM yyyy")}</fo:block></fo:table-cell>
                         <fo:table-cell padding="${cellPadding}"><fo:block>
@@ -103,6 +103,27 @@
                     </fo:table-row>
                 </fo:table-body>
             </fo:table>
+
+            <fo:table width="100%">
+                <fo:table-header font-size="9pt" border-bottom="solid black">
+                    <fo:table-cell width="1.5in" padding="${cellPadding}"><fo:block>Type</fo:block></fo:table-cell>
+                    <fo:table-cell width="0.4in" padding="${cellPadding}"><fo:block>Qty</fo:block></fo:table-cell>
+                    <fo:table-cell width="0.9in" padding="${cellPadding}"><fo:block>Amount</fo:block></fo:table-cell>
+                    <fo:table-cell width="1in" padding="${cellPadding}"><fo:block>Total</fo:block></fo:table-cell>
+                </fo:table-header>
+                <fo:table-body>
+                <#list itemTypeSummaryMapList as itemTypeSummaryMap>
+                    <#assign itemTypeEnum = ec.entity.makeFind("moqui.basic.Enumeration").condition("enumId", itemTypeSummaryMap.itemTypeEnumId).useCache(true).one()>
+                    <fo:table-row font-size="8pt" border-bottom="thin solid black">
+                        <fo:table-cell padding="${cellPadding}"><fo:block>${(itemTypeEnum.description)!""}</fo:block></fo:table-cell>
+                        <fo:table-cell padding="${cellPadding}"><fo:block>${itemTypeSummaryMap.quantity}</fo:block></fo:table-cell>
+                        <fo:table-cell padding="${cellPadding}"><fo:block>${ec.l10n.formatCurrency(itemTypeSummaryMap.amount, invoice.currencyUomId, 2)}</fo:block></fo:table-cell>
+                        <fo:table-cell padding="${cellPadding}"><fo:block>${ec.l10n.formatCurrency(itemTypeSummaryMap.total, invoice.currencyUomId, 2)}</fo:block></fo:table-cell>
+                    </fo:table-row>
+                </#list>
+                </fo:table-body>
+            </fo:table>
+
             <#if invoice.invoiceMessage?has_content>
                 <fo:block margin-top="0.2in">${invoice.invoiceMessage}</fo:block>
             </#if>

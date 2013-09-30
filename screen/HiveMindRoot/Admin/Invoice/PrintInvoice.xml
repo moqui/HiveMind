@@ -28,6 +28,22 @@ This Work includes contributions authored by David E. Jones, not as a
             <econdition field-name="invoiceId"/>
         </entity-find>
 
+        <!-- build itemTypeSummaryMapMap with itemTypeEnumId, amount (only for ItemTimeEntry), quantity, total -->
+        <set field="itemTypeSummaryMapMap" from="[:]"/>
+        <iterate list="invoiceItemList" entry="invoiceItem">
+            <set field="mapKey" from="invoiceItem.itemTypeEnumId"/>
+            <if condition="invoiceItem.itemTypeEnumId == 'ItemTimeEntry'"><set field="mapKey" from="mapKey + '::' + invoiceItem.amount"/></if>
+            <set field="itemTypeSummaryMap" from="itemTypeSummaryMapMap.get(mapKey)"/>
+            <if condition="!itemTypeSummaryMap">
+                <set field="itemTypeSummaryMap" from="[itemTypeEnumId:invoiceItem.itemTypeEnumId, quantity:0, total:0]"/>
+                <if condition="invoiceItem.itemTypeEnumId == 'ItemTimeEntry'"><set field="itemTypeSummaryMap.amount" from="invoiceItem.amount"/></if>
+                <script>itemTypeSummaryMapMap.put(mapKey, itemTypeSummaryMap)</script>
+            </if>
+            <set field="itemTypeSummaryMap.quantity" from="itemTypeSummaryMap.quantity + (invoiceItem.quantity?:1)"/>
+            <set field="itemTypeSummaryMap.total" from="itemTypeSummaryMap.total + ((invoiceItem.quantity?:1) * invoiceItem.amount)"/>
+        </iterate>
+        <set field="itemTypeSummaryMapList" from="itemTypeSummaryMapMap.values()"/>
+
         <entity-find-one entity-name="mantle.party.PartyDetail" value-field="fromParty">
             <field-map field-name="partyId" from="invoice.fromPartyId"/>
         </entity-find-one>
