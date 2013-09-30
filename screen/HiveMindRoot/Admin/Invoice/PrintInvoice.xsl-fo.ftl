@@ -65,11 +65,11 @@
                 <fo:table-header font-size="9pt" border-bottom="solid black">
                     <fo:table-cell width="0.3in" padding="${cellPadding}"><fo:block>Item</fo:block></fo:table-cell>
                     <fo:table-cell width="1in" padding="${cellPadding}"><fo:block>Type</fo:block></fo:table-cell>
-                    <fo:table-cell width="1in" padding="${cellPadding}"><fo:block>Date</fo:block></fo:table-cell>
-                    <fo:table-cell width="2.5in" padding="${cellPadding}"><fo:block>Description</fo:block></fo:table-cell>
+                    <fo:table-cell width="0.8in" padding="${cellPadding}"><fo:block>Date</fo:block></fo:table-cell>
+                    <fo:table-cell width="3in" padding="${cellPadding}"><fo:block>Description</fo:block></fo:table-cell>
                     <fo:table-cell width="0.4in" padding="${cellPadding}"><fo:block>Qty</fo:block></fo:table-cell>
-                    <fo:table-cell width="0.8in" padding="${cellPadding}"><fo:block>Amount</fo:block></fo:table-cell>
-                    <fo:table-cell width="0.8in" padding="${cellPadding}"><fo:block>Total</fo:block></fo:table-cell>
+                    <fo:table-cell width="0.9in" padding="${cellPadding}"><fo:block>Amount</fo:block></fo:table-cell>
+                    <fo:table-cell width="1in" padding="${cellPadding}"><fo:block>Total</fo:block></fo:table-cell>
                 </fo:table-header>
                 <fo:table-body>
                 <#list invoiceItemList as invoiceItem>
