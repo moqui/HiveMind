@@ -50,6 +50,8 @@ h3. HiveMind Wiki
 
 h3. HiveMind Projects and Tasks
 
+* add HmRequest DataDocument
+
 * task comments
 ** send comment notification emails to associated users with notifications on
 ** send mentioned notifications for usernames or first/last name of user mentioned in comment (flexible parse? special syntax?)
