@@ -102,10 +102,17 @@ This Work includes contributions authored by David E. Jones, not as a
             fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Person:firstName"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Person:lastName"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="mantle.work.effort.WorkEffortAssoc:toWorkEffortId" fieldNameAlias="assocToId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="mantle.work.effort.WorkEffortAssoc:WorkEffortAssocType#moqui.basic.Enumeration:description" fieldNameAlias="assocType"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="To#mantle.work.effort.WorkEffortAssoc:workEffortId" fieldNameAlias="assocFromId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="To#mantle.work.effort.WorkEffortAssoc:WorkEffortAssocType#moqui.basic.Enumeration:description" fieldNameAlias="assocTypeTo"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
+            fieldPath="mantle.work.effort.WorkEffortAssoc:toWorkEffortId" fieldNameAlias="assocToId"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
+            fieldPath="mantle.work.effort.WorkEffortAssoc:WorkEffortAssocType#moqui.basic.Enumeration:description"
+            fieldNameAlias="assocType"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
+            fieldPath="To#mantle.work.effort.WorkEffortAssoc:workEffortId" fieldNameAlias="assocFromId"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
+            fieldPath="To#mantle.work.effort.WorkEffortAssoc:WorkEffortAssocType#moqui.basic.Enumeration:description"
+            fieldNameAlias="assocTypeTo"/>
+
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
             relationshipName="mantle.work.effort.WorkEffort" documentAlias="WorkEffort"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
@@ -128,10 +135,51 @@ This Work includes contributions authored by David E. Jones, not as a
             relationshipName="To#mantle.work.effort.WorkEffortAssoc" documentAlias="AssocTo"/>
     <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
             relationshipName="WorkEffortAssocType#moqui.basic.Enumeration" documentAlias="WorkEffortAssocType"/>
+
     <moqui.entity.document.DataDocumentCondition dataDocumentId="HmTask"
             fieldNameAlias="workEffortTypeEnumId" fieldValue="WetTask"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmTask" label="Edit Task"
             linkUrl="/apps/hm/Task/EditTask?workEffortId=${workEffortId}"/>
+
+    <!-- Request -->
+    <moqui.entity.document.DataDocument dataDocumentId="HmRequest" indexName="hivemind" documentName="Request"
+            primaryEntityName="mantle.request.Request" documentTitle="${name}"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest" fieldPath="requestId"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest" fieldPath="requestName" fieldNameAlias="name"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
+            fieldPath="Request#moqui.basic.StatusItem:description" fieldNameAlias="status"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
+            fieldPath="RequestType#moqui.basic.Enumeration:description" fieldNameAlias="type"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
+            fieldPath="RequestResolution#moqui.basic.Enumeration:description" fieldNameAlias="resolution"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
+            fieldPath="mantle.request.RequestWorkEffort:workEffortId" fieldNameAlias="task"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
+            fieldPath="mantle.request.RequestParty:partyId"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
+            fieldPath="mantle.request.RequestParty:mantle.party.RoleType:description" fieldNameAlias="role"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
+            fieldPath="mantle.request.RequestParty:mantle.party.Person:firstName"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
+            fieldPath="mantle.request.RequestParty:mantle.party.Person:lastName"/>
+
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
+            relationshipName="mantle.request.Request" documentAlias="Request"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
+            relationshipName="Request#moqui.basic.StatusItem" documentAlias="StatusItem"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
+            relationshipName="RequestType#moqui.basic.Enumeration" documentAlias="RequestType"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
+            relationshipName="RequestResolution#moqui.basic.Enumeration" documentAlias="RequestResolution"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
+            relationshipName="mantle.request.RequestWorkEffort" documentAlias="RequestWorkEffort"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
+            relationshipName="mantle.request.RequestParty" documentAlias="RequestParty"/>
+    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
+            relationshipName="mantle.party.RoleType" documentAlias="RoleType"/>
+
+    <moqui.entity.document.DataDocumentLink dataDocumentId="HmRequest" label="Edit Request"
+            linkUrl="/apps/hm/Request/EditRequest?requestId=${requestId}"/>
 
     <!-- ================ -->
     <!-- Search Data Feed -->
@@ -140,6 +188,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmWikiPage"/>
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmProject"/>
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmTask"/>
+    <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmRequest"/>
 
     <!-- EmailTemplates for Feed-driven Update Notifications -->
     <moqui.basic.email.EmailTemplate emailTemplateId="HM_TASK_UPDATE" description="HiveMind Task Update Notification"
