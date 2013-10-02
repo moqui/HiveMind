@@ -118,7 +118,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </entity-find>
 
         <!-- Comments -->
-        <entity-find entity-name="mantle.work.effort.WorkEffortCommEventDetail" list="wecedList">
+        <entity-find entity-name="mantle.work.effort.WorkEffortCommEventDetail" list="commEventDetailList">
             <econdition field-name="workEffortId"/>
             <order-by field-name="entryDate"/>
         </entity-find>
@@ -202,6 +202,27 @@ This Work includes contributions authored by David E. Jones, not as a
                 <container><label text="Remaining Hours: " type="strong"/><label text="${ec.l10n.formatValue(task.remainingWorkTime, '#.00')}"/></container>
                 <container><label text="Actual Hours: " type="strong"/><label text="${ec.l10n.formatValue(task.actualWorkTime, '#.00')}"/></container>
 
+                <label text="Assignments" id="task-assignments-label"/>
+                <section-iterate name="TaskAssignList" list="weapdList" entry="weapd">
+                    <actions>
+                        <entity-find-one entity-name="mantle.party.RoleType" value-field="roleType" cache="true">
+                            <field-map field-name="roleTypeId" from="weapd.roleTypeId"/>
+                        </entity-find-one>
+                        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="statusItem" cache="true">
+                            <field-map field-name="statusId" from="weapd.statusId"/>
+                        </entity-find-one>
+                    </actions>
+                    <widgets>
+                        <container style="task-user-block">
+                            <label text="${(weapd.username ? '[' + weapd.username + ']' : '')} ${weapd.firstName?:''} ${weapd.lastName?:''} ${weapd.organizationName?:''}" type="p"/>
+                            <label text="${roleType?.description} - ${statusItem?.description}" type="p"/>
+                            <section name="AssignNotificationSection"><condition><expression>weapd.partyTypeEnumId=="PtyPerson"</expression></condition>
+                                <widgets><label text="Notifications? ${weapd.receiveNotifications?:'N'}" type="p"/></widgets>
+                            </section>
+                        </container>
+                    </widgets>
+                </section-iterate>
+
                 <label text="Time Entries" id="task-time-label"/>
                 <section-iterate name="TimeEntryList" list="timeEntryList" entry="timeEntry">
                     <actions>
@@ -233,31 +254,31 @@ This Work includes contributions authored by David E. Jones, not as a
                         <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
                     </form-single>
                 </container-dialog>
-                <section-iterate name="CommentList" list="wecedList" entry="weced">
+                <section-iterate name="CommentList" list="commEventDetailList" entry="commEventDetail">
                     <actions>
-                        <set field="uniqueExtension" from="weced_index"/>
+                        <set field="uniqueExtension" from="commEventDetail_index"/>
                         <entity-find-one entity-name="mantle.party.Person" value-field="fromPerson" cache="true">
-                            <field-map field-name="partyId" from="weced.fromPartyId"/>
+                            <field-map field-name="partyId" from="commEventDetail.fromPartyId"/>
                         </entity-find-one>
                         <entity-find entity-name="mantle.party.communication.CommunicationEvent" list="childCeList">
-                            <econdition field-name="rootCommEventId" from="weced.communicationEventId"/>
+                            <econdition field-name="rootCommEventId" from="commEventDetail.communicationEventId"/>
                             <order-by field-name="entryDate"/>
                         </entity-find>
                     </actions>
                     <widgets>
                         <container style="task-comment">
-                            <label text="${weced.subject}" type="strong"/>
+                            <label text="${commEventDetail.subject}" type="strong"/>
                             <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
-                            <label text="at ${weced.entryDate}" type="span"/>
+                            <label text="at ${commEventDetail.entryDate}" type="span"/>
                             <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="taskCommentReply">
-                                <parameter name="parentCommEventId" from="weced.communicationEventId"/>
+                                <parameter name="parentCommEventId" from="commEventDetail.communicationEventId"/>
                             </dynamic-dialog>
 
-                            <label text="${weced.body}" type="pre" encode="false"/>
+                            <label text="${commEventDetail.body}" type="pre" encode="false"/>
 
                             <section name="ChildNestedComments">
                                 <condition><expression>childCeList</expression></condition>
-                                <actions><set field="currentCe" from="weced"/></actions>
+                                <actions><set field="currentCe" from="commEventDetail"/></actions>
                                 <widgets><include-screen location="component://HiveMind/screen/HiveMindRoot/Task/TaskSummary/TaskCommentNested.xml"/></widgets>
                             </section>
                         </container>
@@ -281,27 +302,6 @@ This Work includes contributions authored by David E. Jones, not as a
                     <widgets>
                         <container style="task-status-block">
                             <label text="${oldStatusItem ? oldStatusItem.description + ' to ' : ''}${statusItem?.description}${(userAccount?.username ? ' by ' + userAccount.username : '')} at ${statusHistory.changedDate}" type="p"/>
-                        </container>
-                    </widgets>
-                </section-iterate>
-
-                <label text="Assignments" id="task-assignments-label"/>
-                <section-iterate name="TaskAssignList" list="weapdList" entry="weapd">
-                    <actions>
-                        <entity-find-one entity-name="mantle.party.RoleType" value-field="roleType" cache="true">
-                            <field-map field-name="roleTypeId" from="weapd.roleTypeId"/>
-                        </entity-find-one>
-                        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="statusItem" cache="true">
-                            <field-map field-name="statusId" from="weapd.statusId"/>
-                        </entity-find-one>
-                    </actions>
-                    <widgets>
-                        <container style="task-user-block">
-                            <label text="${(weapd.username ? '[' + weapd.username + ']' : '')} ${weapd.firstName?:''} ${weapd.lastName?:''} ${weapd.organizationName?:''}" type="p"/>
-                            <label text="${roleType?.description} - ${statusItem?.description}" type="p"/>
-                            <section name="AssignNotificationSection"><condition><expression>weapd.partyTypeEnumId=="PtyPerson"</expression></condition>
-                                <widgets><label text="Notifications? ${weapd.receiveNotifications?:'N'}" type="p"/></widgets>
-                            </section>
                         </container>
                     </widgets>
                 </section-iterate>
