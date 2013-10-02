@@ -76,17 +76,21 @@
                     <#assign itemTypeEnum = invoiceItem.findRelatedOne("ItemType#moqui.basic.Enumeration", true, false)>
                     <#assign timeEntry = invoiceItem.findRelatedOne("mantle.work.time.TimeEntry", false, false)?if_exists>
                     <#assign rateTypeEnum = "">
-                    <#if timeEntry?has_content><#assign rateTypeEnum = timeEntry.findRelatedOne("RateType#moqui.basic.Enumeration", true, false)?if_exists></#if>
+                    <#assign workEffort = "">
+                    <#if timeEntry?has_content>
+                        <#assign rateTypeEnum = timeEntry.findRelatedOne("RateType#moqui.basic.Enumeration", true, false)?if_exists>
+                        <#assign workEffort = timeEntry.findRelatedOne("mantle.work.effort.WorkEffort", false, false)?if_exists>
+                    </#if>
                     <fo:table-row font-size="8pt" border-bottom="thin solid black">
                         <fo:table-cell padding="${cellPadding}"><fo:block text-align="center">${invoiceItem.invoiceItemSeqId}</fo:block></fo:table-cell>
                         <fo:table-cell padding="${cellPadding}"><fo:block>${(itemTypeEnum.description)!""}</fo:block></fo:table-cell>
                         <fo:table-cell padding="${cellPadding}"><fo:block>${ec.l10n.formatValue(invoiceItem.itemDate, "dd MMM yyyy")}</fo:block></fo:table-cell>
-                        <fo:table-cell padding="${cellPadding}"><fo:block>
-                            ${Static["org.moqui.impl.StupidUtilities"].encodeForXmlAttribute(invoiceItem.description, true)}
-                            <#if (timeEntry.workEffortId)?has_content>(Task: ${timeEntry.workEffortId})</#if>
-                            <#if rateTypeEnum?has_content>(${rateTypeEnum.description})</#if>
-                            <#if timeEntry?has_content>(${ec.l10n.formatValue(timeEntry.fromDate, "yyyy-MM-dd hh:mm")} to ${ec.l10n.formatValue(timeEntry.thruDate, "yyyy-MM-dd hh:mm")}, Break ${timeEntry.breakHours!"0"}h)</#if>
-                        </fo:block></fo:table-cell>
+                        <fo:table-cell padding="${cellPadding}">
+                            <fo:block>${Static["org.moqui.impl.StupidUtilities"].encodeForXmlAttribute(invoiceItem.description, true)}</fo:block>
+                            <#if (timeEntry.workEffortId)?has_content><fo:block>Task: ${timeEntry.workEffortId} - ${workEffort.workEffortName!""}</fo:block></#if>
+                            <#if rateTypeEnum?has_content><fo:block>Rate: ${rateTypeEnum.description}</fo:block></#if>
+                            <#if timeEntry?has_content><fo:block>${ec.l10n.formatValue(timeEntry.fromDate, "dd MMM yyyy hh:mm")} to ${ec.l10n.formatValue(timeEntry.thruDate, "dd MMM yyyy hh:mm")}, Break ${timeEntry.breakHours!"0"}h</fo:block></#if>
+                        </fo:table-cell>
                         <fo:table-cell padding="${cellPadding}"><fo:block text-align="center">${invoiceItem.quantity!"1"}</fo:block></fo:table-cell>
                         <fo:table-cell padding="${cellPadding}"><fo:block text-align="right">${ec.l10n.formatCurrency(invoiceItem.amount, invoice.currencyUomId, 2)}</fo:block></fo:table-cell>
                         <fo:table-cell padding="${cellPadding}"><fo:block text-align="right">${ec.l10n.formatCurrency((invoiceItem.quantity * invoiceItem.amount), invoice.currencyUomId, 2)}</fo:block></fo:table-cell>
