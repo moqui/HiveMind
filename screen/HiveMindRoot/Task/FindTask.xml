@@ -81,30 +81,31 @@ This Work includes contributions authored by David E. Jones, not as a
 
             <else>
                 <!-- DataDocument (ElasticSearch) search plus DB query -->
+                <set field="searchInputs" from="new HashMap(ec.web.parameters)"/>
                 <if condition="rootWorkEffortId">
                     <set field="queryString" value="${queryString} AND project:${rootWorkEffortId}"/>
-                    <set field="rootWorkEffortId" value=""/>
+                    <set field="searchInputs.rootWorkEffortId" value=""/>
                 </if>
                 <if condition="parentWorkEffortId">
                     <set field="queryString" value="${queryString} AND parent:${parentWorkEffortId}"/>
-                    <set field="parentWorkEffortId" value=""/>
+                    <set field="searchInputs.parentWorkEffortId" value=""/>
                 </if>
                 <!-- TODO: support not, contains/etc, not ignore case? -->
                 <if condition="workEffortId">
                     <set field="queryString" value="${queryString} AND workEffortId:${workEffortId}"/>
-                    <set field="workEffortId" value=""/>
+                    <set field="searchInputs.workEffortId" value=""/>
                 </if>
                 <if condition="purposeEnumId">
                     <set field="queryString" value="${queryString} AND purposeEnumId:${purposeEnumId}"/>
-                    <set field="purposeEnumId" value=""/>
+                    <set field="searchInputs.purposeEnumId" value=""/>
                 </if>
                 <if condition="statusId">
                     <set field="queryString" value="${queryString} AND statusId:${statusId}"/>
-                    <set field="statusId" value=""/>
+                    <set field="searchInputs.statusId" value=""/>
                 </if>
                 <if condition="resolutionEnumId">
                     <set field="queryString" value="${queryString} AND resolutionEnumId:${resolutionEnumId}"/>
-                    <set field="resolutionEnumId" value=""/>
+                    <set field="searchInputs.resolutionEnumId" value=""/>
                 </if>
 
                 <service-call name="org.moqui.impl.EntityServices.search#DataDocuments" out-map="context"
@@ -115,7 +116,8 @@ This Work includes contributions authored by David E. Jones, not as a
                     <script>workEffortIdList.add(document._id)</script>
                 </iterate>
                 <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="taskList">
-                    <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"/>
+                    <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"
+                            input-fields-map="searchInputs"/>
                     <econdition field-name="workEffortId" operator="in" from="workEffortIdList"/>
                     <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
                     <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
@@ -160,13 +162,11 @@ This Work includes contributions authored by David E. Jones, not as a
         </if>
     </actions>
     <widgets>
-        <container>
-            <label text=""/>
-        </container>
+        <!-- for future use with saved task filters: <container><label text="${groovy.json.JsonOutput.toJson(ec.web.requestParameters)}"/></container> -->
         <container>
             <container-dialog id="FindTaskDialog" button-text="Find Options" width="800">
                 <form-single name="FindTasks" transition="findTask">
-                    <field name="queryString"><default-field title="Text Search"><text-line size="40"/></default-field></field>
+                    <field name="queryString" entry-name="ec.web.parameters.queryString"><default-field title="Text Search"><text-line size="40"/></default-field></field>
                     <field name="rootWorkEffortId"><default-field title="Project">
                         <drop-down allow-empty="true">
                             <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
@@ -249,7 +249,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </container>
         <container>
             <form-single name="SearchOptions" transition="findTask">
-                <field name="queryString"><default-field title=""><text-line size="40"/></default-field></field>
+                <field name="queryString" entry-name="ec.web.parameters.queryString"><default-field title=""><text-line size="40"/></default-field></field>
                 <field name="submitButton"><default-field title="Text Search"><submit/></default-field></field>
                 <field-layout><field-row><field-ref name="queryString"/><field-ref name="submitButton"/></field-row></field-layout>
             </form-single>
