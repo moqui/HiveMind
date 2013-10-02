@@ -22,6 +22,13 @@ h2. TODO Lists
 
 h3. HiveMind General
 
+* test/complete full cycle of:
+** create client (with internal org, acctg settings)
+** create vendor
+** project
+** create tasks and record time
+** create invoice, invoice PDF, record invoice payment
+
 * Team support
 ** Team assoc with Project and Task
 ** Team assoc with Request?
@@ -33,6 +40,8 @@ h3. HiveMind General
 ** GL posting for payments
 
 * implement basic financial reports (income statement, balance sheet, etc)
+
+* charts with flot (see https://github.com/flot/flot/blob/master/API.md)
 
 h3. HiveMind Wiki
 
@@ -58,6 +67,7 @@ h3. HiveMind Projects and Tasks
 ** task aging (by priority, then by created date)
 
 * improve find task screen
+** saved find options (filters)
 ** configurable displayed columns
 * user defined fields using moqui.entity.UserField (in edit task, find task, etc)
 
