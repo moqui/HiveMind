@@ -86,12 +86,15 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortName" fieldNameAlias="name"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortTypeEnumId"/><!-- this is aliased so we can have a condition on it -->
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="priority"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="statusId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="WorkEffort#moqui.basic.StatusItem:description" fieldNameAlias="status"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="WorkEffortType#moqui.basic.Enumeration:description" fieldNameAlias="type"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="purposeEnumId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="WorkEffortPurpose#moqui.basic.Enumeration:description" fieldNameAlias="purpose"/>
+    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="resolutionEnumId"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
             fieldPath="WorkEffortResolution#moqui.basic.Enumeration:description" fieldNameAlias="resolution"/>
     <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"

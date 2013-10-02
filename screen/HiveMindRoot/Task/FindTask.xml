@@ -53,6 +53,7 @@ This Work includes contributions authored by David E. Jones, not as a
     
     <actions>
         <if condition="!queryString">
+            <!-- pure DB query -->
             <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="taskList">
                 <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"/>
                 <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
@@ -79,11 +80,66 @@ This Work includes contributions authored by David E. Jones, not as a
 
 
             <else>
+                <!-- DataDocument (ElasticSearch) search plus DB query -->
+                <if condition="rootWorkEffortId">
+                    <set field="queryString" value="${queryString} AND project:${rootWorkEffortId}"/>
+                    <set field="rootWorkEffortId" value=""/>
+                </if>
+                <if condition="parentWorkEffortId">
+                    <set field="queryString" value="${queryString} AND parent:${parentWorkEffortId}"/>
+                    <set field="parentWorkEffortId" value=""/>
+                </if>
+                <!-- TODO: support not, contains/etc, not ignore case? -->
+                <if condition="workEffortId">
+                    <set field="queryString" value="${queryString} AND workEffortId:${workEffortId}"/>
+                    <set field="workEffortId" value=""/>
+                </if>
+                <if condition="purposeEnumId">
+                    <set field="queryString" value="${queryString} AND purposeEnumId:${purposeEnumId}"/>
+                    <set field="purposeEnumId" value=""/>
+                </if>
+                <if condition="statusId">
+                    <set field="queryString" value="${queryString} AND statusId:${statusId}"/>
+                    <set field="statusId" value=""/>
+                </if>
+                <if condition="resolutionEnumId">
+                    <set field="queryString" value="${queryString} AND resolutionEnumId:${resolutionEnumId}"/>
+                    <set field="resolutionEnumId" value=""/>
+                </if>
+
                 <service-call name="org.moqui.impl.EntityServices.search#DataDocuments" out-map="context"
                         in-map="context + [indexName:'hivemind', documentType:'HmTask']"/>
+
+                <set field="workEffortIdList" from="[]"/>
+                <iterate list="documentList" entry="document">
+                    <script>workEffortIdList.add(document._id)</script>
+                </iterate>
+                <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="taskList">
+                    <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"/>
+                    <econdition field-name="workEffortId" operator="in" from="workEffortIdList"/>
+                    <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+                    <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
+                    <select-field field-name="parentWorkEffortId"/><select-field field-name="workEffortId"/>
+                    <select-field field-name="workEffortName"/><select-field field-name="priority"/>
+                    <select-field field-name="purposeEnumId"/><select-field field-name="statusId"/>
+                    <select-field field-name="resolutionEnumId"/>
+                    <select-field field-name="estimatedCompletionDate"/>
+                    <select-field field-name="estimatedWorkTime"/>
+                    <select-field field-name="remainingWorkTime"/><select-field field-name="actualWorkTime"/>
+                </entity-find>
+
                 <set field="taskSummaryMap" from="[count:0, rootWorkEffortId:'', milestoneWorkEffortId:'', priority:'',
                     parentWorkEffortId:'', workEffortId:'', workEffortName:'', purposeEnumId:'', statusId:'', resolutionEnumId:'',
                     estimatedCompletionDate:'', estimatedWorkTime:0, remainingWorkTime:0, actualWorkTime:0]"/>
+                <iterate list="taskList" entry="task">
+                    <set field="taskSummaryMap.count" from="taskSummaryMap.count + 1"/>
+                    <set field="taskSummaryMap.estimatedWorkTime" from="taskSummaryMap.estimatedWorkTime + (task.estimatedWorkTime ?: 0)"/>
+                    <set field="taskSummaryMap.remainingWorkTime" from="taskSummaryMap.remainingWorkTime + (task.remainingWorkTime ?: 0)"/>
+                    <set field="taskSummaryMap.actualWorkTime" from="taskSummaryMap.actualWorkTime + (task.actualWorkTime ?: 0)"/>
+                </iterate>
+                <set field="taskSummaryList" from="[taskSummaryMap]"/>
+
+                <!-- the old approach, one record at a time and separate sort:
                 <set field="taskList" from="[]"/>
                 <iterate list="documentList" entry="document">
                     <entity-find-one entity-name="HiveMind.work.effort.PartyTaskSummary" value-field="task">
@@ -96,17 +152,21 @@ This Work includes contributions authored by David E. Jones, not as a
                     <set field="taskSummaryMap.actualWorkTime" from="taskSummaryMap.actualWorkTime + (task.actualWorkTime ?: 0)"/>
                 </iterate>
                 <set field="taskSummaryList" from="[taskSummaryMap]"/>
-
                 <if condition="orderByField">
                     <script>StupidUtilities.orderMapList(taskList, [orderByField])</script>
                 </if>
+                -->
             </else>
         </if>
     </actions>
     <widgets>
         <container>
+            <label text=""/>
+        </container>
+        <container>
             <container-dialog id="FindTaskDialog" button-text="Find Options" width="800">
                 <form-single name="FindTasks" transition="findTask">
+                    <field name="queryString"><default-field title="Text Search"><text-line size="40"/></default-field></field>
                     <field name="rootWorkEffortId"><default-field title="Project">
                         <drop-down allow-empty="true">
                             <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
@@ -189,10 +249,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </container>
         <container>
             <form-single name="SearchOptions" transition="findTask">
-                <field name="queryString"><default-field title="">
-                    <text-line size="40"/>
-                    <!-- <text-line ac-transition="searchSuggest" ac-min-length="3" size="40"/> -->
-                </default-field></field>
+                <field name="queryString"><default-field title=""><text-line size="40"/></default-field></field>
                 <field name="submitButton"><default-field title="Text Search"><submit/></default-field></field>
                 <field-layout><field-row><field-ref name="queryString"/><field-ref name="submitButton"/></field-row></field-layout>
             </form-single>

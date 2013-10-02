@@ -29,6 +29,9 @@ h3. HiveMind General
 
 * improve wiki page and task update notification emails; show more specific fields, only send if supported fields changed, etc
 
+* track payments
+** GL posting for payments
+
 * implement basic financial reports (income statement, balance sheet, etc)
 
 h3. HiveMind Wiki
@@ -44,8 +47,6 @@ h3. HiveMind Wiki
 
 h3. HiveMind Projects and Tasks
 
-* request comments
-
 * task comments
 ** add comments to HmTask DataDocument?
 ** send comment notification emails to associated users with notifications on
@@ -59,9 +60,6 @@ h3. HiveMind Projects and Tasks
 * improve find task screen
 ** configurable displayed columns
 * user defined fields using moqui.entity.UserField (in edit task, find task, etc)
-
-* track payments
-** GL posting for payments
 
 * worker time invoices (ie invoice to service provider on behalf of worker in addition to invoice from provider to client)
 * worker invoice payments
