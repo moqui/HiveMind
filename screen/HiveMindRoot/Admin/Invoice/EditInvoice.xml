@@ -36,9 +36,6 @@ This Work includes contributions authored by David E. Jones, not as a
         <set field="validStatusIds" from="['InvoiceInProcess', 'InvoiceFinalized', 'InvoiceSent', 'InvoiceWriteOff', 'InvoiceReceived', 'InvoiceApproved']"/>
 
         <entity-find-one entity-name="mantle.account.invoice.Invoice" value-field="invoice"/>
-        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
-            <field-map field-name="statusId" from="invoice?.statusId"/>
-        </entity-find-one>
         <service-call name="mantle.account.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
     </actions>
     <widgets>
@@ -54,7 +51,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         <form-single name="RecordPaymentForm" transition="recordPayment">
                             <field name="invoiceId"><default-field><display also-hidden="true"/></default-field></field>
                             <field name="statusId"><default-field title="Status">
-                                <drop-down no-current-selected-key="PmntReceived"><entity-options key="${statusId}" text="${description}">
+                                <drop-down no-current-selected-key="PmntDelivered"><entity-options key="${statusId}" text="${description}">
                                     <entity-find entity-name="StatusItem">
                                         <econdition field-name="statusTypeId" value="Payment"/>
                                         <order-by field-name="sequenceNum"/>
@@ -98,7 +95,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="invoiceDate"><default-field><display also-hidden="false"/></default-field></field>
             <field name="invoiceTotal"><default-field><display currency-unit-field="currencyUomId"/></default-field></field>
             <field name="statusId"><default-field title="Status">
-                <drop-down allow-empty="false" current-description="${currentStatus?.description}">
+                <drop-down allow-empty="false" current-description="${invoice?.'Invoice#moqui.basic.StatusItem'?.description}">
                     <entity-options key="${toStatusId}" text="${transitionName} (${description})">
                         <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail">
                             <econdition field-name="statusId" from="invoice.statusId"/>
