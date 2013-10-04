@@ -45,7 +45,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </link>
 
             <section name="RecordPaymentSection">
-                <condition><expression>validStatusIds.contains(invoice.statusId)</expression></condition>
+                <condition><expression>validStatusIds.contains(invoice?.statusId)</expression></condition>
                 <widgets>
                     <container-dialog id="RecordPaymentContainer" button-text="Record Payment">
                         <form-single name="RecordPaymentForm" transition="recordPayment">
@@ -98,7 +98,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <drop-down allow-empty="false" current-description="${invoice?.'Invoice#moqui.basic.StatusItem'?.description}">
                     <entity-options key="${toStatusId}" text="${transitionName} (${description})">
                         <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail">
-                            <econdition field-name="statusId" from="invoice.statusId"/>
+                            <econdition field-name="statusId" from="invoice?.statusId"/>
                         </entity-find>
                     </entity-options>
                 </drop-down>
