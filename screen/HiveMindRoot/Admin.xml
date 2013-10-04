@@ -17,6 +17,6 @@ This Work includes contributions authored by David E. Jones, not as a
     <subscreens default-item="User"/>
 
     <widgets>
-        <subscreens-panel id="task-panel" type="popup"/>
+        <subscreens-panel id="admin-panel" type="popup"/>
     </widgets>
 </screen>
