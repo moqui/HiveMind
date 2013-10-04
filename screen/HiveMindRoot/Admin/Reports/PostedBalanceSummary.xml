@@ -17,20 +17,40 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="organizationPartyId"/>
     <parameter name="fromDate"/>
     <parameter name="thruDate"/>
-    <parameter name="amountUomId"/>
 
     <actions>
-        <service-call name="mantle.ledger.LedgerReportServices.run#PostedBalanceSummary" out-map="context" in-map="context"/>
+        <service-call name="mantle.ledger.LedgerServices.find#PartyAcctgPreference" out-map="context"
+                in-map="[organizationPartyId:organizationPartyId]"/>
+
+        <entity-find entity-name="mantle.ledger.report.PostedBalanceSummary" list="resultList">
+            <econdition field-name="organizationPartyId"/>
+            <econdition field-name="fromDate" operator="greater-equals" from="fromDate" ignore-if-empty="true"/>
+            <econdition field-name="thruDate" operator="less-equals" from="thruDate" ignore-if-empty="true"/>
+        </entity-find>
     </actions>
     <widgets>
         <form-list name="ResultListForm" skip-form="true" list="resultList">
-            <field name="accountCode"><default-field><display/></default-field></field>
-            <field name="accountName"><default-field><display/></default-field></field>
-            <field name="glAccountClassEnumId"><default-field title="Account Class">
-                <display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId" text="${description}"/>
+            <row-actions>
+                <entity-find-one entity-name="mantle.ledger.account.GlAccountOrganization" value-field="glAccountOrganization" cache="false">
+                    <field-map field-name="organizationPartyId"/>
+                    <field-map field-name="glAccountId"/>
+                </entity-find-one>
+                <entity-find-one entity-name="moqui.basic.Enumeration" value-field="classEnum">
+                    <field-map field-name="enumId" from="glAccountClassEnumId"/>
+                </entity-find-one>
+            </row-actions>
+            <field name="periodName"><default-field><display/></default-field></field>
+            <field name="fromDate"><default-field><display/></default-field></field>
+            <field name="thruDate"><default-field><display/></default-field></field>
+            <field name="accountCode"><default-field title="Acct Code"><display/></default-field></field>
+            <field name="accountName"><default-field><display text="${accountName} (${classEnum.description})"/></default-field></field>
+            <field name="postedDebits"><default-field><display currency-unit-field="partyAcctgPreference?.baseCurrencyUomId"/></default-field></field>
+            <field name="postedCredits"><default-field><display currency-unit-field="partyAcctgPreference?.baseCurrencyUomId"/></default-field></field>
+            <field name="endingBalance"><default-field><display currency-unit-field="partyAcctgPreference?.baseCurrencyUomId"/></default-field></field>
+            <field name="isClosed"><default-field><display/></default-field></field>
+            <field name="currentBalance" entry-name="glAccountOrganization.postedBalance"><default-field>
+                <display currency-unit-field="partyAcctgPreference?.baseCurrencyUomId"/>
             </default-field></field>
-            <field name="debitAmount"><default-field><display currency-unit-field="amountUomId"/></default-field></field>
-            <field name="creditAmount"><default-field><display currency-unit-field="amountUomId"/></default-field></field>
         </form-list>
     </widgets>
 </screen>

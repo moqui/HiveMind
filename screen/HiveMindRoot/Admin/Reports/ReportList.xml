@@ -14,11 +14,12 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
         default-menu-title="Report List" default-menu-index="1">
 
+    <transition name="viewPostedAmountSummary"><default-response url="../PostedAmountSummary"/></transition>
     <transition name="viewPostedBalanceSummary"><default-response url="../PostedBalanceSummary"/></transition>
 
     <widgets>
-        <container-dialog id="PostedBalanceSummaryDialog" button-text="Posted Balance Summary">
-            <form-single name="PostedBalanceSummaryForm" transition="viewPostedBalanceSummary">
+        <container-dialog id="PostedAmountSummaryDialog" button-text="Posted Amount Summary">
+            <form-single name="PostedAmountSummaryForm" transition="viewPostedAmountSummary">
                 <field name="organizationPartyId"><default-field>
                     <drop-down><entity-options key="${partyId}" text="${organizationName}">
                         <entity-find entity-name="mantle.party.PartyDetailAndRole" cache="true">
@@ -36,6 +37,21 @@ This Work includes contributions authored by David E. Jones, not as a
                         </entity-find>
                     </entity-options></drop-down>
                 </default-field></field>
+                <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
+            </form-single>
+        </container-dialog>
+        <container-dialog id="PostedBalanceSummaryDialog" button-text="Posted Balance Summary">
+            <form-single name="PostedBalanceSummaryForm" transition="viewPostedBalanceSummary">
+                <field name="organizationPartyId"><default-field>
+                    <drop-down><entity-options key="${partyId}" text="${organizationName}">
+                        <entity-find entity-name="mantle.party.PartyDetailAndRole" cache="true">
+                            <econdition field-name="roleTypeId" value="OrgInternal"/>
+                            <order-by field-name="organizationName"/>
+                        </entity-find>
+                    </entity-options></drop-down>
+                </default-field></field>
+                <field name="fromDate"><default-field><date-time/></default-field></field>
+                <field name="thruDate"><default-field><date-time/></default-field></field>
                 <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
             </form-single>
         </container-dialog>
