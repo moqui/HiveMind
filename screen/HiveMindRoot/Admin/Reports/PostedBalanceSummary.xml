@@ -26,8 +26,11 @@ This Work includes contributions authored by David E. Jones, not as a
         <form-list name="ResultListForm" skip-form="true" list="resultList">
             <field name="accountCode"><default-field><display/></default-field></field>
             <field name="accountName"><default-field><display/></default-field></field>
-            <field name="debitAmount"><default-field><display/></default-field></field>
-            <field name="creditAmount"><default-field><display/></default-field></field>
+            <field name="glAccountClassEnumId"><default-field title="Account Class">
+                <display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId" text="${description}"/>
+            </default-field></field>
+            <field name="debitAmount"><default-field><display currency-unit-field="amountUomId"/></default-field></field>
+            <field name="creditAmount"><default-field><display currency-unit-field="amountUomId"/></default-field></field>
         </form-list>
     </widgets>
 </screen>
