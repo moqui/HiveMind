@@ -52,15 +52,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <container-dialog id="NewRequestContainer" button-text="New Request">
                 <form-single name="NewRequest" transition="createRequest">
                     <field name="clientPartyId"><default-field title="Client">
-                        <drop-down allow-empty="true">
-                            <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
-                                <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                                    <econdition field-name="roleTypeId" value="CustomerBillTo"/>
-                                    <order-by field-name="organizationName"/>
-                                    <order-by field-name="firstName"/><order-by field-name="lastName"/>
-                                </entity-find>
-                            </entity-options>
-                        </drop-down>
+                        <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole"/>
                     </default-field></field>
                     <field name="assignToPartyId"><default-field title="Assign To">
                         <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
@@ -69,7 +61,10 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="description"><default-field title="Description"><text-area rows="10" cols="60"/></default-field></field>
 
                     <field name="priority"><default-field>
-                        <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
+                        <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority">
+                            <set field="roleTypeId" value="CustomerBillTo"/>
+                            <set field="allowEmpty" value="true"/>
+                        </widget-template-include>
                     </default-field></field>
                     <field name="requestTypeEnumId"><default-field title="Type">
                         <drop-down no-current-selected-key="RqtSupport" current="selected">
@@ -83,7 +78,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     </default-field></field>
                     <field name="statusId"><default-field title="Status">
                         <drop-down><entity-options key="${statusId}" text="${description}">
-                            <entity-find entity-name="StatusItem">
+                            <entity-find entity-name="moqui.basic.StatusItem">
                                 <econdition field-name="statusTypeId" value="Request"/>
                                 <order-by field-name="sequenceNum"/>
                             </entity-find>
