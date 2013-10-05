@@ -19,10 +19,23 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="thruDate"/>
     <parameter name="amountUomId"/>
 
+    <transition name="PostedAmountSummaryExport.csv">
+        <default-response url="."><parameter name="renderMode" value="csv"/>
+            <parameter name="pageNoLimit" value="true"/><parameter name="lastStandalone" value="true"/></default-response>
+    </transition>
+    <transition name="PostedAmountSummaryExport.xml">
+        <default-response url="."><parameter name="renderMode" value="xml"/>
+            <parameter name="pageNoLimit" value="true"/><parameter name="lastStandalone" value="true"/></default-response>
+    </transition>
+
     <actions>
         <service-call name="mantle.ledger.LedgerReportServices.run#PostedAmountSummary" out-map="context" in-map="context"/>
     </actions>
     <widgets>
+        <container>
+            <link url="PostedAmountSummaryExport.csv" text="Get as CSV" target-window="_blank" expand-transition-url="false"/>
+            <link url="PostedAmountSummaryExport.xml" text="Get as XML" target-window="_blank" expand-transition-url="false"/>
+        </container>
         <form-list name="ResultListForm" skip-form="true" list="resultList">
             <field name="accountCode"><default-field><display/></default-field></field>
             <field name="accountName"><default-field><display/></default-field></field>

@@ -18,6 +18,15 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="fromDate"/>
     <parameter name="thruDate"/>
 
+    <transition name="PostedBalanceSummaryExport.csv">
+        <default-response url="."><parameter name="renderMode" value="csv"/>
+            <parameter name="pageNoLimit" value="true"/><parameter name="lastStandalone" value="true"/></default-response>
+    </transition>
+    <transition name="PostedBalanceSummaryExport.xml">
+        <default-response url="."><parameter name="renderMode" value="xml"/>
+            <parameter name="pageNoLimit" value="true"/><parameter name="lastStandalone" value="true"/></default-response>
+    </transition>
+
     <actions>
         <service-call name="mantle.ledger.LedgerServices.find#PartyAcctgPreference" out-map="context"
                 in-map="[organizationPartyId:organizationPartyId]"/>
@@ -29,7 +38,11 @@ This Work includes contributions authored by David E. Jones, not as a
         </entity-find>
     </actions>
     <widgets>
-        <form-list name="ResultListForm" skip-form="true" list="resultList">
+        <container>
+            <link url="PostedBalanceSummaryExport.csv" text="Get as CSV" target-window="_blank" expand-transition-url="false"/>
+            <link url="PostedBalanceSummaryExport.xml" text="Get as XML" target-window="_blank" expand-transition-url="false"/>
+        </container>
+        <form-list name="ResultList" skip-form="true" list="resultList">
             <row-actions>
                 <entity-find-one entity-name="mantle.ledger.account.GlAccountOrganization" value-field="glAccountOrganization" cache="false">
                     <field-map field-name="organizationPartyId"/>
