@@ -55,12 +55,8 @@ This Work includes contributions authored by David E. Jones, not as a
                     </default-field></field>
                     <field name="invoiceDate"><default-field><date-find type="timestamp"/></default-field></field>
                     <field name="statusId"><default-field title="Status">
-                        <drop-down><entity-options key="${statusId}" text="${description}">
-                            <entity-find entity-name="StatusItem">
-                                <econdition field-name="statusTypeId" value="Invoice"/>
-                                <order-by field-name="sequenceNum"/>
-                            </entity-find>
-                        </entity-options></drop-down>
+                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
+                            <set field="statusTypeId" value="Invoice"/><set field="allowEmpty" value="true"/></widget-template-include>
                     </default-field></field>
                     <field name="searchButton"><default-field title="Find"><submit/></default-field></field>
                 </form-single>
