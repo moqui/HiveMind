@@ -51,12 +51,9 @@ This Work includes contributions authored by David E. Jones, not as a
                         <form-single name="RecordPaymentForm" transition="recordPayment">
                             <field name="invoiceId"><default-field><display also-hidden="true"/></default-field></field>
                             <field name="statusId"><default-field title="Status">
-                                <drop-down no-current-selected-key="PmntDelivered"><entity-options key="${statusId}" text="${description}">
-                                    <entity-find entity-name="StatusItem">
-                                        <econdition field-name="statusTypeId" value="Payment"/>
-                                        <order-by field-name="sequenceNum"/>
-                                    </entity-find>
-                                </entity-options></drop-down>
+                                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
+                                    <set field="statusTypeId" value="Payment"/>
+                                    <set field="noCurrentSelectedKey" value="PmntDelivered"/></widget-template-include>
                             </default-field></field>
                             <field name="amountUomId" entry-name="invoice.currencyUomId"><default-field title="Currency">
                                 <display-entity entity-name="moqui.basic.Uom" key-field-name="uomId" text="${description}" also-hidden="true"/>
@@ -65,12 +62,10 @@ This Work includes contributions authored by David E. Jones, not as a
                                 <text-line size="10" default-value="${ec.l10n.formatNumber(invoiceTotal, '#0.00')}"/>
                             </default-field></field>
                             <field name="paymentMethodTypeEnumId"><default-field title="Payment Type">
-                                <drop-down no-current-selected-key="PmtCompanyCheck"><entity-options key="${enumId}" text="${description}">
-                                    <entity-find entity-name="moqui.basic.Enumeration">
-                                        <econdition field-name="enumTypeId" value="PaymentMethodType"/>
-                                        <order-by field-name="description"/>
-                                    </entity-find>
-                                </entity-options></drop-down>
+                                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                                    <set field="enumTypeId" value="PaymentMethodType"/>
+                                    <set field="noCurrentSelectedKey" value="PmtCompanyCheck"/>
+                                </widget-template-include>
                             </default-field></field>
                             <field name="effectiveDate"><default-field><date-time default-value="${ec.l10n.formatTimestamp(ec.user.nowTimestamp, 'yyyy-MM-dd HH:mm:ss')}"/></default-field></field>
                             <field name="paymentRefNum"><default-field title="Reference Number"><text-line size="10"/></default-field></field>
@@ -95,13 +90,10 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="invoiceDate"><default-field><display also-hidden="false"/></default-field></field>
             <field name="invoiceTotal"><default-field><display currency-unit-field="currencyUomId"/></default-field></field>
             <field name="statusId"><default-field title="Status">
-                <drop-down allow-empty="false" current-description="${invoice?.'Invoice#moqui.basic.StatusItem'?.description}">
-                    <entity-options key="${toStatusId}" text="${transitionName} (${description})">
-                        <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail">
-                            <econdition field-name="statusId" from="invoice?.statusId"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down>
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
+                    <set field="currentDescription" from="invoice?.'Invoice#moqui.basic.StatusItem'?.description"/>
+                    <set field="statusId" from="invoice?.statusId"/>
+                </widget-template-include>
             </default-field></field>
             <field name="dueDate"><default-field><date-time/></default-field></field>
             <field name="settlementTermId"><default-field title="Settlement Term">
