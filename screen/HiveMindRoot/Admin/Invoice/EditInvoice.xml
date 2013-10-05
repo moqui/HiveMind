@@ -92,8 +92,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="statusId"><default-field title="Status">
                 <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
                     <set field="currentDescription" from="invoice?.'Invoice#moqui.basic.StatusItem'?.description"/>
-                    <set field="statusId" from="invoice?.statusId"/>
-                </widget-template-include>
+                    <set field="statusId" from="invoice?.statusId"/></widget-template-include>
             </default-field></field>
             <field name="dueDate"><default-field><date-time/></default-field></field>
             <field name="settlementTermId"><default-field title="Settlement Term">
