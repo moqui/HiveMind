@@ -125,13 +125,11 @@ This Work includes contributions authored by David E. Jones, not as a
                     <entity-find entity-name="EmplPositionClass"/></entity-options></drop-down></default-field>
             </field>
 
-            <field name="statusId" entry-name="partyStatusId"><header-field title="Status" show-order-by="true"/>
-                <default-field>
-                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
-                        <set field="currentDescription" from="currentStatus?.description"/>
-                        <set field="statusId" from="partyStatusId"/></widget-template-include>
-                </default-field>
-            </field>
+            <field name="statusId" entry-name="partyStatusId"><header-field title="Status" show-order-by="true"/><default-field>
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
+                    <set field="currentDescription" from="currentStatus?.description"/>
+                    <set field="statusId" from="partyStatusId"/></widget-template-include>
+            </default-field></field>
 
             <field name="receiveNotifications"><default-field title="Notifs?">
                 <drop-down no-current-selected-key="N"><option key="Y"/><option key="N"/></drop-down>

@@ -45,16 +45,10 @@ This Work includes contributions authored by David E. Jones, not as a
                 <field name="estimatedCompletionDate">
                     <default-field title="End Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
                 </field>
-                <field name="statusId">
-                    <default-field title="Status">
-                        <drop-down><entity-options key="${statusId}" text="${description}">
-                            <entity-find entity-name="StatusItem">
-                                <econdition field-name="statusTypeId" value="WorkEffort"/>
-                                <order-by field-name="sequenceNum"/>
-                            </entity-find>
-                        </entity-options></drop-down>
-                    </default-field>
-                </field>
+                <field name="statusId"><default-field title="Status">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
+                        <set field="statusTypeId" value="WorkEffort"/></widget-template-include>
+                </default-field></field>
                 <field name="submitButton"><default-field title="Create Milestone"><submit/></default-field></field>
             </form-single>
         </container-dialog>
@@ -76,17 +70,10 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="estimatedCompletionDate">
                 <default-field title="End Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
             </field>
-            <field name="statusId">
-                <default-field title="Status">
-                    <drop-down allow-empty="false" current-description="${currentStatus?.description}">
-                        <entity-options key="${toStatusId}" text="${transitionName} (${description})">
-                            <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail">
-                                <econdition field-name="statusId"/>
-                            </entity-find>
-                        </entity-options>
-                    </drop-down>
-                </default-field>
-            </field>
+            <field name="statusId"><default-field title="Status">
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
+                    <set field="currentDescription" from="currentStatus?.description"/></widget-template-include>
+            </default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
         </form-list>
     </widgets>
