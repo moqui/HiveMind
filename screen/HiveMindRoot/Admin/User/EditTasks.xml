@@ -115,12 +115,10 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
 
             <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/>
-                <default-field><drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">
-                    <entity-find entity-name="Enumeration">
-                        <econdition field-name="enumTypeId" value="WorkEffortPartyExpectation"/>
-                        <order-by field-name="description"/>
-                    </entity-find>
-                </entity-options></drop-down></default-field>
+                <default-field>
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="WorkEffortPartyExpectation"/></widget-template-include>
+                </default-field>
             </field>
             <field name="emplPositionClassId"><header-field title="Position Class" show-order-by="true"/>
                 <default-field><drop-down allow-empty="true"><entity-options key="${emplPositionClassId}" text="${title}">
