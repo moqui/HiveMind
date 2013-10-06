@@ -57,6 +57,8 @@ h3. HiveMind Wiki
 
 h3. HiveMind Projects and Tasks
 
+* fix project and task status drop-downs with statusFlowId constraint (see EditTask.xml for example)
+
 * task comments
 ** add comments to HmTask DataDocument?
 ** send comment notification emails to associated users with notifications on
@@ -74,5 +76,6 @@ h3. HiveMind Projects and Tasks
 
 h3. HiveMind Requests
 
+* improve FindRequest screen, add search options form, etc
 * add request summary screen similar to task one
 * add request comments
