@@ -95,8 +95,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <form-list name="UpdateUserAssignForm" list="weapList" transition="updateUserAssign">
             <row-actions>
                 <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
-                    <field-map field-name="statusId" from="partyStatusId"/>
-                </entity-find-one>
+                    <field-map field-name="statusId" from="partyStatusId"/></entity-find-one>
             </row-actions>
             <field name="partyId"><default-field><hidden/></default-field></field>
 
@@ -112,7 +111,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
             <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/><default-field>
                 <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
-                    <set field="enumTypeId" value="WorkEffortPartyExpectation"/></widget-template-include>
+                    <set field="enumTypeId" value="WorkEffortPartyExpectation"/><set field="allowEmpty" value="true"/></widget-template-include>
             </default-field></field>
             <field name="emplPositionClassId"><header-field title="Position Class" show-order-by="true"/>
                 <default-field><drop-down allow-empty="true"><entity-options key="${emplPositionClassId}" text="${title}">

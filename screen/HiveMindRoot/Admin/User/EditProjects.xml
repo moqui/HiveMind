@@ -83,7 +83,8 @@ This Work includes contributions authored by David E. Jones, not as a
 
         <form-list name="UpdateUserAssignForm" list="weapList" transition="updateUserAssign">
             <row-actions>
-                <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus"/>
+                <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
+                    <field-map field-name="statusId" from="partyStatusId"/></entity-find-one>
             </row-actions>
             <field name="partyId"><default-field><hidden/></default-field></field>
 
@@ -97,30 +98,20 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="fromDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
             <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
 
-            <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/>
-                <default-field><drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">
-                    <entity-find entity-name="Enumeration">
-                        <econdition field-name="enumTypeId" value="WorkEffortPartyExpectation"/>
-                        <order-by field-name="description"/>
-                    </entity-find>
-                </entity-options></drop-down></default-field>
-            </field>
+            <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/><default-field>
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                    <set field="enumTypeId" value="WorkEffortPartyExpectation"/><set field="allowEmpty" value="true"/></widget-template-include>
+            </default-field></field>
             <field name="emplPositionClassId"><header-field title="Position Class" show-order-by="true"/>
                 <default-field><drop-down allow-empty="true"><entity-options key="${emplPositionClassId}" text="${title}">
                     <entity-find entity-name="EmplPositionClass"/></entity-options></drop-down></default-field>
             </field>
 
-            <field name="statusId"><header-field title="Status" show-order-by="true"/>
-                <default-field>
-                    <drop-down allow-empty="false" current-description="${currentStatus?.description}">
-                        <entity-options key="${toStatusId}" text="${transitionName} (${description})">
-                            <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail">
-                                <econdition field-name="statusId"/>
-                            </entity-find>
-                        </entity-options>
-                    </drop-down>
-                </default-field>
-            </field>
+            <field name="statusId" entry-name="partyStatusId"><header-field title="Status" show-order-by="true"/><default-field>
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
+                    <set field="currentDescription" from="currentStatus?.description"/>
+                    <set field="statusId" from="partyStatusId"/></widget-template-include>
+            </default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
 
             <form-list-column><field-ref name="workEffortId"/><field-ref name="roleTypeId"/></form-list-column>

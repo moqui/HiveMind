@@ -60,9 +60,10 @@ This Work includes contributions authored by David E. Jones, not as a
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
             </default-field></field>
             <field name="statusId"><default-field title="Status">
-                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionWithFlowDropDown">
                     <set field="currentDescription" from="workEffort?.'WorkEffort#moqui.basic.StatusItem'?.description"/>
-                    <set field="statusId" from="workEffort.statusId"/></widget-template-include>
+                    <set field="statusId" from="workEffort.statusId"/><set field="statusFlowId" from="workEffort.statusFlowId ?: 'Default'"/>
+                </widget-template-include>
             </default-field></field>
             <field name="statusFlowId"><default-field title="Status Flow">
                 <drop-down allow-empty="true"><entity-options key="${statusFlowId}" text="${description} [${statusFlowId}]">
