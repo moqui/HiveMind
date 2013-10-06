@@ -23,14 +23,11 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
 
     <actions>
-        <entity-find-one entity-name="mantle.account.invoice.Invoice" value-field="fieldValues"/>
-        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
-            <field-map field-name="statusId" from="fieldValues?.statusId"/>
-        </entity-find-one>
+        <entity-find-one entity-name="mantle.account.invoice.Invoice" value-field="invoice"/>
         <service-call name="mantle.account.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
     </actions>
     <widgets>
-        <form-single name="EditInvoice" transition="updateInvoice">
+        <form-single name="EditInvoice" transition="updateInvoice" map="invoice">
             <field name="rootWorkEffortId"><default-field title="Project">
                 <display-entity entity-name="mantle.work.effort.WorkEffort" key-field-name="workEffortId" text="${workEffortName} [${workEffortId}]"/>
             </default-field></field>
@@ -46,13 +43,9 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="invoiceDate"><default-field><display also-hidden="false"/></default-field></field>
             <field name="invoiceTotal"><default-field><display currency-unit-field="currencyUomId"/></default-field></field>
             <field name="statusId"><default-field title="Status">
-                <drop-down allow-empty="false" current-description="${currentStatus?.description}">
-                    <entity-options key="${toStatusId}" text="${transitionName} (${description})">
-                        <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail">
-                            <econdition field-name="statusId" from="fieldValues.statusId"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down>
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
+                    <set field="currentDescription" from="invoice?.'Invoice#moqui.basic.StatusItem'?.description"/>
+                    <set field="statusId" from="invoice.statusId"/></widget-template-include>
             </default-field></field>
             <field name="description"><default-field><text-line size="60"/></default-field></field>
 
