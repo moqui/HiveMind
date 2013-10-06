@@ -85,8 +85,8 @@ This Work includes contributions authored by David E. Jones, not as a
                         <entity-find entity-name="EmplPositionClass"/></entity-options></drop-down></default-field>
                 </field>
                 <field name="statusId"><default-field title="Status">
-                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
-                            <set field="statusTypeId" value="WorkEffortParty"/><set field="allowEmpty" value="true"/></widget-template-include>
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
+                        <set field="statusTypeId" value="WorkEffortParty"/><set field="allowEmpty" value="true"/></widget-template-include>
                 </default-field></field>
 
                 <field name="receiveNotifications"><default-field>
