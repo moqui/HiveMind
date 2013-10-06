@@ -47,32 +47,14 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="workEffortId"><default-field title="Project ID"><display/></default-field></field>
             <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
             <field name="clientPartyId" entry-name="clientWep?.partyId"><default-field title="Client">
-                <drop-down allow-empty="true">
-                    <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
-                        <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                            <econdition field-name="roleTypeId" value="CustomerBillTo"/>
-                            <order-by field-name="organizationName"/>
-                            <order-by field-name="firstName"/><order-by field-name="lastName"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down>
-                <link url="editClient" text="Edit Client">
-                    <parameter name="partyId" from="clientWep?.partyId"/>
-                </link>
+                <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole">
+                    <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
+                <link url="editClient" text="Edit Client"><parameter name="partyId" from="clientWep?.partyId"/></link>
             </default-field></field>
             <field name="vendorPartyId" entry-name="vendorWep?.partyId"><default-field title="Vendor">
-                <drop-down allow-empty="true">
-                    <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
-                        <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                            <econdition field-name="roleTypeId" value="VendorBillFrom"/>
-                            <order-by field-name="organizationName"/>
-                            <order-by field-name="firstName"/><order-by field-name="lastName"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down>
-                <link url="editVendor" text="Edit Vendor">
-                    <parameter name="partyId" from="vendorWep?.partyId"/>
-                </link>
+                <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole">
+                    <set field="roleTypeId" value="VendorBillFrom"/><set field="allowEmpty" value="true"/></widget-template-include>
+                <link url="editVendor" text="Edit Vendor"><parameter name="partyId" from="vendorWep?.partyId"/></link>
             </default-field></field>
             <field name="priority"><default-field>
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>

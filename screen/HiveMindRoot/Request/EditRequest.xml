@@ -23,10 +23,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="editClient"><default-response url="../../Admin/Client/EditClient"/></transition>
 
     <actions>
-        <entity-find-one entity-name="mantle.request.Request" value-field="fieldValues"/>
-        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
-            <field-map field-name="statusId" from="fieldValues?.statusId"/>
-        </entity-find-one>
+        <entity-find-one entity-name="mantle.request.Request" value-field="request"/>
 
         <entity-find entity-name="mantle.request.RequestParty" list="clientRpList">
             <date-filter/><econdition field-name="requestId"/>
@@ -35,21 +32,12 @@ This Work includes contributions authored by David E. Jones, not as a
         <set field="clientRp" from="clientRpList?.getAt(0)"/>
     </actions>
     <widgets>
-        <form-single name="EditRequest" transition="updateRequest">
+        <form-single name="EditRequest" transition="updateRequest" map="request">
             <field name="requestId"><default-field title="Request ID"><display/></default-field></field>
             <field name="clientPartyId" entry-name="clientRp?.partyId"><default-field title="Client">
-                <drop-down allow-empty="true">
-                    <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
-                        <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                            <econdition field-name="roleTypeId" value="CustomerBillTo"/>
-                            <order-by field-name="organizationName"/>
-                            <order-by field-name="firstName"/><order-by field-name="lastName"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down>
-                <link url="editClient" text="Edit Client">
-                    <parameter name="partyId" from="clientRp?.partyId"/>
-                </link>
+                <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole">
+                    <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
+                <link url="editClient" text="Edit Client"><parameter name="partyId" from="clientRp?.partyId"/></link>
             </default-field></field>
             <field name="requestName"><default-field title="Name"><text-line size="80"/></default-field></field>
             <field name="description"><default-field><text-area rows="10" cols="80"/></default-field></field>
@@ -57,35 +45,17 @@ This Work includes contributions authored by David E. Jones, not as a
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
             </default-field></field>
             <field name="requestTypeEnumId"><default-field title="Type">
-                <drop-down no-current-selected-key="RfSupport" current="selected">
-                    <entity-options key="${enumId}" text="${description}">
-                        <entity-find entity-name="moqui.basic.Enumeration">
-                            <econdition field-name="enumTypeId" value="RequestType"/>
-                            <order-by field-name="description"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down>
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                    <set field="enumTypeId" value="RequestType"/><set field="noCurrentSelectedKey" value="RfSupport"/></widget-template-include>
             </default-field></field>
-            <field name="statusId">
-                <default-field title="Status">
-                    <drop-down allow-empty="false" current-description="${currentStatus?.description}">
-                        <entity-options key="${toStatusId}" text="${transitionName} (${description})">
-                            <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail">
-                                <econdition field-name="statusId" from="fieldValues.statusId"/>
-                            </entity-find>
-                        </entity-options>
-                    </drop-down>
-                </default-field>
-            </field>
+            <field name="statusId"><default-field title="Status">
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
+                    <set field="currentDescription" from="request?.'Request#moqui.basic.StatusItem'?.description"/>
+                    <set field="statusId" from="request.statusId"/></widget-template-include>
+            </default-field></field>
             <field name="requestResolutionEnumId"><default-field title="Resolution">
-                <drop-down no-current-selected-key="RrUnresolved" current="selected">
-                    <entity-options key="${enumId}" text="${description}">
-                        <entity-find entity-name="moqui.basic.Enumeration">
-                            <econdition field-name="enumTypeId" value="RequestResolution"/>
-                            <order-by field-name="description"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down>
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                    <set field="enumTypeId" value="RequestResolution"/><set field="noCurrentSelectedKey" value="RrUnresolved"/></widget-template-include>
             </default-field></field>
             <field name="responseRequiredDate">
                 <default-field title="Due Date"><date-time type="date-time" format="yyyy-MM-dd hh:mm"/></default-field>
