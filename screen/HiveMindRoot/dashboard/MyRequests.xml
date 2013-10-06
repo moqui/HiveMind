@@ -22,19 +22,8 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <transition name="getPersonList">
         <actions>
-            <entity-find entity-name="mantle.party.PersonAndUserAccount" list="pauList" limit="20">
-                <econditions combine="or">
-                    <econdition field-name="firstName" operator="like" value="%${term}%" ignore-case="true"/>
-                    <econdition field-name="lastName" operator="like" value="%${term}%" ignore-case="true"/>
-                    <econdition field-name="username" operator="like" value="%${term}%" ignore-case="true"/>
-                </econditions>
-                <order-by field-name="^firstName"/><order-by field-name="^lastName"/><order-by field-name="^username"/>
-            </entity-find>
-            <script>
-                def outList = []
-                for (def pau in pauList) outList.add([value:pau.partyId, label:"${pau.firstName} ${pau.lastName} (${pau.username})".toString()])
-                ec.web.sendJsonResponse(outList)
-            </script>
+            <service-call name="mantle.party.PartyServices.search#Person" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(outList)</script>
         </actions>
         <default-response type="none"/>
     </transition>
@@ -50,35 +39,8 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <container id="dashboard-requests-section">
             <container-dialog id="NewRequestContainer" button-text="New Request">
-                <form-single name="NewRequest" transition="createRequest">
-                    <field name="clientPartyId"><default-field title="Client">
-                        <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole"/>
-                    </default-field></field>
-                    <field name="assignToPartyId"><default-field title="Assign To">
-                        <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
-                    </default-field></field>
-                    <field name="requestName"><default-field title="Name"><text-line size="60"/></default-field></field>
-                    <field name="description"><default-field title="Description"><text-area rows="10" cols="60"/></default-field></field>
-
-                    <field name="priority"><default-field>
-                        <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority">
-                            <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/>
-                        </widget-template-include>
-                    </default-field></field>
-                    <field name="requestTypeEnumId"><default-field title="Type">
-                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
-                            <set field="enumTypeId" value="RequestType"/><set field="noCurrentSelectedKey" value="RqtSupport"/>
-                        </widget-template-include>
-                    </default-field></field>
-                    <field name="statusId"><default-field title="Status">
-                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
-                            <set field="statusTypeId" value="Request"/></widget-template-include>
-                    </default-field></field>
-                    <field name="responseRequiredDate">
-                        <default-field title="Due Date"><date-time type="date-time" format="yyyy-MM-dd hh:mm"/></default-field>
-                    </field>
-
-                    <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
+                <form-single name="NewRequest" transition="createRequest"
+                        extends="component://HiveMind/screen/HiveMindRoot/Request/FindRequest.xml#NewRequestForm">
                 </form-single>
             </container-dialog>
 
@@ -90,6 +52,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <field name="requestName">
                     <default-field title="Name"><display also-hidden="false"/></default-field>
                 </field>
+                <field name="priority"><default-field><display also-hidden="false"/></default-field></field>
                 <field name="requestTypeEnumId">
                     <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
                 </field>

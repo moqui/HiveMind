@@ -16,6 +16,18 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <transition name="findRequest"><default-response url="."/></transition>
     <transition name="editRequest"><default-response url="../EditRequest"/></transition>
+    <transition name="createRequest">
+        <service-call name="mantle.request.RequestServices.create#Request" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+
+    <transition name="getPersonList">
+        <actions>
+            <service-call name="mantle.party.PartyServices.search#Person" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(outList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
 
     <pre-actions>
         <set field="html_title" value="Find Request"/>
@@ -23,11 +35,72 @@ This Work includes contributions authored by David E. Jones, not as a
     
     <actions>
         <entity-find entity-name="mantle.request.Request" list="requestList">
-            <search-form-inputs default-order-by="^description"/>
+            <search-form-inputs default-order-by="priority"/>
         </entity-find>
     </actions>
     <widgets>
-        <form-list name="ListRequests" list="requestList">
+        <container-dialog id="FindRequestDialog" button-text="Find Options">
+            <form-single name="FindRequestForm" transition="findRequest">
+                <!--
+                <field name="clientPartyId" entry-name="clientRp?.partyId"><default-field title="Client">
+                    <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole">
+                        <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
+                </default-field></field>
+                -->
+                <field name="requestName"><default-field title="Name"><text-find/></default-field></field>
+                <field name="description"><default-field><text-find/></default-field></field>
+                <field name="priority"><default-field>
+                    <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
+                </default-field></field>
+                <field name="requestTypeEnumId"><default-field title="Type">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="RequestType"/><set field="allowEmpty" value="true"/></widget-template-include>
+                </default-field></field>
+                <field name="statusId"><default-field title="Status">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
+                        <set field="statusTypeId" value="Request"/></widget-template-include>
+                </default-field></field>
+                <field name="requestResolutionEnumId"><default-field title="Resolution">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="RequestResolution"/><set field="allowEmpty" value="true"/></widget-template-include>
+                </default-field></field>
+                <field name="responseRequiredDate"><default-field title="Due Date"><date-find/></default-field></field>
+                <field name="submitButton"><default-field title="Find"><submit/></default-field></field>
+            </form-single>
+        </container-dialog>
+        <container-dialog id="NewRequestContainer" button-text="New Request">
+            <form-single name="NewRequestForm" transition="createRequest">
+                <field name="clientPartyId"><default-field title="Client">
+                    <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole">
+                        <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
+                </default-field></field>
+                <field name="assignToPartyId"><default-field title="Assign To">
+                    <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
+                </default-field></field>
+                <field name="requestName"><default-field title="Name"><text-line size="60"/></default-field></field>
+                <field name="description"><default-field title="Description"><text-area rows="10" cols="60"/></default-field></field>
+
+                <field name="priority"><default-field>
+                    <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
+                </default-field></field>
+                <field name="requestTypeEnumId"><default-field title="Type">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="RequestType"/><set field="noCurrentSelectedKey" value="RqtSupport"/>
+                    </widget-template-include>
+                </default-field></field>
+                <field name="statusId"><default-field title="Status">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
+                        <set field="statusTypeId" value="Request"/></widget-template-include>
+                </default-field></field>
+                <field name="responseRequiredDate">
+                    <default-field title="Due Date"><date-time type="date-time" format="yyyy-MM-dd hh:mm"/></default-field>
+                </field>
+
+                <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
+            </form-single>
+        </container-dialog>
+
+        <form-list name="ListRequests" list="requestList" skip-form="true">
             <field name="requestId">
                 <default-field title="ID"><link url="editRequest" text="${requestId}"/></default-field>
             </field>
@@ -35,14 +108,25 @@ This Work includes contributions authored by David E. Jones, not as a
                 <header-field title="Name" show-order-by="case-insensitive"/>
                 <default-field><display also-hidden="false"/></default-field>
             </field>
+            <field name="priority">
+                <header-field show-order-by="true"/>
+                <default-field><display also-hidden="false"/></default-field>
+            </field>
             <field name="requestTypeEnumId">
-                <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
+                <header-field title="Type" show-order-by="true"/>
+                <default-field><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
             </field>
             <field name="statusId">
-                <default-field title="Status"><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
+                <header-field title="Status" show-order-by="true"/>
+                <default-field><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
             </field>
             <field name="requestResolutionEnumId">
-                <default-field title="Resolution"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
+                <header-field title="Resolution" show-order-by="true"/>
+                <default-field><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
+            </field>
+            <field name="responseRequiredDate">
+                <header-field title="Due Date" show-order-by="true"/>
+                <default-field><display format="yyyy-MM-dd hh:mm"/></default-field>
             </field>
         </form-list>
     </widgets>
