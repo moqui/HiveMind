@@ -74,17 +74,10 @@ This Work includes contributions authored by David E. Jones, not as a
                 <default-field><link url="editTask" text="${workEffortId}: ${workEffortName}"/></default-field>
             </field>
 
-            <field name="statusId">
-                <default-field title="Status">
-                    <drop-down allow-empty="false" current-description="${currentStatus?.description}">
-                        <entity-options key="${toStatusId}" text="${transitionName} (${description})">
-                            <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail">
-                                <econdition field-name="statusId"/>
-                            </entity-find>
-                        </entity-options>
-                    </drop-down>
-                </default-field>
-            </field>
+            <field name="statusId"><default-field title="Status">
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
+                    <set field="currentDescription" from="currentStatus?.description"/></widget-template-include>
+            </default-field></field>
             <field name="estimatedCompletionDate">
                 <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
             </field>
