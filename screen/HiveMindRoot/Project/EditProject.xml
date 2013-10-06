@@ -29,7 +29,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <set field="rootWorkEffortId" from="workEffortId"/>
     </pre-actions>
     <actions>
-        <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="fieldValues"/>
+        <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="workEffort"/>
 
         <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="clientWepList">
             <date-filter/><econdition field-name="workEffortId"/>
@@ -41,13 +41,9 @@ This Work includes contributions authored by David E. Jones, not as a
             <econdition field-name="roleTypeId" operator="in" value="VendorBillFrom"/>
         </entity-find>
         <set field="vendorWep" from="vendorWepList?.getAt(0)"/>
-
-        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
-            <field-map field-name="statusId" from="fieldValues?.statusId"/>
-        </entity-find-one>
     </actions>
     <widgets>
-        <form-single name="EditProject" transition="updateProject">
+        <form-single name="EditProject" transition="updateProject" map="workEffort">
             <field name="workEffortId"><default-field title="Project ID"><display/></default-field></field>
             <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
             <field name="clientPartyId" entry-name="clientWep?.partyId"><default-field title="Client">
@@ -82,25 +78,19 @@ This Work includes contributions authored by David E. Jones, not as a
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
             </default-field></field>
             <field name="statusId"><default-field title="Status">
-                <drop-down allow-empty="false" current-description="${currentStatus?.description}">
-                    <entity-options key="${toStatusId}" text="${transitionName} (${description})">
-                        <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail">
-                            <econdition field-name="statusId" from="fieldValues.statusId"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down>
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
+                    <set field="currentDescription" from="workEffort?.'WorkEffort#moqui.basic.StatusItem'?.description"/>
+                    <set field="statusId" from="workEffort.statusId"/></widget-template-include>
             </default-field></field>
             <field name="statusFlowId"><default-field title="Status Flow">
-                <drop-down>
-                    <entity-options key="${statusFlowId}" text="${description} [${statusFlowId}]">
-                        <entity-find entity-name="moqui.basic.StatusFlow">
-                            <econditions combine="or">
-                                <econdition field-name="statusTypeId" value="WorkEffort"/>
-                                <econdition field-name="statusTypeId" from="null"/>
-                            </econditions>
-                        </entity-find>
-                    </entity-options>
-                </drop-down>
+                <drop-down><entity-options key="${statusFlowId}" text="${description} [${statusFlowId}]">
+                    <entity-find entity-name="moqui.basic.StatusFlow">
+                        <econditions combine="or">
+                            <econdition field-name="statusTypeId" value="WorkEffort"/>
+                            <econdition field-name="statusTypeId" from="null"/>
+                        </econditions>
+                    </entity-find>
+                </entity-options></drop-down>
             </default-field></field>
             <field name="estimatedCompletionDate">
                 <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
