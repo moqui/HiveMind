@@ -71,28 +71,18 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="fromDate"><header-field show-order-by="true"/><default-field><date-time default-value="${ec.user.nowTimestamp}"/></default-field></field>
                     <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
 
-                    <field name="expectationEnumId">
-                        <default-field title="Expectation"><drop-down allow-empty="true">
-                            <entity-options key="${enumId}" text="${description}"><entity-find entity-name="Enumeration">
-                                <econdition field-name="enumTypeId" value="WorkEffortPartyExpectation"/>
-                                <order-by field-name="description"/>
-                            </entity-find></entity-options>
-                        </drop-down></default-field>
-                    </field>
+                    <field name="expectationEnumId"><default-field title="Expectation">
+                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                            <set field="enumTypeId" value="WorkEffortPartyExpectation"/><set field="allowEmpty" value="true"/></widget-template-include>
+                    </default-field></field>
                     <field name="emplPositionClassId">
                         <default-field title="Position Class"><drop-down allow-empty="true"><entity-options key="${emplPositionClassId}" text="${title}">
                             <entity-find entity-name="EmplPositionClass"/></entity-options></drop-down></default-field>
                     </field>
-                    <field name="statusId">
-                        <default-field title="Status">
-                            <drop-down><entity-options key="${statusId}" text="${description}">
-                                <entity-find entity-name="StatusItem">
-                                    <econdition field-name="statusTypeId" value="WorkEffortParty"/>
-                                    <order-by field-name="sequenceNum"/>
-                                </entity-find>
-                            </entity-options></drop-down>
-                        </default-field>
-                    </field>
+                    <field name="statusId"><default-field title="Status">
+                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
+                            <set field="statusTypeId" value="WorkEffortParty"/></widget-template-include>
+                    </default-field></field>
                     <field name="receiveNotifications"><default-field>
                         <drop-down no-current-selected-key="N"><option key="Y"/><option key="N"/></drop-down>
                     </default-field></field>
@@ -116,16 +106,10 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="fromDate"><header-field show-order-by="true"/><default-field><date-time default-value="${ec.user.nowTimestamp}"/></default-field></field>
                     <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
 
-                    <field name="statusId">
-                        <default-field title="Status">
-                            <drop-down><entity-options key="${statusId}" text="${description}">
-                                <entity-find entity-name="StatusItem">
-                                    <econdition field-name="statusTypeId" value="WorkEffortParty"/>
-                                    <order-by field-name="sequenceNum"/>
-                                </entity-find>
-                            </entity-options></drop-down>
-                        </default-field>
-                    </field>
+                    <field name="statusId"><default-field title="Status">
+                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
+                            <set field="statusTypeId" value="WorkEffortParty"/></widget-template-include>
+                    </default-field></field>
                     <field name="submitButton"><default-field title="Add Assignment"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
@@ -149,12 +133,10 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="fromDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
             <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
             <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/>
-                <conditional-field condition="partyTypeEnumId=='PtyPerson'"><drop-down allow-empty="true">
-                    <entity-options key="${enumId}" text="${description}"><entity-find entity-name="moqui.basic.Enumeration">
-                        <econdition field-name="enumTypeId" value="WorkEffortPartyExpectation"/>
-                        <order-by field-name="description"/>
-                    </entity-find></entity-options>
-                </drop-down></conditional-field>
+                <conditional-field condition="partyTypeEnumId=='PtyPerson'">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="WorkEffortPartyExpectation"/><set field="allowEmpty" value="true"/></widget-template-include>
+                </conditional-field>
                 <default-field><ignored/></default-field>
             </field>
             <field name="emplPositionClassId"><header-field title="Position Class" show-order-by="true"/>
@@ -163,17 +145,11 @@ This Work includes contributions authored by David E. Jones, not as a
                 </drop-down></conditional-field>
                 <default-field><ignored/></default-field>
             </field>
-            <field name="statusId"><header-field title="Status" show-order-by="true"/>
-                <default-field>
-                    <drop-down allow-empty="false" current-description="${currentStatus?.description}">
-                        <entity-options key="${toStatusId}" text="${transitionName} (${description})">
-                            <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail">
-                                <econdition field-name="statusId"/>
-                            </entity-find>
-                        </entity-options>
-                    </drop-down>
-                </default-field>
-            </field>
+            <field name="statusId"><header-field title="Status" show-order-by="true"/><default-field>
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
+                    <set field="currentDescription" from="currentStatus?.description"/>
+                    <set field="statusId"/></widget-template-include>
+            </default-field></field>
             <field name="receiveNotifications"><default-field title="Notifications">
                 <drop-down no-current-selected-key="N"><option key="Y"/><option key="N"/></drop-down>
             </default-field></field>
