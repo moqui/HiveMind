@@ -64,8 +64,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             <field name="paymentMethodTypeEnumId"><default-field title="Payment Type">
                                 <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
                                     <set field="enumTypeId" value="PaymentMethodType"/>
-                                    <set field="noCurrentSelectedKey" value="PmtCompanyCheck"/>
-                                </widget-template-include>
+                                    <set field="noCurrentSelectedKey" value="PmtCompanyCheck"/></widget-template-include>
                             </default-field></field>
                             <field name="effectiveDate"><default-field><date-time default-value="${ec.l10n.formatTimestamp(ec.user.nowTimestamp, 'yyyy-MM-dd HH:mm:ss')}"/></default-field></field>
                             <field name="paymentRefNum"><default-field title="Reference Number"><text-line size="10"/></default-field></field>
