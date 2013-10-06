@@ -83,7 +83,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     <set field="statusId" from="workEffort.statusId"/></widget-template-include>
             </default-field></field>
             <field name="statusFlowId"><default-field title="Status Flow">
-                <drop-down><entity-options key="${statusFlowId}" text="${description} [${statusFlowId}]">
+                <drop-down allow-empty="true"><entity-options key="${statusFlowId}" text="${description} [${statusFlowId}]">
                     <entity-find entity-name="moqui.basic.StatusFlow">
                         <econditions combine="or">
                             <econdition field-name="statusTypeId" value="WorkEffort"/>
