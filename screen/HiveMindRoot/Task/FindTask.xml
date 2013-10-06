@@ -205,34 +205,18 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="priority"><default-field><range-find/></default-field></field>
                     <field name="workEffortId"><default-field title="Task ID"><text-find/></default-field></field>
                     <field name="workEffortName"><default-field title="Name"><text-find/></default-field></field>
-                    <field name="purposeEnumId">
-                        <default-field title="Purpose">
-                            <drop-down allow-empty="true">
-                                <entity-options key="${enumId}" text="${description}">
-                                    <entity-find entity-name="Enumeration">
-                                        <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>
-                                        <econdition field-name="parentEnumId" value="WetTask"/>
-                                        <order-by field-name="description"/>
-                                    </entity-find>
-                                </entity-options>
-                            </drop-down>
-                        </default-field>
-                    </field>
+                    <field name="purposeEnumId"><default-field title="Purpose">
+                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumWithParentDropDown">
+                            <set field="enumTypeId" value="WorkEffortPurpose"/><set field="parentEnumId" value="WetTask"/>
+                            <set field="allowEmpty" value="true"/></widget-template-include>
+                    </default-field></field>
                     <field name="statusId"><default-field title="Status">
-                            <drop-down allow-empty="true"><entity-options key="${statusId}" text="${description}">
-                                <entity-find entity-name="StatusItem">
-                                    <econdition field-name="statusTypeId" value="WorkEffort"/>
-                                    <order-by field-name="sequenceNum"/>
-                                </entity-find>
-                            </entity-options></drop-down>
+                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
+                            <set field="statusTypeId" value="WorkEffort"/><set field="allowEmpty" value="true"/></widget-template-include>
                     </default-field></field>
                     <field name="resolutionEnumId"><default-field title="Resolution">
-                        <drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">
-                            <entity-find entity-name="moqui.basic.Enumeration">
-                                <econdition field-name="enumTypeId" value="WorkEffortResolution"/>
-                                <order-by field-name="description"/>
-                            </entity-find>
-                        </entity-options></drop-down>
+                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                            <set field="enumTypeId" value="WorkEffortResolution"/><set field="allowEmpty" value="true"/></widget-template-include>
                     </default-field></field>
                     <field name="estimatedCompletionDate"><default-field title="Due Date"><date-find/></default-field></field>
                     <field name="estimatedWorkTime"><default-field title="Estimated Hours">

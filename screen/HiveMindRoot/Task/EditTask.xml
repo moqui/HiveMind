@@ -49,10 +49,6 @@ This Work includes contributions authored by David E. Jones, not as a
             <econdition field-name="workEffortAssocTypeEnumId" value="WeatMilestone"/>
         </entity-find>
         <set field="milestoneAssoc" from="milestoneAssocList?.getAt(0)"/>
-
-        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
-            <field-map field-name="statusId" from="task?.statusId"/>
-        </entity-find-one>
         <set field="statusFlowId" from="(task.statusFlowId ?: project.statusFlowId) ?: 'Default'"/>
     </actions>
     <widgets>
@@ -94,31 +90,17 @@ This Work includes contributions authored by David E. Jones, not as a
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
             </default-field></field>
             <field name="purposeEnumId"><default-field title="Purpose">
-                <drop-down><entity-options key="${enumId}" text="${description}">
-                    <entity-find entity-name="moqui.basic.Enumeration">
-                        <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>
-                        <econdition field-name="parentEnumId" value="WetTask"/>
-                        <order-by field-name="description"/>
-                    </entity-find>
-                </entity-options></drop-down>
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumWithParentDropDown">
+                    <set field="enumTypeId" value="WorkEffortPurpose"/><set field="parentEnumId" value="WetTask"/></widget-template-include>
             </default-field></field>
             <field name="statusId"><default-field title="Status">
-                <drop-down allow-empty="false" current-description="${currentStatus?.description}">
-                    <entity-options key="${toStatusId}" text="${transitionName} (${description})">
-                        <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail">
-                            <econdition field-name="statusFlowId" from="statusFlowId"/>
-                            <econdition field-name="statusId" from="task.statusId"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down>
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionWithFlowDropDown">
+                    <set field="currentDescription" from="task?.'WorkEffort#moqui.basic.StatusItem'?.description"/>
+                    <set field="statusId" from="task.statusId"/></widget-template-include>
             </default-field></field>
             <field name="resolutionEnumId"><default-field title="Resolution">
-                <drop-down><entity-options key="${enumId}" text="${description}">
-                    <entity-find entity-name="moqui.basic.Enumeration">
-                        <econdition field-name="enumTypeId" value="WorkEffortResolution"/>
-                        <order-by field-name="description"/>
-                    </entity-find>
-                </entity-options></drop-down>
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                    <set field="enumTypeId" value="WorkEffortResolution"/></widget-template-include>
             </default-field></field>
             <field name="estimatedCompletionDate">
                 <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
