@@ -20,19 +20,173 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="mantle.party.PartyServices.update#PartyDetail" in-map="context"/>
         <default-response url="."/>
     </transition>
+    <transition name="storeContactInfo">
+        <service-call name="mantle.party.ContactServices.store#PartyContactInfo" in-map="context" out-map="context"/>
+        <default-response url="."/>
+    </transition>
 
     <actions>
-        <entity-find-one entity-name="mantle.party.PartyDetail" value-field="fieldValues"/>
+        <entity-find-one entity-name="mantle.party.PartyDetail" value-field="partyDetail"/>
+
+        <service-call name="mantle.party.ContactServices.get#PartyContactInfo" out-map="paymentContactInfo"
+                in-map="[partyId:partyId, postalContactMechPurposeId:'PostalPayment',
+                    telecomContactMechPurposeId:'PhonePayment', emailContactMechPurposeId:'EmailPayment']"/>
+        <service-call name="mantle.party.ContactServices.get#PartyContactInfo" out-map="billingContactInfo"
+                in-map="[partyId:partyId, postalContactMechPurposeId:'PostalBilling',
+                    telecomContactMechPurposeId:'PhoneBilling', emailContactMechPurposeId:'EmailBilling']"/>
     </actions>
     <widgets>
-        <form-single name="EditVendor" transition="updateVendor">
-            <field name="partyId"><default-field><hidden/></default-field></field>
-            <field name="organizationName"><default-field><text-line size="60"/></default-field></field>
+        <container-panel id="ContactInfoContainer" dynamic="true">
+            <panel-left size="300">
+                <label text="Billing Information" type="h2"/>
+                <label text="Where invoices are sent (Accounts Payable)" type="p"/>
+                <container-dialog id="BillingInfoEdit" button-text="Edit Billing Info" width="800">
+                    <section name="BillingInfoEditSection">
+                        <actions>
+                            <set field="billingInfoFlat" from="StupidUtilities.flattenNestedMap(billingContactInfo)"/>
+                        </actions>
+                        <widgets>
+                            <form-single name="BillingInfo" transition="storeContactInfo" map="billingInfoFlat">
+                                <field name="partyId"><default-field><hidden/></default-field></field>
 
-            <field name="disabled"><default-field><drop-down no-current-selected-key="N" current="selected">
-                <option key="N"/><option key="Y"/></drop-down></default-field></field>
+                                <field name="postalContactMechId"><default-field><hidden/></default-field></field>
+                                <field name="postalContactMechPurposeId"><default-field><hidden/></default-field></field>
 
-            <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
-        </form-single>
+                                <field name="countryGeoId"><default-field title="Country"><hidden default-value="USA"/></default-field></field>
+                                <field name="address1"><default-field title="Address Line 1"><text-line size="30"/></default-field></field>
+                                <field name="unitNumber"><default-field><text-line size="10"/></default-field></field>
+                                <field name="address2"><default-field title="Address Line 2"><text-line size="30"/></default-field></field>
+                                <field name="city"><default-field title="City/State/Zip"><text-line size="16"/></default-field></field>
+                                <field name="stateProvinceGeoId"><default-field title="">
+                                    <drop-down><entity-options key="${toGeoId}" text="${geoName}">
+                                        <entity-find entity-name="GeoAssocAndToDetail">
+                                            <econdition field-name="geoId" value="USA"/>
+                                            <econdition field-name="geoAssocTypeEnumId" value="GAT_REGIONS"/>
+                                            <order-by field-name="geoName"/>
+                                        </entity-find>
+                                    </entity-options></drop-down>
+                                </default-field></field>
+                                <field name="postalCode"><default-field title=""><text-line size="10"/></default-field></field>
+
+                                <field name="telecomContactMechId"><default-field><hidden/></default-field></field>
+                                <field name="telecomContactMechPurposeId"><default-field><hidden/></default-field></field>
+                                <field name="countryCode"><default-field title="Phone"><text-line size="3" maxlength="3" default-value="+1"/></default-field></field>
+                                <field name="areaCode"><default-field title=""><text-line size="4" maxlength="5"/></default-field></field>
+                                <field name="contactNumber"><default-field title=""><text-line size="8" maxlength="8"/></default-field></field>
+
+                                <field name="emailContactMechId"><default-field><hidden/></default-field></field>
+                                <field name="emailContactMechPurposeId"><default-field><hidden/></default-field></field>
+                                <field name="emailAddress"><default-field title="Email"><text-line size="40"/></default-field></field>
+
+                                <field name="submitButton"><default-field title="Submit"><submit/></default-field></field>
+
+                                <field-layout>
+                                    <fields-not-referenced/>
+                                    <field-row><field-ref name="address1"/><field-ref name="unitNumber"/></field-row>
+                                    <field-ref name="address2"/>
+                                    <field-row><field-ref name="city"/><field-ref name="stateProvinceGeoId"/><field-ref name="postalCode"/></field-row>
+                                    <field-row><field-ref name="countryCode"/><field-ref name="areaCode"/><field-ref name="contactNumber"/></field-row>
+                                    <field-ref name="emailAddress"/>
+                                    <field-ref name="submitButton"/>
+                                </field-layout>
+                            </form-single>
+                        </widgets>
+                    </section>
+                </container-dialog>
+                <section name="BillingInfoSection">
+                    <condition><expression>billingContactInfo</expression></condition>
+                    <widgets>
+                        <label text="${billingContactInfo.postalAddress?.address1 ?: ''}${billingContactInfo.postalAddress?.unitNumber ? '#' + billingContactInfo.postalAddress.unitNumber : ''}" type="p"/>
+                        <label text="${billingContactInfo.postalAddress?.address2 ?: ''}" type="p"/>
+                        <label text="${billingContactInfo.postalAddress?.city ? billingContactInfo.postalAddress.city + ',' : ''} ${billingContactInfo.postalAddressStateGeo?.geoCodeAlpha2 ?: ''} ${billingContactInfo.postalAddress?.postalCode ?: ''}" type="p"/>
+                        <label text="${billingContactInfo.telecomNumber?.areaCode ? '(' + billingContactInfo.telecomNumber.areaCode + ')' : ''} ${billingContactInfo.telecomNumber?.contactNumber ?: ''}" type="p"/>
+                        <label text="${billingContactInfo.emailAddress ?: ''}" type="p"/>
+                    </widgets>
+                    <fail-widgets>
+                        <label text="No billing information on file" type="p"/>
+                    </fail-widgets>
+                </section>
+
+                <label text="Payment Information" type="h2"/>
+                <label text="Where payments are sent (Accounts Receivable)" type="p"/>
+                <container-dialog id="PaymentInfoEdit" button-text="Edit Payment Info" width="800">
+                    <section name="PaymentInfoEditSection">
+                        <actions>
+                            <set field="paymentInfoFlat" from="StupidUtilities.flattenNestedMap(paymentContactInfo)"/>
+                        </actions>
+                        <widgets>
+                            <form-single name="PaymentInfo" transition="storeContactInfo" map="paymentInfoFlat">
+                                <field name="partyId"><default-field><hidden/></default-field></field>
+
+                                <field name="postalContactMechId"><default-field><hidden/></default-field></field>
+                                <field name="postalContactMechPurposeId"><default-field><hidden/></default-field></field>
+
+                                <field name="countryGeoId"><default-field title="Country"><hidden default-value="USA"/></default-field></field>
+                                <field name="address1"><default-field title="Address Line 1"><text-line size="30"/></default-field></field>
+                                <field name="unitNumber"><default-field><text-line size="10"/></default-field></field>
+                                <field name="address2"><default-field title="Address Line 2"><text-line size="30"/></default-field></field>
+                                <field name="city"><default-field title="City/State/Zip"><text-line size="16"/></default-field></field>
+                                <field name="stateProvinceGeoId"><default-field title="">
+                                    <drop-down><entity-options key="${toGeoId}" text="${geoName}">
+                                        <entity-find entity-name="GeoAssocAndToDetail">
+                                            <econdition field-name="geoId" value="USA"/>
+                                            <econdition field-name="geoAssocTypeEnumId" value="GAT_REGIONS"/>
+                                            <order-by field-name="geoName"/>
+                                        </entity-find>
+                                    </entity-options></drop-down>
+                                </default-field></field>
+                                <field name="postalCode"><default-field title=""><text-line size="10"/></default-field></field>
+
+                                <field name="telecomContactMechId"><default-field><hidden/></default-field></field>
+                                <field name="telecomContactMechPurposeId"><default-field><hidden/></default-field></field>
+                                <field name="countryCode"><default-field title="Phone"><text-line size="3" maxlength="3" default-value="+1"/></default-field></field>
+                                <field name="areaCode"><default-field title=""><text-line size="4" maxlength="5"/></default-field></field>
+                                <field name="contactNumber"><default-field title=""><text-line size="8" maxlength="8"/></default-field></field>
+
+                                <field name="emailContactMechId"><default-field><hidden/></default-field></field>
+                                <field name="emailContactMechPurposeId"><default-field><hidden/></default-field></field>
+                                <field name="emailAddress"><default-field title="Email"><text-line size="40"/></default-field></field>
+
+                                <field name="submitButton"><default-field title="Submit"><submit/></default-field></field>
+
+                                <field-layout>
+                                    <fields-not-referenced/>
+                                    <field-row><field-ref name="address1"/><field-ref name="unitNumber"/></field-row>
+                                    <field-ref name="address2"/>
+                                    <field-row><field-ref name="city"/><field-ref name="stateProvinceGeoId"/><field-ref name="postalCode"/></field-row>
+                                    <field-row><field-ref name="countryCode"/><field-ref name="areaCode"/><field-ref name="contactNumber"/></field-row>
+                                    <field-ref name="emailAddress"/>
+                                    <field-ref name="submitButton"/>
+                                </field-layout>
+                            </form-single>
+                        </widgets>
+                    </section>
+                </container-dialog>
+                <section name="PaymentInfoSection">
+                    <condition><expression>paymentContactInfo</expression></condition>
+                    <widgets>
+                        <label text="${paymentContactInfo.postalAddress?.address1 ?: ''}${paymentContactInfo.postalAddress?.unitNumber ? '#' + paymentContactInfo.postalAddress.unitNumber : ''}" type="p"/>
+                        <label text="${paymentContactInfo.postalAddress?.address2 ?: ''}" type="p"/>
+                        <label text="${paymentContactInfo.postalAddress?.city ? paymentContactInfo.postalAddress.city + ',' : ''} ${paymentContactInfo.postalAddressStateGeo?.geoCodeAlpha2 ?: ''} ${paymentContactInfo.postalAddress?.postalCode ?: ''}" type="p"/>
+                        <label text="${paymentContactInfo.telecomNumber?.areaCode ? '(' + paymentContactInfo.telecomNumber.areaCode + ')' : ''} ${paymentContactInfo.telecomNumber?.contactNumber ?: ''}" type="p"/>
+                        <label text="${paymentContactInfo.emailAddress ?: ''}" type="p"/>
+                    </widgets>
+                    <fail-widgets>
+                        <label text="No payment information on file" type="p"/>
+                    </fail-widgets>
+                </section>
+            </panel-left>
+            <panel-center>
+                <form-single name="EditVendor" transition="updateVendor" map="partyDetail">
+                    <field name="partyId"><default-field><hidden/></default-field></field>
+                    <field name="organizationName"><default-field><text-line size="60"/></default-field></field>
+
+                    <field name="disabled"><default-field><drop-down no-current-selected-key="N" current="selected">
+                        <option key="N"/><option key="Y"/></drop-down></default-field></field>
+
+                    <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+                </form-single>
+            </panel-center>
+        </container-panel>
     </widgets>
 </screen>
