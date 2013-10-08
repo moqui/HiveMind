@@ -16,7 +16,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <parameter name="partyId"/>
 
-    <transition name="updateVendor">
+    <transition name="updateParty">
         <service-call name="mantle.party.PartyServices.update#PartyDetail" in-map="context"/>
         <default-response url="."/>
     </transition>
@@ -54,19 +54,6 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <container-panel id="VendorInfoContainer" dynamic="true">
             <panel-left size="300">
-                <label text="Billing Information" type="h2"/>
-                <label text="Where invoices are sent (Accounts Payable)" type="p"/>
-                <container-dialog id="BillingInfoEdit" button-text="Edit Billing Info" width="800">
-                    <form-single name="BillingInfo" transition="storeContactInfo" map="billingInfoFlat"
-                            extends="component://mantle-usl/template/screen/PartyForms.xml#ContactInfo"/>
-                </container-dialog>
-
-                <label text="${billingContactInfo.postalAddress?.address1 ?: ''}${billingContactInfo.postalAddress?.unitNumber ? '#' + billingContactInfo.postalAddress.unitNumber : ''}" type="p"/>
-                <label text="${billingContactInfo.postalAddress?.address2 ?: ''}" type="p"/>
-                <label text="${billingContactInfo.postalAddress?.city ? billingContactInfo.postalAddress.city + ',' : ''} ${billingContactInfo.postalAddressStateGeo?.geoCodeAlpha2 ?: ''} ${billingContactInfo.postalAddress?.postalCode ?: ''}" type="p"/>
-                <label text="${billingContactInfo.telecomNumber?.countryCode ?: ''} ${billingContactInfo.telecomNumber?.areaCode ? '(' + billingContactInfo.telecomNumber.areaCode + ')' : ''} ${billingContactInfo.telecomNumber?.contactNumber ?: ''}" type="p"/>
-                <label text="${billingContactInfo.emailAddress ?: ''}" type="p"/>
-
                 <label text="Payment Information" type="h2"/>
                 <label text="Where payments are sent (Accounts Receivable)" type="p"/>
                 <container-dialog id="PaymentInfoEdit" button-text="Edit Payment Info" width="800">
@@ -79,9 +66,22 @@ This Work includes contributions authored by David E. Jones, not as a
                 <label text="${paymentContactInfo.postalAddress?.city ? paymentContactInfo.postalAddress.city + ',' : ''} ${paymentContactInfo.postalAddressStateGeo?.geoCodeAlpha2 ?: ''} ${paymentContactInfo.postalAddress?.postalCode ?: ''}" type="p"/>
                 <label text="${paymentContactInfo.telecomNumber?.countryCode ?: ''} ${paymentContactInfo.telecomNumber?.areaCode ? '(' + paymentContactInfo.telecomNumber.areaCode + ')' : ''} ${paymentContactInfo.telecomNumber?.contactNumber ?: ''}" type="p"/>
                 <label text="${paymentContactInfo.emailAddress ?: ''}" type="p"/>
+
+                <label text="Billing Information" type="h2"/>
+                <label text="Where invoices are sent (Accounts Payable)" type="p"/>
+                <container-dialog id="BillingInfoEdit" button-text="Edit Billing Info" width="800">
+                    <form-single name="BillingInfo" transition="storeContactInfo" map="billingInfoFlat"
+                            extends="component://mantle-usl/template/screen/PartyForms.xml#ContactInfo"/>
+                </container-dialog>
+
+                <label text="${billingContactInfo.postalAddress?.address1 ?: ''}${billingContactInfo.postalAddress?.unitNumber ? '#' + billingContactInfo.postalAddress.unitNumber : ''}" type="p"/>
+                <label text="${billingContactInfo.postalAddress?.address2 ?: ''}" type="p"/>
+                <label text="${billingContactInfo.postalAddress?.city ? billingContactInfo.postalAddress.city + ',' : ''} ${billingContactInfo.postalAddressStateGeo?.geoCodeAlpha2 ?: ''} ${billingContactInfo.postalAddress?.postalCode ?: ''}" type="p"/>
+                <label text="${billingContactInfo.telecomNumber?.countryCode ?: ''} ${billingContactInfo.telecomNumber?.areaCode ? '(' + billingContactInfo.telecomNumber.areaCode + ')' : ''} ${billingContactInfo.telecomNumber?.contactNumber ?: ''}" type="p"/>
+                <label text="${billingContactInfo.emailAddress ?: ''}" type="p"/>
             </panel-left>
             <panel-center>
-                <form-single name="EditVendor" transition="updateVendor" map="partyDetail">
+                <form-single name="EditVendor" transition="updateParty" map="partyDetail">
                     <field name="partyId"><default-field><hidden/></default-field></field>
                     <field name="organizationName"><default-field><text-line size="60"/></default-field></field>
 
