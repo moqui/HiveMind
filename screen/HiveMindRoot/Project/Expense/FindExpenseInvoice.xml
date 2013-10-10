@@ -55,12 +55,12 @@ This Work includes contributions authored by David E. Jones, not as a
 
         <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="clientWepList">
             <date-filter/><econdition field-name="workEffortId" from="rootWorkEffortId"/>
-            <econdition field-name="roleTypeId" operator="in" value="CustomerBillTo"/>
+            <econdition field-name="roleTypeId" value="CustomerBillTo"/>
         </entity-find>
         <set field="clientWep" from="clientWepList?.getAt(0)"/>
         <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="vendorWepList">
             <date-filter/><econdition field-name="workEffortId" from="rootWorkEffortId"/>
-            <econdition field-name="roleTypeId" operator="in" value="VendorBillFrom"/>
+            <econdition field-name="roleTypeId" value="VendorBillFrom"/>
         </entity-find>
         <set field="vendorWep" from="vendorWepList?.getAt(0)"/>
 
@@ -81,8 +81,8 @@ This Work includes contributions authored by David E. Jones, not as a
                 <field name="fromPartyId"><default-field title="From Party">
                     <text-line ac-transition="getPartyList" ac-min-length="2" size="15"/>
                 </default-field></field>
-                <field name="toPartyId"><default-field title="To Party">
-                    <text-line ac-transition="getPartyList" ac-min-length="2" size="15"/>
+                <field name="toPartyId" entry-name="vendorWep.partyId"><default-field title="To Party">
+                    <display-entity entity-name="mantle.party.PartyDetail" key-field-name="partyId" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
                 </default-field></field>
                 <field name="invoiceDate"><default-field><date-time/></default-field></field>
                 <field name="currencyUomId"><default-field>

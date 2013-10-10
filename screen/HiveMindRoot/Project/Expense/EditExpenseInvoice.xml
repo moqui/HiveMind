@@ -42,11 +42,13 @@ This Work includes contributions authored by David E. Jones, not as a
             </default-field></field>
             <field name="invoiceDate"><default-field><display also-hidden="false"/></default-field></field>
             <field name="invoiceTotal"><default-field><display currency-unit-field="currencyUomId"/></default-field></field>
+            <!-- don't allow a status change in the context of a project that everyone has access to, only an admin function to finalize/pay/etc
             <field name="statusId"><default-field title="Status">
                 <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
                     <set field="currentDescription" from="invoice?.'Invoice#moqui.basic.StatusItem'?.description"/>
                     <set field="statusId" from="invoice.statusId"/></widget-template-include>
-            </default-field></field>
+            </default-field></field> -->
+            <field name="statusId"><default-field title="Status"><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field></field>
             <field name="description"><default-field><text-line size="60"/></default-field></field>
 
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>

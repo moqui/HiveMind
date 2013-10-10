@@ -26,6 +26,10 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="update#mantle.account.invoice.InvoiceItem" in-map="context"/>
         <default-response url="."/>
     </transition>
+    <transition name="deleteInvoiceItem">
+        <service-call name="delete#mantle.account.invoice.InvoiceItem" in-map="context"/>
+        <default-response url="."/>
+    </transition>
 
     <pre-actions>
         <set field="invoiceId" from="invoiceId ?: invoiceId_0"/>
@@ -47,7 +51,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         <drop-down no-current-selected-key="ItemExpense">
                             <entity-options key="${enumId}" text="${description}">
                                 <entity-find entity-name="moqui.basic.Enumeration">
-                                    <econdition field-name="enumTypeId" value="ItemType"/>
+                                    <econdition field-name="parentEnumId" value="ItemExpense"/>
                                     <order-by field-name="description"/>
                                 </entity-find>
                             </entity-options>
@@ -88,6 +92,10 @@ This Work includes contributions authored by David E. Jones, not as a
                 <default-field><display currency-unit-field="invoice.currencyUomId"/></default-field>
             </field>
             <field name="total" entry-name="(quantity * amount)"><default-field><display currency-unit-field="invoice.currencyUomId"/></default-field></field>
+
+            <field name="delete"><default-field>
+                <link url="deleteInvoiceItem" text="Delete Item" parameter-map="[invoiceId:invoiceId, invoiceItemSeqId:invoiceItemSeqId]"/>
+            </default-field></field>
 
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
         </form-list>
