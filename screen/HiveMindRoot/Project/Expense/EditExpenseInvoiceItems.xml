@@ -42,7 +42,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </entity-find>
     </actions>
     <widgets>
-        <container>
+        <section name="AddItemSection"><condition><expression>invoice.statusId == 'InvoiceIncoming'</expression></condition><widgets>
             <container-dialog id="AddInvoiceItemDialog" button-text="Add Invoice Item" width="700">
                 <form-single name="CreateInvoiceItem" transition="createInvoiceItem">
                     <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
@@ -65,7 +65,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="submitButton"><default-field title="Create Invoice Item"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
-        </container>
+        </widgets></section>
 
         <label text="Invoice Total: ${ec.l10n.formatCurrency(invoiceTotal, invoice.currencyUomId, 2)}"/>
         <form-list name="EditInvoiceItems" list="invoiceItemList" transition="updateInvoiceItem" multi="true">
@@ -76,28 +76,34 @@ This Work includes contributions authored by David E. Jones, not as a
                 <display-entity entity-name="moqui.basic.Enumeration" text="${description}" key-field-name="enumId"/>
             </default-field></field>
             <field name="itemDate">
-                <conditional-field condition="invoice.statusId == 'InvoiceInProcess'"><date-time/></conditional-field>
+                <conditional-field condition="invoice.statusId == 'InvoiceIncoming'"><date-time/></conditional-field>
                 <default-field title="Date"><display/></default-field>
             </field>
             <field name="description">
-                <conditional-field condition="invoice.statusId == 'InvoiceInProcess'"><text-line size="35"/></conditional-field>
+                <conditional-field condition="invoice.statusId == 'InvoiceIncoming'"><text-line size="35"/></conditional-field>
                 <default-field><display/></default-field>
             </field>
             <field name="quantity">
-                <conditional-field condition="invoice.statusId == 'InvoiceInProcess'"><text-line size="4"/></conditional-field>
+                <conditional-field condition="invoice.statusId == 'InvoiceIncoming'"><text-line size="4"/></conditional-field>
                 <default-field><display/></default-field>
             </field>
             <field name="amount">
-                <conditional-field condition="invoice.statusId == 'InvoiceInProcess'"><text-line size="8"/></conditional-field>
+                <conditional-field condition="invoice.statusId == 'InvoiceIncoming'"><text-line size="8"/></conditional-field>
                 <default-field><display currency-unit-field="invoice.currencyUomId"/></default-field>
             </field>
             <field name="total" entry-name="(quantity * amount)"><default-field><display currency-unit-field="invoice.currencyUomId"/></default-field></field>
 
-            <field name="delete"><default-field>
-                <link url="deleteInvoiceItem" text="Delete Item" parameter-map="[invoiceId:invoiceId, invoiceItemSeqId:invoiceItemSeqId]"/>
-            </default-field></field>
+            <field name="delete">
+                <conditional-field condition="invoice.statusId == 'InvoiceIncoming'">
+                    <link url="deleteInvoiceItem" text="Delete Item" parameter-map="[invoiceId:invoiceId, invoiceItemSeqId:invoiceItemSeqId]"/>
+                </conditional-field>
+                <default-field><ignored/></default-field>
+            </field>
 
-            <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+            <field name="submitButton">
+                <conditional-field condition="invoice.statusId == 'InvoiceIncoming'" title="Update"><submit/></conditional-field>
+                <default-field><ignored/></default-field>
+            </field>
         </form-list>
     </widgets>
 </screen>
