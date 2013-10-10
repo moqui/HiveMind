@@ -95,8 +95,8 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeInProgress" toStatusId="WeCancelled" transitionName="Cancel"/>
 
     <!-- Project Expense (Purchase) Invoice - Travel paid by individual -->
-    <mantle.account.invoice.Invoice invoiceId="HM-001" invoiceTypeEnumId="InvoiceSales" fromPartyId="_NA_"
-            toPartyId="EX_JOHN_DOE" statusId="InvoicePmtSent" invoiceDate="2013-03-17 12:00:00" currencyUomId="USD"
+    <mantle.account.invoice.Invoice invoiceId="HM-001" invoiceTypeEnumId="InvoiceSales" fromPartyId="EX_JOHN_DOE"
+            toPartyId="ORG_BIZI_SERVICES" statusId="InvoiceInProcess" invoiceDate="2013-03-17 12:00:00" currencyUomId="USD"
             description="March visit travel expenses"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="01" itemTypeEnumId="ItemExpenseTravel"
             quantity="1" amount="299.75" description="United Airfare"/>
@@ -114,7 +114,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.party.Organization partyId="HM_AWS" organizationName="Amazon Web Services"/>
     <mantle.party.PartyRole partyId="HM_AWS" roleTypeId="VendorBillFrom"/>
     <mantle.account.invoice.Invoice invoiceId="HM-002" invoiceTypeEnumId="InvoiceSales" fromPartyId="HM_AWS"
-            toPartyId="ORG_BIZI_SERVICES" statusId="InvoicePmtSent" invoiceDate="2013-03-01 12:00:00" currencyUomId="USD"
+            toPartyId="ORG_BIZI_SERVICES" statusId="InvoiceInProcess" invoiceDate="2013-03-01 12:00:00" currencyUomId="USD"
             description="Amazon web hosting March 2013"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="01" itemTypeEnumId="ItemExpenseHosting"
             quantity="1" amount="216.00" description="RDS Services"/>
