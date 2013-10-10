@@ -96,17 +96,17 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <!-- Project Expense (Purchase) Invoice - Travel paid by individual -->
     <mantle.account.invoice.Invoice invoiceId="HM-001" invoiceTypeEnumId="InvoiceSales" fromPartyId="EX_JOHN_DOE"
-            toPartyId="ORG_BIZI_SERVICES" statusId="InvoiceInProcess" invoiceDate="2013-03-17 12:00:00" currencyUomId="USD"
+            toPartyId="ORG_BIZI_SERVICES" statusId="InvoiceReceived" invoiceDate="2013-03-17 12:00:00" currencyUomId="USD"
             description="March visit travel expenses"/>
-    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="01" itemTypeEnumId="ItemExpenseTravel"
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="01" itemTypeEnumId="ItemExpTravAir"
             quantity="1" amount="299.75" description="United Airfare"/>
-    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="02" itemTypeEnumId="ItemExpenseTravel"
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="02" itemTypeEnumId="ItemExpTravAir"
             quantity="1" amount="25.00" description="Seat upgrade (no standard economy seats left)"/>
-    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="03" itemTypeEnumId="ItemExpenseTravel"
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="03" itemTypeEnumId="ItemExpTravLodging"
             quantity="1" amount="1499.67" description="Hilton Hotel"/>
-    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="04" itemTypeEnumId="ItemExpenseTravel"
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="04" itemTypeEnumId="ItemExpTravCarRental"
             quantity="1" amount="560.00" description="Avis Car Rental"/>
-    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="05" itemTypeEnumId="ItemExpenseTravel"
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="05" itemTypeEnumId="ItemExpTravLocal"
             quantity="1" amount="84.00" description="Airport Parking"/>
     <mantle.work.effort.WorkEffortInvoice invoiceId="HM-001" workEffortId="HM"/>
     <!-- Project Expense (Purchase) Invoice - Hosting paid by Biziwork company-->
@@ -114,13 +114,13 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.party.Organization partyId="HM_AWS" organizationName="Amazon Web Services"/>
     <mantle.party.PartyRole partyId="HM_AWS" roleTypeId="VendorBillFrom"/>
     <mantle.account.invoice.Invoice invoiceId="HM-002" invoiceTypeEnumId="InvoiceSales" fromPartyId="HM_AWS"
-            toPartyId="ORG_BIZI_SERVICES" statusId="InvoiceInProcess" invoiceDate="2013-03-01 12:00:00" currencyUomId="USD"
+            toPartyId="ORG_BIZI_SERVICES" statusId="InvoiceReceived" invoiceDate="2013-03-01 12:00:00" currencyUomId="USD"
             description="Amazon web hosting March 2013"/>
-    <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="01" itemTypeEnumId="ItemExpenseHosting"
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="01" itemTypeEnumId="ItemExpHosting"
             quantity="1" amount="216.00" description="RDS Services"/>
-    <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="02" itemTypeEnumId="ItemExpenseHosting"
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="02" itemTypeEnumId="ItemExpHosting"
             quantity="1" amount="315.80" description="Elastic Compute Cloud"/>
-    <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="03" itemTypeEnumId="ItemExpenseHosting"
+    <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="03" itemTypeEnumId="ItemExpHosting"
             quantity="1" amount="7.12" description="Simple Storage Service"/>
     <mantle.work.effort.WorkEffortInvoice invoiceId="HM-002" workEffortId="HM"/>
 
@@ -164,12 +164,12 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED" receiveNotifications="Y"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_BIZI_DEVA" roleTypeId="OrgTeam"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
-    <mantle.work.time.TimeEntry timeEntryId="HM-004-01" partyId="EX_JOHN_DOE" hours="2" breakHours="3"
+    <mantle.work.time.TimeEntry timeEntryId="HM-004-01" partyId="EX_JOHN_DOE" hours="2" breakHours="8"
             workEffortId="HM-004" comments="Create Task and My Tasks first pass" rateTypeEnumId="RT_STANDARD"
-            rateAmountId="HM-001" fromDate="2013-03-02 12:00:00" thruDate="2013-03-02 17:00:00"/>
-    <mantle.work.time.TimeEntry timeEntryId="HM-004-02" partyId="EX_JOHN_DOE" hours="1.25" breakHours="1.75"
+            rateAmountId="HM-001" fromDate="2013-03-02 08:00:00" thruDate="2013-03-02 18:00:00"/>
+    <mantle.work.time.TimeEntry timeEntryId="HM-004-02" partyId="EX_JOHN_DOE" hours="1.25" breakHours="5.75"
             workEffortId="HM-004" comments="Create Task and My Tasks add more fields" rateTypeEnumId="RT_STANDARD"
-            rateAmountId="HM-001" fromDate="2013-03-04 14:00:00" thruDate="2013-03-02 17:00:00"/>
+            rateAmountId="HM-001" fromDate="2013-03-04 10:00:00" thruDate="2013-03-02 17:00:00"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-003" toWorkEffortId="HM-004"
             workEffortAssocTypeEnumId="WeatRelatesTo" fromDate="2010-02-03 00:00:00"/>
     <!-- task milestone -->
