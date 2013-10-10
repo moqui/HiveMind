@@ -22,6 +22,13 @@ h2. TODO Lists
 
 h3. HiveMind General
 
+* automated test to record payments for expense invoices, create project invoices, record payment for it, then check invoice/payment/gl results
+** first run through and export data changes for validation data (do manual check first)
+
+* volume testing
+** script to create large numbers of clients, projects, tasks, invoices, payments, etc
+** review screens and performance with lots of data in place
+
 * worker time invoices (ie invoice to service provider on behalf of worker in addition to invoice from provider to client)
 * worker invoice payments
 
@@ -30,7 +37,7 @@ h3. HiveMind General
 * test/complete full cycle of:
 ** create client (with internal org, acctg settings)
 ** create vendor
-** project
+** create project
 ** create tasks and record time
 ** create client invoice, invoice PDF, record invoice payment
 ** create supplier/worker invoice, send payment
