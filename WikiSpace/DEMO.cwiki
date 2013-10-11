@@ -31,12 +31,14 @@ h3. HiveMind General
 
 * worker time invoices (ie invoice to service provider on behalf of worker in addition to invoice from provider to client)
 * worker invoice payments
+* add Admin => Rates screen with immutable (expire only) RateAmount admin
 
 * implement basic financial reports (income statement, balance sheet, etc)
 
 * test/complete full cycle of:
 ** create client (with internal org, acctg settings)
 ** create vendor
+** set client and vendor RateAmounts
 ** create project
 ** create tasks and record time
 ** create client invoice, invoice PDF, record invoice payment
