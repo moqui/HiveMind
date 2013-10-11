@@ -40,7 +40,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 </drop-down>
             </default-field></field>
             <field name="rateTypeEnumId"><default-field title="Rate Type">
-                <drop-down no-current-selected-key="RT_STANDARD"><entity-options key="${enumId}" text="${description}">
+                <drop-down no-current-selected-key="RatpStandard"><entity-options key="${enumId}" text="${description}">
                     <entity-find entity-name="moqui.basic.Enumeration"><econdition field-name="enumTypeId" value="RateType"/></entity-find>
                 </entity-options></drop-down>
             </default-field></field>

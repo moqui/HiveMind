@@ -42,6 +42,20 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.resource.DbResource resourceId="DBDEMO_CWIKI" parentResourceId="WIKI_SPACE" filename="DBDEMO.cwiki" isFile="Y"/>
     <moqui.resource.DbResourceFile resourceId="DBDEMO_CWIKI" mimeType="text/plain" fileData="h2. The DB Demo Root Page"/>
 
+    <!-- Standard hourly rates in USD (not restricted to any particular Party or WorkEffort (project or task)) -->
+    <mantle.humanres.rate.RateAmount rateAmountId="Default-StClSrPg" rateTypeEnumId="RatpStandard" ratePurposeEnumId="RaprClient"
+            timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="SENIOR_PROGRAMMER"
+            fromDate="2010-02-03 00:00:00" thruDate="" rateAmount="100.00" rateCurrencyUomId="USD"/>
+    <mantle.humanres.rate.RateAmount rateAmountId="Default-StVnSrPg" rateTypeEnumId="RatpStandard" ratePurposeEnumId="RaprVendor"
+            timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="SENIOR_PROGRAMMER"
+            fromDate="2010-02-03 00:00:00" thruDate="" rateAmount="65.00" rateCurrencyUomId="USD"/>
+    <mantle.humanres.rate.RateAmount rateAmountId="Default-StClPg" rateTypeEnumId="RatpStandard" ratePurposeEnumId="RaprClient"
+            timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="PROGRAMMER"
+            fromDate="2010-02-03 00:00:00" thruDate="" rateAmount="60.00" rateCurrencyUomId="USD"/>
+    <mantle.humanres.rate.RateAmount rateAmountId="Default-StVnPg" rateTypeEnumId="RatpStandard" ratePurposeEnumId="RaprVendor"
+            timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="PROGRAMMER"
+            fromDate="2010-02-03 00:00:00" thruDate="" rateAmount="40.00" rateCurrencyUomId="USD"/>
+
     <!-- ========== DEMO PROJECT DATA ========== -->
     <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="HiveMind PM Build Out"
             workEffortTypeEnumId="WetProject" statusId="WeInProgress" statusFlowId="HmTaskSimple"/>
@@ -74,14 +88,6 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffort workEffortId="HM-MS-003" workEffortName="HM Milestone 3"
             rootWorkEffortId="HM" workEffortTypeEnumId="WetMilestone" statusId="WeInPlanning"
             estimatedStartDate="2013-04-01 00:00:00" estimatedCompletionDate="2013-04-14 00:00:00"/>
-
-    <!-- Project Standard hourly rates in USD (not restricted to any particular Party) -->
-    <mantle.humanres.rate.RateAmount rateAmountId="HM-001" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
-            workEffortId="HM" partyId="" emplPositionClassId="SENIOR_PROGRAMMER" fromDate="2010-02-03 00:00:00" thruDate=""
-            rateAmount="100.00" rateCurrencyUomId="USD"/>
-    <mantle.humanres.rate.RateAmount rateAmountId="HM-002" rateTypeEnumId="RT_STANDARD" timePeriodUomId="TF_hr"
-            workEffortId="HM" partyId="" emplPositionClassId="PROGRAMMER" fromDate="2010-02-03 00:00:00" thruDate=""
-            rateAmount="60.00" rateCurrencyUomId="USD"/>
 
     <!-- Project StatusFlow -->
     <moqui.basic.StatusFlow statusFlowId="HmTaskSimple" statusTypeId="WorkEffort" description="HiveMind Task Simple Status Flow"/>
@@ -167,14 +173,14 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_BIZI_DEVA" roleTypeId="OrgTeam"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.time.TimeEntry timeEntryId="HM-004-01" partyId="EX_JOHN_DOE" hours="8" breakHours="2"
-            workEffortId="HM-004" comments="Create Task and My Tasks first pass" rateTypeEnumId="RT_STANDARD"
-            rateAmountId="HM-001" fromDate="2013-03-02 08:00:00" thruDate="2013-03-02 18:00:00"/>
+            workEffortId="HM-004" comments="Create Task and My Tasks first pass" rateTypeEnumId="RatpStandard"
+            rateAmountId="Default-StClSrPg" vendorRateAmountId="Default-StVnSrPg" fromDate="2013-03-02 08:00:00" thruDate="2013-03-02 18:00:00"/>
     <mantle.work.time.TimeEntry timeEntryId="HM-004-02" partyId="EX_JOHN_DOE" hours="5.75" breakHours="1.25"
-            workEffortId="HM-004" comments="Create Task and My Tasks add more fields" rateTypeEnumId="RT_STANDARD"
-            rateAmountId="HM-001" fromDate="2013-03-04 10:00:00" thruDate="2013-03-04 17:00:00"/>
+            workEffortId="HM-004" comments="Create Task and My Tasks add more fields" rateTypeEnumId="RatpStandard"
+            rateAmountId="Default-StClSrPg" vendorRateAmountId="Default-StVnSrPg" fromDate="2013-03-04 10:00:00" thruDate="2013-03-04 17:00:00"/>
     <mantle.work.time.TimeEntry timeEntryId="HM-004-02" partyId="ORG_BIZI_JD" hours="2" breakHours="0"
-            workEffortId="HM-004" comments="study code" rateTypeEnumId="RT_STANDARD"
-            rateAmountId="HM-002" fromDate="2013-03-05 10:00:00" thruDate="2013-03-05 12:00:00"/>
+            workEffortId="HM-004" comments="study code" rateTypeEnumId="RatpStandard"
+            rateAmountId="Default-StClPg" vendorRateAmountId="Default-StVnPg" fromDate="2013-03-05 10:00:00" thruDate="2013-03-05 12:00:00"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-003" toWorkEffortId="HM-004"
             workEffortAssocTypeEnumId="WeatRelatesTo" fromDate="2010-02-03 00:00:00"/>
     <!-- task milestone -->
