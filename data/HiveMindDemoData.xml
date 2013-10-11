@@ -48,9 +48,9 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_SERVICES" roleTypeId="VendorBillFrom" fromDate="2010-02-03 00:00:00"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="Manager"
             emplPositionClassId="SENIOR_PROGRAMMER" fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_JD" roleTypeId="Manager"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_JD" roleTypeId="Worker"
             emplPositionClassId="PROGRAMMER" fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_BD" roleTypeId="Manager"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_BD" roleTypeId="Worker"
             emplPositionClassId="PROGRAMMER" fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_DEVA" roleTypeId="OrgTeam"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
@@ -162,6 +162,8 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
     <!-- task worker and time entries -->
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="Worker"
             fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED" receiveNotifications="Y"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_BIZI_JD" roleTypeId="Worker"
+            fromDate="2010-02-03 00:00:00.000" statusId="PRTYASGN_ASSIGNED" receiveNotifications="N"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_BIZI_DEVA" roleTypeId="OrgTeam"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.time.TimeEntry timeEntryId="HM-004-01" partyId="EX_JOHN_DOE" hours="8" breakHours="2"
@@ -169,7 +171,10 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
             rateAmountId="HM-001" fromDate="2013-03-02 08:00:00" thruDate="2013-03-02 18:00:00"/>
     <mantle.work.time.TimeEntry timeEntryId="HM-004-02" partyId="EX_JOHN_DOE" hours="5.75" breakHours="1.25"
             workEffortId="HM-004" comments="Create Task and My Tasks add more fields" rateTypeEnumId="RT_STANDARD"
-            rateAmountId="HM-001" fromDate="2013-03-04 10:00:00" thruDate="2013-03-02 17:00:00"/>
+            rateAmountId="HM-001" fromDate="2013-03-04 10:00:00" thruDate="2013-03-04 17:00:00"/>
+    <mantle.work.time.TimeEntry timeEntryId="HM-004-02" partyId="ORG_BIZI_JD" hours="2" breakHours="0"
+            workEffortId="HM-004" comments="study code" rateTypeEnumId="RT_STANDARD"
+            rateAmountId="HM-002" fromDate="2013-03-05 10:00:00" thruDate="2013-03-05 12:00:00"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-003" toWorkEffortId="HM-004"
             workEffortAssocTypeEnumId="WeatRelatesTo" fromDate="2010-02-03 00:00:00"/>
     <!-- task milestone -->
