@@ -29,9 +29,10 @@ h3. HiveMind General
 ** script to create large numbers of clients, projects, tasks, invoices, payments, etc
 ** review screens and performance with lots of data in place
 
-* worker time invoices (ie invoice to service provider on behalf of worker in addition to invoice from provider to client)
-* worker invoice payments
-* add Admin => Rates screen with immutable (expire only) RateAmount admin
+* if invoice is cancelled clear out TimeEntry.invoiceId/vendorInvoiceId/*ItemSeqId
+
+* Admin => Rates screen with immutable (expire only) RateAmount admin
+* My Account screen for users (contact info, pw change, expenses, worker/vendor time invoice)
 
 * implement basic financial reports (income statement, balance sheet, etc)
 
@@ -52,6 +53,9 @@ h3. HiveMind General
 * improve wiki page and task update notification emails; show more specific fields, only send if supported fields changed, etc
 
 * charts with flot (see https://github.com/flot/flot/blob/master/API.md)
+
+* worker time invoices: support vendor worker organizations, create invoice for all workers in org (current supports one worker
+  per invoice, most common scenario where a project vendor org hires out work to individuals as opposed to organizations)
 
 h3. HiveMind Wiki
 
