@@ -22,6 +22,57 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response url="."/>
     </transition>
 
+    <transition name="getOpenClientInvoicesByProject">
+        <actions>
+            <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="billToList">
+                <date-filter/><econdition field-name="workEffortId"/>
+                <econdition field-name="roleTypeId" value="CustomerBillTo"/>
+            </entity-find>
+            <set field="billToWep" from="billToList ? billToList[0] : null"/>
+            <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="billFromList">
+                <date-filter/><econdition field-name="workEffortId"/>
+                <econdition field-name="roleTypeId" value="VendorBillFrom"/>
+            </entity-find>
+            <set field="billFromWep" from="billFromList ? billFromList[0] : null"/>
+
+            <entity-find entity-name="mantle.account.invoice.Invoice" list="invoiceList">
+                <econdition field-name="invoiceTypeEnumId" value="InvoiceSales"/>
+                <econdition field-name="statusId" value="InvoiceInProcess"/>
+                <econdition field-name="toPartyId" from="billToWep?.partyId" ignore-if-empty="true"/>
+                <econdition field-name="fromPartyId" from="billFromWep?.partyId" ignore-if-empty="true"/>
+            </entity-find>
+            <set field="resultList" from="[[invoiceId:'', label:'New']]"/>
+            <iterate list="invoiceList" entry="invoice">
+                <script>resultList.add([invoiceId:invoice.invoiceId, label:"#${invoice.invoiceId}: ${invoice.invoiceDate}"])</script>
+            </iterate>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+    <transition name="getProjectParties">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectParties" out-map="context"
+                    in-map="[rootWorkEffortId:workEffortId, addOptional:'false']"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+    <transition name="getOpenVendorInvoicesByFromParty">
+        <actions>
+            <entity-find entity-name="mantle.account.invoice.Invoice" list="invoiceList">
+                <econdition field-name="invoiceTypeEnumId" value="InvoiceSales"/>
+                <econdition field-name="statusId" operator="in" value="InvoiceIncoming,InvoiceReceived"/>
+                <econdition field-name="fromPartyId" from="workerPartyId"/>
+            </entity-find>
+            <set field="resultList" from="[[invoiceId:'', label:'New']]"/>
+            <iterate list="invoiceList" entry="invoice">
+                <script>resultList.add([invoiceId:invoice.invoiceId, label:"#${invoice.invoiceId}: ${invoice.invoiceDate}"])</script>
+            </iterate>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
     <pre-actions>
         <set field="html_title" value="Find Invoice"/>
     </pre-actions>
@@ -62,10 +113,10 @@ This Work includes contributions authored by David E. Jones, not as a
                 </form-single>
             </container-dialog>
 
-            <container-dialog id="ProjectInvoiceDialog" button-text="Invoice Project" width="700">
+            <container-dialog id="ProjectInvoiceDialog" button-text="Invoice Project Client" width="700">
                 <form-single name="ProjectInvoice" transition="createProjectInvoiceItems">
                     <field name="workEffortId"><default-field title="Project">
-                        <drop-down allow-empty="false" combo-box="true">
+                        <drop-down allow-empty="false" combo-box="false">
                             <entity-options key="${workEffortId}" text="${workEffortId} - ${workEffortName}">
                                 <entity-find entity-name="mantle.work.effort.WorkEffort">
                                     <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
@@ -77,17 +128,37 @@ This Work includes contributions authored by David E. Jones, not as a
 
                     <field name="thruDate"><default-field><date-time type="date-time"/></default-field></field>
                     <field name="invoiceId"><default-field title="Existing Invoice">
-                        <drop-down allow-empty="true">
-                            <entity-options key="${invoiceId}" text="#${invoiceId}: ${invoiceDate}">
-                                <entity-find entity-name="mantle.account.invoice.Invoice">
-                                    <econdition field-name="invoiceTypeEnumId" value="InvoiceSales"/>
-                                    <econdition field-name="statusId" value="InvoiceInProcess"/>
-                                    <econdition field-name="toPartyId" from="clientWep?.partyId" ignore-if-empty="true"/>
+                        <drop-down><dynamic-options transition="getOpenClientInvoicesByProject" value-field="invoiceId" label-field="label">
+                            <depends-on field="workEffortId"/></dynamic-options></drop-down>
+                    </default-field></field>
+                    <field name="submitButton"><default-field title="Invoice Time and Expenses"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+
+            <container-dialog id="WorkerInvoiceDialog" button-text="Worker Invoice" width="700">
+                <form-single name="WorkerInvoice" transition="createProjectInvoiceItems">
+                    <field name="ratePurposeEnumId"><default-field><hidden default-value="RaprVendor"/></default-field></field>
+                    <field name="workEffortId"><default-field title="Project">
+                        <drop-down allow-empty="false" combo-box="false">
+                            <entity-options key="${workEffortId}" text="${workEffortId} - ${workEffortName}">
+                                <entity-find entity-name="mantle.work.effort.WorkEffort">
+                                    <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+                                    <order-by field-name="workEffortId"/>
                                 </entity-find>
                             </entity-options>
                         </drop-down>
                     </default-field></field>
-                    <field name="submitButton"><default-field title="Invoice Time and Expenses"><submit/></default-field></field>
+                    <field name="workerPartyId"><default-field title="Worker">
+                        <drop-down><dynamic-options transition="getProjectParties" value-field="partyId" label-field="name">
+                            <depends-on field="workEffortId"/></dynamic-options></drop-down>
+                    </default-field></field>
+
+                    <field name="thruDate"><default-field><date-time type="date-time"/></default-field></field>
+                    <field name="invoiceId"><default-field title="Existing Invoice">
+                        <drop-down><dynamic-options transition="getOpenVendorInvoicesByFromParty" value-field="invoiceId" label-field="label">
+                            <depends-on field="workerPartyId"/></dynamic-options></drop-down>
+                    </default-field></field>
+                    <field name="submitButton"><default-field title="Invoice Time"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
         </container>
