@@ -38,8 +38,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </entity-find>
             <script>
                 def outList = []
-                for (def pau in pauList)
-                    outList.add([value:pau.partyId, label:"${pau.firstName} ${pau.lastName} (${pau.username})".toString()])
+                for (def pau in pauList) outList.add([value:pau.partyId, label:"${pau.firstName} ${pau.lastName} (${pau.username})".toString()])
                 ec.web.sendJsonResponse(outList)
             </script>
         </actions>
