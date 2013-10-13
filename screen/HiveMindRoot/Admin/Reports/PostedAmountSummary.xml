@@ -17,7 +17,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="organizationPartyId"/>
     <parameter name="fromDate"/>
     <parameter name="thruDate"/>
-    <parameter name="amountUomId"/>
+    <!-- determined based on org: <parameter name="amountUomId"/> -->
 
     <transition name="PostedAmountSummaryExport.csv">
         <default-response url="."><parameter name="renderMode" value="csv"/>

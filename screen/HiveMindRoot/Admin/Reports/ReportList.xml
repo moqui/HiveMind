@@ -27,13 +27,13 @@ This Work includes contributions authored by David E. Jones, not as a
                 </default-field></field>
                 <field name="fromDate"><default-field><date-time/></default-field></field>
                 <field name="thruDate"><default-field><date-time/></default-field></field>
-                <field name="amountUomId"><default-field>
+                <!-- determined automatically based on org: <field name="amountUomId"><default-field>
                     <drop-down no-current-selected-key="USD"><entity-options key="${uomId}" text="${description}">
                         <entity-find entity-name="moqui.basic.Uom">
                             <econdition field-name="uomTypeEnumId" value="UT_CURRENCY_MEASURE"/>
                         </entity-find>
                     </entity-options></drop-down>
-                </default-field></field>
+                </default-field></field> -->
                 <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
             </form-single>
         </container-dialog>

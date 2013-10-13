@@ -85,13 +85,13 @@ This Work includes contributions authored by David E. Jones, not as a
                     <display-entity entity-name="mantle.party.PartyDetail" key-field-name="partyId" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
                 </default-field></field>
                 <field name="invoiceDate"><default-field><date-time/></default-field></field>
-                <field name="currencyUomId"><default-field>
+                <!-- don't specify this, figured out based on toPartyId: <field name="currencyUomId"><default-field>
                     <drop-down no-current-selected-key="USD"><entity-options key="${uomId}" text="${description}">
                         <entity-find entity-name="moqui.basic.Uom">
                             <econdition field-name="uomTypeEnumId" value="UT_CURRENCY_MEASURE"/>
                         </entity-find>
                     </entity-options></drop-down>
-                </default-field></field>
+                </default-field></field> -->
                 <field name="description"><default-field><text-line size="60"/></default-field></field>
 
                 <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
@@ -118,6 +118,9 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="description"><default-field><display/></default-field></field>
             <field name="invoiceDate"><header-field show-order-by="true"/><default-field><display also-hidden="false"/></default-field></field>
             <field name="invoiceTotal"><default-field title="Total"><display currency-unit-field="currencyUomId"/></default-field></field>
+            <field name="currencyUomId"><default-field title="Currency">
+                <display-entity entity-name="moqui.basic.Uom" key-field-name="uomId" text="${description}" also-hidden="true"/>
+            </default-field></field>
             <field name="statusId"><header-field show-order-by="true"/>
                 <default-field title="Status"><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
             </field>
