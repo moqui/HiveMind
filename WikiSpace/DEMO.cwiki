@@ -22,15 +22,18 @@ h2. TODO Lists
 
 h3. HiveMind General
 
+* Moqui: init factory attached facades on EC factory init for faster response to first request
+* AutoScreen improve auto name values (don't show null, don't guess at funny alternate fields if no name/description/etc)
+
+* Admin => Rates screen find filters form
+* My Account screen for users (contact info, pw change, expenses, worker/vendor time invoice)
+
 * automated test to record payments for expense invoices, create project invoices, record payment for it, then check invoice/payment/gl results
 ** first run through and export data changes for validation data (do manual check first)
 
 * volume testing
 ** script to create large numbers of clients, projects, tasks, invoices, payments, etc
 ** review screens and performance with lots of data in place
-
-* Admin => Rates screen with immutable (expire only) RateAmount admin
-* My Account screen for users (contact info, pw change, expenses, worker/vendor time invoice)
 
 * implement basic financial reports (income statement, balance sheet, etc)
 
