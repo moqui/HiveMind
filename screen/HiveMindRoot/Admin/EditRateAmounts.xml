@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
+        default-menu-title="Rates" default-menu-index="8">
+
+    <transition name="createRateAmount">
+        <service-call name="create#mantle.humanres.rate.RateAmount" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+    <transition name="updateRateAmount">
+        <service-call name="mantle.humanres.RateServices.update#RateAmount" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+
+    <transition name="getPersonList">
+        <actions>
+            <entity-find entity-name="mantle.party.PersonAndUserAccount" list="pauList" limit="20">
+                <econditions combine="or">
+                    <econdition field-name="firstName" operator="like" value="%${term}%" ignore-case="true"/>
+                    <econdition field-name="lastName" operator="like" value="%${term}%" ignore-case="true"/>
+                    <econdition field-name="username" operator="like" value="%${term}%" ignore-case="true"/>
+                </econditions>
+                <order-by field-name="^firstName"/><order-by field-name="^lastName"/><order-by field-name="^username"/>
+            </entity-find>
+            <script>
+                def outList = []
+                for (def pau in pauList)
+                    outList.add([value:pau.partyId, label:"${pau.firstName} ${pau.lastName} (${pau.username})".toString()])
+                ec.web.sendJsonResponse(outList)
+            </script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
+    <actions>
+        <entity-find entity-name="mantle.humanres.rate.RateAmount" list="rateAmountList">
+            <search-form-inputs default-order-by="rateTypeEnumId,ratePurposeEnumId"/><date-filter/></entity-find>
+        
+        <entity-find entity-name="mantle.ledger.config.PartyAcctgPreference" list="partyAcctgPreferenceList"/>
+        <set field="currencyUomIdList" from="[]"/>
+        <iterate list="partyAcctgPreferenceList" entry="partyAcctgPreference">
+            <script>currencyUomIdList.add(partyAcctgPreference.baseCurrencyUomId)</script>
+        </iterate>
+    </actions>
+    <widgets>
+        <container-dialog id="AddRateAmountDialog" button-text="Add Rate Amount" width="700">
+            <form-single name="CreateRateAmount" transition="createRateAmount">
+                <field name="rateAmountId"><default-field><hidden/></default-field></field>
+                <field name="timePeriodUomId"><default-field><hidden default-value="TF_hr"/></default-field></field>
+
+                <field name="rateTypeEnumId"><default-field title="Type">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="RateType"/><set field="noCurrentSelectedKey" value="RatpStandard"/></widget-template-include>
+                </default-field></field>
+                <field name="ratePurposeEnumId"><default-field title="Purpose">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="RatePurpose"/></widget-template-include>
+                </default-field></field>
+
+                <field name="workEffortId"><default-field title="Project"><drop-down allow-empty="true">
+                    <entity-options key="${workEffortId}" text="${workEffortId} - ${workEffortName}">
+                        <entity-find entity-name="mantle.work.effort.WorkEffort">
+                            <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+                            <order-by field-name="workEffortId"/></entity-find>
+                    </entity-options>
+                </drop-down></default-field></field>
+                <field name="partyId"><default-field title="Person">
+                    <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
+                </default-field></field>
+                <field name="emplPositionClassId"><default-field title="Position Class"><drop-down allow-empty="true">
+                    <entity-options key="${emplPositionClassId}" text="${title}">
+                        <entity-find entity-name="mantle.humanres.position.EmplPositionClass">
+                            <order-by field-name="title"/></entity-find>
+                    </entity-options>
+                </drop-down></default-field></field>
+
+                <field name="fromDate"><default-field><date-time/></default-field></field>
+                <field name="thruDate"><default-field><date-time/></default-field></field>
+
+                <field name="rateAmount"><default-field><text-line size="8"/></default-field></field>
+                <field name="rateCurrencyUomId"><default-field title="Currency">
+                    <drop-down><list-options list="currencyUomIdList"/></drop-down>
+                </default-field></field>
+
+                <field name="submitButton"><default-field title="Create Rate Amount"><submit/></default-field></field>
+            </form-single>
+        </container-dialog>
+
+        <form-list name="EditRateAmounts" list="rateAmountList" transition="updateRateAmount" multi="true">
+            <field name="rateAmountId"><default-field><hidden/></default-field></field>
+            <field name="timePeriodUomId"><default-field><hidden default-value="TF_hr"/></default-field></field>
+
+            <field name="rateTypeEnumId"><default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId"/></default-field></field>
+            <field name="ratePurposeEnumId"><default-field title="Purpose"><display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId"/></default-field></field>
+            <field name="workEffortId"><default-field title="Project">
+                <display-entity entity-name="mantle.work.effort.WorkEffort" text="${workEffortId} - ${workEffortName}"/></default-field></field>
+            <field name="partyId"><default-field title="Party">
+                <display-entity entity-name="mantle.party.PartyDetail" text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]"/></default-field></field>
+            <field name="emplPositionClassId"><default-field title="Position Class">
+                <display-entity entity-name="mantle.humanres.position.EmplPositionClass" text="${title}"/></default-field></field>
+
+            <field name="fromDate"><default-field><date-time/></default-field></field>
+            <field name="thruDate"><default-field><date-time/></default-field></field>
+
+            <field name="rateAmount"><default-field><text-line size="8"/></default-field></field>
+            <field name="rateCurrencyUomId"><default-field title="Currency">
+                <display-entity entity-name="moqui.basic.Uom" key-field-name="uomId" text="${description}"/></default-field></field>
+
+            <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+        </form-list>
+    </widgets>
+</screen>
