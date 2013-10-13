@@ -22,9 +22,6 @@ h2. TODO Lists
 
 h3. HiveMind General
 
-* Moqui: init factory attached facades on EC factory init for faster response to first request
-* AutoScreen improve auto name values (don't show null, don't guess at funny alternate fields if no name/description/etc)
-
 * Admin => Rates screen find filters form
 * My Account screen for users (contact info, pw change, expenses, worker/vendor time invoice)
 
@@ -42,7 +39,7 @@ h3. HiveMind General
 ** create vendor
 ** set client and vendor RateAmounts
 ** create project
-** create tasks and record time
+** create tasks and record time (test with Admin and non-Admin user)
 ** create client invoice, invoice PDF, record invoice payment
 ** create supplier/worker invoice, send payment
 
