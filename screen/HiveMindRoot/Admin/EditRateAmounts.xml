@@ -101,22 +101,63 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="rateAmountId"><default-field><hidden/></default-field></field>
             <field name="timePeriodUomId"><default-field><hidden default-value="TF_hr"/></default-field></field>
 
-            <field name="rateTypeEnumId"><default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId"/></default-field></field>
-            <field name="ratePurposeEnumId"><default-field title="Purpose"><display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId"/></default-field></field>
-            <field name="workEffortId"><default-field title="Project">
-                <display-entity entity-name="mantle.work.effort.WorkEffort" text="${workEffortId} - ${workEffortName}"/></default-field></field>
-            <field name="partyId"><default-field title="Party">
-                <display-entity entity-name="mantle.party.PartyDetail" text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]"/></default-field></field>
-            <field name="emplPositionClassId"><default-field title="Position Class">
-                <display-entity entity-name="mantle.humanres.position.EmplPositionClass" text="${title}"/></default-field></field>
+            <field name="rateTypeEnumId">
+                <header-field title="Type" show-order-by="true">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="RateType"/><set field="allowEmpty" value="true"/></widget-template-include>
+                </header-field>
+                <default-field><display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId"/></default-field>
+            </field>
+            <field name="ratePurposeEnumId">
+                <header-field title="Purpose" show-order-by="true">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="RatePurpose"/><set field="allowEmpty" value="true"/></widget-template-include>
+                </header-field>
+                <default-field><display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId"/></default-field>
+            </field>
+            <field name="workEffortId">
+                <header-field title="Project" show-order-by="true"><drop-down allow-empty="true">
+                    <entity-options key="${workEffortId}" text="${workEffortId}">
+                        <entity-find entity-name="mantle.work.effort.WorkEffort">
+                            <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+                            <order-by field-name="workEffortId"/></entity-find>
+                    </entity-options>
+                </drop-down></header-field>
+                <default-field><display-entity entity-name="mantle.work.effort.WorkEffort" text="${workEffortId} - ${workEffortName}"/></default-field></field>
+            <field name="partyId">
+                <header-field title="Party"><text-line ac-transition="getPersonList" ac-min-length="2" size="15"/></header-field>
+                <default-field><display-entity entity-name="mantle.party.PartyDetail" text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]"/></default-field>
+            </field>
 
-            <field name="fromDate"><default-field><date-time/></default-field></field>
-            <field name="thruDate"><default-field><date-time/></default-field></field>
+            <field name="emplPositionClassId">
+                <header-field title="Position Class" show-order-by="true"><drop-down allow-empty="true">
+                    <entity-options key="${emplPositionClassId}" text="${title}">
+                        <entity-find entity-name="mantle.humanres.position.EmplPositionClass">
+                            <order-by field-name="title"/></entity-find>
+                    </entity-options>
+                </drop-down></header-field>
+                <default-field><display-entity entity-name="mantle.humanres.position.EmplPositionClass" text="${title}"/></default-field>
+            </field>
 
-            <field name="rateAmount"><default-field><text-line size="8"/></default-field></field>
-            <field name="rateCurrencyUomId"><default-field title="Currency">
-                <display-entity entity-name="moqui.basic.Uom" key-field-name="uomId" text="${description}"/></default-field></field>
+            <field name="fromDate">
+                <header-field show-order-by="true"/>
+                <default-field><date-time/></default-field>
+            </field>
+            <field name="thruDate">
+                <header-field show-order-by="true"/>
+                <default-field><date-time/></default-field>
+            </field>
 
+            <field name="rateAmount">
+                <header-field><range-find size="6"/></header-field>
+                <default-field><text-line size="8"/></default-field>
+            </field>
+            <field name="rateCurrencyUomId">
+                <header-field title="Currency"><drop-down allow-empty="true"><list-options list="currencyUomIdList"/></drop-down></header-field>
+                <default-field><display-entity entity-name="moqui.basic.Uom" key-field-name="uomId" text="${description}"/></default-field>
+            </field>
+
+            <field name="findButton"><header-field title="Find"><submit/></header-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
         </form-list>
     </widgets>

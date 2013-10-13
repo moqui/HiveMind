@@ -22,7 +22,6 @@ h2. TODO Lists
 
 h3. HiveMind General
 
-* Admin => Rates screen find filters form
 * My Account screen for users (contact info, pw change, expenses, worker/vendor time invoice)
 
 * automated test to record payments for expense invoices, create project invoices, record payment for it, then check invoice/payment/gl results
