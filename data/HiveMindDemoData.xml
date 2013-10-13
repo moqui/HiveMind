@@ -44,16 +44,16 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <!-- Standard hourly rates in USD (not restricted to any particular Party or WorkEffort (project or task)) -->
     <mantle.humanres.rate.RateAmount rateAmountId="Default-StClSrPg" rateTypeEnumId="RatpStandard" ratePurposeEnumId="RaprClient"
-            timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="SENIOR_PROGRAMMER"
+            timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="ProgrammerLead"
             fromDate="2010-02-03 00:00:00" thruDate="" rateAmount="100.00" rateCurrencyUomId="USD"/>
     <mantle.humanres.rate.RateAmount rateAmountId="Default-StVnSrPg" rateTypeEnumId="RatpStandard" ratePurposeEnumId="RaprVendor"
-            timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="SENIOR_PROGRAMMER"
+            timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="ProgrammerLead"
             fromDate="2010-02-03 00:00:00" thruDate="" rateAmount="65.00" rateCurrencyUomId="USD"/>
     <mantle.humanres.rate.RateAmount rateAmountId="Default-StClPg" rateTypeEnumId="RatpStandard" ratePurposeEnumId="RaprClient"
-            timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="PROGRAMMER"
+            timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="Programmer"
             fromDate="2010-02-03 00:00:00" thruDate="" rateAmount="60.00" rateCurrencyUomId="USD"/>
     <mantle.humanres.rate.RateAmount rateAmountId="Default-StVnPg" rateTypeEnumId="RatpStandard" ratePurposeEnumId="RaprVendor"
-            timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="PROGRAMMER"
+            timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="Programmer"
             fromDate="2010-02-03 00:00:00" thruDate="" rateAmount="40.00" rateCurrencyUomId="USD"/>
 
     <!-- ========== DEMO PROJECT DATA ========== -->
@@ -61,11 +61,11 @@ This Work includes contributions authored by David E. Jones, not as a
             workEffortTypeEnumId="WetProject" statusId="WeInProgress" statusFlowId="HmTaskSimple"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_SERVICES" roleTypeId="VendorBillFrom" fromDate="2010-02-03 00:00:00"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="Manager"
-            emplPositionClassId="SENIOR_PROGRAMMER" fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
+            emplPositionClassId="ProgrammerLead" fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_JD" roleTypeId="Worker"
-            emplPositionClassId="PROGRAMMER" fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
+            emplPositionClassId="Programmer" fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_BD" roleTypeId="Worker"
-            emplPositionClassId="PROGRAMMER" fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
+            emplPositionClassId="Programmer" fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_DEVA" roleTypeId="OrgTeam"
             fromDate="2010-02-03 00:00:00" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_DEVB" roleTypeId="OrgTeam"
