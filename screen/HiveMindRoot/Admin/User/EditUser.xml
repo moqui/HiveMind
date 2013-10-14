@@ -20,32 +20,60 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="mantle.party.PartyServices.update#Account" in-map="context"/>
         <default-response url="."/>
     </transition>
+    <transition name="storeContactInfo">
+        <service-call name="mantle.party.ContactServices.store#PartyContactInfo" in-map="context" out-map="context"/>
+        <default-response url="."/>
+    </transition>
 
     <actions>
-        <entity-find-one entity-name="PersonAndUserAccount" value-field="fieldValues"/>
+        <entity-find-one entity-name="PersonAndUserAccount" value-field="personAndUserAccount"/>
+
+        <service-call name="mantle.party.ContactServices.get#PartyContactInfo" out-map="paymentContactInfo"
+                in-map="[partyId:partyId, postalContactMechPurposeId:'PostalPayment',
+                    telecomContactMechPurposeId:'PhonePayment', emailContactMechPurposeId:'EmailPayment']"/>
+        <set field="paymentInfoFlat" from="StupidUtilities.flattenNestedMap(paymentContactInfo)"/>
+
         <set field="localeList" from="Locale.getAvailableLocales()"/>
         <set field="localeStringList" from="new TreeSet()"/>
         <iterate list="localeList" entry="localeEntry"><script>localeStringList.add(localeEntry.toString())</script></iterate>
     </actions>
     <widgets>
-        <form-single name="EditUser" transition="updateUser">
-            <field name="partyId"><default-field><hidden/></default-field></field>
-            <field name="userId"><default-field><hidden/></default-field></field>
-            <field name="username"><default-field><text-line size="20"/></default-field></field>
-            <field name="firstName"><default-field><text-line size="15"/></default-field></field>
-            <field name="lastName"><default-field><text-line size="15"/></default-field></field>
-            <field name="emailAddress"><default-field><text-line/></default-field></field>
+        <container-panel id="VendorInfoContainer" dynamic="true">
+            <panel-left size="300">
+                <label text="Payment Information" type="h2"/>
+                <label text="Where payments are sent" type="p"/>
+                <container-dialog id="PaymentInfoEdit" button-text="Edit Payment Info" width="800">
+                    <form-single name="PaymentInfo" transition="storeContactInfo" map="paymentInfoFlat"
+                            extends="component://mantle-usl/template/screen/PartyForms.xml#ContactInfo"/>
+                </container-dialog>
 
-            <field name="locale"><default-field>
-                <drop-down allow-empty="true" combo-box="true"><list-options list="localeStringList"/></drop-down>
-            </default-field></field>
-            <field name="timeZone"><default-field>
-                <drop-down allow-empty="true" combo-box="true"><list-options list="new TreeSet(TimeZone.getAvailableIDs().collect())"/></drop-down>
-            </default-field></field>
-            <field name="disabled"><default-field><drop-down no-current-selected-key="N" current="selected">
-                <option key="N"/><option key="Y"/></drop-down></default-field></field>
+                <label text="${paymentContactInfo.postalAddress?.address1 ?: ''}${paymentContactInfo.postalAddress?.unitNumber ? '#' + paymentContactInfo.postalAddress.unitNumber : ''}" type="p"/>
+                <label text="${paymentContactInfo.postalAddress?.address2 ?: ''}" type="p"/>
+                <label text="${paymentContactInfo.postalAddress?.city ? paymentContactInfo.postalAddress.city + ',' : ''} ${paymentContactInfo.postalAddressStateGeo?.geoCodeAlpha2 ?: ''} ${paymentContactInfo.postalAddress?.postalCode ?: ''}" type="p"/>
+                <label text="${paymentContactInfo.telecomNumber?.countryCode ?: ''} ${paymentContactInfo.telecomNumber?.areaCode ? '(' + paymentContactInfo.telecomNumber.areaCode + ')' : ''} ${paymentContactInfo.telecomNumber?.contactNumber ?: ''}" type="p"/>
+                <label text="${paymentContactInfo.emailAddress ?: ''}" type="p"/>
+            </panel-left>
+            <panel-center>
+                <form-single name="EditUser" transition="updateUser" map="personAndUserAccount">
+                    <field name="partyId"><default-field><hidden/></default-field></field>
+                    <field name="userId"><default-field><hidden/></default-field></field>
+                    <field name="username"><default-field><text-line size="20"/></default-field></field>
+                    <field name="firstName"><default-field><text-line size="15"/></default-field></field>
+                    <field name="lastName"><default-field><text-line size="15"/></default-field></field>
+                    <field name="emailAddress"><default-field><text-line/></default-field></field>
 
-            <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
-        </form-single>
+                    <field name="locale"><default-field>
+                        <drop-down allow-empty="true" combo-box="true"><list-options list="localeStringList"/></drop-down>
+                    </default-field></field>
+                    <field name="timeZone"><default-field>
+                        <drop-down allow-empty="true" combo-box="true"><list-options list="new TreeSet(TimeZone.getAvailableIDs().collect())"/></drop-down>
+                    </default-field></field>
+                    <field name="disabled"><default-field><drop-down no-current-selected-key="N" current="selected">
+                        <option key="N"/><option key="Y"/></drop-down></default-field></field>
+
+                    <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+                </form-single>
+            </panel-center>
+        </container-panel>
     </widgets>
 </screen>
