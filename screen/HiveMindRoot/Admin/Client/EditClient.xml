@@ -61,7 +61,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             extends="component://mantle-usl/template/screen/PartyForms.xml#ContactInfo"/>
                 </container-dialog>
 
-                <label text="${billingContactInfo.postalAddress?.address1 ?: ''}${billingContactInfo.postalAddress?.unitNumber ? '#' + billingContactInfo.postalAddress.unitNumber : ''}" type="p"/>
+                <label text="${billingContactInfo.postalAddress?.address1 ?: ''}${billingContactInfo.postalAddress?.unitNumber ? ' #' + billingContactInfo.postalAddress.unitNumber : ''}" type="p"/>
                 <label text="${billingContactInfo.postalAddress?.address2 ?: ''}" type="p"/>
                 <label text="${billingContactInfo.postalAddress?.city ? billingContactInfo.postalAddress.city + ',' : ''} ${billingContactInfo.postalAddressStateGeo?.geoCodeAlpha2 ?: ''} ${billingContactInfo.postalAddress?.postalCode ?: ''}" type="p"/>
                 <label text="${billingContactInfo.telecomNumber?.countryCode ?: ''} ${billingContactInfo.telecomNumber?.areaCode ? '(' + billingContactInfo.telecomNumber.areaCode + ')' : ''} ${billingContactInfo.telecomNumber?.contactNumber ?: ''}" type="p"/>
@@ -74,7 +74,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             extends="component://mantle-usl/template/screen/PartyForms.xml#ContactInfo"/>
                 </container-dialog>
 
-                <label text="${paymentContactInfo.postalAddress?.address1 ?: ''}${paymentContactInfo.postalAddress?.unitNumber ? '#' + paymentContactInfo.postalAddress.unitNumber : ''}" type="p"/>
+                <label text="${paymentContactInfo.postalAddress?.address1 ?: ''}${paymentContactInfo.postalAddress?.unitNumber ? ' #' + paymentContactInfo.postalAddress.unitNumber : ''}" type="p"/>
                 <label text="${paymentContactInfo.postalAddress?.address2 ?: ''}" type="p"/>
                 <label text="${paymentContactInfo.postalAddress?.city ? paymentContactInfo.postalAddress.city + ',' : ''} ${paymentContactInfo.postalAddressStateGeo?.geoCodeAlpha2 ?: ''} ${paymentContactInfo.postalAddress?.postalCode ?: ''}" type="p"/>
                 <label text="${paymentContactInfo.telecomNumber?.countryCode ?: ''} ${paymentContactInfo.telecomNumber?.areaCode ? '(' + paymentContactInfo.telecomNumber.areaCode + ')' : ''} ${paymentContactInfo.telecomNumber?.contactNumber ?: ''}" type="p"/>
