@@ -14,12 +14,9 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
         default-menu-title="Expenses" default-menu-index="5">
 
-    <!-- TODO: show only with permission -->
-
-    <parameter name="rootWorkEffortId"/>
     <subscreens default-item="FindExpenseInvoice"/>
 
     <widgets>
-        <subscreens-panel id="task-panel" type="tab"/>
+        <subscreens-panel id="expenses-panel" type="tab"/>
     </widgets>
 </screen>

@@ -14,7 +14,8 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
         default-menu-title="Expense Invoice" default-menu-index="1">
 
-    <parameter name="rootWorkEffortId"/>
+    <!-- TODO: make sure user partyId is invoice.fromPartyId... do with artifact authz? -->
+
     <parameter name="invoiceId"/>
 
     <transition name="updateInvoice">
@@ -22,6 +23,9 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response url="."/>
     </transition>
 
+    <pre-actions>
+        <set field="partyId" from="ec.user.userAccount.partyId"/>
+    </pre-actions>
     <actions>
         <entity-find-one entity-name="mantle.account.invoice.Invoice" value-field="invoice"/>
         <service-call name="mantle.account.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>

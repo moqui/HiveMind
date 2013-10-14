@@ -14,77 +14,50 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
         default-menu-include="false">
 
-    <parameter name="rootWorkEffortId"/>
-
     <transition name="findInvoice"><default-response url="."/></transition>
     <transition name="editInvoice"><default-response url="../EditExpenseInvoice"/></transition>
     <transition name="createInvoice">
         <service-call name="mantle.account.InvoiceServices.create#ProjectExpenseInvoice" in-map="context"/>
-        <default-response url="."/>
+        <default-response url="../EditExpenseInvoice"/>
     </transition>
-
-    <transition name="getPartyList">
-        <actions>
-            <entity-find entity-name="mantle.party.PartyDetail" list="pdList" limit="20">
-                <econditions combine="or">
-                    <econdition field-name="organizationName" operator="like" value="%${term}%" ignore-case="true"/>
-                    <econdition field-name="firstName" operator="like" value="%${term}%" ignore-case="true"/>
-                    <econdition field-name="lastName" operator="like" value="%${term}%" ignore-case="true"/>
-                    <econdition field-name="partyId" operator="like" value="%${term}%" ignore-case="true"/>
-                </econditions>
-                <order-by field-name="^organizationName"/><order-by field-name="^firstName"/><order-by field-name="^lastName"/><order-by field-name="^partyId"/>
-            </entity-find>
-            <script>
-                def outList = []
-                for (def pd in pdList)
-                    outList.add([value:pd.partyId, label:"${pd.organizationName?:''} ${pd.firstName?:''} ${pd.lastName?:''} (${pd.partyId})".toString()])
-                ec.web.sendJsonResponse(outList)
-            </script>
-        </actions>
-        <default-response type="none"/>
+    <transition name="createProjectInvoiceItems">
+        <service-call name="mantle.account.InvoiceServices.create#ProjectInvoiceItems" in-map="context"/>
+        <default-response url="."/>
     </transition>
 
     <pre-actions>
         <set field="html_title" value="Find Invoice"/>
+        <set field="partyId" from="ec.user.userAccount.partyId"/>
     </pre-actions>
     
     <actions>
-        <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="project">
-            <field-map field-name="workEffortId" from="rootWorkEffortId"/>
-        </entity-find-one>
-
-        <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="clientWepList">
-            <date-filter/><econdition field-name="workEffortId" from="rootWorkEffortId"/>
-            <econdition field-name="roleTypeId" value="CustomerBillTo"/>
+        <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
+            <date-filter/><econdition field-name="partyId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
         </entity-find>
-        <set field="clientWep" from="clientWepList?.getAt(0)"/>
-        <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="vendorWepList">
-            <date-filter/><econdition field-name="workEffortId" from="rootWorkEffortId"/>
-            <econdition field-name="roleTypeId" value="VendorBillFrom"/>
-        </entity-find>
-        <set field="vendorWep" from="vendorWepList?.getAt(0)"/>
 
-        <entity-find entity-name="mantle.work.effort.WorkEffortInvoiceDetail" list="invoiceList">
-            <econdition field-name="workEffortId" from="rootWorkEffortId"/>
-            <!-- don't include invoices to project CustomerBillTo partyId -->
-            <econdition field-name="toPartyId" operator="not-equals" from="clientWep.partyId"/>
-            <!-- don't include invoices from project VendorBillFrom partyId -->
-            <econdition field-name="fromPartyId" operator="not-equals" from="vendorWep.partyId"/>
+        <entity-find entity-name="mantle.account.invoice.Invoice" list="invoiceList">
+            <econdition field-name="invoiceTypeEnumId" value="InvoiceSales"/>
+            <econdition field-name="fromPartyId" from="partyId"/>
             <order-by field-name="-invoiceDate"/>
         </entity-find>
+        <filter-map-list list="invoiceList" to-list="openInvoiceList">
+            <field-map field-name="statusId" value="InvoiceIncoming"/>
+        </filter-map-list>
     </actions>
     <widgets>
         <container-dialog id="CreateInvoiceDialog" button-text="Create Expense Invoice">
             <form-single name="CreateInvoice" transition="createInvoice">
-                <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
-                <field name="workEffortId" entry-name="rootWorkEffortId"><default-field><hidden/></default-field></field>
-                <field name="fromPartyId"><default-field title="From Party">
-                    <text-line ac-transition="getPartyList" ac-min-length="2" size="15"/>
-                </default-field></field>
-                <field name="toPartyId" entry-name="vendorWep.partyId"><default-field title="To Party">
-                    <display-entity entity-name="mantle.party.PartyDetail" key-field-name="partyId" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
-                </default-field></field>
+                <field name="fromPartyId" entry-name="partyId"><default-field><hidden/></default-field></field>
+
+                <field name="workEffortId"><default-field title="Project"><drop-down>
+                    <list-options list="myProjectList" key="${workEffortId}" text="${workEffortId} - ${workEffortName}"/>
+                </drop-down></default-field></field>
                 <field name="invoiceDate"><default-field><date-time/></default-field></field>
+
+                <!-- will be determined from Project: <field name="toPartyId" entry-name="vendorWep.partyId"><default-field title="To Party">
+                    <display-entity entity-name="mantle.party.PartyDetail" key-field-name="partyId" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
+                </default-field></field> -->
                 <!-- don't specify this, figured out based on toPartyId: <field name="currencyUomId"><default-field>
                     <drop-down no-current-selected-key="USD"><entity-options key="${uomId}" text="${description}">
                         <entity-find entity-name="moqui.basic.Uom">
@@ -97,8 +70,22 @@ This Work includes contributions authored by David E. Jones, not as a
                 <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
             </form-single>
         </container-dialog>
+        <container-dialog id="WorkerInvoiceDialog" button-text="Invoice Time" width="700">
+            <form-single name="WorkerInvoice" transition="createProjectInvoiceItems">
+                <field name="workerPartyId" entry-name="partyId"><default-field><hidden/></default-field></field>
+                <field name="ratePurposeEnumId"><default-field><hidden default-value="RaprVendor"/></default-field></field>
 
-        <label text="Expenses for project '${project.workEffortName}' [${project.workEffortId}]" type="h3"/>
+                <field name="workEffortId"><default-field title="Project"><drop-down>
+                    <list-options list="myProjectList" key="${workEffortId}" text="${workEffortId} - ${workEffortName}"/>
+                </drop-down></default-field></field>
+
+                <field name="thruDate"><default-field><date-time type="date-time"/></default-field></field>
+                <field name="invoiceId"><default-field title="Existing Invoice"><drop-down allow-empty="true">
+                    <list-options list="openInvoiceList" key="${invoiceId}" text="${invoiceId} - ${invoiceDate}"/>
+                </drop-down></default-field></field>
+                <field name="submitButton"><default-field title="Invoice Time"><submit/></default-field></field>
+            </form-single>
+        </container-dialog>
 
         <form-list name="InvoiceList" list="invoiceList" skip-form="true">
             <row-actions>
@@ -124,8 +111,6 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="statusId"><header-field show-order-by="true"/>
                 <default-field title="Status"><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
             </field>
-
-            <!-- TODO: add column for project invoice(s) where expense is billed to client -->
         </form-list>
     </widgets>
 </screen>
