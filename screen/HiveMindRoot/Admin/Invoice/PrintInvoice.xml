@@ -17,59 +17,12 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="invoiceId"/>
 
     <actions>
-        <entity-find-one entity-name="mantle.account.invoice.Invoice" value-field="invoice"/>
-        <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus">
-            <field-map field-name="statusId" from="invoice?.statusId"/>
-        </entity-find-one>
-        <service-call name="mantle.account.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
-        <entity-find-related-one value-field="invoice" relationship-name="mantle.account.invoice.SettlementTerm" to-value-field="settlementTerm"/>
-
-        <entity-find entity-name="mantle.account.invoice.InvoiceItem" list="invoiceItemList">
-            <econdition field-name="invoiceId"/>
-        </entity-find>
-
-        <!-- build itemTypeSummaryMapMap with itemTypeEnumId, amount (only for ItemTimeEntry), quantity, total -->
-        <set field="itemTypeSummaryMapMap" from="[:]"/>
-        <iterate list="invoiceItemList" entry="invoiceItem">
-            <set field="mapKey" from="invoiceItem.itemTypeEnumId"/>
-            <if condition="invoiceItem.itemTypeEnumId == 'ItemTimeEntry'"><set field="mapKey" from="mapKey + '::' + invoiceItem.amount"/></if>
-            <set field="itemTypeSummaryMap" from="itemTypeSummaryMapMap.get(mapKey)"/>
-            <if condition="!itemTypeSummaryMap">
-                <set field="itemTypeSummaryMap" from="[itemTypeEnumId:invoiceItem.itemTypeEnumId, quantity:0, total:0]"/>
-                <if condition="invoiceItem.itemTypeEnumId == 'ItemTimeEntry'"><set field="itemTypeSummaryMap.amount" from="invoiceItem.amount"/></if>
-                <script>itemTypeSummaryMapMap.put(mapKey, itemTypeSummaryMap)</script>
-            </if>
-            <set field="itemTypeSummaryMap.quantity" from="itemTypeSummaryMap.quantity + (invoiceItem.quantity?:1)"/>
-            <set field="itemTypeSummaryMap.total" from="itemTypeSummaryMap.total + ((invoiceItem.quantity?:1) * invoiceItem.amount)"/>
-        </iterate>
-        <set field="itemTypeSummaryMapList" from="itemTypeSummaryMapMap.values()"/>
-
-        <entity-find-one entity-name="mantle.party.PartyDetail" value-field="fromParty">
-            <field-map field-name="partyId" from="invoice.fromPartyId"/>
-        </entity-find-one>
-        <service-call name="mantle.party.ContactServices.get#PartyContactInfo" out-map="fromContactInfo"
-                in-map="[partyId:invoice.fromPartyId, postalContactMechPurposeId:'PostalPayment',
-                        telecomContactMechPurposeId:'PhonePayment', emailContactMechPurposeId:'EmailPayment']"/>
-
-        <entity-find-one entity-name="mantle.party.PartyDetail" value-field="toParty">
-            <field-map field-name="partyId" from="invoice.toPartyId"/>
-        </entity-find-one>
-        <service-call name="mantle.party.ContactServices.get#PartyContactInfo" out-map="toContactInfo"
-                in-map="[partyId:invoice.toPartyId, postalContactMechPurposeId:'PostalBilling',
-                        telecomContactMechPurposeId:'PhoneBilling', emailContactMechPurposeId:'EmailBilling']"/>
-        <entity-find entity-name="mantle.party.PartyRelationship" list="toBillingRelList">
-            <date-filter/>
-            <econdition field-name="toPartyId" from="invoice.toPartyId"/>
-            <econdition field-name="relationshipTypeEnumId" value="PrtRepresentative"/>
-            <econdition field-name="fromRoleTypeId" value="ClientBilling"/>
-        </entity-find>
-        <entity-find-one entity-name="mantle.party.PartyDetail" value-field="toBillingRep">
-            <field-map field-name="partyId" from="toBillingRelList?.getAt(0)?.fromPartyId"/>
-        </entity-find-one>
+        <service-call name="mantle.account.InvoiceServices.get#InvoicePrintInfo"
+                in-map="[invoiceId:invoiceId]" out-map="context"/>
     </actions>
     <widgets>
         <render-mode>
-            <text type="xsl-fo" location="component://HiveMind/screen/HiveMindRoot/Admin/Invoice/PrintInvoice.xsl-fo.ftl"
+            <text type="xsl-fo" location="component://mantle-usl/template/print/account/Invoice.xsl-fo.ftl"
                     template="true" encode="false" no-boundary-comment="true"/>
         </render-mode>
     </widgets>
