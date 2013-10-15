@@ -22,6 +22,10 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="update#mantle.account.invoice.Invoice" in-map="context"/>
         <default-response url="."/>
     </transition>
+    <transition name="createProjectInvoiceItems">
+        <service-call name="mantle.account.InvoiceServices.create#ProjectInvoiceItems" in-map="context"/>
+        <default-response url="."/>
+    </transition>
 
     <pre-actions>
         <set field="partyId" from="ec.user.userAccount.partyId"/>
@@ -29,6 +33,11 @@ This Work includes contributions authored by David E. Jones, not as a
     <actions>
         <entity-find-one entity-name="mantle.account.invoice.Invoice" value-field="invoice"/>
         <service-call name="mantle.account.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
+
+        <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
+            <date-filter/><econdition field-name="partyId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+        </entity-find>
     </actions>
     <widgets>
         <section name="SubmitInvoiceSection"><condition><expression>invoice.statusId == 'InvoiceIncoming' &amp;&amp; invoiceTotal</expression></condition><widgets>
@@ -36,6 +45,20 @@ This Work includes contributions authored by David E. Jones, not as a
         </widgets></section>
         <section name="CancelInvoiceSection"><condition><expression>invoice.statusId == 'InvoiceIncoming'</expression></condition><widgets>
             <link url="updateInvoice" text="Cancel Invoice" parameter-map="[invoiceId:invoiceId, statusId:'InvoiceCancelled']"/>
+            <container-dialog id="WorkerInvoiceDialog" button-text="Invoice Time" width="700">
+                <form-single name="WorkerInvoice" transition="createProjectInvoiceItems">
+                    <field name="workerPartyId" entry-name="partyId"><default-field><hidden/></default-field></field>
+                    <field name="ratePurposeEnumId"><default-field><hidden default-value="RaprVendor"/></default-field></field>
+                    <field name="invoiceId"><default-field><hidden/></default-field></field>
+
+                    <field name="workEffortId"><default-field title="Project"><drop-down>
+                        <list-options list="myProjectList" key="${workEffortId}" text="${workEffortId} - ${workEffortName}"/>
+                    </drop-down></default-field></field>
+
+                    <field name="thruDate"><default-field><date-time type="date-time"/></default-field></field>
+                    <field name="submitButton"><default-field title="Invoice Time"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
         </widgets></section>
 
         <form-single name="EditInvoice" transition="updateInvoice" map="invoice">
