@@ -37,6 +37,13 @@ This Work includes contributions authored by David E. Jones, not as a
         </actions>
         <default-response type="none"/>
     </transition>
+    <transition name="getProjectMilestones">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectMilestones" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
     <transition name="getProjectTasks">
         <actions>
             <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>

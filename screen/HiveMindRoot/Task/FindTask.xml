@@ -252,6 +252,13 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="rootWorkEffortId"><default-field title="Project">
                         <drop-down><list-options list="myProjectList" key="${workEffortId}" text="${workEffortId}: ${workEffortName}"/></drop-down>
                     </default-field></field>
+                    <field name="milestoneWorkEffortId"><default-field title="Milestone">
+                        <drop-down combo-box="true">
+                            <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
+                                <depends-on field="rootWorkEffortId"/>
+                            </dynamic-options>
+                        </drop-down>
+                    </default-field></field>
                     <field name="parentWorkEffortId"><default-field title="Parent Task">
                         <drop-down combo-box="true">
                             <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
