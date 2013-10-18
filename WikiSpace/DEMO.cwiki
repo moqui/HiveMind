@@ -81,4 +81,3 @@ h3. HiveMind Requests
 
 * add request summary screen similar to task one
 * add request comments
-* create Task from Request (pre-fill form based on Request fields)

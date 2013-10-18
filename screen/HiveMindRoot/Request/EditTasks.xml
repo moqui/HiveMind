@@ -29,6 +29,17 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
     <transition name="editTask"><default-response url="../../Task/TaskSummary"/></transition>
 
+    <transition name="createTask">
+        <service-call name="mantle.work.TaskServices.create#Task" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+    <transition name="getProjectMilestones">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectMilestones" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
     <transition name="getProjectTasks">
         <actions>
             <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>
@@ -37,7 +48,24 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response type="none"/>
     </transition>
 
+    <transition name="getProjectParties">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectParties" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
     <actions>
+        <entity-find-one entity-name="mantle.request.Request" value-field="request"/>
+        <if condition="request.requestTypeEnumId == 'RqtBugFix'">
+            <set field="purposeEnumId" value="WepFix"/>
+            <else-if condition="request.requestTypeEnumId == 'RqtNewFeature'">
+                <set field="purposeEnumId" value="WepNewFeature"/>
+            </else-if>
+            <else><set field="purposeEnumId" value="WepTask"/></else>
+        </if>
+
         <entity-find entity-name="mantle.request.RequestWorkEffortDetail" list="rwedList">
             <econdition field-name="requestId"/>
         </entity-find>
@@ -64,6 +92,61 @@ This Work includes contributions authored by David E. Jones, not as a
                 </default-field></field>
 
                 <field name="submitButton"><default-field title="Add Task"><submit/></default-field></field>
+            </form-single>
+        </container-dialog>
+        <container-dialog id="NewTaskContainer" button-text="New Task for Request">
+            <form-single name="NewTaskForm" transition="createTask">
+                <field name="requestId"><default-field><hidden/></default-field></field>
+
+                <field name="rootWorkEffortId"><default-field title="Project">
+                    <drop-down><list-options list="myProjectList" key="${workEffortId}" text="${workEffortId}: ${workEffortName}"/></drop-down>
+                </default-field></field>
+                <field name="milestoneWorkEffortId"><default-field title="Milestone">
+                    <drop-down combo-box="true">
+                        <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
+                            <depends-on field="rootWorkEffortId"/>
+                        </dynamic-options>
+                    </drop-down>
+                </default-field></field>
+                <field name="parentWorkEffortId"><default-field title="Parent Task">
+                    <drop-down combo-box="true">
+                        <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
+                            <depends-on field="rootWorkEffortId"/>
+                        </dynamic-options>
+                    </drop-down>
+                </default-field></field>
+                <field name="assignToPartyId"><default-field title="Assign To">
+                    <drop-down no-current-selected-key="${ec.user.userAccount.partyId}" current="selected" allow-empty="true">
+                        <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name">
+                            <depends-on field="rootWorkEffortId"/>
+                        </dynamic-options>
+                    </drop-down>
+                </default-field></field>
+                <field name="workEffortName" entry-name="request.requestName"><default-field title="Task Name"><text-line size="40"/></default-field></field>
+                <field name="priority" entry-name="request.priority"><default-field>
+                    <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
+                </default-field></field>
+                <field name="purposeEnumId"><default-field title="Purpose">
+                    <drop-down no-current-selected-key="WepTask" current="selected">
+                        <entity-options key="${enumId}" text="${description}">
+                            <entity-find entity-name="moqui.basic.Enumeration">
+                                <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>
+                                <econdition field-name="parentEnumId" value="WetTask"/>
+                                <order-by field-name="description"/>
+                            </entity-find>
+                        </entity-options>
+                    </drop-down>
+                </default-field></field>
+                <field name="statusId"><default-field title="Status">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
+                        <set field="statusTypeId" value="WorkEffort"/></widget-template-include>
+                </default-field></field>
+                <field name="estimatedCompletionDate" entry-name="request.responseRequiredDate">
+                    <default-field title="Due Date"><date-time format="yyyy-MM-dd hh:mm"/></default-field></field>
+                <field name="estimatedWorkTime"><default-field title="Estimated Hours"><text-line size="5"/></default-field></field>
+                <field name="description" entry-name="request.description">
+                    <default-field title="Description"><text-area rows="10" cols="60"/></default-field></field>
+                <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
             </form-single>
         </container-dialog>
 
