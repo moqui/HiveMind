@@ -17,11 +17,11 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="rootWorkEffortId"/>
 
     <transition name="addUserAssign">
-        <service-call name="create#WorkEffortParty" in-map="context"/>
+        <service-call name="create#mantle.work.effort.WorkEffortParty" in-map="context"/>
         <default-response url="."/>
     </transition>
     <transition name="updateUserAssign">
-        <service-call name="update#WorkEffortParty" in-map="context"/>
+        <service-call name="update#mantle.work.effort.WorkEffortParty" in-map="context"/>
         <default-response url="."/>
     </transition>
     <transition name="editUser"><default-response url="../../Admin/User/EditUser"/></transition>
@@ -72,16 +72,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <field name="thruDate"><default-field><date-time/></default-field></field>
 
                 <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/>
-                    <default-field title="Purpose"><drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">
-                        <entity-find entity-name="Enumeration">
-                            <econdition field-name="enumTypeId" value="WorkEffortPartyExpectation"/>
-                            <order-by field-name="description"/>
-                        </entity-find>
-                    </entity-options></drop-down></default-field>
-                </field>
-
-                <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/>
-                    <default-field title="Purpose"><drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">
+                    <default-field><drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">
                         <entity-find entity-name="Enumeration">
                             <econdition field-name="enumTypeId" value="WorkEffortPartyExpectation"/>
                             <order-by field-name="description"/>
