@@ -45,7 +45,6 @@ This Work includes contributions authored by David E. Jones, not as a
         <section name="AddItemSection"><condition><expression>invoice.statusId == 'InvoiceIncoming'</expression></condition><widgets>
             <container-dialog id="AddInvoiceItemDialog" button-text="Add Invoice Item" width="700">
                 <form-single name="CreateInvoiceItem" transition="createInvoiceItem">
-                    <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
                     <field name="invoiceId"><default-field><hidden/></default-field></field>
                     <field name="itemTypeEnumId"><default-field title="Type">
                         <drop-down no-current-selected-key="ItemExpense">
