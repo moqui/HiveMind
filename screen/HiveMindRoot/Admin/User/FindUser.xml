@@ -17,6 +17,9 @@ This Work includes contributions authored by David E. Jones, not as a
     <!-- TODO: add UserSummary (like dashboard for another user... reuse dashboard forms?), UserProjects, UserTasks, UserTimeEntries, UserRequests -->
     <!-- TODO: add general manager permission check, project manager permission for only users of a project -->
 
+    <!-- set userGroupId so that when an Account is created it will be added to that group -->
+    <always-actions><set field="userGroupId" from="HIVE_MIND_USERS"/></always-actions>
+
     <transition name="findUser"><default-response url="."/></transition>
     <transition name="createUser">
         <service-call name="mantle.party.PartyServices.create#Account" in-map="context + [loginAfterCreate:'false']"/>
@@ -28,7 +31,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <pre-actions>
         <set field="html_title" value="Find User"/>
     </pre-actions>
-    
+
     <actions>
         <entity-find entity-name="PersonAndUserAccount" list="userList">
             <search-form-inputs default-order-by="firstName,lastName,username"/>
