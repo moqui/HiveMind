@@ -22,9 +22,6 @@ h2. TODO Lists
 
 h3. HiveMind General
 
-* automated test to record payments for expense invoices, create project invoices, record payment for it, then check invoice/payment/gl results
-** first run through and export data changes for validation data (do manual check first)
-
 * volume testing
 ** script to create large numbers of clients, projects, tasks, invoices, payments, etc
 ** review screens and performance with lots of data in place
@@ -66,7 +63,7 @@ h3. HiveMind Wiki
 h3. HiveMind Projects and Tasks
 
 * task comments
-** add comments to HmTask DataDocument?
+** add comments to HmTask DataDocument (for searching, etc)
 ** send comment notification emails to associated users with notifications on
 ** send mentioned notifications for usernames or first/last name of user mentioned in comment (flexible parse? special syntax?)
 
@@ -84,3 +81,4 @@ h3. HiveMind Requests
 
 * add request summary screen similar to task one
 * add request comments
+* create Task from Request (pre-fill form based on Request fields)
