@@ -22,11 +22,20 @@ h2. TODO Lists
 
 h3. HiveMind General
 
+* add way to set Client/Vendor reps (with at least name/email for each, or use User record only?):
+    <mantle.party.PartyRelationship partyRelationshipId="ORG_BIZI_JD" relationshipTypeEnumId="PrtRepresentative"
+            fromPartyId="EX_JOHN_DOE" fromRoleTypeId="Manager" toPartyId="ORG_BIZI_SERVICES" toRoleTypeId="VendorBillFrom"
+            fromDate="2010-02-03 00:00:00"/>
+    <mantle.party.PartyRelationship partyRelationshipId="ORG_ACME_BA_CB" relationshipTypeEnumId="PrtRepresentative"
+            fromPartyId="ORG_ACME_BA" fromRoleTypeId="ClientBilling" toPartyId="ORG_ACME" toRoleTypeId="CustomerBillTo"
+            fromDate="2010-02-03 00:00:00"/>
+
+* add button on EditVendor to call mantle.ledger.LedgerServices.init#PartyAccountingConfiguration for OrgInternal
+
+
 * volume testing
 ** script to create large numbers of clients, projects, tasks, invoices, payments, etc
 ** review screens and performance with lots of data in place
-
-* implement basic financial reports (income statement, balance sheet, etc)
 
 * test/complete full cycle of:
 ** create client (with internal org, acctg settings)
@@ -41,6 +50,8 @@ h3. HiveMind General
 ** Team assoc with Project and Task
 ** Team assoc with Request?
 ** easy assign to team lead/manager
+
+* implement basic financial reports (income statement, balance sheet, etc)
 
 * improve wiki page and task update notification emails; show more specific fields, only send if supported fields changed, etc
 
