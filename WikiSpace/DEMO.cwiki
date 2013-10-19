@@ -30,8 +30,6 @@ h3. HiveMind General
             fromPartyId="ORG_ACME_BA" fromRoleTypeId="ClientBilling" toPartyId="ORG_ACME" toRoleTypeId="CustomerBillTo"
             fromDate="2010-02-03 00:00:00"/>
 
-* add button on EditVendor to call mantle.ledger.LedgerServices.init#PartyAccountingConfiguration for OrgInternal
-
 
 * volume testing
 ** script to create large numbers of clients, projects, tasks, invoices, payments, etc

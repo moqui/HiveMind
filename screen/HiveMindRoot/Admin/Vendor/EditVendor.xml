@@ -28,6 +28,11 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="create#mantle.party.PartyRole" in-map="context"/>
         <default-response url="."/>
     </transition>
+    <transition name="initPartyAccountingConfiguration">
+        <service-call name="mantle.ledger.LedgerServices.init#PartyAccountingConfiguration"
+                in-map="[sourcePartyId:'DefaultSettings', organizationPartyId:partyId]"/>
+        <default-response url="."/>
+    </transition>
 
     <actions>
         <entity-find-one entity-name="mantle.party.PartyDetail" value-field="partyDetail"/>
@@ -49,6 +54,9 @@ This Work includes contributions authored by David E. Jones, not as a
         </entity-find-one>
         <entity-find-one entity-name="mantle.party.PartyRole" value-field="internalRoleType">
             <field-map field-name="partyId"/><field-map field-name="roleTypeId" value="OrgInternal"/>
+        </entity-find-one>
+        <entity-find-one entity-name="mantle.ledger.config.PartyAcctgPreference" value-field="partyAcctgPreference">
+            <field-map field-name="organizationPartyId" from="partyId"/>
         </entity-find-one>
     </actions>
     <widgets>
@@ -106,6 +114,12 @@ This Work includes contributions authored by David E. Jones, not as a
                     <link url="addPartyRole" url-type="transition" link-type="hidden-form" text="Make Internal Org"
                             confirmation="Are you sure you want to make this party an Internal Organization?">
                         <parameter name="partyId"/><parameter name="roleTypeId" value="OrgInternal"/>
+                    </link>
+                </widgets></section>
+                <section name="AcctgConfSection"><condition><expression>internalRoleType &amp;&amp; !partyAcctgPreference</expression></condition><widgets>
+                    <link url="initPartyAccountingConfiguration" url-type="transition" link-type="hidden-form" text="Init Accounting Configuration"
+                            confirmation="Are you sure you want to initialize Accounting Configuration with default settings?">
+                        <parameter name="partyId"/>
                     </link>
                 </widgets></section>
             </panel-center>
