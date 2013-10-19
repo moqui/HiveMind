@@ -95,6 +95,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find-one entity-name="mantle.ledger.config.PartyAcctgPreference" value-field="partyAcctgPreference">
             <field-map field-name="organizationPartyId" from="partyId"/>
         </entity-find-one>
+
         <entity-find entity-name="mantle.party.PartyRelationship" list="repRelationshipList">
             <econdition-object field="[relationshipTypeEnumId:'PrtRepresentative', toPartyId:partyId, toRoleTypeId:'VendorBillFrom']"/>
             <order-by field-name="-fromDate"/>
@@ -119,19 +120,17 @@ This Work includes contributions authored by David E. Jones, not as a
                 <label text="${paymentContactInfo.telecomNumber?.countryCode ?: ''} ${paymentContactInfo.telecomNumber?.areaCode ? '(' + paymentContactInfo.telecomNumber.areaCode + ')' : ''} ${paymentContactInfo.telecomNumber?.contactNumber ?: ''}" type="p"/>
                 <label text="${paymentContactInfo.emailAddress ?: ''}" type="p"/>
 
-                <container>
-                    <form-single name="SetVendorRepForm" transition="setVendorRep">
-                        <field name="partyId"><default-field><hidden/></default-field></field>
-                        <field name="currentRep"><default-field title="Current Rep">
-                            <link text="${repPerson ? repPerson.firstName + ' ' + repPerson.lastName : ''}" url="editUser"
-                                    parameter-map="[partyId:repPerson?.partyId]"/>
-                        </default-field></field>
-                        <field name="repPartyId"><default-field title="New Rep User">
-                            <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
-                        </default-field></field>
-                        <field name="submitButton"><default-field title="Set Vendor (AR) Representative"><submit/></default-field></field>
-                    </form-single>
-                </container>
+                <form-single name="SetVendorRepForm" transition="setVendorRep">
+                    <field name="partyId"><default-field><hidden/></default-field></field>
+                    <field name="currentRep"><default-field title="Current Rep">
+                        <link text="${repPerson ? repPerson.firstName + ' ' + repPerson.lastName : ''}" url="editUser"
+                                parameter-map="[partyId:repPerson?.partyId]"/>
+                    </default-field></field>
+                    <field name="repPartyId"><default-field title="New Rep User">
+                        <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
+                    </default-field></field>
+                    <field name="submitButton"><default-field title="Set Vendor (AR) Representative"><submit/></default-field></field>
+                </form-single>
 
                 <label text="Billing Information" type="h2"/>
                 <label text="Where invoices are sent (Accounts Payable)" type="p"/>
