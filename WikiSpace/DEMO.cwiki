@@ -22,10 +22,7 @@ h2. TODO Lists
 
 h3. HiveMind General
 
-* add way to set Client/Vendor reps (with at least name/email for each, or use User record only?):
-    <mantle.party.PartyRelationship partyRelationshipId="ORG_BIZI_JD" relationshipTypeEnumId="PrtRepresentative"
-            fromPartyId="EX_JOHN_DOE" fromRoleTypeId="Manager" toPartyId="ORG_BIZI_SERVICES" toRoleTypeId="VendorBillFrom"
-            fromDate="2010-02-03 00:00:00"/>
+* add way to set Client reps (use User record only?):
     <mantle.party.PartyRelationship partyRelationshipId="ORG_ACME_BA_CB" relationshipTypeEnumId="PrtRepresentative"
             fromPartyId="ORG_ACME_BA" fromRoleTypeId="ClientBilling" toPartyId="ORG_ACME" toRoleTypeId="CustomerBillTo"
             fromDate="2010-02-03 00:00:00"/>

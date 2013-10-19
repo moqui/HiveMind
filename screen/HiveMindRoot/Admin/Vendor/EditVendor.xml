@@ -34,6 +34,42 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response url="."/>
     </transition>
 
+    <transition name="setVendorRep">
+        <actions>
+            <entity-find entity-name="mantle.party.PartyRelationship" list="existingRepRelList">
+                <date-filter/>
+                <econdition-object field="[relationshipTypeEnumId:'PrtRepresentative', toPartyId:partyId, toRoleTypeId:'VendorBillFrom']"/>
+            </entity-find>
+            <iterate list="existingRepRelList" entry="existingRepRel">
+                <set field="existingRepRel.thruDate" from="ec.user.nowTimestamp"/>
+                <entity-update value-field="existingRepRel"/>
+            </iterate>
+            <service-call name="create#mantle.party.PartyRelationship"
+                    in-map="[relationshipTypeEnumId:'PrtRepresentative', fromPartyId:repPartyId, fromRoleTypeId:'Manager',
+                        toPartyId:partyId, toRoleTypeId:'VendorBillFrom', fromDate:ec.user.nowTimestamp]"/>
+        </actions>
+        <default-response url="."/>
+    </transition>
+    <transition name="getPersonList">
+        <actions>
+            <entity-find entity-name="mantle.party.PersonAndUserAccount" list="pauList" limit="20">
+                <econditions combine="or">
+                    <econdition field-name="firstName" operator="like" value="%${term}%" ignore-case="true"/>
+                    <econdition field-name="lastName" operator="like" value="%${term}%" ignore-case="true"/>
+                    <econdition field-name="username" operator="like" value="%${term}%" ignore-case="true"/>
+                </econditions>
+                <order-by field-name="^firstName"/><order-by field-name="^lastName"/><order-by field-name="^username"/>
+            </entity-find>
+            <script>
+                def outList = []
+                for (def pau in pauList)
+                    outList.add([value:pau.partyId, label:"${pau.firstName} ${pau.lastName} (${pau.username})".toString()])
+                ec.web.sendJsonResponse(outList)
+            </script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
     <actions>
         <entity-find-one entity-name="mantle.party.PartyDetail" value-field="partyDetail"/>
 
@@ -57,6 +93,13 @@ This Work includes contributions authored by David E. Jones, not as a
         </entity-find-one>
         <entity-find-one entity-name="mantle.ledger.config.PartyAcctgPreference" value-field="partyAcctgPreference">
             <field-map field-name="organizationPartyId" from="partyId"/>
+        </entity-find-one>
+        <entity-find entity-name="mantle.party.PartyRelationship" list="repRelationshipList">
+            <econdition-object field="[relationshipTypeEnumId:'PrtRepresentative', toPartyId:partyId, toRoleTypeId:'VendorBillFrom']"/>
+            <order-by field-name="-fromDate"/>
+        </entity-find>
+        <entity-find-one entity-name="mantle.party.Person" value-field="repPerson">
+            <field-map field-name="partyId" from="repRelationshipList?.getAt(0)?.fromPartyId"/>
         </entity-find-one>
     </actions>
     <widgets>
@@ -122,6 +165,18 @@ This Work includes contributions authored by David E. Jones, not as a
                         <parameter name="partyId"/>
                     </link>
                 </widgets></section>
+                <container>
+                    <form-single name="SetVendorRepForm" transition="setVendorRep">
+                        <field name="partyId"><default-field><hidden/></default-field></field>
+                        <field name="currentRep"><default-field title="Current Rep">
+                            <display text="${repPerson ? repPerson.firstName + ' ' + repPerson.lastName : ''}" also-hidden="false"/>
+                        </default-field></field>
+                        <field name="repPartyId"><default-field title="New Rep User">
+                            <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
+                        </default-field></field>
+                        <field name="submitButton"><default-field title="Set Vendor (AR) Representative"><submit/></default-field></field>
+                    </form-single>
+                </container>
             </panel-center>
         </container-panel>
     </widgets>
