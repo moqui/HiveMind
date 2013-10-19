@@ -22,11 +22,7 @@ h2. TODO Lists
 
 h3. HiveMind General
 
-* add way to set Client reps (use User record only?):
-    <mantle.party.PartyRelationship partyRelationshipId="ORG_ACME_BA_CB" relationshipTypeEnumId="PrtRepresentative"
-            fromPartyId="ORG_ACME_BA" fromRoleTypeId="ClientBilling" toPartyId="ORG_ACME" toRoleTypeId="CustomerBillTo"
-            fromDate="2010-02-03 00:00:00"/>
-
+* add User set password form for Admin/User and MyAccount
 
 * volume testing
 ** script to create large numbers of clients, projects, tasks, invoices, payments, etc
