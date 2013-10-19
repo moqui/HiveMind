@@ -34,6 +34,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response url="."/>
     </transition>
 
+    <transition name="editUser"><default-response url="../../User/EditUser"/></transition>
     <transition name="setVendorRep">
         <actions>
             <entity-find entity-name="mantle.party.PartyRelationship" list="existingRepRelList">
@@ -118,6 +119,20 @@ This Work includes contributions authored by David E. Jones, not as a
                 <label text="${paymentContactInfo.telecomNumber?.countryCode ?: ''} ${paymentContactInfo.telecomNumber?.areaCode ? '(' + paymentContactInfo.telecomNumber.areaCode + ')' : ''} ${paymentContactInfo.telecomNumber?.contactNumber ?: ''}" type="p"/>
                 <label text="${paymentContactInfo.emailAddress ?: ''}" type="p"/>
 
+                <container>
+                    <form-single name="SetVendorRepForm" transition="setVendorRep">
+                        <field name="partyId"><default-field><hidden/></default-field></field>
+                        <field name="currentRep"><default-field title="Current Rep">
+                            <link text="${repPerson ? repPerson.firstName + ' ' + repPerson.lastName : ''}" url="editUser"
+                                    parameter-map="[partyId:repPerson?.partyId]"/>
+                        </default-field></field>
+                        <field name="repPartyId"><default-field title="New Rep User">
+                            <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
+                        </default-field></field>
+                        <field name="submitButton"><default-field title="Set Vendor (AR) Representative"><submit/></default-field></field>
+                    </form-single>
+                </container>
+
                 <label text="Billing Information" type="h2"/>
                 <label text="Where invoices are sent (Accounts Payable)" type="p"/>
                 <container-dialog id="BillingInfoEdit" button-text="Edit Billing Info" width="800">
@@ -165,18 +180,6 @@ This Work includes contributions authored by David E. Jones, not as a
                         <parameter name="partyId"/>
                     </link>
                 </widgets></section>
-                <container>
-                    <form-single name="SetVendorRepForm" transition="setVendorRep">
-                        <field name="partyId"><default-field><hidden/></default-field></field>
-                        <field name="currentRep"><default-field title="Current Rep">
-                            <display text="${repPerson ? repPerson.firstName + ' ' + repPerson.lastName : ''}" also-hidden="false"/>
-                        </default-field></field>
-                        <field name="repPartyId"><default-field title="New Rep User">
-                            <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
-                        </default-field></field>
-                        <field name="submitButton"><default-field title="Set Vendor (AR) Representative"><submit/></default-field></field>
-                    </form-single>
-                </container>
             </panel-center>
         </container-panel>
     </widgets>
