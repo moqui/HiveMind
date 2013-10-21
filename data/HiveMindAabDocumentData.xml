@@ -193,6 +193,9 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmTask"/>
     <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmRequest"/>
 
+    <moqui.entity.ServiceTrigger serviceTriggerId="HM_SEARCH_INIT" statusId="SrtrNotRun"
+            serviceName="org.moqui.impl.EntityServices.index#DataFeedDocuments" mapString="[dataFeedId:'HiveMindSearch']"/>
+
     <!-- EmailTemplates for Feed-driven Update Notifications -->
     <moqui.basic.email.EmailTemplate emailTemplateId="HM_TASK_UPDATE" description="HiveMind Task Update Notification"
             emailServerId="SYSTEM" bodyScreenLocation="component://HiveMind/screen/TaskUpdateNotification.xml"
@@ -202,5 +205,4 @@ This Work includes contributions authored by David E. Jones, not as a
             emailServerId="SYSTEM" bodyScreenLocation="component://HiveMind/screen/WikiPageUpdateNotification.xml"
             webappName="webroot" fromAddress="" ccAddresses="" bccAddresses=""
             subject="Wiki Page Updated: ${document.WikiPage.wikiSpaceId}/${document.WikiPage.pagePath}" sendPartial="Y"/>
-
 </entity-facade-xml>

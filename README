@@ -86,15 +86,3 @@ In your browser go to:
 http://localhost:8080/apps/hm
 
 Use the button in the lower-left corner of the screen login as John Doe.
-
-7. To use the search feature after an initial data load the indexing needs
-to be run. After this ongoing changes are indexed automatically. The data
-feed for search indexing is setup in database records, so they are not
-present when records that should be indexed are initially loaded. To run
-the index go to:
-
-http://localhost:8080/apps/tools/DataDocument/Index
-
-Select the the "HiveMind Search" data feed, leave the other fields empty,
-and click on "Index Feed Documents". Now you can go to the Search screen
-in HiveMind to search for Tasks, Projects, and Wiki Pages.

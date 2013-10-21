@@ -279,4 +279,8 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
 
     <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-004"/>
     <mantle.request.RequestWorkEffort requestId="DEMO_002" workEffortId="HM-004"/>
+
+    <!-- Index the loaded demo data -->
+    <moqui.entity.ServiceTrigger serviceTriggerId="HM_SEARCH_DEMO" statusId="SrtrNotRun"
+            serviceName="org.moqui.impl.EntityServices.index#DataFeedDocuments" mapString="[dataFeedId:'HiveMindSearch']"/>
 </entity-facade-xml>
