@@ -68,14 +68,14 @@ This Work includes contributions authored by David E. Jones, not as a
                     <parameter name="workEffortId" from="task.rootWorkEffortId"/>
                 </link>
             </default-field></field>
-            <field name="milestoneWorkEffortId" entry-name="milestoneAssoc.workEffortId"><default-field title="Milestone">
+            <field name="milestoneWorkEffortId" entry-name="milestoneAssoc?.workEffortId"><default-field title="Milestone">
                 <drop-down combo-box="true">
                     <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
                         <depends-on field="rootWorkEffortId"/>
                     </dynamic-options>
                 </drop-down>
-                <link text="Edit ${milestoneAssoc.workEffortId}" url="milestoneSummary">
-                    <parameter name="milestoneWorkEffortId" from="milestoneAssoc.workEffortId"/>
+                <link text="${milestoneAssoc ? 'Edit ' + milestoneAssoc.workEffortId : ''}" url="milestoneSummary">
+                    <parameter name="milestoneWorkEffortId" from="milestoneAssoc?.workEffortId"/>
                 </link>
             </default-field></field>
             <field name="parentWorkEffortId"><default-field title="Parent Task">
