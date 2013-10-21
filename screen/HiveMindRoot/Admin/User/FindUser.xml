@@ -14,9 +14,6 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
         default-menu-include="false">
 
-    <!-- TODO: add UserSummary (like dashboard for another user... reuse dashboard forms?), UserProjects, UserTasks, UserTimeEntries, UserRequests -->
-    <!-- TODO: add general manager permission check, project manager permission for only users of a project -->
-
     <!-- set userGroupId so that when an Account is created it will be added to that group -->
     <always-actions><set field="userGroupId" from="HIVE_MIND_USERS"/></always-actions>
 
