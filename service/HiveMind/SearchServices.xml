@@ -21,7 +21,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 import org.slf4j.LoggerFactory
                 import org.moqui.context.ExecutionContext
                 ExecutionContext ec = context.ec
-                Logger logger = LoggerFactory.getLogger("index_DataDocuments")
+                Logger logger = LoggerFactory.getLogger("HiveMind_receive_DataFeed")
 
                 // call the indexing service
                 Map indexResults = ec.service.sync().name("org.moqui.impl.EntityServices", "index", "DataDocuments")
