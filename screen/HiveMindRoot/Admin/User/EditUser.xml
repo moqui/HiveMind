@@ -52,6 +52,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 in-map="[partyId:partyId, postalContactMechPurposeId:'PostalPayment',
                     telecomContactMechPurposeId:'PhonePayment', emailContactMechPurposeId:'EmailPayment']"/>
         <set field="paymentInfoFlat" from="StupidUtilities.flattenNestedMap(paymentContactInfo)"/>
+        <set field="contactInfo" from="paymentContactInfo"/>
 
         <set field="localeList" from="Locale.getAvailableLocales()"/>
         <set field="localeStringList" from="new TreeSet()"/>
@@ -67,11 +68,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             extends="component://mantle-usl/template/party/PartyForms.xml#ContactInfo"/>
                 </container-dialog>
 
-                <label text="${paymentContactInfo.postalAddress?.address1 ?: ''}${paymentContactInfo.postalAddress?.unitNumber ? ' #' + paymentContactInfo.postalAddress.unitNumber : ''}" type="p"/>
-                <label text="${paymentContactInfo.postalAddress?.address2 ?: ''}" type="p"/>
-                <label text="${paymentContactInfo.postalAddress?.city ? paymentContactInfo.postalAddress.city + ',' : ''} ${paymentContactInfo.postalAddressStateGeo?.geoCodeAlpha2 ?: ''} ${paymentContactInfo.postalAddress?.postalCode ?: ''}" type="p"/>
-                <label text="${paymentContactInfo.telecomNumber?.countryCode ?: ''} ${paymentContactInfo.telecomNumber?.areaCode ? '(' + paymentContactInfo.telecomNumber.areaCode + ')' : ''} ${paymentContactInfo.telecomNumber?.contactNumber ?: ''}" type="p"/>
-                <label text="${paymentContactInfo.emailAddress ?: ''}" type="p"/>
+                <render-mode><text type="html" location="component://mantle-usl/template/party/ContactInfo.html.gstring"/></render-mode>
             </panel-left>
             <panel-center>
                 <section name="UserAdminSection"><condition><expression>ec.user.isInGroup(personAndUserAccount.userId, "HIVE_MIND_ADMIN", null, ec)</expression></condition>

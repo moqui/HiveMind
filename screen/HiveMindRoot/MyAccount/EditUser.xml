@@ -50,12 +50,10 @@ This Work includes contributions authored by David E. Jones, not as a
                     <form-single name="PaymentInfo" transition="storeContactInfo" map="paymentInfoFlat"
                             extends="component://mantle-usl/template/party/PartyForms.xml#ContactInfo"/>
                 </container-dialog>
-
-                <label text="${paymentContactInfo.postalAddress?.address1 ?: ''}${paymentContactInfo.postalAddress?.unitNumber ? ' #' + paymentContactInfo.postalAddress.unitNumber : ''}" type="p"/>
-                <label text="${paymentContactInfo.postalAddress?.address2 ?: ''}" type="p"/>
-                <label text="${paymentContactInfo.postalAddress?.city ? paymentContactInfo.postalAddress.city + ',' : ''} ${paymentContactInfo.postalAddressStateGeo?.geoCodeAlpha2 ?: ''} ${paymentContactInfo.postalAddress?.postalCode ?: ''}${paymentContactInfo.postalAddress?.postalCodeExt ? '-' + paymentContactInfo.postalAddress.postalCodeExt : ''}" type="p"/>
-                <label text="${paymentContactInfo.telecomNumber?.countryCode ?: ''} ${paymentContactInfo.telecomNumber?.areaCode ? '(' + paymentContactInfo.telecomNumber.areaCode + ')' : ''} ${paymentContactInfo.telecomNumber?.contactNumber ?: ''}" type="p"/>
-                <label text="${paymentContactInfo.emailAddress ?: ''}" type="p"/>
+                <section name="PaymentContactInfo">
+                    <actions><set field="contactInfo" from="paymentContactInfo"/></actions>
+                    <widgets><render-mode><text type="html" location="component://mantle-usl/template/party/ContactInfo.html.gstring"/></render-mode></widgets>
+                </section>
             </panel-left>
             <panel-center>
                 <container-dialog id="change-password" button-text="Change Password">
