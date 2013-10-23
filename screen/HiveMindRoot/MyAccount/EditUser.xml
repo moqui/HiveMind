@@ -31,18 +31,21 @@ This Work includes contributions authored by David E. Jones, not as a
     <pre-actions><set field="partyId" from="ec.user.userAccount.partyId"/></pre-actions>
     <actions>
         <entity-find-one entity-name="PersonAndUserAccount" value-field="personAndUserAccount"/>
+        <service-call name="mantle.party.ContactServices.get#PrimaryEmailAddress" out-map="primaryEmail"
+                in-map="[partyId:partyId]"/>
 
         <service-call name="mantle.party.ContactServices.get#PartyContactInfo" out-map="paymentContactInfo"
                 in-map="[partyId:partyId, postalContactMechPurposeId:'PostalPayment',
                     telecomContactMechPurposeId:'PhonePayment', emailContactMechPurposeId:'EmailPayment']"/>
         <set field="paymentInfoFlat" from="StupidUtilities.flattenNestedMap(paymentContactInfo)"/>
 
-        <set field="localeList" from="Locale.getAvailableLocales()"/>
-        <set field="localeStringList" from="new TreeSet()"/>
-        <iterate list="localeList" entry="localeEntry"><script>localeStringList.add(localeEntry.toString())</script></iterate>
+        <!-- TODO: limit to locales for tenant -->
+        <set field="localeStringList" from="[]"/>
+        <iterate list="Locale.getAvailableLocales()" entry="lcl"><script>localeStringList.add([locale:lcl.toString(), name:lcl.getDisplayName()])</script></iterate>
+        <order-map-list list="localeStringList"><order-by field-name="name"/></order-map-list>
     </actions>
     <widgets>
-        <container-panel id="VendorInfoContainer" dynamic="true">
+        <container-panel id="UserInfoContainer" dynamic="true">
             <panel-left size="250">
                 <label text="Payment Information" type="h2"/>
                 <label text="Where payments are sent" type="p"/>
@@ -69,14 +72,16 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="userId"><default-field><hidden/></default-field></field>
                     <field name="username"><default-field><text-line size="20"/></default-field></field>
                     <field name="firstName"><default-field><text-line size="15"/></default-field></field>
+                    <field name="middleName"><default-field><text-line size="15"/></default-field></field>
                     <field name="lastName"><default-field><text-line size="15"/></default-field></field>
-                    <field name="emailAddress"><default-field><text-line/></default-field></field>
+                    <field name="emailAddress" entry-name="primaryEmail.emailAddress"><default-field><text-line/></default-field></field>
 
                     <field name="locale"><default-field>
-                        <drop-down allow-empty="true" combo-box="true"><list-options list="localeStringList"/></drop-down>
+                        <drop-down allow-empty="true"><list-options list="localeStringList" key="${locale}" text="${name}"/></drop-down>
                     </default-field></field>
                     <field name="timeZone"><default-field>
-                        <drop-down allow-empty="true" combo-box="true"><list-options list="new TreeSet(TimeZone.getAvailableIDs().collect())"/></drop-down>
+                        <!-- TODO: limit time zones to tenant zones -->
+                        <drop-down allow-empty="true"><list-options list="new TreeSet(TimeZone.getAvailableIDs().collect())"/></drop-down>
                     </default-field></field>
                     <field name="disabled"><default-field><drop-down no-current-selected-key="N" current="selected">
                         <option key="N"/><option key="Y"/></drop-down></default-field></field>
