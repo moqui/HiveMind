@@ -43,7 +43,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <form-single name="FindRequestForm" transition="findRequest">
                 <!--
                 <field name="clientPartyId" entry-name="clientRp?.partyId"><default-field title="Client">
-                    <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole">
+                    <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                         <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
                 </default-field></field>
                 -->
@@ -71,7 +71,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <container-dialog id="NewRequestContainer" button-text="New Request">
             <form-single name="NewRequestForm" transition="createRequest">
                 <field name="clientPartyId"><default-field title="Client">
-                    <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole">
+                    <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                         <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
                 </default-field></field>
                 <field name="assignToPartyId"><default-field title="Assign To">

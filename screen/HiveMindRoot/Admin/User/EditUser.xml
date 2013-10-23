@@ -64,7 +64,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <label text="Where payments are sent" type="p"/>
                 <container-dialog id="PaymentInfoEdit" button-text="Edit Payment Info" width="800">
                     <form-single name="PaymentInfo" transition="storeContactInfo" map="paymentInfoFlat"
-                            extends="component://mantle-usl/template/screen/PartyForms.xml#ContactInfo"/>
+                            extends="component://mantle-usl/template/party/PartyForms.xml#ContactInfo"/>
                 </container-dialog>
 
                 <label text="${paymentContactInfo.postalAddress?.address1 ?: ''}${paymentContactInfo.postalAddress?.unitNumber ? ' #' + paymentContactInfo.postalAddress.unitNumber : ''}" type="p"/>

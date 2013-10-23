@@ -35,7 +35,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <form-single name="EditRequest" transition="updateRequest" map="request">
             <field name="requestId"><default-field title="Request ID"><display/></default-field></field>
             <field name="clientPartyId" entry-name="clientRp?.partyId"><default-field title="Client">
-                <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole">
+                <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                     <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
                 <link url="editClient" text="Edit Client"><parameter name="partyId" from="clientRp?.partyId"/></link>
             </default-field></field>

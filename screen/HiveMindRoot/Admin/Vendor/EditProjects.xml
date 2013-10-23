@@ -40,7 +40,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
                 <field name="vendorPartyId" entry-name="partyId"><default-field><hidden/></default-field></field>
                 <field name="clientPartyId"><default-field title="Client">
-                    <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole">
+                    <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                         <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
                 </default-field></field>
                 <field name="submitButton"><default-field title="Create Project"><submit/></default-field></field>

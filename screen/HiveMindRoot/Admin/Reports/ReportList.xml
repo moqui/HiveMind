@@ -22,7 +22,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <container-dialog id="PostedAmountSummaryDialog" button-text="Posted Amount Summary">
             <form-single name="PostedAmountSummaryForm" transition="viewPostedAmountSummary">
                 <field name="organizationPartyId"><default-field>
-                    <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole">
+                    <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                         <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
                 </default-field></field>
                 <field name="fromDate"><default-field><date-time/></default-field></field>
@@ -40,7 +40,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <container-dialog id="PostedBalanceSummaryDialog" button-text="Posted Balance Summary">
             <form-single name="PostedBalanceSummaryForm" transition="viewPostedBalanceSummary">
                 <field name="organizationPartyId"><default-field>
-                    <widget-template-include location="component://mantle-usl/template/screen/PartyWidgetTemplates.xml#partyDropDownByRole">
+                    <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                         <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
                 </default-field></field>
                 <field name="fromDate"><default-field><date-time/></default-field></field>

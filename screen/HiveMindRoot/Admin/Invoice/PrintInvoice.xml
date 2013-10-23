@@ -22,7 +22,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <render-mode>
-            <text type="xsl-fo" location="component://mantle-usl/template/print/account/Invoice.xsl-fo.ftl"
+            <text type="xsl-fo" location="component://mantle-usl/template/account/Invoice.xsl-fo.ftl"
                     template="true" encode="false" no-boundary-comment="true"/>
         </render-mode>
     </widgets>
