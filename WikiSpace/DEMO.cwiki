@@ -80,6 +80,7 @@ h3. HiveMind Projects and Tasks
 
 * task parent/child tree view by milestone, project
 * show child tasks with status/etc on task summary
+* create sub-task form (pre-populate parentWorkEffortId)
 
 * task comments
 ** add comments to HmTask DataDocument (for searching, etc)
@@ -96,14 +97,13 @@ h3. HiveMind Projects and Tasks
 * project template (project clone: milestones, tasks, assignments? (team only?), )
 * project and task budgets for time (by hours, client rate, vendor rate) and project budget for expenses (configure and report against)
 
+* Gantt chart based on dependencies and/or due dates
 * project calendar with milestone dates, task dates
 * user leave calendar entries, show on project calendar
 
 * all upcoming tasks/requests list (all projects, clients, users, etc); filter by date range, other filter/sort
 * recent activity list (comments, tasks created/updated, requests created/updated, other?)
 * do both on same screen?
-
-* Gantt chart based on dependencies and/or due dates
 
 * add reports
 ** time entries by user and team for time periods (month, week)
