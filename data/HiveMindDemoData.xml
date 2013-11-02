@@ -128,6 +128,8 @@ This Work includes contributions authored by David E. Jones, not as a
             quantity="1" amount="315.80" description="Elastic Compute Cloud"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="03" itemTypeEnumId="ItemExpHosting"
             quantity="1" amount="7.12" description="Simple Storage Service"/>
+    <mantle.account.invoice.InvoiceItemAssoc invoiceItemAssocId="HM-002A" invoiceId="HM-002" invoiceItemSeqId="01"
+            toInvoiceId="HM-002" toInvoiceItemSeqId="02" invoiceItemAssocTypeEnumId="IiatRelated"/>
     <mantle.work.effort.WorkEffortInvoice invoiceId="HM-002" workEffortId="HM"/>
 
 
