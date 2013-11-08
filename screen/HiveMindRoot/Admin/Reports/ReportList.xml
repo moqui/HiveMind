@@ -14,39 +14,69 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.3.xsd"
         default-menu-title="Report List" default-menu-index="1">
 
+    <transition name="viewBalanceSheet"><default-response url="../BalanceSheet"/></transition>
     <transition name="viewPostedAmountSummary"><default-response url="../PostedAmountSummary"/></transition>
     <transition name="viewPostedBalanceSummary"><default-response url="../PostedBalanceSummary"/></transition>
 
+    <transition name="getOrganizationFiscalTimePeriods">
+        <actions>
+            <service-call name="mantle.ledger.LedgerServices.get#OrganizationFiscalTimePeriods" out-map="context" in-map="context"/>
+            <order-map-list list="timePeriodList"><order-by field-name="-thruDate"/><order-by field-name="-timePeriodTypeId"/></order-map-list>
+            <script>ec.web.sendJsonResponse(timePeriodList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
     <widgets>
         <label text="Financial Reports" type="h2"/>
-        <container-dialog id="PostedAmountSummaryDialog" button-text="Posted Amount Summary">
-            <form-single name="PostedAmountSummaryForm" transition="viewPostedAmountSummary">
+
+        <container-dialog id="BalanceSheetDialog" button-text="Balance Sheet">
+            <form-single name="BalanceSheetForm" transition="viewBalanceSheet">
                 <field name="organizationPartyId"><default-field>
                     <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                         <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
                 </default-field></field>
-                <field name="fromDate"><default-field><date-time/></default-field></field>
-                <field name="thruDate"><default-field><date-time/></default-field></field>
-                <!-- determined automatically based on org: <field name="amountUomId"><default-field>
-                    <drop-down no-current-selected-key="USD"><entity-options key="${uomId}" text="${description}">
-                        <entity-find entity-name="moqui.basic.Uom">
-                            <econdition field-name="uomTypeEnumId" value="UT_CURRENCY_MEASURE"/>
-                        </entity-find>
-                    </entity-options></drop-down>
-                </default-field></field> -->
-                <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
-            </form-single>
-        </container-dialog>
-        <container-dialog id="PostedBalanceSummaryDialog" button-text="Posted Balance Summary">
-            <form-single name="PostedBalanceSummaryForm" transition="viewPostedBalanceSummary">
-                <field name="organizationPartyId"><default-field>
-                    <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
-                        <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
+                <field name="timePeriodIdList"><default-field>
+                    <drop-down size="20" allow-multiple="true">
+                        <dynamic-options transition="getOrganizationFiscalTimePeriods" value-field="timePeriodId"
+                                label-field="periodName">
+                            <depends-on field="organizationPartyId"/></dynamic-options>
+                    </drop-down>
                 </default-field></field>
-                <field name="fromDate"><default-field><date-time/></default-field></field>
-                <field name="thruDate"><default-field><date-time/></default-field></field>
                 <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
             </form-single>
         </container-dialog>
+
+        <container>
+            <container-dialog id="PostedAmountSummaryDialog" button-text="Posted Amount Summary">
+                <form-single name="PostedAmountSummaryForm" transition="viewPostedAmountSummary">
+                    <field name="organizationPartyId"><default-field>
+                        <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
+                            <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
+                    </default-field></field>
+                    <field name="fromDate"><default-field><date-time/></default-field></field>
+                    <field name="thruDate"><default-field><date-time/></default-field></field>
+                    <!-- determined automatically based on org: <field name="amountUomId"><default-field>
+                        <drop-down no-current-selected-key="USD"><entity-options key="${uomId}" text="${description}">
+                            <entity-find entity-name="moqui.basic.Uom">
+                                <econdition field-name="uomTypeEnumId" value="UT_CURRENCY_MEASURE"/>
+                            </entity-find>
+                        </entity-options></drop-down>
+                    </default-field></field> -->
+                    <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+            <container-dialog id="PostedBalanceSummaryDialog" button-text="Posted Balance Summary">
+                <form-single name="PostedBalanceSummaryForm" transition="viewPostedBalanceSummary">
+                    <field name="organizationPartyId"><default-field>
+                        <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
+                            <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
+                    </default-field></field>
+                    <field name="fromDate"><default-field><date-time/></default-field></field>
+                    <field name="thruDate"><default-field><date-time/></default-field></field>
+                    <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+        </container>
     </widgets>
 </screen>
