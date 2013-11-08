@@ -17,6 +17,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="organizationPartyId"/>
     <parameter name="fromDate"/>
     <parameter name="thruDate"/>
+    <parameter name="timePeriodId"/>
 
     <transition name="PostedBalanceSummaryExport.csv">
         <default-response url="."><parameter name="renderMode" value="csv"/>
@@ -35,6 +36,8 @@ This Work includes contributions authored by David E. Jones, not as a
             <econdition field-name="organizationPartyId"/>
             <econdition field-name="fromDate" operator="greater-equals" from="fromDate" ignore-if-empty="true"/>
             <econdition field-name="thruDate" operator="less-equals" from="thruDate" ignore-if-empty="true"/>
+            <econdition field-name="timePeriodId" ignore-if-empty="true"/>
+            <order-by field-name="accountCode"/>
         </entity-find>
     </actions>
     <widgets>

@@ -74,6 +74,13 @@ This Work includes contributions authored by David E. Jones, not as a
                     </default-field></field>
                     <field name="fromDate"><default-field><date-time/></default-field></field>
                     <field name="thruDate"><default-field><date-time/></default-field></field>
+                    <field name="timePeriodId"><default-field>
+                        <drop-down allow-empty="true">
+                            <dynamic-options transition="getOrganizationFiscalTimePeriods" value-field="timePeriodId"
+                                    label-field="periodName">
+                                <depends-on field="organizationPartyId"/></dynamic-options>
+                        </drop-down>
+                    </default-field></field>
                     <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
