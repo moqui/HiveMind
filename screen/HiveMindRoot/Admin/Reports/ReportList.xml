@@ -15,6 +15,7 @@ This Work includes contributions authored by David E. Jones, not as a
         default-menu-title="Report List" default-menu-index="1">
 
     <transition name="viewBalanceSheet"><default-response url="../BalanceSheet"/></transition>
+    <transition name="viewIncomeStatement"><default-response url="../IncomeStatement"/></transition>
     <transition name="viewPostedAmountSummary"><default-response url="../PostedAmountSummary"/></transition>
     <transition name="viewPostedBalanceSummary"><default-response url="../PostedBalanceSummary"/></transition>
 
@@ -30,22 +31,40 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <label text="Financial Reports" type="h2"/>
 
-        <container-dialog id="BalanceSheetDialog" button-text="Balance Sheet">
-            <form-single name="BalanceSheetForm" transition="viewBalanceSheet">
-                <field name="organizationPartyId"><default-field>
-                    <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
-                        <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
-                </default-field></field>
-                <field name="timePeriodIdList"><default-field>
-                    <drop-down size="20" allow-multiple="true">
-                        <dynamic-options transition="getOrganizationFiscalTimePeriods" value-field="timePeriodId"
-                                label-field="periodName">
-                            <depends-on field="organizationPartyId"/></dynamic-options>
-                    </drop-down>
-                </default-field></field>
-                <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
-            </form-single>
-        </container-dialog>
+        <container>
+            <container-dialog id="BalanceSheetDialog" button-text="Balance Sheet">
+                <form-single name="BalanceSheetForm" transition="viewBalanceSheet">
+                    <field name="organizationPartyId"><default-field>
+                        <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
+                            <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
+                    </default-field></field>
+                    <field name="timePeriodIdList"><default-field>
+                        <drop-down size="20" allow-multiple="true">
+                            <dynamic-options transition="getOrganizationFiscalTimePeriods" value-field="timePeriodId"
+                                    label-field="periodName">
+                                <depends-on field="organizationPartyId"/></dynamic-options>
+                        </drop-down>
+                    </default-field></field>
+                    <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+            <container-dialog id="IncomeStatementDialog" button-text="Income Statement">
+                <form-single name="IncomeStatementForm" transition="viewIncomeStatement">
+                    <field name="organizationPartyId"><default-field>
+                        <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
+                            <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
+                    </default-field></field>
+                    <field name="timePeriodIdList"><default-field>
+                        <drop-down size="20" allow-multiple="true">
+                            <dynamic-options transition="getOrganizationFiscalTimePeriods" value-field="timePeriodId"
+                                    label-field="periodName">
+                                <depends-on field="organizationPartyId"/></dynamic-options>
+                        </drop-down>
+                    </default-field></field>
+                    <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
+        </container>
 
         <container>
             <container-dialog id="PostedAmountSummaryDialog" button-text="Posted Amount Summary">
