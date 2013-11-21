@@ -1,0 +1,44 @@
+
+HiveMind Project Manager Release Notes
+
+===========================================================================
+Release 1.0.1 - TDB
+===========================================================================
+
+HiveMind PM 1.0.1 is a minor new feature and bug fix release.
+
+New Features:
+
+
+Bug Fixes:
+
+
+===========================================================================
+Release 1.0.0 - 20 Nov 2013
+===========================================================================
+
+HiveMind PM version 1.0.0 is the first official release. It is based on 
+Moqui Framework 1.3.2 and Mantle Business Artifacts 0.5.0.
+
+This initial version of HiveMind Project Manager includes:
+
+- Vendor, Internal Org, Client, Worker, and other User administration
+- Rate setup for client billing and vendor/worker payout by project,
+  worker, etc.
+- Project management
+- Milestone management and planning
+- Task management (hierarchical, associated with project and optionally
+  milestone)
+- Flexible task searching and all-in-one task summary
+- Request management, including creating tasks to address the request
+- Time entry by task
+- Expense entry by project
+- Invoices and payments to pay vendor/worker for time and expenses
+- Invoices and payments to bill clients and receive payment
+- Invoice PDF
+- GL posting for invoices and payments
+- Balance Sheet, Income Statement, and posted balance/summary reports
+- Wiki with attachments for requirements and designs, linked to tasks
+  and requests
+- Consolidated searching across projects, tasks, requests, and wiki
+- Simple email notifications for task, wiki, etc updates
