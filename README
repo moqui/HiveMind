@@ -12,10 +12,10 @@ deployment as described in the documentation here:
 
 http://www.moqui.org/framework/docs/RunDeploy.html
 
-The easiest way to try HiveMind is with the preview distribution from Moqui
-which is available here:
+The easiest way to try HiveMind is with the binary distribution available
+on GitHub:
 
-http://sourceforge.net/projects/moqui/files/release-1.3.1/moqui-1.3.1-mantle-HiveMind-preview.zip/download
+https://github.com/jonesde/HiveMind/releases
 
 To get the latest Moqui, Mantle, and HiveMind and run locally you'll need
 JDK 1.6 or later, Gradle 1.6, and either a git client or you can use the
