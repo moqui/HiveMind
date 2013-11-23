@@ -12,6 +12,10 @@ New Features:
 
 Bug Fixes:
 
+- Fixed issue on Milestone Summary showing milestone ID instead of task ID
+  for tasks in various states in the milestone, and ID in link to task and
+  hidden ID for updating the task association to the milestone
+
 
 ===========================================================================
 Release 1.0.0 - 20 Nov 2013

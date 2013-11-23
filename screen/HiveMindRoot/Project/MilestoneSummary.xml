@@ -28,7 +28,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <set field="milestoneWorkEffortId" from="milestoneWorkEffortId ?: milestoneWorkEffortId_0"/>
     </pre-actions>
     <actions>
-        <entity-find-one entity-name="WorkEffort" value-field="milestoneWorkEffort">
+        <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="milestoneWorkEffort">
             <field-map field-name="workEffortId" from="milestoneWorkEffortId"/>
         </entity-find-one>
         <entity-find entity-name="WorkEffortAssocAndTo" list="inactiveTaskList">
@@ -60,7 +60,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus"/>
             </row-actions>
             <field name="milestoneWorkEffortId"><default-field><hidden/></default-field></field>
-            <field name="workEffortId"><default-field><hidden/></default-field></field>
+            <field name="workEffortId" entry-name="toWorkEffortId"><default-field><hidden/></default-field></field>
             <field name="priority">
                 <header-field show-order-by="true"/>
                 <default-field><display/></default-field>
@@ -71,7 +71,8 @@ This Work includes contributions authored by David E. Jones, not as a
             </field>
             <field name="workEffortName">
                 <header-field title="Task" show-order-by="case-insensitive"/>
-                <default-field><link url="editTask" text="${workEffortId}: ${workEffortName}"/></default-field>
+                <default-field><link url="editTask" text="${toWorkEffortId}: ${workEffortName}">
+                    <parameter name="workEffortId" from="toWorkEffortId"/></link></default-field>
             </field>
 
             <field name="statusId"><default-field title="Status">
