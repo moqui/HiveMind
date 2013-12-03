@@ -17,6 +17,11 @@ on GitHub:
 
 https://github.com/jonesde/HiveMind/releases
 
+If you don't have gradle or ant installed you can use this command line to
+run Java directly:
+
+$ java -Xmx256M -XX:MaxPermSize=128m -jar moqui-${version}.war
+
 To get the latest Moqui, Mantle, and HiveMind and run locally you'll need
 JDK 1.6 or later, Gradle 1.6, and either a git client or you can use the
 "ZIP" download links on each project page on github. The github project
