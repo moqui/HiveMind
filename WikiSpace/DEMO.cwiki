@@ -22,18 +22,12 @@ h2. TODO Lists
 
 h3. HiveMind General
 
+* better permission settings (tasks visible to just current user, all users in a group, entire project, etc)
+* more testing and improvements of non-admin users with access to just certain projects, wikis, etc
+
 * volume testing
 ** script to create large numbers of clients, projects, tasks, invoices, payments, etc
 ** review screens and performance with lots of data in place
-
-* test/complete full cycle of:
-** create client
-** create vendor (with internal org, acctg settings)
-** set client and vendor RateAmounts
-** create project
-** create tasks and record time (test with Admin and non-Admin user)
-** create client invoice, invoice PDF, record invoice payment
-** create supplier/worker invoice, send payment
 
 * Team support
 ** Team assoc with Project and Task
@@ -56,6 +50,9 @@ h3. HiveMind General
 * add VendorSummary (like dashboard... reuse dashboard forms?), Projects, Tasks, TimeEntries, Requests, Invoices
 * add UserSummary (like dashboard for another user... reuse dashboard forms?), UserProjects, UserTasks, UserTimeEntries, UserRequests
 ** timesheet for user (table with columns for days, rows for tasks)
+** public view for other users to see assignments, history, etc
+
+* general activity feed for specific project, wikis, or all projects/wikis a user has access to
 
 * expense item attachments (PDF, image, etc)
 * expense mark-up on client invoice (configure mark-up percent by client invoice item type)
