@@ -74,6 +74,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <container id="dashboard-tasks-section">
+            <label text="My Open Tasks" type="h3"/>
             <dynamic-dialog id="MyProjectsContainer" button-text="My Projects" transition="myProjects"/>
             <dynamic-dialog id="MyMilestonesContainer" button-text="My Milestones" transition="myMilestones"/>
 
@@ -102,7 +103,6 @@ This Work includes contributions authored by David E. Jones, not as a
                 </form-single>
             </container-dialog>
 
-            <label text="My Open Tasks" type="h3"/>
             <form-list name="MyTasks" list="myTaskList">
                 <field name="rootWorkEffortId">
                     <default-field title="Project"><link url="editProject" text="${rootWorkEffortId?:'--'}">

@@ -38,13 +38,13 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <container id="dashboard-requests-section">
+            <label text="My Open Requests" type="h3"/>
             <container-dialog id="NewRequestContainer" button-text="New Request">
                 <form-single name="NewRequest" transition="createRequest"
                         extends="component://HiveMind/screen/HiveMindRoot/Request/FindRequest.xml#NewRequestForm">
                 </form-single>
             </container-dialog>
 
-            <label text="My Open Requests" type="h3"/>
             <form-list name="MyRequests" list="myRequestList">
                 <field name="requestId">
                     <default-field title="ID"><link url="editRequest" text="${requestId}"/></default-field>
