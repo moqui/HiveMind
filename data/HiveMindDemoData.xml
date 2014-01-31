@@ -268,14 +268,14 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
     <mantle.request.Request requestId="DEMO_001" requestTypeEnumId="RqtNewFeature" requestCategoryId=""
             statusId="ReqInProgress" requestResolutionEnumId="RrUnresolved" requestName="Add Create Request on dashboard"
             description="Please add Create Request popup on dashboard screen for convenient request creation."
-            fromPartyId="" priority="2" requestDate="2010-02-03 00:00:00" responseRequiredDate="2013-07-31 12:00:00"/>
+            filedByPartyId="" priority="2" requestDate="2010-02-03 00:00:00" responseRequiredDate="2013-07-31 12:00:00"/>
     <mantle.request.RequestParty requestId="DEMO_001" partyId="EX_JOHN_DOE" roleTypeId="Worker" fromDate="2010-02-03 00:00:00" thruDate=""/>
     <mantle.request.RequestParty requestId="DEMO_001" partyId="ORG_ACME" roleTypeId="CustomerBillTo" fromDate="2010-02-03 00:00:00" thruDate=""/>
     <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-007"/>
 
     <mantle.request.Request requestId="DEMO_002" requestTypeEnumId="RqtInformation" requestCategoryId=""
             statusId="ReqDraft" requestResolutionEnumId="RrUnresolved" requestName="Why is there so little color in the app?"
-            description="" fromPartyId="" priority="2" requestDate="2010-02-03 00:00:00"
+            description="" filedByPartyId="" priority="2" requestDate="2010-02-03 00:00:00"
             responseRequiredDate="2013-07-31 12:00:00"/>
     <mantle.request.RequestParty requestId="DEMO_002" partyId="EX_JOHN_DOE" roleTypeId="Worker" fromDate="2010-02-03 00:00:00" thruDate=""/>
 
@@ -283,6 +283,6 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
     <mantle.request.RequestWorkEffort requestId="DEMO_002" workEffortId="HM-004"/>
 
     <!-- Index the loaded demo data -->
-    <moqui.entity.ServiceTrigger serviceTriggerId="HM_SEARCH_DEMO" statusId="SrtrNotRun"
-            serviceName="org.moqui.impl.EntityServices.index#DataFeedDocuments" mapString="[dataFeedId:'HiveMindSearch']"/>
+    <!-- explicitly index the Data Feed documents since the trigger won't be in place until restart -->
+    <org.moqui.impl.EntityServices.indexDataFeedDocuments dataFeedId="HiveMindSearch"/>
 </entity-facade-xml>
