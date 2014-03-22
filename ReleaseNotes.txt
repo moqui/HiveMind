@@ -9,6 +9,9 @@ HiveMind PM 1.0.1 is a minor new feature and bug fix release.
 
 New Features:
 
+- Updates for the Metis Admin Template now in Moqui Framework
+- Changed search indexing to use service call feature now available in
+  Moqui Framework instead of using ServiceTrigger
 
 Bug Fixes:
 
