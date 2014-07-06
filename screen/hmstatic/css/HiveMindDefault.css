@@ -37,3 +37,4 @@
 #task-time-label, #task-assignments-label, #task-related-label, #task-requests-label, #task-wiki-pages-label {
     margin-top: 16px; padding-top: 4px; display: block; font-weight: bold; border-top: black solid 1px; }
 .task-status-block, .task-user-block, .task-related-block, .task-request-block { border-top: #cccccc solid 1px; }
+.task-user-block p, .task-related-block p, .task-request-block p { margin: 0; }
