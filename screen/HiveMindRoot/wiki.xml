@@ -238,11 +238,11 @@ This Work includes contributions authored by David E. Jones, not as a
                         <label text="${pageName?:''}" type="h1"/>
                     </container>
                     <container id="wiki-page-links">
-                        <link text="Edit Page" url="editPage" link-type="hidden-form" icon="pencil">
+                        <link text="Edit Page" url="editPage" link-type="hidden-form" icon="glyphicon glyphicon-pencil">
                             <parameter name="wikiSpaceId"/>
                             <parameter name="pagePath"/>
                         </link>
-                        <link text="Add Page" url="createPage" link-type="hidden-form" icon="plusthick">
+                        <link text="Add Page" url="createPage" link-type="hidden-form" icon="glyphicon glyphicon-plus">
                             <parameter name="wikiSpaceId"/>
                             <parameter name="parentPath" from="pagePath"/>
                             <parameter name="isCreate" value="true"/>
