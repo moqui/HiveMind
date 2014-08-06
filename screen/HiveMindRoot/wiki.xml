@@ -263,6 +263,10 @@ This Work includes contributions authored by David E. Jones, not as a
                             <include-screen location="${wikiSpace.decoratorScreenLocation}"/>
                         </fail-widgets>
                     </section>
+                    <section name="ResetBaseLink">
+                        <actions><script>sri.baseLinkUrl(null)</script></actions>
+                        <widgets></widgets>
+                    </section>
                 </container>
                 <!-- CONSIDER: figure out a way to make configured space root screen (wikiSpace.decoratorScreenLocation) a subscreen
                        instead of including it explicitly as above
