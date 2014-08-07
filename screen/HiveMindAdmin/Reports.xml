@@ -12,11 +12,11 @@ This Work includes contributions authored by David E. Jones, not as a
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.4.xsd"
-        default-menu-title="Teams" default-menu-index="2">
+        default-menu-title="Reports" default-menu-index="20">
 
-    <subscreens default-item="FindTeam"/>
+    <subscreens default-item="ReportList"/>
 
     <widgets>
-        <subscreens-panel id="task-panel" type="tab"/>
+        <subscreens-panel id="reports-panel" type="popup"/>
     </widgets>
 </screen>

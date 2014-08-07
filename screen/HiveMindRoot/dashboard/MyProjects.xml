@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.4.xsd"
         default-menu-include="false" standalone="true">
 
-    <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
+    <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
 
     <actions>
         <entity-find entity-name="WorkEffortAndParty" list="myProjectList">
@@ -25,7 +25,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <form-list name="MyProjectList" list="myProjectList">
-            <field name="workEffortId"><default-field title="ID"><link url="editProject" text="${workEffortId}"/></default-field></field>
+            <field name="workEffortId"><default-field title="ID"><link url="projectSummary" text="${workEffortId}"/></default-field></field>
             <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
             <field name="statusId"><default-field title="Status">
                 <display-entity entity-name="StatusItem" text="${description}"/>

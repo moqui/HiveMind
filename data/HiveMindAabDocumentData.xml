@@ -79,7 +79,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.entity.document.DataDocumentCondition dataDocumentId="HmProject"
             fieldNameAlias="workEffortTypeEnumId" fieldValue="WetProject"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmProject" label="Edit Project"
-            linkUrl="/apps/hm/Project/EditProject?workEffortId=${workEffortId}"/>
+            linkUrl="/apps/hm/Project/ProjectSummary?workEffortId=${workEffortId}"/>
 
     <!-- Task -->
     <moqui.entity.document.DataDocument dataDocumentId="HmTask" indexName="hivemind" documentName="Task"

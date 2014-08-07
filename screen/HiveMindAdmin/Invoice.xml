@@ -12,15 +12,11 @@ This Work includes contributions authored by David E. Jones, not as a
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.4.xsd"
-        default-menu-title="Users" default-menu-index="1">
+        default-menu-title="Invoices" default-menu-index="13">
 
-    <subscreens default-item="FindUser"/>
+    <subscreens default-item="FindInvoice"/>
 
     <widgets>
-        <!-- use a dynamic panel here since a subscreen uses a dynamic panel and this way the heights are correct -->
-        <container-panel id="user-panel" dynamic="true">
-            <panel-header spacing="0"><subscreens-menu id="user-menu" type="tab"/></panel-header>
-            <panel-center><subscreens-active/></panel-center>
-        </container-panel>
+        <subscreens-panel id="task-panel" type="tab"/>
     </widgets>
 </screen>

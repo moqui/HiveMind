@@ -25,7 +25,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response url="."/>
     </transition>
 
-    <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
+    <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
     <transition name="editTask"><default-response url="../../Task/TaskSummary"/></transition>
 
@@ -154,7 +154,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="requestId"><default-field><hidden/></default-field></field>
 
             <field name="rootWorkEffortId">
-                <default-field title="Project"><link url="editProject" text="${rootWorkEffortId?:'--'}">
+                <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}">
                     <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
             </field>
             <field name="workEffortId"><default-field title="Task"><display text=""/>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.4.xsd"
+        default-menu-title="Dashboard" default-menu-index="1">
+
+    <transition name="Vendor"><default-response url="../Vendor"/></transition>
+    <transition name="Client"><default-response url="../Client"/></transition>
+    <transition name="User"><default-response url="../User"/></transition>
+    <transition name="Team"><default-response url="../Team"/></transition>
+    <transition name="EditRateAmounts"><default-response url="../EditRateAmounts"/></transition>
+
+    <transition name="WikiSpace"><default-response url="../WikiSpace"/></transition>
+    <transition name="Project"><default-response url="../Project"/></transition>
+    <transition name="Invoice"><default-response url="../Invoice"/></transition>
+    <transition name="Reports"><default-response url="../Reports"/></transition>
+
+    <widgets>
+        <container-panel id="dashboard-panel" dynamic="true">
+            <panel-left>
+                <label text="Setup" type="h2"/>
+                <container>
+                    <link url="Vendor"><image url="/hmstatic/images/vendor-person25.png" url-type="plain"/></link>
+                    <link text="Vendor(s)" url="Vendor"/>
+                </container>
+                <container>
+                    <link url="Client"><image url="/hmstatic/images/client-businessmen26.png" url-type="plain"/></link>
+                    <link text="Clients" url="Client"/>
+                </container>
+                <container>
+                    <link url="User"><image url="/hmstatic/images/user-man27.png" url-type="plain"/></link>
+                    <link text="Users" url="User"/>
+                </container>
+                <container>
+                    <link url="Team"><image url="/hmstatic/images/team-businessmen18.png" url-type="plain"/></link>
+                    <link text="Teams" url="Team"/>
+                </container>
+                <container>
+                    <link url="EditRateAmounts"><image url="/hmstatic/images/rates-internet16.png" url-type="plain"/></link>
+                    <link text="Rates" url="EditRateAmounts"/>
+                </container>
+
+                <label text="Operate" type="h2"/>
+                <container>
+                    <link url="WikiSpace"><image url="/hmstatic/images/wiki-documents7.png" url-type="plain"/></link>
+                    <link text="Wiki Spaces" url="WikiSpace"/>
+                </container>
+                <container>
+                    <link url="Project"><image url="/hmstatic/images/project-business120.png" url-type="plain"/></link>
+                    <link text="Projects" url="Project"/>
+                </container>
+                <container>
+                    <link url="Invoice"><image url="/hmstatic/images/invoice-pay.png" url-type="plain"/></link>
+                    <link text="Invoices" url="Invoice"/>
+                </container>
+                <container>
+                    <link url="Reports"><image url="/hmstatic/images/reports-dollar116.png" url-type="plain"/></link>
+                    <link text="Reports" url="Reports"/>
+                </container>
+            </panel-left>
+            <panel-center>
+                <label text="TODO: add useful stuff" type="h2"/>
+            </panel-center>
+        </container-panel>
+    </widgets>
+</screen>

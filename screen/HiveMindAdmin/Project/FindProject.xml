@@ -19,7 +19,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response url="../EditProject"/>
     </transition>
     <transition name="findProject"><default-response url="."/></transition>
-    <transition name="projectSummary"><default-response url="../ProjectSummary"/></transition>
+    <transition name="editProject"><default-response url="../EditProject"/></transition>
 
     <pre-actions>
         <set field="html_title" value="Find Project"/>
@@ -50,13 +50,28 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="searchButton"><default-field title="Find Project"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
+            <container-dialog id="NewProjectContainer" button-text="New Project">
+                <form-single name="NewProject" transition="createProject">
+                    <field name="workEffortId"><default-field title="ID"><text-line size="8" maxlength="8"/></default-field></field>
+                    <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
+                    <field name="clientPartyId"><default-field title="Client">
+                        <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
+                            <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
+                    </default-field></field>
+                    <field name="vendorPartyId"><default-field title="Vendor">
+                        <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
+                            <set field="roleTypeId" value="VendorBillFrom"/><set field="allowEmpty" value="true"/></widget-template-include>
+                    </default-field></field>
+                    <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
+                </form-single>
+            </container-dialog>
         </container>
 
 
         <form-list name="ListProjects" list="projectList">
             <field name="workEffortId">
                 <header-field title="Project" show-order-by="case-insensitive"/>
-                <default-field><link url="projectSummary" text="${workEffortId}"/></default-field>
+                <default-field><link url="editProject" text="${workEffortId}"/></default-field>
             </field>
             <field name="workEffortName">
                 <header-field title="Name" show-order-by="case-insensitive"/>

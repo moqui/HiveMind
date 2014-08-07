@@ -24,7 +24,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="update#mantle.request.RequestParty" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editRequest"><default-response url="../../../Request/EditRequest"/></transition>
+    <transition name="editRequest"><default-response url="../../../hm/Request/EditRequest"/></transition>
 
     <actions>
         <entity-find entity-name="mantle.request.RequestAndParty" list="rapList">

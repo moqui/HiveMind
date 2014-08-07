@@ -20,11 +20,11 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="mantle.work.ProjectServices.create#Project" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="updateVendorProject">
+    <transition name="updateClientProject">
         <service-call name="update#WorkEffortParty" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editProject"><default-response url="../../../Project/EditProject"/></transition>
+    <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
 
     <actions>
         <entity-find entity-name="WorkEffortAndParty" list="weapList">
@@ -38,16 +38,23 @@ This Work includes contributions authored by David E. Jones, not as a
                 <field name="partyId"><default-field><hidden/></default-field></field>
                 <field name="workEffortId"><default-field title="ID"><text-line size="8" maxlength="8"/></default-field></field>
                 <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
-                <field name="vendorPartyId" entry-name="partyId"><default-field><hidden/></default-field></field>
-                <field name="clientPartyId"><default-field title="Client">
-                    <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
-                        <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
+                <field name="clientPartyId" entry-name="partyId"><default-field><hidden/></default-field></field>
+                <field name="vendorPartyId"><default-field title="Vendor">
+                    <drop-down allow-empty="true">
+                        <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
+                            <entity-find entity-name="mantle.party.PartyDetailAndRole">
+                                <econdition field-name="roleTypeId" value="VendorBillFrom"/>
+                                <order-by field-name="organizationName"/>
+                                <order-by field-name="firstName"/><order-by field-name="lastName"/>
+                            </entity-find>
+                        </entity-options>
+                    </drop-down>
                 </default-field></field>
                 <field name="submitButton"><default-field title="Create Project"><submit/></default-field></field>
             </form-single>
         </container-dialog>
 
-        <form-list name="UpdateVendorProjectForm" list="weapList" transition="updateVendorProject">
+        <form-list name="UpdateClientProjectForm" list="weapList" transition="updateClientProject">
             <field name="partyId"><default-field><hidden/></default-field></field>
 
             <field name="workEffortId"><default-field title="Project">

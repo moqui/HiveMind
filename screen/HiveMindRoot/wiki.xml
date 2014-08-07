@@ -20,7 +20,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="editPage"><default-response url="../EditWikiPage"/></transition>
     <transition name="createPage"><default-response url="../EditWikiPage"/></transition>
 
-    <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
+    <transition name="projectSummary"><default-response url="../Project/ProjectSummary"/></transition>
     <transition name="editTask"><default-response url="../Task/TaskSummary"/></transition>
     <transition name="editRequest"><default-response url="../Request/EditRequest"/></transition>
 
@@ -169,7 +169,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                 <label text="Page Projects" id="wiki-page-projects-label"/>
                                 <section-iterate name="ProjectItemSection" list="projectWpaweList" entry="projectWpawe">
                                     <widgets>
-                                        <link url="editProject" text="${projectWpawe.workEffortId} - ${projectWpawe.workEffortName}" link-type="anchor">
+                                        <link url="projectSummary" text="${projectWpawe.workEffortId} - ${projectWpawe.workEffortName}" link-type="anchor">
                                             <parameter name="rootWorkEffortId" from="projectWpawe.workEffortId"/>
                                         </link>
                                     </widgets>

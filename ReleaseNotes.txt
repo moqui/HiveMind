@@ -12,12 +12,17 @@ New Features:
 - Updates for the Metis Admin Template now in Moqui Framework
 - Changed search indexing to use service call feature now available in
   Moqui Framework instead of using ServiceTrigger
+- Moved Admin screens to separate root screen (separate "app")
+- Added admin dashboard screen with process-ish links
+- Added icon images from flaticon.com
 
 Bug Fixes:
 
 - Fixed issue on Milestone Summary showing milestone ID instead of task ID
   for tasks in various states in the milestone, and ID in link to task and
   hidden ID for updating the task association to the milestone
+- Fixed issue with wiki page display, resetting the baseLinkUrl so that JS
+  files and other URLs after the wiki content display are correct
 
 
 ===========================================================================

@@ -24,7 +24,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="update#mantle.work.effort.WorkEffortParty" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editUser"><default-response url="../../Admin/User/EditUser"/></transition>
+    <transition name="editUser"><default-response url="../../User/EditUser"/></transition>
 
     <transition name="getPersonList">
         <actions>

@@ -26,7 +26,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
     
     <transition name="Invoice.pdf">
-        <default-response url="${ec.web.getWebappRootUrl(false, null)}/fop/apps/hm/Admin/Invoice/PrintInvoice" url-type="plain">
+        <default-response url="${ec.web.getWebappRootUrl(false, null)}/fop/apps/hmadmin/Invoice/PrintInvoice" url-type="plain">
             <parameter name="renderMode" value="xsl-fo"/><parameter name="pageNoLimit" value="true"/>
             <parameter name="invoiceId"/>
         </default-response>

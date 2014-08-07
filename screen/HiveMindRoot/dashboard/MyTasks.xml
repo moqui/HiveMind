@@ -23,11 +23,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="myProjects"><default-response url="../MyProjects"/></transition>
     <transition name="myMilestones"><default-response url="../MyMilestones"/></transition>
 
-    <transition name="createProject">
-        <service-call name="mantle.work.ProjectServices.create#Project" in-map="context"/>
-        <default-response url=".."/>
-    </transition>
-    <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
+    <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
 
     <transition name="getProjectParties">
@@ -78,25 +74,6 @@ This Work includes contributions authored by David E. Jones, not as a
             <dynamic-dialog id="MyProjectsContainer" button-text="My Projects" transition="myProjects"/>
             <dynamic-dialog id="MyMilestonesContainer" button-text="My Milestones" transition="myMilestones"/>
 
-            <container-dialog id="NewProjectContainer" button-text="New Project">
-                <form-single name="NewProject" transition="createProject">
-                    <field name="workEffortId"><default-field title="ID"><text-line size="8" maxlength="8"/></default-field></field>
-                    <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
-                    <field name="clientPartyId"><default-field title="Client">
-                        <drop-down allow-empty="true">
-                            <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
-                                <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                                    <econdition field-name="roleTypeId" value="CustomerBillTo"/>
-                                    <order-by field-name="organizationName"/>
-                                    <order-by field-name="firstName"/><order-by field-name="lastName"/>
-                                </entity-find>
-                            </entity-options>
-                        </drop-down>
-                    </default-field></field>
-                    <field name="submitButton"><default-field title="Create Project"><submit/></default-field></field>
-                </form-single>
-            </container-dialog>
-
             <container-dialog id="NewTaskContainer" button-text="New Task">
                 <form-single name="NewTaskForm" transition="createTask"
                         extends="component://HiveMind/screen/HiveMindRoot/Task/FindTask.xml#NewTaskForm">
@@ -105,7 +82,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
             <form-list name="MyTasks" list="myTaskList">
                 <field name="rootWorkEffortId">
-                    <default-field title="Project"><link url="editProject" text="${rootWorkEffortId?:'--'}">
+                    <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}">
                         <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
                 </field>
                 <field name="milestoneWorkEffortId"><default-field title="Milestone">

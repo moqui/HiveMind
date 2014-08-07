@@ -12,11 +12,15 @@ This Work includes contributions authored by David E. Jones, not as a
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.4.xsd"
-        default-menu-title="WikiSpace" default-menu-index="5">
+        default-menu-title="Vendors" default-menu-index="2">
 
-    <subscreens default-item="FindWikiSpace"/>
+    <subscreens default-item="FindVendor"/>
 
     <widgets>
-        <subscreens-panel id="task-panel" type="tab"/>
+        <!-- use a dynamic panel here since a subscreen uses a dynamic panel and this way the heights are correct -->
+        <container-panel id="vendor-panel" dynamic="true">
+            <panel-header spacing="0"><subscreens-menu id="vendor-menu" type="tab"/></panel-header>
+            <panel-center><subscreens-active/></panel-center>
+        </container-panel>
     </widgets>
 </screen>

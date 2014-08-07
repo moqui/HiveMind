@@ -12,7 +12,7 @@ This Work includes contributions authored by David E. Jones, not as a
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.4.xsd"
-        default-menu-title="Projects" default-menu-index="2">
+        default-menu-title="Tasks" default-menu-index="3">
 
     <parameter name="partyId"/>
 
@@ -24,10 +24,24 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="update#WorkEffortParty" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editProject"><default-response url="../../../Project/EditProject"/></transition>
+
+    <transition name="editTask"><default-response url="../../../hm/Task/TaskSummary"/></transition>
+
+    <transition name="getProjectTasks">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
 
     <actions>
-        <entity-find entity-name="WorkEffortAndParty" list="weapList">
+        <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="weapList">
+            <econdition field-name="partyId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+        </entity-find>
+        <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
+            <date-filter/>
             <econdition field-name="partyId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
         </entity-find>
@@ -37,13 +51,16 @@ This Work includes contributions authored by David E. Jones, not as a
             <form-single name="AddUserAssignForm" transition="addUserAssign">
                 <field name="partyId"><default-field><hidden/></default-field></field>
 
-                <field name="workEffortId"><default-field title="Project"><drop-down>
-                    <entity-options key="${workEffortId}" text="${workEffortId} - ${workEffortName}">
-                        <entity-find entity-name="WorkEffort">
-                            <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down></default-field></field>
+                <field name="rootWorkEffortId"><default-field title="Project">
+                    <drop-down><list-options list="myProjectList" key="${workEffortId}" text="${workEffortId}: ${workEffortName}"/></drop-down>
+                </default-field></field>
+                <field name="workEffortId"><default-field title="Task">
+                    <drop-down combo-box="true">
+                        <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
+                            <depends-on field="rootWorkEffortId"/>
+                        </dynamic-options>
+                    </drop-down>
+                </default-field></field>
 
                 <field name="roleTypeId"><default-field title="Role">
                     <drop-down>
@@ -55,28 +72,22 @@ This Work includes contributions authored by David E. Jones, not as a
                 <field name="fromDate"><header-field show-order-by="true"/><default-field><date-time default-value="${ec.user.nowTimestamp}"/></default-field></field>
                 <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
 
-                <field name="expectationEnumId">
-                    <default-field title="Expectation"><drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">
-                        <entity-find entity-name="Enumeration">
-                            <econdition field-name="enumTypeId" value="WorkEffortPartyExpectation"/>
-                            <order-by field-name="description"/>
-                        </entity-find>
-                    </entity-options></drop-down></default-field>
-                </field>
-                <field name="emplPositionClassId">
-                    <default-field title="Position Class"><drop-down allow-empty="true"><entity-options key="${emplPositionClassId}" text="${title}">
-                        <entity-find entity-name="EmplPositionClass"/></entity-options></drop-down></default-field>
-                </field>
-                <field name="statusId">
-                    <default-field title="Status">
-                        <drop-down><entity-options key="${statusId}" text="${description}">
-                            <entity-find entity-name="StatusItem">
-                                <econdition field-name="statusTypeId" value="WorkEffortParty"/>
-                                <order-by field-name="sequenceNum"/>
-                            </entity-find>
-                        </entity-options></drop-down>
-                    </default-field>
-                </field>
+                <field name="expectationEnumId"><default-field title="Expectation">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="WorkEffortPartyExpectation"/><set field="allowEmpty" value="true"/></widget-template-include>
+                </default-field></field>
+                <field name="emplPositionClassId"><default-field title="Position Class">
+                    <drop-down allow-empty="true"><entity-options key="${emplPositionClassId}" text="${title}">
+                        <entity-find entity-name="EmplPositionClass"/></entity-options></drop-down>
+                </default-field></field>
+                <field name="statusId"><default-field title="Status">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
+                        <set field="statusTypeId" value="WorkEffortParty"/><set field="allowEmpty" value="true"/></widget-template-include>
+                </default-field></field>
+
+                <field name="receiveNotifications"><default-field>
+                    <drop-down no-current-selected-key="N"><option key="Y"/><option key="N"/></drop-down>
+                </default-field></field>
                 <field name="submitButton"><default-field title="Add Assignment"><submit/></default-field></field>
             </form-single>
         </container-dialog>
@@ -88,8 +99,8 @@ This Work includes contributions authored by David E. Jones, not as a
             </row-actions>
             <field name="partyId"><default-field><hidden/></default-field></field>
 
-            <field name="workEffortId"><default-field title="Project">
-                <link text="${workEffortId} - ${workEffortName}" url="editProject"/>
+            <field name="workEffortId"><default-field title="Task"><display text=""/>
+                <link text="${workEffortId} - ${workEffortName}" url="editTask"/>
             </default-field></field>
             <field name="roleTypeId"><header-field title="Role" show-order-by="true"/>
                 <default-field><display-entity entity-name="RoleType" text="${description}"/></default-field>
@@ -112,12 +123,17 @@ This Work includes contributions authored by David E. Jones, not as a
                     <set field="currentDescription" from="currentStatus?.description"/>
                     <set field="statusId" from="partyStatusId"/></widget-template-include>
             </default-field></field>
+
+            <field name="receiveNotifications"><default-field title="Notifs?">
+                <drop-down no-current-selected-key="N"><option key="Y"/><option key="N"/></drop-down>
+            </default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
 
             <form-list-column><field-ref name="workEffortId"/><field-ref name="roleTypeId"/></form-list-column>
             <form-list-column><field-ref name="fromDate"/><field-ref name="thruDate"/></form-list-column>
             <form-list-column><field-ref name="expectationEnumId"/><field-ref name="emplPositionClassId"/></form-list-column>
-            <form-list-column><field-ref name="statusId"/><field-ref name="submitButton"/></form-list-column>
+            <form-list-column><field-ref name="statusId"/><field-ref name="receiveNotifications"/></form-list-column>
+            <form-list-column><field-ref name="submitButton"/></form-list-column>
         </form-list>
     </widgets>
 </screen>

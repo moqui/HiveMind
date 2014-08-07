@@ -12,9 +12,9 @@ This Work includes contributions authored by David E. Jones, not as a
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.4.xsd"
-        default-menu-title="Invoices" default-menu-index="5">
+        default-menu-title="Projects" default-menu-index="12">
 
-    <subscreens default-item="FindInvoice"/>
+    <subscreens default-item="FindProject"/>
 
     <widgets>
         <subscreens-panel id="task-panel" type="tab"/>
