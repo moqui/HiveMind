@@ -17,7 +17,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="milestoneWorkEffortId"/>
     <parameter name="milestoneWorkEffortId_0"/>
 
-    <transition name="editMilestones"><default-response url="../EditMilestones"/></transition>
+    <transition name="projectSummary"><default-response url="../ProjectSummary"/></transition>
     <transition name="editTask"><default-response url="../../Task/TaskSummary"/></transition>
     <transition name="updateTask">
         <service-call name="mantle.work.TaskServices.update#Task" in-map="context"/>
@@ -52,7 +52,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <label text="Summary for Milestone &quot;${milestoneWorkEffort.workEffortName}&quot; - ${milestoneWorkEffortId}" type="h1"/>
-        <link text="Project Milestones" url="editMilestones" link-type="anchor-button">
+        <link text="Project Summary" url="projectSummary" link-type="anchor-button">
             <parameter name="rootWorkEffortId" from="milestoneWorkEffort.rootWorkEffortId"/></link>
         <label text="Inactive Tasks" type="h2"/>
         <form-list name="InactiveTaskList" list="inactiveTaskList" transition="updateTask" multi="true">

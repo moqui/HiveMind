@@ -15,6 +15,8 @@ New Features:
 - Moved Admin screens to separate root screen (separate "app")
 - Added admin dashboard screen with process-ish links
 - Added icon images from flaticon.com
+- Added view-only Project Summary screen instead of edit screens for the
+  main PM app, the edit screens are still in the admin app
 
 Bug Fixes:
 

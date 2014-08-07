@@ -14,10 +14,6 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.4.xsd"
         default-menu-include="false">
 
-    <transition name="createProject">
-        <service-call name="mantle.work.ProjectServices.create#Project" in-map="context"/>
-        <default-response url="../EditProject"/>
-    </transition>
     <transition name="findProject"><default-response url="."/></transition>
     <transition name="projectSummary"><default-response url="../ProjectSummary"/></transition>
 

@@ -12,17 +12,15 @@ This Work includes contributions authored by David E. Jones, not as a
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.4.xsd"
-        default-menu-title="Project" default-menu-index="1">
+        default-menu-title="Project">
 
     <parameter name="workEffortId"/>
     <parameter name="rootWorkEffortId"/>
 
-    <transition name="updateProject">
-        <service-call name="mantle.work.ProjectServices.update#Project" in-map="context"/>
-        <default-response url="."/>
-    </transition>
     <transition name="editClient"><default-response url="../../../hmadmin/Client/EditClient"/></transition>
     <transition name="editVendor"><default-response url="../../../hmadmin/Vendor/EditVendor"/></transition>
+    <transition name="editUser"><default-response url="../../../hmadmin/User/EditUser"/></transition>
+    <transition name="milestoneSummary"><default-response url="../MilestoneSummary"/></transition>
 
     <pre-actions>
         <if condition="rootWorkEffortId"><set field="workEffortId" from="rootWorkEffortId"/></if>
@@ -41,57 +39,122 @@ This Work includes contributions authored by David E. Jones, not as a
             <econdition field-name="roleTypeId" operator="in" value="VendorBillFrom"/>
         </entity-find>
         <set field="vendorWep" from="vendorWepList?.getAt(0)"/>
+
+        <entity-find entity-name="WorkEffort" list="milestoneList">
+            <econdition field-name="rootWorkEffortId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetMilestone"/>
+            <order-by field-name="estimatedStartDate"/>
+        </entity-find>
+
+        <entity-find entity-name="HiveMind.wiki.WikiPageAndWorkEffort" list="wpaweList">
+            <econdition field-name="workEffortId"/>
+        </entity-find>
+        <entity-find entity-name="WorkEffortPartyAndPerson" list="wepapList">
+            <econdition field-name="workEffortId" from="rootWorkEffortId"/>
+        </entity-find>
     </actions>
     <widgets>
-        <form-single name="EditProject" transition="updateProject" map="workEffort">
+        <form-single name="ViewProject" map="workEffort">
             <field name="workEffortId"><default-field title="Project ID"><display/></default-field></field>
-            <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
+            <field name="workEffortName"><default-field title="Project Name"><display/></default-field></field>
             <field name="clientPartyId" entry-name="clientWep?.partyId"><default-field title="Client">
-                <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
-                    <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
+                <display-entity entity-name="mantle.party.PartyDetail" key-field-name="partyId"
+                        text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
                 <link url="editClient" text="Edit Client"><parameter name="partyId" from="clientWep?.partyId"/></link>
             </default-field></field>
             <field name="vendorPartyId" entry-name="vendorWep?.partyId"><default-field title="Vendor">
-                <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
-                    <set field="roleTypeId" value="VendorBillFrom"/><set field="allowEmpty" value="true"/></widget-template-include>
+                <display-entity entity-name="mantle.party.PartyDetail" key-field-name="partyId"
+                        text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
                 <link url="editVendor" text="Edit Vendor"><parameter name="partyId" from="vendorWep?.partyId"/></link>
             </default-field></field>
-            <field name="priority"><default-field>
-                <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
-            </default-field></field>
+            <field name="priority"><default-field><display/></default-field></field>
             <field name="statusId"><default-field title="Status">
-                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionWithFlowDropDown">
-                    <set field="currentDescription" from="workEffort?.'WorkEffort#moqui.basic.StatusItem'?.description"/>
-                    <set field="statusId" from="workEffort.statusId"/><set field="statusFlowId" from="workEffort.statusFlowId ?: 'Default'"/>
-                </widget-template-include>
+                <display-entity entity-name="moqui.basic.StatusItem"/>
             </default-field></field>
             <field name="statusFlowId"><default-field title="Status Flow">
-                <drop-down allow-empty="true"><entity-options key="${statusFlowId}" text="${description} [${statusFlowId}]">
-                    <entity-find entity-name="moqui.basic.StatusFlow">
-                        <econditions combine="or">
-                            <econdition field-name="statusTypeId" value="WorkEffort"/>
-                            <econdition field-name="statusTypeId" from="null"/>
-                        </econditions>
-                    </entity-find>
-                </entity-options></drop-down>
+                <display-entity entity-name="moqui.basic.StatusFlow"/>
             </default-field></field>
             <field name="estimatedCompletionDate">
-                <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
+                <default-field title="Due Date"><display format="yyyy-MM-dd"/></default-field>
             </field>
             <field name="estimatedWorkTime"><default-field title="Estimated Hours">
                 <display format="#.00"/></default-field></field>
             <field name="actualWorkTime"><default-field title="Actual Hours">
                 <display format="#.00"/></default-field></field>
-            <field name="description"><default-field title="Description"><text-area rows="12" cols="100"/></default-field></field>
-            <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
-            
+            <field name="description"><default-field title="Description"><display/></default-field></field>
+
             <field-layout>
                 <fields-not-referenced/>
-                <field-row><field-ref name="statusId"/><field-ref name="estimatedCompletionDate"/></field-row>
+                <field-row><field-ref name="workEffortName"/><field-ref name="workEffortId"/></field-row>
+                <field-row><field-ref name="clientPartyId"/><field-ref name="vendorPartyId"/></field-row>
+                <field-row><field-ref name="priority"/><field-ref name="estimatedCompletionDate"/></field-row>
+                <field-row><field-ref name="statusId"/><field-ref name="statusFlowId"/></field-row>
                 <field-row><field-ref name="estimatedWorkTime"/><field-ref name="actualWorkTime"/></field-row>
                 <field-ref name="description"/>
-                <field-ref name="submitButton"/>
             </field-layout>
         </form-single>
+
+        <form-list name="MilestoneList" list="milestoneList" skip-form="true">
+            <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+            <field name="workEffortId"><default-field title="Milestone">
+                <display/>
+                <link url="milestoneSummary" text="Summary">
+                    <parameter name="milestoneWorkEffortId" from="workEffortId"/></link>
+            </default-field></field>
+            <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
+            <field name="estimatedStartDate">
+                <default-field title="Start Date"><display format="yyyy-MM-dd"/></default-field>
+            </field>
+            <field name="estimatedCompletionDate">
+                <default-field title="End Date"><display format="yyyy-MM-dd"/></default-field>
+            </field>
+            <field name="statusId"><default-field title="Status">
+                <display-entity entity-name="moqui.basic.StatusItem"/>
+            </default-field></field>
+        </form-list>
+
+        <form-list name="ViewWpweForm" list="wpaweList" skip-form="true">
+            <field name="workEffortId"><default-field><hidden/></default-field></field>
+            <field name="rootWorkEffortId" entry-name="projectWorkEffortId"><default-field><hidden/></default-field></field>
+            <field name="wikiPageId"><default-field><hidden/></default-field></field>
+
+            <field name="wikiSpaceId"><default-field title="Wiki Space"><display text=""/>
+                <link text="${wikiSpaceId}" url="/apps/hm/wiki/${wikiSpaceId}" url-type="plain"/>
+            </default-field></field>
+            <field name="pagePath"><default-field title="Page"><display text=""/>
+                <link text="${pagePath}" url="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}" url-type="plain"/>
+            </default-field></field>
+        </form-list>
+
+        <form-list name="ViewUserAssignForm" list="wepapList" skip-form="true">
+            <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+            <field name="workEffortId"><default-field><hidden/></default-field></field>
+            <field name="partyId"><default-field><hidden/></default-field></field>
+            <field name="username"><header-field show-order-by="case-insensitive"/>
+                <default-field><link url="editUser" text="${username?:'--'}"/></default-field>
+            </field>
+            <field name="firstName"><header-field title="First" show-order-by="case-insensitive"/><default-field><display also-hidden="false"/></default-field></field>
+            <field name="lastName"><header-field title="Last" show-order-by="case-insensitive"/><default-field><display also-hidden="false"/></default-field></field>
+            <field name="roleTypeId"><header-field title="Role" show-order-by="true"/>
+                <default-field><display-entity entity-name="mantle.party.RoleType"/></default-field>
+            </field>
+            <field name="fromDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
+            <field name="thruDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
+            <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/><default-field>
+                <display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId"/>
+            </default-field></field>
+            <field name="emplPositionClassId"><header-field title="Position Class" show-order-by="true"/>
+                <default-field><display-entity entity-name="EmplPositionClass" text="${title}"/></default-field>
+            </field>
+            <field name="statusId"><header-field title="Status" show-order-by="true"/><default-field>
+                <display-entity entity-name="moqui.basic.StatusItem"/>
+            </default-field></field>
+
+            <form-list-column><field-ref name="username"/><field-ref name="roleTypeId"/></form-list-column>
+            <form-list-column><field-ref name="firstName"/><field-ref name="lastName"/></form-list-column>
+            <form-list-column><field-ref name="fromDate"/><field-ref name="thruDate"/></form-list-column>
+            <form-list-column><field-ref name="expectationEnumId"/><field-ref name="emplPositionClassId"/></form-list-column>
+            <form-list-column><field-ref name="statusId"/></form-list-column>
+        </form-list>
     </widgets>
 </screen>
