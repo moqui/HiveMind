@@ -21,7 +21,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <!-- ========== DEMO WIKI DATA ========== -->
     <HiveMind.wiki.WikiSpace wikiSpaceId="DEMO" description="Demo Wiki Space" restrictView="N"
-            rootPageLocation="component://HiveMind/WikiSpace/DEMO.cwiki" decoratorScreenLocation=""/>
+            rootPageLocation="component://HiveMind/WikiSpace/DEMO.md" decoratorScreenLocation=""/>
     <HiveMind.wiki.WikiSpaceUser wikiSpaceId="DEMO" userId="EX_JOHN_DOE"
             receiveNotifications="Y" allowAdmin="Y" allowView="Y" allowUpdate="Y"/>
 
@@ -37,11 +37,11 @@ This Work includes contributions authored by David E. Jones, not as a
     <HiveMind.wiki.WikiPageHistory wikiPageId="DEMO_DP2_CP1" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
 
     <HiveMind.wiki.WikiSpace wikiSpaceId="DBDEMO" description="DB Demo Wiki Space" restrictView="N"
-            rootPageLocation="dbresource://HiveMind/WikiSpace/DBDEMO.cwiki" decoratorScreenLocation=""/>
+            rootPageLocation="dbresource://HiveMind/WikiSpace/DBDEMO.md" decoratorScreenLocation=""/>
     <moqui.resource.DbResource resourceId="HIVE_MIND" parentResourceId="" filename="HiveMind" isFile="N"/>
     <moqui.resource.DbResource resourceId="WIKI_SPACE" parentResourceId="HIVE_MIND" filename="WikiSpace" isFile="N"/>
-    <moqui.resource.DbResource resourceId="DBDEMO_CWIKI" parentResourceId="WIKI_SPACE" filename="DBDEMO.cwiki" isFile="Y"/>
-    <moqui.resource.DbResourceFile resourceId="DBDEMO_CWIKI" mimeType="text/plain" fileData="h2. The DB Demo Root Page"/>
+    <moqui.resource.DbResource resourceId="DBDEMO_CWIKI" parentResourceId="WIKI_SPACE" filename="DBDEMO.md" isFile="Y"/>
+    <moqui.resource.DbResourceFile resourceId="DBDEMO_CWIKI" mimeType="text/plain" fileData="# The DB Demo Root Page"/>
 
     <!-- Standard hourly rates in USD (not restricted to any particular Party or WorkEffort (project or task)) -->
     <mantle.humanres.rate.RateAmount rateAmountId="Default-StClSrPg" rateTypeEnumId="RatpStandard" ratePurposeEnumId="RaprClient"

@@ -79,6 +79,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <parameter name="wikiPageId"/>
             <parameter name="pagePath"/>
             <parameter name="wikiSpace" type="org.moqui.entity.EntityValue"/>
+            <parameter name="wikiType"/>
             <parameter name="pageReference" type="org.moqui.content.ResourceReference"/>
             <parameter name="attachmentList" type="List"/>
             <parameter name="pageLocation"/>
@@ -127,7 +128,8 @@ This Work includes contributions authored by David E. Jones, not as a
             <set field="pageLocation" from="pageReference?.location"/>
 
             <set field="pageName" from="pageReference?.fileName"/>
-            <if condition="pageName &amp;&amp; pageName.contains('.')">
+            <if condition="pageName?.contains('.')">
+                <set field="wikiType" from="pageName.substring(pageName.indexOf('.')+1)"/>
                 <set field="pageName" from="pageName.substring(0, pageName.indexOf('.'))"/>
             </if>
 
@@ -189,7 +191,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <parameter name="pagePath" default-value="${parentPath ? parentPath+'/' : ''}${pageName?:''}"/>
             <parameter name="parentPath"/>
             <parameter name="pageName"/>
-            <parameter name="wikiType" default-value="cwiki"/>
+            <parameter name="wikiType" default-value="md"/>
             <parameter name="pageText"/>
         </in-parameters>
         <out-parameters>
@@ -279,7 +281,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <auto-parameters include="nonpk"/>
             <parameter name="wikiSpaceId"><text-letters/><text-length min="3" max="8"/></parameter>
             <parameter name="rootPageDirectory" default-value="runtime/WikiSpace"/>
-            <parameter name="wikiType" default-value="cwiki"/>
+            <parameter name="wikiType" default-value="md"/>
         </in-parameters>
         <out-parameters>
             <parameter name="wikiSpaceId" required="true"/>

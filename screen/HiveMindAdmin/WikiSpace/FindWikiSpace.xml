@@ -49,7 +49,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     </default-field></field>
                     <!--
                     <field name="rootPageLocation"><default-field title="Root Page">
-                        <text-line size="60" default-value="component://HiveMind/WikiSpace/\${wikiSpaceId}.cwiki"/>
+                        <text-line size="60" default-value="component://HiveMind/WikiSpace/\${wikiSpaceId}.md"/>
                     </default-field></field>
                     -->
 

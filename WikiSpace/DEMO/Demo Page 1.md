@@ -1,9 +1,9 @@
 
 {toc}
 
-h2. Demo Page 1
+## Demo Page 1
 
-h3. Section 1
+### Section 1
 
 Some text
 
@@ -29,7 +29,7 @@ Line 9
 
 Line 10
 
-h4. Subsection 1-1
+#### Subsection 1-1
 
 More text
 
@@ -53,7 +53,7 @@ Line 9
 
 Line 10
 
-h4. Subsection 1-2
+#### Subsection 1-2
 
 Even more text
 
@@ -77,7 +77,7 @@ Line 9
 
 Line 10
 
-h3. Section 2
+### Section 2
 
 New sort of text
 
@@ -101,7 +101,7 @@ Line 9
 
 Line 10
 
-h3. Section 3
+### Section 3
 
 Even newer sort of text
 

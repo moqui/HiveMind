@@ -17,6 +17,8 @@ New Features:
 - Added icon images from flaticon.com
 - Added view-only Project Summary screen instead of edit screens for the
   main PM app, the edit screens are still in the admin app
+- Added Pagedown editor for Markdown (.md) wiki pages, still supports cwiki
+  but now md is the default; converted demo pages from cwiki to md
 
 Bug Fixes:
 

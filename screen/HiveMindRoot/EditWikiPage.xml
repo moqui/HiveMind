@@ -23,6 +23,11 @@ This Work includes contributions authored by David E. Jones, not as a
         <error-response url="."/>
     </transition>
 
+    <pre-actions>
+        <script>html_stylesheets.add('/assets/lib/pagedown-bootstrap/css/jquery.pagedown-bootstrap.css')</script>
+        <script>footer_scripts.add('/assets/lib/pagedown-bootstrap/js/jquery.pagedown-bootstrap.combined.min.js')</script>
+        <script>sri.appendToScriptWriter("""var converter = Markdown.getSanitizingConverter(); var editor = new Markdown.Editor(converter); editor.run();""")</script>
+    </pre-actions>
     <actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
         <if condition="!isCreate">
@@ -51,21 +56,57 @@ This Work includes contributions authored by David E. Jones, not as a
                 <conditional-field condition="!isRootPage"><text-line size="40"/></conditional-field>
             </field>
             <!-- TODO: decorate this with some fancy editor based on the type of wiki text it is -->
-            <field name="pageText"><default-field><text-area cols="100" rows="30"/></default-field></field>
+            <field name="pageText">
+                <conditional-field condition="wikiType == 'md'">
+                    <render-mode>
+                        <text><![CDATA[
+                <div class="box">
+                  <header>
+                    <h5>Markdown Editor</h5>
+                    <ul class="nav nav-tabs pull-right">
+                      <li class="active">
+                        <a href="#markdown" data-toggle="tab">Markdown</a>
+                      </li>
+                      <li> <a href="#preview" data-toggle="tab">Preview</a>  </li>
+                    </ul>
+                  </header>
+                  <div id="div-3" class="body tab-content">
+                    <div class="tab-pane fade active in" id="markdown">
+                      <div class="wmd-panel">
+                        <div id="wmd-button-bar" class="btn-toolbar"></div>
+                        <textarea class="form-control wmd-input" cols="100" rows="24" name="pageText" id="wmd-input">
+${pageText}
+                        </textarea>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="preview">
+                      <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
+                    </div>
+                  </div>
+                </div>
+                    ]]></text>
+                    </render-mode>
+                </conditional-field>
+                <default-field>
+                    <text-area cols="100" rows="30"/>
+                </default-field>
+            </field>
             <field name="submitButton">
                 <conditional-field condition="isCreate" title="Create Page"><submit/></conditional-field>
                 <default-field title="Update Page"><submit/></default-field>
             </field>
-            <field name="cancelButton">
-                <default-field title="">
-                    <link text="Cancel" url="${baseLinkUrl}/${pagePath?:parentPath?:''}" url-type="plain"/>
-                </default-field>
-            </field>
+            <field name="cancelButton"><default-field title="">
+                <link text="Cancel" url="${baseLinkUrl}/${pagePath?:parentPath?:''}" url-type="plain" link-type="anchor-button"/>
+            </default-field></field>
+            <field name="syntaxLink"><default-field title="">
+                <link text="Syntax Reference" url-type="plain" url="http://daringfireball.net/projects/markdown/syntax"/>
+            </default-field></field>
             <field-layout>
                 <field-ref name="parentPath"/>
                 <field-ref name="pageName"/>
                 <field-ref name="pageText"/>
                 <field-row><field-ref name="submitButton"/><field-ref name="cancelButton"/></field-row>
+                <field-ref name="syntaxLink"/>
             </field-layout>
         </form-single>
     </widgets>

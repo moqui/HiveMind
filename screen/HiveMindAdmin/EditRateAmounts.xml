@@ -140,7 +140,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </field>
 
             <field name="fromDate">
-                <header-field show-order-by="true"/>
+                <header-field show-order-by="true"><!--<date-find/>--></header-field>
                 <default-field><date-time/></default-field>
             </field>
             <field name="thruDate">
