@@ -106,9 +106,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     </section-iterate>
                 </container>
                 -->
-                <render-mode>
-                    <text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/>
-                </render-mode>
+                <render-mode><text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/></render-mode>
 
                 <section name="WikiPageAttachments">
                     <!-- this is only needed if it is below the wiki page render: <actions><script>sri.baseLinkUrl(null)</script></actions> -->
@@ -234,39 +232,23 @@ This Work includes contributions authored by David E. Jones, not as a
                     </section-iterate>
                 </container>
                 <container style="ui-helper-clearfix">
-                    <container id="wiki-page-name">
-                        <label text="${pageName?:''}" type="h1"/>
-                    </container>
+                    <container id="wiki-page-name"><label text="${pageName?:''}" type="h1"/></container>
                     <container id="wiki-page-links">
                         <link text="Edit Page" url="editPage" link-type="hidden-form" icon="glyphicon glyphicon-pencil">
-                            <parameter name="wikiSpaceId"/>
-                            <parameter name="pagePath"/>
-                        </link>
+                            <parameter name="wikiSpaceId"/><parameter name="pagePath"/></link>
                         <link text="Add Page" url="createPage" link-type="hidden-form" icon="glyphicon glyphicon-plus">
-                            <parameter name="wikiSpaceId"/>
-                            <parameter name="parentPath" from="pagePath"/>
-                            <parameter name="isCreate" value="true"/>
-                        </link>
+                            <parameter name="wikiSpaceId"/><parameter name="parentPath" from="pagePath"/>
+                            <parameter name="isCreate" value="true"/></link>
                     </container>
                 </container>
                 <container id="wiki-page-area">
                     <section name="WikiPageInclude">
                         <condition><expression>!wikiSpace?.decoratorScreenLocation</expression></condition>
-                        <actions>
-                            <!-- NOTE: if anything runs after this before to reset so it doesn't mess up URLs generated -->
-                            <script>sri.baseLinkUrl(baseLinkUrl)</script>
-                        </actions>
-                        <widgets>
-                            <render-mode><text template="true" type="html" location="${pageLocation?:''}"/></render-mode>
-                        </widgets>
-                        <fail-widgets>
-                            <include-screen location="${wikiSpace.decoratorScreenLocation}"/>
-                        </fail-widgets>
+                        <actions><script>sri.baseLinkUrl(baseLinkUrl)</script></actions>
+                        <widgets><render-mode><text template="true" type="html" location="${pageLocation?:''}"/></render-mode></widgets>
+                        <fail-widgets><include-screen location="${wikiSpace.decoratorScreenLocation}"/></fail-widgets>
                     </section>
-                    <section name="ResetBaseLink">
-                        <actions><script>sri.baseLinkUrl(null)</script></actions>
-                        <widgets></widgets>
-                    </section>
+                    <section name="ResetBaseLink"><actions><script>sri.baseLinkUrl(null)</script></actions><widgets></widgets></section>
                 </container>
                 <!-- CONSIDER: figure out a way to make configured space root screen (wikiSpace.decoratorScreenLocation) a subscreen
                        instead of including it explicitly as above
