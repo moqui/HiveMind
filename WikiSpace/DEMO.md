@@ -5,14 +5,14 @@ Move along, nothing to see here...
 
 ## Link Tests
 
-[Demo Page 1](Demo%20Page%201)
-[Demo Page 1, Section 1](Demo%20Page%201#Section1)
-[Demo Page 1, Subsection 1-2|Demo Page 1#Subsection12]
+[Demo Page 1](DEMO/Demo%20Page%201)
+[Demo Page 1, Section 1](DEMO/Demo%20Page%201#Section1)
+[Demo Page 1, Subsection 1-2](DEMO/Demo%20Page%201#Section12)
 
-[Demo Page 1/Child Page 1](Demo%20Page%201/Child%20Page%201)
-[Child Page 1](Child%20Page%201)
+[Demo Page 1/Child Page 1](DEMO/Demo%20Page%201/Child%20Page%201)
+[Child Page 1](DEMO/Child%20Page%201)
 
-[New Page Test](New%20Page%20Test)
+[New Page Test](DEMO/New%20Page%20Test)
 
 [Moqui Website](http://www.moqui.org)
 

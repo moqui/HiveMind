@@ -3,7 +3,7 @@
 
 ## Demo Page 1
 
-### Section 1
+<h3 id="Section1">Section 1</h3>
 
 Some text
 
@@ -29,7 +29,7 @@ Line 9
 
 Line 10
 
-#### Subsection 1-1
+<h4 id="Section11">Subsection 1-1</h4>
 
 More text
 
@@ -53,7 +53,7 @@ Line 9
 
 Line 10
 
-#### Subsection 1-2
+<h4 id="Section12">Subsection 1-2</h4>
 
 Even more text
 
@@ -77,7 +77,7 @@ Line 9
 
 Line 10
 
-### Section 2
+<h3 id="Section2">Section 2</h3>
 
 New sort of text
 
@@ -101,7 +101,7 @@ Line 9
 
 Line 10
 
-### Section 3
+<h3 id="Section3">Section 3</h3>
 
 Even newer sort of text
 
