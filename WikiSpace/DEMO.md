@@ -59,12 +59,10 @@ Move along, nothing to see here...
 ### HiveMind Wiki
 
 * add URL path support for page attachments instead of plain transition with form parameters
-* don't include current page in drop-down of optional parent pages
 
-* comment list and add comment form (files in a subdir like _attachments?)
+* comment list and add comment form (files in a subdir like _attachments?, no use communication event)
 * generate PDF from wiki source
 * space page tree - change to use AJAX so entire space tree isn't loaded each time (maybe make page view change without reloading?)
-* reference for wiki syntax supported (Markdown)
 
 ### HiveMind Projects and Tasks
 
