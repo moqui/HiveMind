@@ -19,6 +19,7 @@ New Features:
   main PM app, the edit screens are still in the admin app
 - Added Pagedown editor for Markdown (.md) wiki pages, still supports cwiki
   but now md is the default; converted demo pages from cwiki to md
+- Added threaded comments with CommunicationEvent records for wiki pages
 
 Bug Fixes:
 
