@@ -22,8 +22,10 @@ This Work includes contributions authored by David E. Jones, not as a
     </pre-actions>
     
     <actions>
-        <entity-find entity-name="WorkEffort" list="projectList">
+        <entity-find entity-name="WorkEffortAndParty" list="projectList">
             <search-form-inputs default-order-by="workEffortId"/>
+            <date-filter/>
+            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
         </entity-find>
     </actions>

@@ -68,12 +68,15 @@ This Work includes contributions authored by David E. Jones, not as a
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
         </entity-find>
+        <set field="myProjectIds" from="[]"/>
+        <iterate list="myProjectList" entry="myProject"><script>myProjectIds.add(myProject.workEffortId)</script></iterate>
 
         <if condition="!queryString">
             <!-- pure DB query -->
             <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="taskList">
                 <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"/>
                 <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+                <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds"/><!-- only tasks in allowed projects -->
                 <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
                 <select-field field-name="parentWorkEffortId"/><select-field field-name="workEffortId"/>
                 <select-field field-name="workEffortName"/><select-field field-name="priority"/>
@@ -136,6 +139,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"
                             input-fields-map="searchInputs"/>
                     <econdition field-name="workEffortId" operator="in" from="workEffortIdList"/>
+                    <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds"/><!-- only tasks in allowed projects -->
                     <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
                     <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
                     <select-field field-name="parentWorkEffortId"/><select-field field-name="workEffortId"/>

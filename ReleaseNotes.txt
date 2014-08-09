@@ -23,6 +23,8 @@ New Features:
 - Added Pagedown editor for Markdown (.md) wiki pages, still supports cwiki
   but now md is the default; converted demo pages from cwiki to md
 - Added threaded comments with CommunicationEvent records for wiki pages
+- Users in HiveMind PM can only see projects they are associated with, and
+  only tasks associated with their projects
 
 Bug Fixes:
 
