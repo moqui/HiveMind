@@ -277,6 +277,24 @@ This Work includes contributions authored by David E. Jones, not as a
             <set field="document.content" from="ec.resource.getLocationText(wikiPageInfo.pageLocation, false)"/>
         </actions>
     </service>
+    
+    <service verb="add" noun="WikiPageComment">
+        <in-parameters>
+            <parameter name="wikiPageId" required="true"/>
+            <parameter name="subject"/>
+            <parameter name="body"/>
+            <parameter name="contentType" default-value="text/plain"/>
+        </in-parameters>
+        <actions>
+            <service-call name="create#mantle.party.communication.CommunicationEvent" out-map="context"
+                    in-map="[communicationEventTypeId:'Comment', contactMechTypeEnumId:'CmtWebForm', statusId:'CeSent',
+                        fromPartyId:ec.user.userAccount.partyId, entryDate:ec.user.nowTimestamp,
+                        contentType:contentType, subject:subject, body:body]"/>
+            <service-call name="create#HiveMind.wiki.WikiPageCommunicationEvent"
+                    in-map="[wikiPageId:wikiPageId, communicationEventId:communicationEventId]"/>
+        </actions>
+    </service>
+
 
     <service verb="create" noun="WikiSpace">
         <in-parameters>

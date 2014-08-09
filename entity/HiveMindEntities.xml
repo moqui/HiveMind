@@ -35,6 +35,15 @@ This Work includes contributions authored by David E. Jones, not as a
         <relationship type="one" related-entity-name="HiveMind.wiki.WikiPage"/>
         <relationship type="one" related-entity-name="mantle.party.communication.CommunicationEvent"/>
     </entity>
+    <view-entity entity-name="WikiPageCommEventDetail" package-name="HiveMind.wiki">
+        <member-entity entity-alias="WPCE" entity-name="HiveMind.wiki.WikiPageCommunicationEvent"/>
+        <member-entity entity-alias="CEV" entity-name="mantle.party.communication.CommunicationEvent" join-from-alias="WPCE">
+            <key-map field-name="communicationEventId"/>
+        </member-entity>
+        <alias-all entity-alias="WPCE"/>
+        <alias-all entity-alias="CEV"/>
+    </view-entity>
+    
     <entity entity-name="WikiPageHistory" package-name="HiveMind.wiki">
         <field name="wikiPageId" type="id" is-pk="true"/>
         <field name="historySeqId" type="id" is-pk="true"/>

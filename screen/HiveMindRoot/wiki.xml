@@ -61,6 +61,12 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response type="none"/>
     </transition>
 
+    <transition name="wikiCommentReply"><default-response url="WikiCommentReply"/></transition>
+    <transition name="addComment">
+        <service-call name="HiveMind.WikiServices.add#TaskComment" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+
     <pre-actions>
         <script>html_scripts.add('/hmstatic/jstree/jquery-jstree-pre1.0fix1.js')</script>
 
@@ -90,6 +96,14 @@ This Work includes contributions authored by David E. Jones, not as a
         <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenPathUrl() + '/' + wikiSpaceId"/>
         <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
     </pre-actions>
+    
+    <actions>
+        <!-- Comments -->
+        <entity-find entity-name="HiveMind.wiki.WikiPageCommEventDetail" list="commEventDetailList">
+            <econdition field-name="wikiPageId"/>
+            <order-by field-name="entryDate"/>
+        </entity-find>
+    </actions>
 
     <widgets>
         <container-panel id="wiki-view">
@@ -254,6 +268,46 @@ This Work includes contributions authored by David E. Jones, not as a
                        instead of including it explicitly as above
                 <subscreens-active id="wiki-container"/>
                 -->
+
+                <label text="Comments" type="h2"/>
+                <container-dialog id="AddCommentDialog" button-text="Add Comment">
+                    <form-single name="AddCommentForm" transition="addComment">
+                        <field name="wikiPageId"><default-field><hidden/></default-field></field>
+                        <field name="subject"><default-field><text-line/></default-field></field>
+                        <field name="body"><default-field title="Comment"><text-area rows="10"/></default-field></field>
+                        <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
+                    </form-single>
+                </container-dialog>
+                <section-iterate name="CommentList" list="commEventDetailList" entry="commEventDetail">
+                    <actions>
+                        <set field="uniqueExtension" from="commEventDetail_index"/>
+                        <entity-find-one entity-name="mantle.party.Person" value-field="fromPerson" cache="true">
+                            <field-map field-name="partyId" from="commEventDetail.fromPartyId"/>
+                        </entity-find-one>
+                        <entity-find entity-name="mantle.party.communication.CommunicationEvent" list="childCeList">
+                            <econdition field-name="rootCommEventId" from="commEventDetail.communicationEventId"/>
+                            <order-by field-name="entryDate"/>
+                        </entity-find>
+                    </actions>
+                    <widgets>
+                        <container style="task-comment">
+                            <label text="${commEventDetail.subject}" type="strong"/>
+                            <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
+                            <label text="at ${commEventDetail.entryDate}" type="span"/>
+                            <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="taskCommentReply">
+                                <parameter name="parentCommEventId" from="commEventDetail.communicationEventId"/>
+                            </dynamic-dialog>
+
+                            <label text="${commEventDetail.body}" type="pre" encode="false"/>
+
+                            <section name="ChildNestedComments">
+                                <condition><expression>childCeList</expression></condition>
+                                <actions><set field="currentCe" from="commEventDetail"/></actions>
+                                <widgets><include-screen location="component://HiveMind/screen/HiveMindRoot/wiki/WikiCommentNested.xml"/></widgets>
+                            </section>
+                        </container>
+                    </widgets>
+                </section-iterate>
             </panel-center>
         </container-panel>
     </widgets>
