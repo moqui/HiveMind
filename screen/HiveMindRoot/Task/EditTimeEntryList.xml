@@ -16,7 +16,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <parameter name="workEffortId"/>
 
-    <transition name="editUser"><default-response url="../../Admin/User/EditUser"/></transition>
+    <transition name="editUser"><default-response url="../../../hmadmin/User/EditUser"/></transition>
 
     <actions>
         <entity-find entity-name="TimeEntry" list="timeEntryList">
