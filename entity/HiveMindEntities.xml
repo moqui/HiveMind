@@ -30,8 +30,10 @@ This Work includes contributions authored by David E. Jones, not as a
     <entity entity-name="WikiPageCommunicationEvent" package-name="HiveMind.wiki">
         <field name="wikiPageId" type="id" is-pk="true"/>
         <field name="communicationEventId" type="id" is-pk="true"/>
+        <field name="description" type="text-medium"/>
+        <field name="sequenceNum" type="number-integer"/>
         <relationship type="one" related-entity-name="HiveMind.wiki.WikiPage"/>
-        <relationship type="one" related-entity-name="CommunicationEvent"/>
+        <relationship type="one" related-entity-name="mantle.party.communication.CommunicationEvent"/>
     </entity>
     <entity entity-name="WikiPageHistory" package-name="HiveMind.wiki">
         <field name="wikiPageId" type="id" is-pk="true"/>
