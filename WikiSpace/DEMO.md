@@ -60,7 +60,6 @@ Move along, nothing to see here...
 
 * add URL path support for page attachments instead of plain transition with form parameters
 
-* comment list and add comment form (files in a subdir like _attachments?, no use communication event)
 * generate PDF from wiki source
 * space page tree - change to use AJAX so entire space tree isn't loaded each time (maybe make page view change without reloading?)
 
