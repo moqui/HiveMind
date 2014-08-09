@@ -54,4 +54,6 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <HiveMind.wiki.WikiSpace wikiSpaceId="HmDesign" description="HiveMind Design" restrictView="N"
             rootPageLocation="component://HiveMind/WikiSpace/HmDesign.cwiki" decoratorScreenLocation=""/>
+    <HiveMind.wiki.WikiPage wikiPageId="HmDesign" wikiSpaceId="HmDesign" createdByUserId="EX_JOHN_DOE"/>
+    <HiveMind.wiki.WikiPageHistory wikiPageId="HmDesign" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
 </entity-facade-xml>
