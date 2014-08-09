@@ -9,9 +9,6 @@ this Work and assume any risks associated with your use of this Work.
 
 This Work includes contributions authored by David E. Jones, not as a
 "work for hire", who hereby disclaims any copyright to the same.
-
-This Work includes contributions authored by contributors to Apache OFBiz
-and those parts may be licensed under the Apache License 2.0.
 -->
 <entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-1.4.xsd">
@@ -29,6 +26,12 @@ and those parts may be licensed under the Apache License 2.0.
             <key-map field-name="createdByUserId" related-field-name="userId"/>
         </relationship>
         <index name="WIKIPAGE_SPCPTH" unique="true"><index-field name="wikiSpaceId"/><index-field name="pagePath"/></index>
+    </entity>
+    <entity entity-name="WikiPageCommunicationEvent" package-name="HiveMind.wiki">
+        <field name="wikiPageId" type="id" is-pk="true"/>
+        <field name="communicationEventId" type="id" is-pk="true"/>
+        <relationship type="one" related-entity-name="HiveMind.wiki.WikiPage"/>
+        <relationship type="one" related-entity-name="CommunicationEvent"/>
     </entity>
     <entity entity-name="WikiPageHistory" package-name="HiveMind.wiki">
         <field name="wikiPageId" type="id" is-pk="true"/>
