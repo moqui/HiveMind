@@ -27,6 +27,7 @@ New Features:
   only tasks associated with their projects
 - Added child task display with id, name, purpose, status, and resolution
   to the task summary screen
+- Added new child task form to task summary screen
 
 Bug Fixes:
 
