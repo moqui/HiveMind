@@ -86,6 +86,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <parameter name="pageLocation"/>
             <parameter name="pageName"/>
             <parameter name="parentPath"/>
+            <parameter name="breadcrumbNameList" type="List"/>
             <parameter name="breadcrumbMapList" type="List"/>
         </out-parameters>
         <actions>
@@ -149,6 +150,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <set field="parentPath" from="pathForParentPath?.contains('/') ? pathForParentPath.substring(0, pathForParentPath.lastIndexOf('/')) : ''"/>
 
             <script><![CDATA[
+                breadcrumbNameList = []
                 breadcrumbMapList = []
                 List<String> parentPathList = parentPath.split('/')
 
@@ -161,6 +163,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         curPath += parentPathList[i]
                     }
 
+                    breadcrumbNameList.add(parentPathName)
                     breadcrumbMapList.add([pageName:parentPathName, pagePath:curPath])
                     listIndex++
                 }

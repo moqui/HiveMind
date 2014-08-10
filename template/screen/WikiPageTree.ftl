@@ -10,12 +10,13 @@ This Work includes contributions authored by David E. Jones, not as a
 "work for hire", who hereby disclaims any copyright to the same.
 -->
 
-<#macro pageList pageInfoList>
+<#macro pageList pageInfoList parentInPath=false>
     <#list pageInfoList as pageInfo>
-        <li id="PLI_${pageInfo.path.hashCode().toString()}"><a href="${baseLinkUrl}/${pageInfo.path}">${pageInfo.name}</a>
+        <#assign currentInPath = breadcrumbNameList.contains(pageInfo.name)>
+        <li<#if currentInPath> class="jstree-open"</#if>><a<#if parentInPath && pageName == pageInfo.name> class="jstree-clicked"</#if> href="${baseLinkUrl}/${pageInfo.path}">${pageInfo.name}</a>
             <#if pageInfo.childResourceList?has_content>
                 <ul>
-                    <@pageList pageInfoList=pageInfo.childResourceList/>
+                    <@pageList pageInfoList=pageInfo.childResourceList parentInPath=currentInPath/>
                 </ul>
             </#if>
         </li>
@@ -31,12 +32,12 @@ This Work includes contributions authored by David E. Jones, not as a
 
 <script>
     $(function () {
-        var openList = [<#list breadcrumbMapList?if_exists as breadcrumbMap>'PLI_${breadcrumbMap.pagePath.hashCode().toString()}'<#if breadcrumbMap_has_next>,</#if></#list>];
-        $.jstree._themes = "/hmstatic/jstree/";
-        $("#wiki-page-tree").jstree({
-            "plugins" : [ "themes", "html_data" ],
-            "core" : { "initially_open" : openList },
-            "themes" : { "theme" : "classic", "dots" : true, "icons" : false } });
+        $("#wiki-page-tree").bind('select_node.jstree', function(e,data) {
+            window.location.href = data.node.a_attr.href;
+        }).jstree({
+            "plugins" : [ "themes" ],
+            "core" : { "themes" : { "url" : true, "dots" : true, "icons" : false }, "multiple" : false},
+        });
     });
 </script>
 </#if>

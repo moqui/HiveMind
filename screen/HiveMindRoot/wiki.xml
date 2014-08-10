@@ -69,7 +69,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
 
     <pre-actions>
-        <script>html_scripts.add('/hmstatic/jstree/jquery-jstree-pre1.0fix1.js')</script>
+        <script>html_scripts.add('/js/jstree-3.0.3/jstree.min.js')</script>
 
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
         <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
@@ -93,12 +93,12 @@ This Work includes contributions authored by David E. Jones, not as a
                 sri.sendRedirectAndStopRender(editWikiUrl.getUrlWithParams())
             }
         ]]></script>
-
-        <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenPathUrl() + '/' + wikiSpaceId"/>
-        <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
     </pre-actions>
     
     <actions>
+        <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenPathUrl() + '/' + wikiSpaceId"/>
+        <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
+
         <!-- Comments -->
         <entity-find entity-name="HiveMind.wiki.WikiPageCommEventDetail" list="commEventDetailList">
             <econdition field-name="wikiPageId"/>
