@@ -66,7 +66,6 @@ Move along, nothing to see here...
 ### HiveMind Projects and Tasks
 
 * task parent/child tree view by milestone, project
-* show child tasks with status/etc on task summary
 * create sub-task form (pre-populate parentWorkEffortId)
 
 * task comments

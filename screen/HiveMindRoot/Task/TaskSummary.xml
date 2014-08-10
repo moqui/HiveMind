@@ -98,9 +98,9 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="task"/>
         <entity-find-related-one value-field="task" relationship-name="Root#mantle.work.effort.WorkEffort" to-value-field="project"/>
         <entity-find-related-one value-field="task" relationship-name="Parent#mantle.work.effort.WorkEffort" to-value-field="parentTask"/>
-        <entity-find-related-one value-field="task" relationship-name="WorkEffortPurpose#moqui.basic.Enumeration" to-value-field="purposeEnum"/>
-        <entity-find-related-one value-field="task" relationship-name="WorkEffortResolution#moqui.basic.Enumeration" to-value-field="resolutionEnum"/>
-        <entity-find-related-one value-field="task" relationship-name="WorkEffort#moqui.basic.StatusItem" to-value-field="currentStatus"/>
+        <entity-find-related-one value-field="task" relationship-name="WorkEffortPurpose#moqui.basic.Enumeration" to-value-field="purposeEnum" cache="true"/>
+        <entity-find-related-one value-field="task" relationship-name="WorkEffortResolution#moqui.basic.Enumeration" to-value-field="resolutionEnum" cache="true"/>
+        <entity-find-related-one value-field="task" relationship-name="WorkEffort#moqui.basic.StatusItem" to-value-field="currentStatus" cache="true"/>
 
         <entity-find entity-name="mantle.work.effort.WorkEffortAssoc" list="milestoneAssocList">
             <date-filter/>
@@ -134,6 +134,11 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
             <date-filter/>
             <econdition field-name="workEffortId"/>
+        </entity-find>
+        <!-- Child Tasks -->
+        <entity-find entity-name="mantle.work.effort.WorkEffort" list="childTaskList">
+            <econdition field-name="parentWorkEffortId" from="workEffortId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
         </entity-find>
         <!-- Related Tasks -->
         <entity-find entity-name="mantle.work.effort.WorkEffortAssocAndTo" list="relatedToList">
@@ -306,6 +311,22 @@ This Work includes contributions authored by David E. Jones, not as a
                     </widgets>
                 </section-iterate>
 
+                <label text="Child Tasks" id="task-child-label"/>
+                <section-iterate name="TaskChildList" list="childTaskList" entry="childTask">
+                    <actions>
+                        <entity-find-related-one value-field="childTask" relationship-name="WorkEffortPurpose#moqui.basic.Enumeration" to-value-field="childPurpose" cache="true"/>
+                        <entity-find-related-one value-field="childTask" relationship-name="WorkEffortResolution#moqui.basic.Enumeration" to-value-field="childResolution" cache="true"/>
+                        <entity-find-related-one value-field="childTask" relationship-name="WorkEffort#moqui.basic.StatusItem" to-value-field="childStatus" cache="true"/>
+                    </actions>
+                    <widgets>
+                        <container style="task-child-block">
+                            <link text="${childTask.workEffortId} - ${childTask.workEffortName}" url="taskSummary">
+                                <parameter name="workEffortId" from="childTask.workEffortId"/>
+                            </link>
+                            <label text="${childPurpose.description} - ${childStatus.description} - ${childResolution.description}" type="p"/>
+                        </container>
+                    </widgets>
+                </section-iterate>
                 <label text="Related" id="task-related-label"/>
                 <section-iterate name="TaskRelatedToList" list="relatedToList" entry="relatedTo">
                     <actions>

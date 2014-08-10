@@ -25,6 +25,8 @@ New Features:
 - Added threaded comments with CommunicationEvent records for wiki pages
 - Users in HiveMind PM can only see projects they are associated with, and
   only tasks associated with their projects
+- Added child task display with id, name, purpose, status, and resolution
+  to the task summary screen
 
 Bug Fixes:
 
