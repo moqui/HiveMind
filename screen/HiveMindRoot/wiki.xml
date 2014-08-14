@@ -121,6 +121,19 @@ This Work includes contributions authored by David E. Jones, not as a
                     </section-iterate>
                 </container>
                 -->
+                <!--
+                <tree name="SpacePageTree">
+                    <tree-node name="WikiPageNode">
+                        <link text="${pageName}" url="TODO"/>
+                        <tree-sub-node node-name="WikiPageNode" list="childPageList">
+                            <actions></actions>
+                        </tree-sub-node>
+                    </tree-node>
+                    <tree-sub-node node-name="WikiPageNode" list="topPageList">
+                        <actions></actions>
+                    </tree-sub-node>
+                </tree>
+                -->
                 <render-mode><text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/></render-mode>
 
                 <section name="WikiPageAttachments">
