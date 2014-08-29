@@ -58,6 +58,7 @@ Move along, nothing to see here...
 
 ### HiveMind Wiki
 
+* implement Moqui screen tree element, use in wiki.xml
 * add URL path support for page attachments instead of plain transition with form parameters
 
 * generate PDF from wiki source
@@ -66,6 +67,8 @@ Move along, nothing to see here...
 ### HiveMind Projects and Tasks
 
 * task parent/child tree view by milestone, project
+* task attachments/content upload/download (and preview?); can use wiki pages but nice to have direct attachment without requiring separate wiki page
+* task description interpret as markdown, and use md editor?
 
 * task comments
     * add comments to HmTask DataDocument (for searching, etc)
@@ -99,5 +102,6 @@ Move along, nothing to see here...
 
 * add request summary screen similar to task one
 * add request comments
+* add request attachments/content, or just use wiki pages?
 
                         
