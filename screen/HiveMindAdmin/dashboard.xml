@@ -28,6 +28,24 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <container-panel id="dashboard-panel" dynamic="true">
             <panel-left>
+                <label text="Operate" type="h2"/>
+                <container>
+                    <link url="WikiSpace"><image url="/hmstatic/images/wiki-documents7.png" url-type="plain"/></link>
+                    <link text="Wiki Spaces" url="WikiSpace"/>
+                </container>
+                <container>
+                    <link url="Project"><image url="/hmstatic/images/project-business120.png" url-type="plain"/></link>
+                    <link text="Projects" url="Project"/>
+                </container>
+                <container>
+                    <link url="Invoice"><image url="/hmstatic/images/invoice-pay.png" url-type="plain"/></link>
+                    <link text="Invoices" url="Invoice"/>
+                </container>
+                <container>
+                    <link url="Reports"><image url="/hmstatic/images/reports-dollar116.png" url-type="plain"/></link>
+                    <link text="Reports" url="Reports"/>
+                </container>
+
                 <label text="Setup" type="h2"/>
                 <container>
                     <link url="Vendor"><image url="/hmstatic/images/vendor-person25.png" url-type="plain"/></link>
@@ -48,24 +66,6 @@ This Work includes contributions authored by David E. Jones, not as a
                 <container>
                     <link url="EditRateAmounts"><image url="/hmstatic/images/rates-internet16.png" url-type="plain"/></link>
                     <link text="Rates" url="EditRateAmounts"/>
-                </container>
-
-                <label text="Operate" type="h2"/>
-                <container>
-                    <link url="WikiSpace"><image url="/hmstatic/images/wiki-documents7.png" url-type="plain"/></link>
-                    <link text="Wiki Spaces" url="WikiSpace"/>
-                </container>
-                <container>
-                    <link url="Project"><image url="/hmstatic/images/project-business120.png" url-type="plain"/></link>
-                    <link text="Projects" url="Project"/>
-                </container>
-                <container>
-                    <link url="Invoice"><image url="/hmstatic/images/invoice-pay.png" url-type="plain"/></link>
-                    <link text="Invoices" url="Invoice"/>
-                </container>
-                <container>
-                    <link url="Reports"><image url="/hmstatic/images/reports-dollar116.png" url-type="plain"/></link>
-                    <link text="Reports" url="Reports"/>
                 </container>
             </panel-left>
             <panel-center>
