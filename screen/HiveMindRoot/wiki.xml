@@ -154,14 +154,14 @@ This Work includes contributions authored by David E. Jones, not as a
                         <actions>
                             <service-call name="HiveMind.WikiServices.get#WikiPageInfo" out-map="rootPageInfo"
                                     in-map="[wikiSpaceId:wikiSpaceId]"/>
-                            <log level="warn" message="============ wikiSpaceId=${wikiSpaceId}"/>
                             <set field="topPageList" from="rootPageInfo.pageReference.getChildren()"/>
-                            <log level="warn" message="============ topPageList=${topPageList}"/>
+                            <!-- <log level="warn" message="============ wikiSpaceId=${wikiSpaceId}; topPageList=${topPageList}"/> -->
                         </actions>
                     </tree-sub-node>
                 </tree>
-                <!-- TODO: remove this in favor of tree above: -->
+                <!-- removedin favor of tree above:
                 <render-mode><text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/></render-mode>
+                -->
 
                 <section name="WikiPageAttachments">
                     <!-- this is only needed if it is below the wiki page render: <actions><script>sri.baseLinkUrl(null)</script></actions> -->
