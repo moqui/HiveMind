@@ -36,7 +36,7 @@ This Work includes contributions authored by David E. Jones, not as a
             window.location.href = data.node.a_attr.href;
         }).jstree({
             "plugins" : [ "themes" ],
-            "core" : { "themes" : { "url" : true, "dots" : true, "icons" : false }, "multiple" : false},
+            "core" : { "themes" : { "url" : true, "dots" : true, "icons" : false }, "multiple" : false}
         });
     });
 </script>
