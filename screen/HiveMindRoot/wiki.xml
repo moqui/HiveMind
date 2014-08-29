@@ -67,6 +67,10 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="HiveMind.WikiServices.add#WikiPageComment" in-map="context"/>
         <default-response url="."/>
     </transition>
+    <transition name="getTreeSubNodes">
+        <actions><script>sri.getActiveScreenDef().getTree('SpacePageTree').sendSubNodeJson()</script></actions>
+        <default-response type="none"/>
+    </transition>
 
     <pre-actions>
         <script>html_scripts.add('/js/jstree-3.0.3/jstree.min.js')</script>
@@ -97,6 +101,8 @@ This Work includes contributions authored by David E. Jones, not as a
     
     <actions>
         <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenPathUrl() + '/' + wikiSpaceId"/>
+
+        <!-- this is only used for the WikiPageTree.ftl file, not needed otherwise: -->
         <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
 
         <!-- Comments -->
@@ -121,19 +127,40 @@ This Work includes contributions authored by David E. Jones, not as a
                     </section-iterate>
                 </container>
                 -->
-                <!--
-                <tree name="SpacePageTree">
+                <tree name="SpacePageTree" open-path="${pagePath}">
+                    <parameter name="wikiSpaceId"/>
                     <tree-node name="WikiPageNode">
-                        <link text="${pageName}" url="TODO"/>
+                        <actions>
+                            <script>
+                            // In this case the tree-sub-node.list is a List of ResourceReference
+                            // The fileName minus the extension is effectively the ID of a page, with the IDs of the
+                            //     parents separated by a forward slash for the full path ID just in case there is more
+                            //     than one page with that filename
+                            curFileName = nodeList_entry.getFileName()
+                            if (curFileName.contains(".")) curFileName = curFileName.substring(0, curFileName.indexOf('.'))
+                            </script>
+                            <set field="newIdPath" value="${treeNodeId == '#' ? '' : treeNodeId + '/'}${curFileName}"/>
+                        </actions>
+                        <link text="${curFileName}" url="/apps/hm/wiki/${wikiSpaceId}/${newIdPath}" url-type="plain" id="${newIdPath}"/>
                         <tree-sub-node node-name="WikiPageNode" list="childPageList">
-                            <actions></actions>
+                            <actions>
+                                <service-call name="HiveMind.WikiServices.get#WikiPageInfo" out-map="curPageInfo"
+                                        in-map="[wikiSpaceId:wikiSpaceId, pagePath:treeNodeId]"/>
+                                <set field="childPageList" from="curPageInfo?.pageReference.getChildren()"/>
+                            </actions>
                         </tree-sub-node>
                     </tree-node>
                     <tree-sub-node node-name="WikiPageNode" list="topPageList">
-                        <actions></actions>
+                        <actions>
+                            <service-call name="HiveMind.WikiServices.get#WikiPageInfo" out-map="rootPageInfo"
+                                    in-map="[wikiSpaceId:wikiSpaceId]"/>
+                            <log level="warn" message="============ wikiSpaceId=${wikiSpaceId}"/>
+                            <set field="topPageList" from="rootPageInfo.pageReference.getChildren()"/>
+                            <log level="warn" message="============ topPageList=${topPageList}"/>
+                        </actions>
                     </tree-sub-node>
                 </tree>
-                -->
+                <!-- TODO: remove this in favor of tree above: -->
                 <render-mode><text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/></render-mode>
 
                 <section name="WikiPageAttachments">
