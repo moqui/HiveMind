@@ -28,6 +28,8 @@ New Features:
 - Added child task display with id, name, purpose, status, and resolution
   to the task summary screen
 - Added new child task form to task summary screen
+- The wiki page tree is now lazy loading and uses the XML Screen tree
+  element recently added to Moqui Framework
 
 Bug Fixes:
 
