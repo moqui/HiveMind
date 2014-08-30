@@ -73,8 +73,6 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
 
     <pre-actions>
-        <script>html_scripts.add('/js/jstree-3.0.3/jstree.min.js')</script>
-
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
         <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
 
