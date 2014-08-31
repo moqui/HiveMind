@@ -62,13 +62,14 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <container-panel id="ProjectSummaryPanel">
             <panel-left size="240">
+                <label text="${workEffort.workEffortName}" type="strong"/>
                 <tree name="TaskTree">
                     <tree-node name="TaskNode">
                         <actions>
                             <!-- <entity-find-related-one value-field="nodeList_entry" relationship-name="WorkEffortPurpose#moqui.basic.Enumeration" to-value-field="childPurpose" cache="true"/> -->
                             <entity-find-related-one value-field="nodeList_entry" relationship-name="WorkEffort#moqui.basic.StatusItem" to-value-field="childStatus" cache="true"/>
                         </actions>
-                        <link url="taskSummary" text="${nodeList_entry.workEffortName} - ${childStatus?.description}"
+                        <link url="taskSummary" text="${nodeList_entry.workEffortId}: ${nodeList_entry.workEffortName} - ${childStatus?.description}"
                                 id="${treeNodeId == '#' ? '' : treeNodeId + '/'}${nodeList_entry.workEffortId}"><!-- ${childPurpose?.description} - -->
                             <parameter name="workEffortId" from="nodeList_entry.workEffortId"/></link>
                         <tree-sub-node node-name="TaskNode" list="childTasks">
