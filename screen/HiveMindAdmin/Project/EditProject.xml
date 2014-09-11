@@ -30,12 +30,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </pre-actions>
     <actions>
         <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="workEffort"/>
-        <set field="actualProfit" from="(workEffort.actualClientCost ?: 0) - (workEffort.actualCost ?: 0)"/>
-        <set field="clientBudgetRemaining" from="(workEffort.totalClientCostAllowed ?: 0) - (workEffort.actualClientCost ?: 0)"/>
-        <set field="clientBudgetUsedPercent" from="workEffort.totalClientCostAllowed ? ((workEffort.actualClientCost ?: 0) / workEffort.totalClientCostAllowed) * 100 : 0"/>
-        <set field="clientAverageHourCost" from="workEffort.actualWorkTime ? ((workEffort.actualClientCost ?: 0) / workEffort.actualWorkTime) : 0"/>
-        <set field="clientEstimatedCost" from="clientAverageHourCost * workEffort.estimatedWorkTime"/>
-        <set field="estimatedCompletePercent" from="workEffort.estimatedWorkTime ? ((workEffort.actualWorkTime ?: 0) / workEffort.estimatedWorkTime) * 100 : 0"/>
+        <service-call name="mantle.work.ProjectServices.get#ProjectStats" in-map="[workEffort:workEffort]" out-map="context"/>
 
         <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="clientWepList">
             <date-filter/><econdition field-name="workEffortId"/>
