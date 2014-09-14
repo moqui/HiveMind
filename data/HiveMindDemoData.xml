@@ -181,6 +181,16 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
             fromDate="1265184000000" statusId="PRTYASGN_ASSIGNED" receiveNotifications="N"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_BIZI_DEVA" roleTypeId="OrgTeam"
             fromDate="1265184000000" statusId="PRTYASGN_ASSIGNED"/>
+    <mantle.work.TaskServices.addTaskTime partyId="EX_JOHN_DOE" hours="8" breakHours="2"
+            workEffortId="HM-004" comments="Create Task and My Tasks first pass"
+            fromDate="2013-03-02 08:00:00" thruDate="2013-03-02 18:00:00"/>
+    <mantle.work.TaskServices.addTaskTime partyId="EX_JOHN_DOE" hours="5.75" breakHours="1.25"
+            workEffortId="HM-004" comments="Create Task and My Tasks add more fields"
+            fromDate="2013-03-04 10:00:00" thruDate="2013-03-04 17:00:00"/>
+    <mantle.work.TaskServices.addTaskTime partyId="EX_JOHN_DOE" hours="2" breakHours="0"
+            workEffortId="HM-004" comments="study code"
+            fromDate="2013-03-05 10:00:00" thruDate="2013-03-05 12:00:00"/>
+    <!--
     <mantle.work.time.TimeEntry timeEntryId="HM-004-01" partyId="EX_JOHN_DOE" hours="8" breakHours="2"
             workEffortId="HM-004" comments="Create Task and My Tasks first pass" rateTypeEnumId="RatpStandard"
             rateAmountId="Default-StClSrPg" vendorRateAmountId="Default-StVnSrPg" fromDate="2013-03-02 08:00:00" thruDate="2013-03-02 18:00:00"/>
@@ -192,6 +202,7 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
             rateAmountId="Default-StClPg" vendorRateAmountId="Default-StVnPg" fromDate="2013-03-05 10:00:00" thruDate="2013-03-05 12:00:00"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-003" toWorkEffortId="HM-004"
             workEffortAssocTypeEnumId="WeatRelatesTo" fromDate="1265184000000"/>
+    -->
     <!-- task milestone -->
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-004"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="1265184000000" sequenceNum="4"/>
