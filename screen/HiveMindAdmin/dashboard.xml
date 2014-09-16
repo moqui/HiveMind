@@ -152,7 +152,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                                     <label text="Worked ${ec.l10n.formatValue(project.actualWorkTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverEstimated ? 'text-danger' : 'text-success'}"/>
                                                 </container>
                                                 <container style="col-lg-4">
-                                                    <label text="Rem. ${ec.l10n.formatValue(project.remainingWorkTime, '#.#')} hrs" type="strong" style="text-info"/>
+                                                    <label text="Est. Rem. ${ec.l10n.formatValue(project.remainingWorkTime, '#.#')} hrs" type="strong" style="text-info"/>
                                                 </container>
                                             </container>
                                             <container style="row">
