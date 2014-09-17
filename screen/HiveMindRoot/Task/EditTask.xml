@@ -20,7 +20,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="mantle.work.TaskServices.update#Task" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
+    <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
     <transition name="getProjectMilestones">
         <actions>
@@ -64,7 +64,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         </entity-find>
                     </entity-options>
                 </drop-down>
-                <link text="Edit ${project.workEffortName} [${task.rootWorkEffortId}]" url="editProject">
+                <link text="Edit ${project.workEffortName} [${task.rootWorkEffortId}]" url="projectSummary">
                     <parameter name="workEffortId" from="task.rootWorkEffortId"/>
                 </link>
             </default-field></field>

@@ -16,11 +16,12 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <parameter name="wikiSpaceId"/>
     <parameter name="pagePath"/>
+    <parameter name="wikiPageId"/>
 
     <transition name="editPage"><default-response url="../EditWikiPage"/></transition>
     <transition name="createPage"><default-response url="../EditWikiPage"/></transition>
 
-    <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
+    <transition name="projectSummary"><default-response url="../Project/ProjectSummary"/></transition>
     <transition name="editTask"><default-response url="../Task/TaskSummary"/></transition>
     <transition name="editRequest"><default-response url="../Request/EditRequest"/></transition>
 
@@ -61,9 +62,17 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response type="none"/>
     </transition>
 
-    <pre-actions>
-        <script>html_scripts.add('/hmstatic/jstree/jquery-jstree-pre1.0fix1.js')</script>
+    <transition name="wikiCommentReply"><default-response url="WikiCommentReply"/></transition>
+    <transition name="addComment">
+        <service-call name="HiveMind.WikiServices.add#WikiPageComment" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+    <transition name="getTreeSubNodes">
+        <actions><script>sri.getActiveScreenDef().getTree('SpacePageTree').sendSubNodeJson()</script></actions>
+        <default-response type="none"/>
+    </transition>
 
+    <pre-actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
         <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
 
@@ -86,10 +95,20 @@ This Work includes contributions authored by David E. Jones, not as a
                 sri.sendRedirectAndStopRender(editWikiUrl.getUrlWithParams())
             }
         ]]></script>
-
-        <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenPathUrl() + '/' + wikiSpaceId"/>
-        <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
     </pre-actions>
+    
+    <actions>
+        <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenPathUrl() + '/' + wikiSpaceId"/>
+
+        <!-- this is only used for the WikiPageTree.ftl file, not needed otherwise: -->
+        <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
+
+        <!-- Comments -->
+        <entity-find entity-name="HiveMind.wiki.WikiPageCommEventDetail" list="commEventDetailList">
+            <econdition field-name="wikiPageId"/>
+            <order-by field-name="entryDate"/>
+        </entity-find>
+    </actions>
 
     <widgets>
         <container-panel id="wiki-view">
@@ -106,9 +125,41 @@ This Work includes contributions authored by David E. Jones, not as a
                     </section-iterate>
                 </container>
                 -->
-                <render-mode>
-                    <text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/>
-                </render-mode>
+                <tree name="SpacePageTree" open-path="${pagePath}">
+                    <parameter name="wikiSpaceId"/>
+                    <tree-node name="WikiPageNode">
+                        <actions>
+                            <script>
+                            // In this case the tree-sub-node.list is a List of ResourceReference
+                            // The fileName minus the extension is effectively the ID of a page, with the IDs of the
+                            //     parents separated by a forward slash for the full path ID just in case there is more
+                            //     than one page with that filename
+                            curFileName = nodeList_entry.getFileName()
+                            if (curFileName.contains(".")) curFileName = curFileName.substring(0, curFileName.indexOf('.'))
+                            </script>
+                            <set field="newIdPath" value="${treeNodeId == '#' ? '' : treeNodeId + '/'}${curFileName}"/>
+                        </actions>
+                        <link text="${curFileName}" url="/apps/hm/wiki/${wikiSpaceId}/${newIdPath}" url-type="plain" id="${newIdPath}"/>
+                        <tree-sub-node node-name="WikiPageNode" list="childPageList">
+                            <actions>
+                                <service-call name="HiveMind.WikiServices.get#WikiPageInfo" out-map="curPageInfo"
+                                        in-map="[wikiSpaceId:wikiSpaceId, pagePath:treeNodeId]"/>
+                                <set field="childPageList" from="curPageInfo?.pageReference.getChildren()"/>
+                            </actions>
+                        </tree-sub-node>
+                    </tree-node>
+                    <tree-sub-node node-name="WikiPageNode" list="topPageList">
+                        <actions>
+                            <service-call name="HiveMind.WikiServices.get#WikiPageInfo" out-map="rootPageInfo"
+                                    in-map="[wikiSpaceId:wikiSpaceId]"/>
+                            <set field="topPageList" from="rootPageInfo.pageReference.getChildren()"/>
+                            <!-- <log level="warn" message="============ wikiSpaceId=${wikiSpaceId}; topPageList=${topPageList}"/> -->
+                        </actions>
+                    </tree-sub-node>
+                </tree>
+                <!-- removedin favor of tree above:
+                <render-mode><text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/></render-mode>
+                -->
 
                 <section name="WikiPageAttachments">
                     <!-- this is only needed if it is below the wiki page render: <actions><script>sri.baseLinkUrl(null)</script></actions> -->
@@ -169,7 +220,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                 <label text="Page Projects" id="wiki-page-projects-label"/>
                                 <section-iterate name="ProjectItemSection" list="projectWpaweList" entry="projectWpawe">
                                     <widgets>
-                                        <link url="editProject" text="${projectWpawe.workEffortId} - ${projectWpawe.workEffortName}" link-type="anchor">
+                                        <link url="projectSummary" text="${projectWpawe.workEffortId} - ${projectWpawe.workEffortName}" link-type="anchor">
                                             <parameter name="rootWorkEffortId" from="projectWpawe.workEffortId"/>
                                         </link>
                                     </widgets>
@@ -234,40 +285,73 @@ This Work includes contributions authored by David E. Jones, not as a
                     </section-iterate>
                 </container>
                 <container style="ui-helper-clearfix">
-                    <container id="wiki-page-name">
-                        <label text="${pageName?:''}" type="h1"/>
-                    </container>
+                    <container id="wiki-page-name"><label text="${pageName?:''}" type="h1"/></container>
                     <container id="wiki-page-links">
                         <link text="Edit Page" url="editPage" link-type="hidden-form" icon="glyphicon glyphicon-pencil">
-                            <parameter name="wikiSpaceId"/>
-                            <parameter name="pagePath"/>
-                        </link>
+                            <parameter name="wikiSpaceId"/><parameter name="pagePath"/></link>
                         <link text="Add Page" url="createPage" link-type="hidden-form" icon="glyphicon glyphicon-plus">
-                            <parameter name="wikiSpaceId"/>
-                            <parameter name="parentPath" from="pagePath"/>
-                            <parameter name="isCreate" value="true"/>
-                        </link>
+                            <parameter name="wikiSpaceId"/><parameter name="parentPath" from="pagePath"/>
+                            <parameter name="isCreate" value="true"/></link>
                     </container>
                 </container>
                 <container id="wiki-page-area">
                     <section name="WikiPageInclude">
                         <condition><expression>!wikiSpace?.decoratorScreenLocation</expression></condition>
-                        <actions>
-                            <!-- NOTE: if anything runs after this before to reset so it doesn't mess up URLs generated -->
-                            <script>sri.baseLinkUrl(baseLinkUrl)</script>
-                        </actions>
-                        <widgets>
-                            <render-mode><text template="true" type="html" location="${pageLocation?:''}"/></render-mode>
-                        </widgets>
-                        <fail-widgets>
-                            <include-screen location="${wikiSpace.decoratorScreenLocation}"/>
-                        </fail-widgets>
+                        <actions><script>sri.baseLinkUrl(baseLinkUrl)</script></actions>
+                        <widgets><render-mode><text template="true" type="html" location="${pageLocation?:''}"/></render-mode></widgets>
+                        <fail-widgets><include-screen location="${wikiSpace.decoratorScreenLocation}"/></fail-widgets>
                     </section>
+                    <section name="ResetBaseLink"><actions><script>sri.baseLinkUrl(null)</script></actions><widgets></widgets></section>
                 </container>
                 <!-- CONSIDER: figure out a way to make configured space root screen (wikiSpace.decoratorScreenLocation) a subscreen
                        instead of including it explicitly as above
                 <subscreens-active id="wiki-container"/>
                 -->
+
+                <section name="WikiPageCommentSection">
+                    <condition><expression>wikiPageId</expression></condition>
+                    <widgets>
+                        <label text="Comments" type="h2"/>
+                        <container-dialog id="AddCommentDialog" button-text="Add Comment">
+                            <form-single name="AddCommentForm" transition="addComment">
+                                <field name="wikiPageId"><default-field><hidden/></default-field></field>
+                                <field name="subject"><default-field><text-line/></default-field></field>
+                                <field name="body"><default-field title="Comment"><text-area rows="10"/></default-field></field>
+                                <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
+                            </form-single>
+                        </container-dialog>
+                        <section-iterate name="CommentList" list="commEventDetailList" entry="commEventDetail">
+                            <actions>
+                                <set field="uniqueExtension" from="commEventDetail_index"/>
+                                <entity-find-one entity-name="mantle.party.Person" value-field="fromPerson" cache="true">
+                                    <field-map field-name="partyId" from="commEventDetail.fromPartyId"/>
+                                </entity-find-one>
+                                <entity-find entity-name="mantle.party.communication.CommunicationEvent" list="childCeList">
+                                    <econdition field-name="rootCommEventId" from="commEventDetail.communicationEventId"/>
+                                    <order-by field-name="entryDate"/>
+                                </entity-find>
+                            </actions>
+                            <widgets>
+                                <container style="task-comment">
+                                    <label text="${commEventDetail.subject}" type="strong"/>
+                                    <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
+                                    <label text="at ${commEventDetail.entryDate}" type="span"/>
+                                    <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="wikiCommentReply">
+                                        <parameter name="parentCommEventId" from="commEventDetail.communicationEventId"/>
+                                    </dynamic-dialog>
+
+                                    <label text="${commEventDetail.body}" type="pre" encode="false"/>
+
+                                    <section name="ChildNestedComments">
+                                        <condition><expression>childCeList</expression></condition>
+                                        <actions><set field="currentCe" from="commEventDetail"/></actions>
+                                        <widgets><include-screen location="component://HiveMind/screen/HiveMindRoot/wiki/WikiCommentNested.xml"/></widgets>
+                                    </section>
+                                </container>
+                            </widgets>
+                        </section-iterate>
+                    </widgets>
+                </section>
             </panel-center>
         </container-panel>
     </widgets>

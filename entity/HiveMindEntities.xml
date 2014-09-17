@@ -9,9 +9,6 @@ this Work and assume any risks associated with your use of this Work.
 
 This Work includes contributions authored by David E. Jones, not as a
 "work for hire", who hereby disclaims any copyright to the same.
-
-This Work includes contributions authored by contributors to Apache OFBiz
-and those parts may be licensed under the Apache License 2.0.
 -->
 <entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-1.4.xsd">
@@ -30,6 +27,23 @@ and those parts may be licensed under the Apache License 2.0.
         </relationship>
         <index name="WIKIPAGE_SPCPTH" unique="true"><index-field name="wikiSpaceId"/><index-field name="pagePath"/></index>
     </entity>
+    <entity entity-name="WikiPageCommunicationEvent" package-name="HiveMind.wiki">
+        <field name="wikiPageId" type="id" is-pk="true"/>
+        <field name="communicationEventId" type="id" is-pk="true"/>
+        <field name="description" type="text-medium"/>
+        <field name="sequenceNum" type="number-integer"/>
+        <relationship type="one" related-entity-name="HiveMind.wiki.WikiPage"/>
+        <relationship type="one" related-entity-name="mantle.party.communication.CommunicationEvent"/>
+    </entity>
+    <view-entity entity-name="WikiPageCommEventDetail" package-name="HiveMind.wiki">
+        <member-entity entity-alias="WPCE" entity-name="HiveMind.wiki.WikiPageCommunicationEvent"/>
+        <member-entity entity-alias="CEV" entity-name="mantle.party.communication.CommunicationEvent" join-from-alias="WPCE">
+            <key-map field-name="communicationEventId"/>
+        </member-entity>
+        <alias-all entity-alias="WPCE"/>
+        <alias-all entity-alias="CEV"/>
+    </view-entity>
+    
     <entity entity-name="WikiPageHistory" package-name="HiveMind.wiki">
         <field name="wikiPageId" type="id" is-pk="true"/>
         <field name="historySeqId" type="id" is-pk="true"/>

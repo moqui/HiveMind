@@ -17,6 +17,6 @@ This Work includes contributions authored by David E. Jones, not as a
     <subscreens default-item="FindProject"/>
 
     <widgets>
-        <subscreens-panel id="task-panel" type="tab"/>
+        <subscreens-active/>
     </widgets>
 </screen>

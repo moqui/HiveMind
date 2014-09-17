@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.4.xsd"
+        default-menu-title="Dashboard" default-menu-index="1">
+
+    <transition name="Vendor"><default-response url="../Vendor"/></transition>
+    <transition name="Client"><default-response url="../Client"/></transition>
+    <transition name="User"><default-response url="../User"/></transition>
+    <transition name="Team"><default-response url="../Team"/></transition>
+    <transition name="EditRateAmounts"><default-response url="../EditRateAmounts"/></transition>
+
+    <transition name="WikiSpace"><default-response url="../WikiSpace"/></transition>
+    <transition name="Project"><default-response url="../Project"/></transition>
+    <transition name="Invoice"><default-response url="../Invoice"/></transition>
+    <transition name="Reports"><default-response url="../Reports"/></transition>
+
+    <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
+    <transition name="findTask"><default-response url="../../hm/Task/FindTask"/></transition>
+
+    <pre-actions>
+        <script>html_scripts.add('/assets/lib/sparkline/jquery.sparkline.min.js')</script>
+    </pre-actions>
+    <actions>
+        <entity-find entity-name="mantle.work.effort.WorkEffort" list="projectList">
+            <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+            <econdition field-name="statusId" value="WeInProgress"/>
+        </entity-find>
+    </actions>
+    <widgets>
+        <container-panel id="dashboard-panel" dynamic="true">
+            <panel-left>
+                <label text="Operate" type="h2"/>
+                <container>
+                    <link url="WikiSpace"><image url="/hmstatic/images/wiki-documents7.png" url-type="plain"/></link>
+                    <link text="Wiki Spaces" url="WikiSpace"/>
+                </container>
+                <container>
+                    <link url="Project"><image url="/hmstatic/images/project-business120.png" url-type="plain"/></link>
+                    <link text="Projects" url="Project"/>
+                </container>
+                <container>
+                    <link url="Invoice"><image url="/hmstatic/images/invoice-pay.png" url-type="plain"/></link>
+                    <link text="Invoices" url="Invoice"/>
+                </container>
+                <container>
+                    <link url="Reports"><image url="/hmstatic/images/reports-dollar116.png" url-type="plain"/></link>
+                    <link text="Reports" url="Reports"/>
+                </container>
+
+                <label text="Setup" type="h2"/>
+                <container>
+                    <link url="Vendor"><image url="/hmstatic/images/vendor-person25.png" url-type="plain"/></link>
+                    <link text="Vendor(s)" url="Vendor"/>
+                </container>
+                <container>
+                    <link url="Client"><image url="/hmstatic/images/client-businessmen26.png" url-type="plain"/></link>
+                    <link text="Clients" url="Client"/>
+                </container>
+                <container>
+                    <link url="User"><image url="/hmstatic/images/user-man27.png" url-type="plain"/></link>
+                    <link text="Users" url="User"/>
+                </container>
+                <container>
+                    <link url="Team"><image url="/hmstatic/images/team-businessmen18.png" url-type="plain"/></link>
+                    <link text="Teams" url="Team"/>
+                </container>
+                <container>
+                    <link url="EditRateAmounts"><image url="/hmstatic/images/rates-internet16.png" url-type="plain"/></link>
+                    <link text="Rates" url="EditRateAmounts"/>
+                </container>
+            </panel-left>
+
+            <panel-center>
+                <section-iterate name="ActiveProjectSection" list="projectList" entry="project">
+                    <actions>
+                        <service-call name="mantle.work.ProjectServices.get#ProjectStats" in-map="[workEffort:project]" out-map="pstats"/>
+                        <set field="estimatedCompletePercentString" from="ec.l10n.formatValue(pstats.estimatedCompletePercent, '#')"/>
+                        <set field="estimatedRemainingPercentString" from="ec.l10n.formatValue(pstats.estimatedRemainingPercent, '#')"/>
+                        <set field="clientBudgetUsedPercentString" from="ec.l10n.formatValue(pstats.clientBudgetUsedPercent, '#')"/>
+                    </actions>
+                    <widgets>
+                        <container-box>
+                            <box-header>
+                                <link url="editProject" text="${project.workEffortId}"
+                                        link-type="anchor-button" parameter-map="[workEffortId:project.workEffortId]"/>
+                                <label text="${project.workEffortName}" type="h5"/>
+                            </box-header>
+                            <box-toolbar>
+                                <label text="${pstats.projectDanger ? 'Danger' : (pstats.projectWarning ? 'Warning' : 'On Track')}"
+                                        style="label ${pstats.projectDanger ? 'label-danger' : (pstats.projectWarning ? 'label-warning' : 'label-success')}"/>
+                            </box-toolbar>
+                            <box-body>
+                                <container style="row">
+                                    <container style="col-lg-6">
+                                        <container style="shaded-area">
+                                            <container style="row">
+                                                <container style="col-lg-2"><label text="Project" type="strong"/></container>
+                                                <container style="col-lg-7">
+                                                    <render-mode><text type="html" template="true"><![CDATA[
+<div class="progress middle">
+    <div class="progress-bar <#if pstats.actualPlusRemainingOverEstimated>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="progress-bar progress-bar-info" style="width: ${estimatedRemainingPercentString}%;" aria-valuenow="${estimatedRemainingPercentString}" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+                                                    ]]></text></render-mode>
+                                                </container>
+                                                <container style="col-lg-3">
+                                                    <label text="${ec.l10n.formatValue(pstats.estimatedCompletePercent, '00.00')}%"/>
+                                                    <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.actualPlusRemainingOverEstimated>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                                                </container>
+                                            </container>
+                                            <container style="row">
+                                                <container style="col-lg-2"><label text="Budget" type="strong"/></container>
+                                                <container style="col-lg-7">
+                                                    <render-mode><text type="html" template="true"><![CDATA[
+<div class="progress middle"><div class="progress-bar <#if pstats.clientActualOverBudget>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                                    ]]></text></render-mode>
+                                                </container>
+                                                <container style="col-lg-3">
+                                                    <label text="${ec.l10n.formatValue(pstats.clientBudgetUsedPercent, '00.00')}%"/>
+                                                    <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.clientActualOverBudget>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                                                </container>
+                                            </container>
+                                            <container style="row">
+                                                <container style="col-lg-2"><label text="P-B Gap" type="strong"/></container>
+                                                <container style="col-lg-7">
+                                                    <render-mode><text type="html" template="true"><![CDATA[
+<div class="progress xs"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+<div class="progress xs"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                                    ]]></text></render-mode>
+                                                </container>
+                                                <container style="col-lg-3">
+                                                    <label text="${ec.l10n.formatValue(pstats.estimatedCompleteBudgetPercentGap, '00.00')}%"/>
+                                                    <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.estimatedCompleteOverBudget>glyphicon-exclamation-sign text-warning<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                                                </container>
+                                            </container>
+                                            <container style="row">
+                                                <container style="col-lg-4">
+                                                    <label text="Estimate ${ec.l10n.formatValue(project.estimatedWorkTime, '#.#')} hrs" type="strong"/>
+                                                </container>
+                                                <container style="col-lg-4">
+                                                    <label text="Worked ${ec.l10n.formatValue(project.actualWorkTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverEstimated ? 'text-danger' : 'text-success'}"/>
+                                                </container>
+                                                <container style="col-lg-4">
+                                                    <label text="Est. Rem. ${ec.l10n.formatValue(project.remainingWorkTime, '#.#')} hrs" type="strong" style="text-info"/>
+                                                </container>
+                                            </container>
+                                            <container style="row">
+                                                <container style="col-lg-4">
+                                                    <label text="Budget ${ec.l10n.formatCurrency(project.totalClientCostAllowed, project.costUomId, 2)}" type="strong"/>
+                                                </container>
+                                                <container style="col-lg-4">
+                                                    <label text="Actual ${ec.l10n.formatCurrency(project.actualClientCost, project.costUomId, 2)}" type="strong" style="${pstats.clientActualOverBudget ? 'text-danger' : 'text-success'}"/>
+                                                </container>
+                                                <container style="col-lg-4">
+                                                    <label text="Rem. ${ec.l10n.formatCurrency(pstats.clientBudgetRemaining, project.costUomId, 2)}" type="strong"/>
+                                                </container>
+                                            </container>
+                                            <container style="row">
+                                                <container style="col-lg-4">
+                                                    <label text="Avg Rate ${ec.l10n.formatCurrency(pstats.clientAverageHourCost, project.costUomId, 2)}" type="strong"/>
+                                                </container>
+                                                <container style="col-lg-4">
+                                                    <label text="Est. Cost ${ec.l10n.formatCurrency(pstats.clientEstimatedCost, project.costUomId, 2)}" type="strong"/>
+                                                </container>
+                                                <container style="col-lg-4">
+                                                    <label text="${ec.l10n.formatCurrency(pstats.clientBudgetEstimateDiff?.abs(), project.costUomId, 2)} ${pstats.clientBudgetEstimateDiff &lt; 0 ? 'over' : 'under'}" type="strong" style="${pstats.clientBudgetEstimateDiff &lt; 0 ? 'text-warning' : 'text-success'}"/>
+                                                </container>
+                                            </container>
+                                            <container style="row">
+                                                <container style="col-lg-6 text-center">
+                                                    <label text="Provider Cost ${ec.l10n.formatCurrency(project.actualCost, project.costUomId, 2)}" type="strong"/>
+                                                </container>
+                                                <container style="col-lg-6 text-center">
+                                                    <label text="Profit ${ec.l10n.formatCurrency(pstats.actualProfit, project.costUomId, 2)}" type="strong"/>
+                                                </container>
+                                            </container>
+                                        </container>
+                                    </container>
+                                    <container style="col-lg-6">
+                                        <container style="shaded-area">
+                                            <container style="row">
+                                                <container style="col-lg-3">
+                                                    <container id="status-chart"/>
+                                                    <render-mode><text type="html" template="true"><![CDATA[
+                                                        <script>
+                                                            $("#status-chart_${project_index}").sparkline([${pstats.taskCountByStatusMap.WeApproved!'0'}, ${pstats.taskCountByStatusMap.WeOnHold!'0'}, ${pstats.taskCountByStatusMap.WeInProgress!'0'}, ${pstats.taskCountByStatusMap.WeClosed!'0' + pstats.taskCountByStatusMap.WeComplete!'0'}], {
+                                                                type: 'pie', width: '80', height: '80', sliceColors: ['#8a6d3b', '#a94442', '#3c763d', '#31708f'], offset: 180,
+                                                            });
+                                                        </script>
+                                                    ]]></text></render-mode>
+                                                </container>
+                                                <container style="col-lg-9">
+                                                    <container style="row">
+                                                        <container style="col-lg-12"><label text="${pstats.taskCount} Tasks" type="strong"/></container>
+                                                    </container>
+                                                    <container style="row">
+                                                        <container style="col-lg-5"><link text="Approved - ${pstats.taskCountByStatusMap.WeApproved?:0}" style="text-warning" url="findTask" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeApproved']"/></container>
+                                                        <container style="col-lg-7"><link text="On Hold - ${pstats.taskCountByStatusMap.WeOnHold?:0}" style="text-danger" url="findTask" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeOnHold']"/></container>
+                                                    </container>
+                                                    <container style="row">
+                                                        <container style="col-lg-5"><link text="In Progress - ${pstats.taskCountByStatusMap.WeInProgress?:0}" style="text-success" url="findTask" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInProgress']"/></container>
+                                                        <container style="col-lg-7"><link text="Complete/Closed - ${((pstats.taskCountByStatusMap.WeComplete?:0) as BigDecimal) + ((pstats.taskCountByStatusMap.WeClosed?:0) as BigDecimal)}" style="text-info" url="findTask" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeComplete,WeClosed', statusId_op:'in']"/></container>
+                                                    </container>
+                                                    <container style="row">
+                                                        <container style="col-lg-5"><link text="In Planning - ${pstats.taskCountByStatusMap.WeInPlanning?:0}" url="findTask" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInPlanning']"/></container>
+                                                        <container style="col-lg-7"><link text="Cancelled - ${pstats.taskCountByStatusMap.WeCancelled?:0}" url="findTask" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeCancelled']"/></container>
+                                                    </container>
+                                                </container>
+                                            </container>
+
+                                        </container>
+                                    </container>
+                                </container>
+                            </box-body>
+                        </container-box>
+                    </widgets>
+                </section-iterate>
+
+
+                <!-- TODO: add more useful stuff -->
+            </panel-center>
+        </container-panel>
+    </widgets>
+</screen>

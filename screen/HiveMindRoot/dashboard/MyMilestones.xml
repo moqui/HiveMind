@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.4.xsd"
         default-menu-include="false" standalone="true">
 
-    <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
+    <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
 
     <actions>
@@ -33,7 +33,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <form-list name="MyMilestones" list="myMilestoneList">
             <field name="rootWorkEffortId">
-                <default-field title="Project"><link url="editProject" text="${rootWorkEffortId?:'--'}">
+                <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}">
                     <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
             </field>
             <field name="workEffortId"><default-field title="Milestone">

@@ -72,6 +72,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <in-parameters>
             <parameter name="wikiSpaceId"/>
             <parameter name="pagePath"/>
+            <parameter name="wikiPageId"/>
             <parameter name="extraPathNameList" type="List"/>
         </in-parameters>
         <out-parameters>
@@ -79,14 +80,22 @@ This Work includes contributions authored by David E. Jones, not as a
             <parameter name="wikiPageId"/>
             <parameter name="pagePath"/>
             <parameter name="wikiSpace" type="org.moqui.entity.EntityValue"/>
+            <parameter name="wikiType"/>
             <parameter name="pageReference" type="org.moqui.content.ResourceReference"/>
             <parameter name="attachmentList" type="List"/>
             <parameter name="pageLocation"/>
             <parameter name="pageName"/>
             <parameter name="parentPath"/>
+            <parameter name="breadcrumbNameList" type="List"/>
             <parameter name="breadcrumbMapList" type="List"/>
         </out-parameters>
         <actions>
+            <if condition="wikiPageId">
+                <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage" cache="true"/>
+                <set field="wikiSpaceId" from="wikiPage.wikiSpaceId"/>
+                <set field="pagePath" from="wikiPage.pagePath"/>
+            </if>
+
             <if condition="extraPathNameList">
                 <set field="wikiSpaceId" from="wikiSpaceId ?: extraPathNameList[0]"/>
                 <if condition="!pagePath &amp;&amp; extraPathNameList.size > 1">
@@ -100,8 +109,13 @@ This Work includes contributions authored by David E. Jones, not as a
             <if condition="!wikiSpaceId"><return error="true" message="Cannot get wiki page info without wikiSpaceId parameter or URL path element"/></if>
 
             <entity-find-one entity-name="HiveMind.wiki.WikiSpace" value-field="wikiSpace" cache="true"/>
+
+            <if condition="!wikiSpace"><return error="true" message="Could not find wiki space with ID [${wikiSpaceId}]"/></if>
+
             <!-- NOTE: WikiPage record may not exist, but don't create one on get/view only -->
-            <service-call name="HiveMind.WikiServices.get#WikiPageId" in-map="context" out-map="context"/>
+            <if condition="!wikiPage">
+                <service-call name="HiveMind.WikiServices.get#WikiPageId" in-map="context" out-map="context"/>
+            </if>
 
             <!-- check restrictView for space and page -->
             <if condition="wikiSpace.restrictView == 'Y'">
@@ -112,7 +126,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     <return error="true" message="Wiki Space [${wikiSpaceId}] has restricted view and user ${ec.user.username} [${ec.user.userId}] is not allowed."/>
                 </if>
             </if>
-            <if condition="wikiPage &amp;&amp; wikiPage.restrictView == 'Y'">
+            <if condition="wikiPage?.restrictView == 'Y'">
                 <entity-find entity-name="HiveMind.wiki.WikiPageUser" list="wpuList">
                     <econdition-object field="[wikiPageId:wikiPageId, userId:ec.user.userId, allowView:'Y']"/>
                 </entity-find>
@@ -127,7 +141,8 @@ This Work includes contributions authored by David E. Jones, not as a
             <set field="pageLocation" from="pageReference?.location"/>
 
             <set field="pageName" from="pageReference?.fileName"/>
-            <if condition="pageName &amp;&amp; pageName.contains('.')">
+            <if condition="pageName?.contains('.')">
+                <set field="wikiType" from="pageName.substring(pageName.indexOf('.')+1)"/>
                 <set field="pageName" from="pageName.substring(0, pageName.indexOf('.'))"/>
             </if>
 
@@ -135,6 +150,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <set field="parentPath" from="pathForParentPath?.contains('/') ? pathForParentPath.substring(0, pathForParentPath.lastIndexOf('/')) : ''"/>
 
             <script><![CDATA[
+                breadcrumbNameList = []
                 breadcrumbMapList = []
                 List<String> parentPathList = parentPath.split('/')
 
@@ -147,6 +163,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         curPath += parentPathList[i]
                     }
 
+                    breadcrumbNameList.add(parentPathName)
                     breadcrumbMapList.add([pageName:parentPathName, pagePath:curPath])
                     listIndex++
                 }
@@ -189,7 +206,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <parameter name="pagePath" default-value="${parentPath ? parentPath+'/' : ''}${pageName?:''}"/>
             <parameter name="parentPath"/>
             <parameter name="pageName"/>
-            <parameter name="wikiType" default-value="cwiki"/>
+            <parameter name="wikiType" default-value="md"/>
             <parameter name="pageText"/>
         </in-parameters>
         <out-parameters>
@@ -273,13 +290,31 @@ This Work includes contributions authored by David E. Jones, not as a
             <set field="document.content" from="ec.resource.getLocationText(wikiPageInfo.pageLocation, false)"/>
         </actions>
     </service>
+    
+    <service verb="add" noun="WikiPageComment">
+        <in-parameters>
+            <parameter name="wikiPageId" required="true"/>
+            <parameter name="subject"/>
+            <parameter name="body"/>
+            <parameter name="contentType" default-value="text/plain"/>
+        </in-parameters>
+        <actions>
+            <service-call name="create#mantle.party.communication.CommunicationEvent" out-map="context"
+                    in-map="[communicationEventTypeId:'Comment', contactMechTypeEnumId:'CmtWebForm', statusId:'CeSent',
+                        fromPartyId:ec.user.userAccount.partyId, entryDate:ec.user.nowTimestamp,
+                        contentType:contentType, subject:subject, body:body]"/>
+            <service-call name="create#HiveMind.wiki.WikiPageCommunicationEvent"
+                    in-map="[wikiPageId:wikiPageId, communicationEventId:communicationEventId]"/>
+        </actions>
+    </service>
+
 
     <service verb="create" noun="WikiSpace">
         <in-parameters>
             <auto-parameters include="nonpk"/>
             <parameter name="wikiSpaceId"><text-letters/><text-length min="3" max="8"/></parameter>
             <parameter name="rootPageDirectory" default-value="runtime/WikiSpace"/>
-            <parameter name="wikiType" default-value="cwiki"/>
+            <parameter name="wikiType" default-value="md"/>
         </in-parameters>
         <out-parameters>
             <parameter name="wikiSpaceId" required="true"/>

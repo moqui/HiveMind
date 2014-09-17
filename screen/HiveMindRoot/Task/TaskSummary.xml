@@ -82,8 +82,34 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response type="none"/>
     </transition>
 
+    <transition name="createTask">
+        <service-call name="mantle.work.TaskServices.create#Task" in-map="context"/>
+        <default-response url="."/>
+    </transition>
+    <transition name="getProjectParties">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectParties" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+    <transition name="getProjectMilestones">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectMilestones" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+    <transition name="getProjectTasks">
+        <actions>
+            <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>
+            <script>ec.web.sendJsonResponse(resultList)</script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
     <transition name="taskSummary"><default-response url="../../Task/TaskSummary"/></transition>
-    <transition name="editProject"><default-response url="../../Project/EditProject"/></transition>
+    <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
 
     <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
@@ -98,9 +124,9 @@ This Work includes contributions authored by David E. Jones, not as a
         <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="task"/>
         <entity-find-related-one value-field="task" relationship-name="Root#mantle.work.effort.WorkEffort" to-value-field="project"/>
         <entity-find-related-one value-field="task" relationship-name="Parent#mantle.work.effort.WorkEffort" to-value-field="parentTask"/>
-        <entity-find-related-one value-field="task" relationship-name="WorkEffortPurpose#moqui.basic.Enumeration" to-value-field="purposeEnum"/>
-        <entity-find-related-one value-field="task" relationship-name="WorkEffortResolution#moqui.basic.Enumeration" to-value-field="resolutionEnum"/>
-        <entity-find-related-one value-field="task" relationship-name="WorkEffort#moqui.basic.StatusItem" to-value-field="currentStatus"/>
+        <entity-find-related-one value-field="task" relationship-name="WorkEffortPurpose#moqui.basic.Enumeration" to-value-field="purposeEnum" cache="true"/>
+        <entity-find-related-one value-field="task" relationship-name="WorkEffortResolution#moqui.basic.Enumeration" to-value-field="resolutionEnum" cache="true"/>
+        <entity-find-related-one value-field="task" relationship-name="WorkEffort#moqui.basic.StatusItem" to-value-field="currentStatus" cache="true"/>
 
         <entity-find entity-name="mantle.work.effort.WorkEffortAssoc" list="milestoneAssocList">
             <date-filter/>
@@ -135,6 +161,11 @@ This Work includes contributions authored by David E. Jones, not as a
             <date-filter/>
             <econdition field-name="workEffortId"/>
         </entity-find>
+        <!-- Child Tasks -->
+        <entity-find entity-name="mantle.work.effort.WorkEffort" list="childTaskList">
+            <econdition field-name="parentWorkEffortId" from="workEffortId"/>
+            <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+        </entity-find>
         <!-- Related Tasks -->
         <entity-find entity-name="mantle.work.effort.WorkEffortAssocAndTo" list="relatedToList">
             <econdition field-name="fromWorkEffortId" from="workEffortId"/>
@@ -158,7 +189,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <panel-left size="240">
                 <label text="Task ID: ${workEffortId}" type="strong"/>
                 <container><label text="Project: " type="strong"/></container>
-                <link text="${project.workEffortId} - ${project.workEffortName}" url="editProject">
+                <link text="${project.workEffortId} - ${project.workEffortName}" url="projectSummary">
                     <parameter name="workEffortId" from="project.workEffortId"/>
                 </link>
 
@@ -306,6 +337,41 @@ This Work includes contributions authored by David E. Jones, not as a
                     </widgets>
                 </section-iterate>
 
+                <label text="Child Tasks" id="task-child-label"/>
+                <section name="NewChildTaskSection">
+                    <actions>
+                        <set field="rootWorkEffortId" from="task.rootWorkEffortId"/>
+                        <set field="milestoneWorkEffortId" from="milestone.workEffortId"/>
+                        <set field="parentWorkEffortId" from="workEffortId"/>
+                        <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
+                            <date-filter/>
+                            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                            <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+                        </entity-find>
+                    </actions>
+                    <widgets>
+                        <container-dialog id="NewChildTaskContainer" button-text="New Child Task">
+                            <form-single name="NewChildTaskForm" transition="createTask"
+                                    extends="component://HiveMind/screen/HiveMindRoot/Task/FindTask.xml#NewTaskForm">
+                            </form-single>
+                        </container-dialog>
+                    </widgets>
+                </section>
+                <section-iterate name="TaskChildList" list="childTaskList" entry="childTask">
+                    <actions>
+                        <entity-find-related-one value-field="childTask" relationship-name="WorkEffortPurpose#moqui.basic.Enumeration" to-value-field="childPurpose" cache="true"/>
+                        <entity-find-related-one value-field="childTask" relationship-name="WorkEffortResolution#moqui.basic.Enumeration" to-value-field="childResolution" cache="true"/>
+                        <entity-find-related-one value-field="childTask" relationship-name="WorkEffort#moqui.basic.StatusItem" to-value-field="childStatus" cache="true"/>
+                    </actions>
+                    <widgets>
+                        <container style="task-child-block">
+                            <link text="${childTask.workEffortId} - ${childTask.workEffortName}" url="taskSummary">
+                                <parameter name="workEffortId" from="childTask.workEffortId"/>
+                            </link>
+                            <label text="${childPurpose.description} - ${childStatus.description} - ${childResolution.description}" type="p"/>
+                        </container>
+                    </widgets>
+                </section-iterate>
                 <label text="Related" id="task-related-label"/>
                 <section-iterate name="TaskRelatedToList" list="relatedToList" entry="relatedTo">
                     <actions>

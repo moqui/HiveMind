@@ -12,8 +12,12 @@ This Work includes contributions authored by David E. Jones, not as a
 -->
 <entity-facade-xml type="seed">
     <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot/apps.xml"
-        subscreenName="hm" userGroupId="ALL_USERS" subscreenLocation="component://HiveMind/screen/HiveMindRoot.xml"
-        menuTitle="HiveMind PM" menuIndex="9" menuInclude="Y"/>
+            subscreenName="hm" userGroupId="ALL_USERS" subscreenLocation="component://HiveMind/screen/HiveMindRoot.xml"
+            menuTitle="HiveMind PM" menuIndex="8" menuInclude="Y"/>
+    <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot/apps.xml"
+            subscreenName="hmadmin" userGroupId="ALL_USERS" subscreenLocation="component://HiveMind/screen/HiveMindAdmin.xml"
+            menuTitle="HiveMind Admin" menuIndex="9" menuInclude="Y"/>
+
     <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot.xml"
             subscreenName="hmstatic" userGroupId="ALL_USERS" subscreenLocation="component://HiveMind/screen/hmstatic.xml"
             menuTitle="hmstatic" menuInclude="N"/>
@@ -26,24 +30,30 @@ This Work includes contributions authored by David E. Jones, not as a
     <moqui.security.ArtifactGroupMember artifactGroupId="HIVE_MIND" artifactName="component://HiveMind/screen/HiveMindRoot.xml"
             artifactTypeEnumId="AT_XML_SCREEN" inheritAuthz="Y"/>
     <!-- HiveMind Admin screens -->
-    <moqui.security.ArtifactGroup artifactGroupId="HIVE_MIND_ADMIN" description="HiveMind Admin (via Admin screen)"/>
-    <moqui.security.ArtifactGroupMember artifactGroupId="HIVE_MIND_ADMIN" artifactName="component://HiveMind/screen/HiveMindRoot/Admin.xml"
+    <moqui.security.ArtifactGroup artifactGroupId="HIVE_MIND_ADMIN" description="HiveMind Admin (via root screen)"/>
+    <moqui.security.ArtifactGroupMember artifactGroupId="HIVE_MIND_ADMIN" artifactName="component://HiveMind/screen/HiveMindAdmin.xml"
             artifactTypeEnumId="AT_XML_SCREEN" inheritAuthz="Y"/>
 
-    <!-- authz/permission for ADMIN and HIVE_MIND_ADMIN users -->
-    <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_ADMIN" userGroupId="ADMIN" artifactGroupId="HIVE_MIND"
+    <!-- authz/permission for ADMIN users -->
+    <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_PM_ADMIN" userGroupId="ADMIN" artifactGroupId="HIVE_MIND"
             authzTypeEnumId="AUTHZT_ALWAYS" authzActionEnumId="AUTHZA_ALL"/>
-    <moqui.security.UserGroup userGroupId="HIVE_MIND_ADMIN" description="HiveMind PM Users"/>
-    <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_HMADMIN" userGroupId="HIVE_MIND_ADMIN" artifactGroupId="HIVE_MIND"
+    <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_ADM_ADMIN" userGroupId="ADMIN" artifactGroupId="HIVE_MIND_ADMIN"
             authzTypeEnumId="AUTHZT_ALWAYS" authzActionEnumId="AUTHZA_ALL"/>
 
-    <!-- authz for HM app user group -->
+    <!-- authz/permission for HIVE_MIND_ADMIN users -->
+    <moqui.security.UserGroup userGroupId="HIVE_MIND_ADMIN" description="HiveMind Administrators"/>
+    <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_PM_HMAD" userGroupId="HIVE_MIND_ADMIN" artifactGroupId="HIVE_MIND"
+            authzTypeEnumId="AUTHZT_ALWAYS" authzActionEnumId="AUTHZA_ALL"/>
+    <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_ADM_HMAD" userGroupId="HIVE_MIND_ADMIN" artifactGroupId="HIVE_MIND_ADMIN"
+            authzTypeEnumId="AUTHZT_ALWAYS" authzActionEnumId="AUTHZA_ALL"/>
+
+    <!-- authz for HM app user group (HIVE_MIND_USERS) -->
     <moqui.security.UserGroup userGroupId="HIVE_MIND_USERS" description="HiveMind PM Users"/>
     <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_USERS_HM" userGroupId="HIVE_MIND_USERS" artifactGroupId="HIVE_MIND"
             authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_ALL"/>
-    <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_USERS_HMAD" userGroupId="HIVE_MIND_USERS" artifactGroupId="HIVE_MIND_ADMIN"
-            authzTypeEnumId="AUTHZT_DENY" authzActionEnumId="AUTHZA_ALL"/>
 
     <HiveMind.wiki.WikiSpace wikiSpaceId="HmDesign" description="HiveMind Design" restrictView="N"
             rootPageLocation="component://HiveMind/WikiSpace/HmDesign.cwiki" decoratorScreenLocation=""/>
+    <HiveMind.wiki.WikiPage wikiPageId="HmDesign" wikiSpaceId="HmDesign" createdByUserId="EX_JOHN_DOE"/>
+    <HiveMind.wiki.WikiPageHistory wikiPageId="HmDesign" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
 </entity-facade-xml>

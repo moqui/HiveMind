@@ -46,7 +46,7 @@ This Work includes contributions authored by David E. Jones, not as a
             source: function(request, response) { $.ajax({
                 url: "${sri.screenUrlInfo.url}/getSearchOptions", type: "POST", dataType: "json", data: { term: request.term },
                 success: function(data) { response($.map(data, function(item) { return { label: item.label, value: item.value, urlToOpen: item.urlToOpen } })); }
-            });	}, minLength: 2,
+            }); }, minLength: 2,
             select: function(event, ui) { if (ui.item) { this.value = ui.item.value; window.open(ui.item.urlToOpen, "_self"); } }
         });
         $("#SearchBox").focus();
