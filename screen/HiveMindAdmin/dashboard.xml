@@ -148,7 +148,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             </box-toolbar>
                             <box-body>
                                 <container style="row">
-                                    <container style="col-lg-6">
+                                    <container style="col-lg-7">
                                         <container style="shaded-area">
                                             <container style="row">
                                                 <container style="col-lg-2"><label text="Project" type="strong"/></container>
@@ -233,7 +233,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                             </container>
                                         </container>
                                     </container>
-                                    <container style="col-lg-6">
+                                    <container style="col-lg-5">
                                         <container style="shaded-area">
                                             <container style="row">
                                                 <container style="col-lg-3">
