@@ -310,7 +310,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <form-single name="SearchOptions" transition="findTask">
                 <field name="queryString" entry-name="ec.web.parameters.queryString"><default-field title=""><text-line size="40"/></default-field></field>
                 <field name="submitButton"><default-field title="Text Search"><submit/></default-field></field>
-                <field-layout><field-row><field-ref name="queryString"/><field-ref name="submitButton"/></field-row></field-layout>
+                <field-layout><field-row-big><field-ref name="queryString"/><field-ref name="submitButton"/></field-row-big></field-layout>
             </form-single>
         </container>
 
