@@ -44,7 +44,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </transition>
 
     <actions>
-        <entity-find-one entity-name="PersonAndUserAccount" value-field="personAndUserAccount"/>
+        <entity-find-one entity-name="mantle.party.PersonAndUserAccount" value-field="personAndUserAccount"/>
         <service-call name="mantle.party.ContactServices.get#PrimaryEmailAddress" out-map="primaryEmail"
                 in-map="[partyId:partyId]"/>
 
