@@ -58,15 +58,12 @@ Move along, nothing to see here...
 
 ### HiveMind Wiki
 
-* implement Moqui screen tree element, use in wiki.xml
 * add URL path support for page attachments instead of plain transition with form parameters
 
 * generate PDF from wiki source
-* space page tree - change to use AJAX so entire space tree isn't loaded each time (maybe make page view change without reloading?)
 
 ### HiveMind Projects and Tasks
 
-* task parent/child tree view by milestone, project
 * task attachments/content upload/download (and preview?); can use wiki pages but nice to have direct attachment without requiring separate wiki page
 * task description interpret as markdown, and use md editor?
 
@@ -83,6 +80,7 @@ Move along, nothing to see here...
 * task tags
 
 * project template (project clone: milestones, tasks, assignments? (team only?), )
+
 * project and task budgets for time (by hours, client rate, vendor rate) and project budget for expenses (configure and report against)
 
 * Gantt chart based on dependencies and/or due dates
