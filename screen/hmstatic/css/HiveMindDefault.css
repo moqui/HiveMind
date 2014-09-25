@@ -25,3 +25,4 @@
 #task-summary-panel-right { /*width: 240px;*/ }
 .task-comment { margin-bottom: 8px; }
 .task-comment-child { margin-left: 16px; border-left: #333333 dashed 1px; padding-left: 8px; }
+.bg-dark .task-comment-child { border-left: #EEE dashed 1px; }
