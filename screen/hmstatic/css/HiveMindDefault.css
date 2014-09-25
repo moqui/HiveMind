@@ -1,30 +1,18 @@
 
 /* ========== Wiki Page Styles ========== */
 
-#wiki-breadcrumbs a.button { border: 0; color: #00008b; padding: 1px; margin: 1px; }
-#wiki-breadcrumbs a.button:hover { text-decoration: underline; }
-
+/* no longer used without the FTL tree template
 #wiki-page-list div a.button { border: 0; color: #000000; padding: 1px; margin: 1px; }
 #wiki-page-list div a.button:hover { text-decoration: underline; }
+*/
 
-#wiki-attachments-label, #wiki-page-projects-label, #wiki-page-tasks-label, #wiki-page-requests-label {
-    font-size: 1.1em; font-weight: bold; }
-#wiki-page-attachments, #wiki-page-projects-label, #wiki-page-tasks-label, #wiki-page-requests-label {
-    border-top: #cccccc solid 1px; margin-top: 12px; padding-top: 4px; display: block; }
-#wiki-attachments-label { float: left; }
-#wiki-attachments-links { float: right; }
-
-#wiki-page-name { float: left; }
-#wiki-page-links { float: right; }
-#wiki-page-area { border-top: #cccccc solid 1px; border-bottom: #cccccc solid 1px;
-    margin: 4px 2px 8px 2px; padding: 8px 2px 8px 2px; }
+/*
+#wiki-page-area { }
 
 #wiki-page-area h1 { margin: 16px 0 16px 0; border-bottom: #cccccc solid 1px; }
 #wiki-page-area h2 { margin: 8px 0 8px 0; border-bottom: #cccccc solid 1px; }
 #wiki-page-area h3 { margin: 4px 0 4px 0; text-decoration: underline; }
-
-#wiki-view-left { border-right: #cccccc solid 1px; padding-right: 8px; }
-#wiki-view-center { padding-left: 8px; }
+*/
 
 /* ========== Task Summary Styles ========== */
 #task-summary-panel {  }
