@@ -40,7 +40,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <widgets>
                     <label text="${childCe.subject}" type="strong"/>
                     <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
-                    <label text="at ${childCe.entryDate}" type="span"/>
+                    <label text="at ${ec.l10n.formatValue(childCe.entryDate, 'yyyy-MM-dd HH:mm')}" type="span"/>
                     <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="taskCommentReply">
                         <parameter name="parentCommEventId" from="childCe.communicationEventId"/>
                     </dynamic-dialog>
