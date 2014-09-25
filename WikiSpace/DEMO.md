@@ -64,6 +64,20 @@ Move along, nothing to see here...
 
 ### HiveMind Projects and Tasks
 
+* project budget for expenses (configure and report against)
+* task estimated complete (by time, manual estimate?), task estimated expected progress (by date range?)
+
+* reports
+    * time entries by user and team for time periods (month, week)
+    * estimated remaining time by project, task/subtask, team, user
+    * task aging (by priority, then by created date)
+
+* calendar
+    * project, milestone, and task (by due date, etc) calendar
+    * per-user calendar
+    * add calendar events
+    * event notifications, etc
+
 * task attachments/content upload/download (and preview?); can use wiki pages but nice to have direct attachment without requiring separate wiki page
 * task description interpret as markdown, and use md editor?
 
@@ -81,8 +95,6 @@ Move along, nothing to see here...
 
 * project template (project clone: milestones, tasks, assignments? (team only?), )
 
-* project and task budgets for time (by hours, client rate, vendor rate) and project budget for expenses (configure and report against)
-
 * Gantt chart based on dependencies and/or due dates
 * project calendar with milestone dates, task dates
 * user leave calendar entries, show on project calendar
@@ -90,11 +102,6 @@ Move along, nothing to see here...
 * all upcoming tasks/requests list (all projects, clients, users, etc); filter by date range, other filter/sort
 * recent activity list (comments, tasks created/updated, requests created/updated, other?)
 * do both on same screen?
-
-* add reports
-    * time entries by user and team for time periods (month, week)
-    * estimated remaining time by project, task/subtask, team, user
-    * task aging (by priority, then by created date)
 
 ## HiveMind Requests
 
