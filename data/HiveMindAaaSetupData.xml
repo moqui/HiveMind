@@ -22,7 +22,7 @@ This Work includes contributions authored by David E. Jones, not as a
             subscreenName="hmstatic" userGroupId="ALL_USERS" subscreenLocation="component://HiveMind/screen/hmstatic.xml"
             menuTitle="hmstatic" menuInclude="N"/>
     <!-- NOTE: make sure this css path matches where the hmstatic root screen is mounted -->
-    <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="9" resourceTypeEnumId="STRT_STYLESHEET"
+    <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="50" resourceTypeEnumId="STRT_STYLESHEET"
             resourceValue="/hmstatic/css/HiveMindDefault.css"/>
 
     <!-- entire HiveMind App -->

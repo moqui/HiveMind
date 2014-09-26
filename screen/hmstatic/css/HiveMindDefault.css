@@ -1,41 +1,28 @@
 
 /* ========== Wiki Page Styles ========== */
 
-#wiki-breadcrumbs a.button { border: 0; color: #00008b; padding: 1px; margin: 1px; }
-#wiki-breadcrumbs a.button:hover { text-decoration: underline; }
-
+/* no longer used without the FTL tree template
 #wiki-page-list div a.button { border: 0; color: #000000; padding: 1px; margin: 1px; }
 #wiki-page-list div a.button:hover { text-decoration: underline; }
+*/
 
-#wiki-attachments-label, #wiki-page-projects-label, #wiki-page-tasks-label, #wiki-page-requests-label {
-    font-size: 1.1em; font-weight: bold; }
-#wiki-page-attachments, #wiki-page-projects-label, #wiki-page-tasks-label, #wiki-page-requests-label {
-    border-top: #cccccc solid 1px; margin-top: 12px; padding-top: 4px; display: block; }
-#wiki-attachments-label { float: left; }
-#wiki-attachments-links { float: right; }
-
-#wiki-page-name { float: left; }
-#wiki-page-links { float: right; }
-#wiki-page-area { border-top: #cccccc solid 1px; border-bottom: #cccccc solid 1px;
-    margin: 4px 2px 8px 2px; padding: 8px 2px 8px 2px; }
+/*
+#wiki-page-area { }
 
 #wiki-page-area h1 { margin: 16px 0 16px 0; border-bottom: #cccccc solid 1px; }
 #wiki-page-area h2 { margin: 8px 0 8px 0; border-bottom: #cccccc solid 1px; }
 #wiki-page-area h3 { margin: 4px 0 4px 0; text-decoration: underline; }
-
-#wiki-view-left { border-right: #cccccc solid 1px; padding-right: 8px; }
-#wiki-view-center { padding-left: 8px; }
+*/
 
 /* ========== Task Summary Styles ========== */
+/*
 #task-summary-panel {  }
-#task-summary-panel-left { /*width: 240px;*/ }
-#task-summary-panel-center { /*width: 440px;*/ padding-left: 8px; padding-right: 8px; background: #eeeeee; }
-/* border-left: black 1px solid; border-right: black 1px solid; */
+#task-summary-panel-left {  }
+#task-summary-panel-center { padding-left: 8px; padding-right: 8px; }
+.bg-light #task-summary-panel-center { background: #EEE; }
+.bg-dark #task-summary-panel-center { background: #222; }
+*/
 #task-summary-panel-right { /*width: 240px;*/ }
 .task-comment { margin-bottom: 8px; }
 .task-comment-child { margin-left: 16px; border-left: #333333 dashed 1px; padding-left: 8px; }
-#task-time-label, #task-assignments-label, #task-child-label, #task-related-label, #task-requests-label, #task-wiki-pages-label {
-    margin-top: 16px; padding-top: 4px; display: block; font-weight: bold; border-top: black solid 1px; }
-.task-status-block, .task-user-block, .task-related-block, .task-request-block { border-top: #cccccc solid 1px; }
-.task-status-block, .task-user-block, .task-child-block, .task-related-block, .task-request-block { border-top: #cccccc solid 1px; }
-.task-user-block p, .task-related-block p, .task-request-block p { margin: 0; }
+.bg-dark .task-comment-child { border-left: #EEE dashed 1px; }

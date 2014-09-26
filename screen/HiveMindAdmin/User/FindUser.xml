@@ -11,7 +11,7 @@ This Work includes contributions authored by David E. Jones, not as a
 "work for hire", who hereby disclaims any copyright to the same.
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.4.xsd"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-include="false">
 
     <!-- set userGroupId so that when an Account is created it will be added to that group -->
@@ -53,6 +53,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="username"><default-field tooltip="Leave blank to use Email Address"><text-line size="20"/></default-field></field>
                     <field name="newPassword"><default-field title="Password"><password size="15"/></default-field></field>
                     <field name="newPasswordVerify"><default-field title="Password Verify"><password size="15"/></default-field></field>
+                    <field name="requirePasswordChange"><default-field><hidden default-value="Y"/></default-field></field>
                     <field name="submitButton"><default-field title="Create User"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
