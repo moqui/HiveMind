@@ -349,7 +349,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                 </entity-find-one>
                             </actions>
                             <widgets>
-                                <label text="${oldStatusItem ? oldStatusItem.description + ' to ' : ''}${statusItem?.description}${(userAccount?.username ? ' by ' + userAccount.username : '')} at ${statusHistory.changedDate}" type="p"/>
+                                <label text="${oldStatusItem ? oldStatusItem.description + ' to ' : ''}${statusItem?.description}${(userAccount?.username ? ' by ' + userAccount.username : '')} at ${ec.l10n.formatValue(statusHistory.changedDate, 'yyyy-MM-dd HH:mm')}" type="p"/>
                             </widgets>
                         </section-iterate>
                     </box-body>
