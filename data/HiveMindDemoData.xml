@@ -222,29 +222,29 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
     </mantle.party.communication.CommunicationEvent>
     <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-01"/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
-            fromPartyId="ORG_BLUTH_GOB" entryDate="2013-03-02 18:00:00" contentType="text/plain"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
+            fromPartyId="ORG_BLUTH_GOB" toPartyId="EX_JOHN_DOE" entryDate="2013-03-02 18:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
             body="Yes, please also display remaining hours."/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A1" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01-A" rootCommEventId="HM-004-01"
-            fromPartyId="EX_JOHN_DOE" entryDate="2013-03-02 20:00:00" contentType="text/plain"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="HM-004-01-A" rootCommEventId="HM-004-01"
+            fromPartyId="EX_JOHN_DOE" toPartyId="ORG_BLUTH_GOB" entryDate="2013-03-02 20:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
             body="It is done."/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A1A" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01-A1" rootCommEventId="HM-004-01"
-            fromPartyId="ORG_BLUTH_GOB" entryDate="2013-03-02 21:00:00" contentType="text/plain"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="HM-004-01-A1" rootCommEventId="HM-004-01"
+            fromPartyId="ORG_BLUTH_GOB" toPartyId="EX_JOHN_DOE" entryDate="2013-03-02 21:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
             body="It's about time..."/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-B" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
-            fromPartyId="ORG_BLUTH_GOB" entryDate="2013-03-02 19:00:00" contentType="text/plain"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
+            fromPartyId="ORG_BLUTH_GOB" toPartyId="EX_JOHN_DOE" entryDate="2013-03-02 19:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
             body="Make it pretty as well! And fix your attitude while you're at it."/>
 
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-02" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="" rootCommEventId=""
-            fromPartyId="ORG_BLUTH_GOB" entryDate="2013-03-04 17:00:00" contentType="text/plain"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="" rootCommEventId=""
+            fromPartyId="ORG_BLUTH_GOB" toPartyId="EX_JOHN_DOE" entryDate="2013-03-04 17:00:00" contentType="text/plain"
             subject="Why isn't this working yet?!?"
             body="This still doesn't seem to be right. You guys aren't even worth a detailed bug report so I won't bother. Just fix it."/>
     <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-02"/>
