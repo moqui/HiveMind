@@ -73,10 +73,6 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response type="none"/>
     </transition>
 
-    <pre-actions>
-        <set field="html_title" value="Find Invoice"/>
-    </pre-actions>
-    
     <actions>
         <entity-find entity-name="mantle.account.invoice.Invoice" list="invoiceList">
             <search-form-inputs default-order-by="-invoiceDate"/>
