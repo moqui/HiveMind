@@ -14,8 +14,8 @@ This Work includes contributions authored by David E. Jones, not as a
     <!-- NOTE 1265184000000 = 2010-02-03 00:00:00 US/Pacific -->
 
     <!-- Security group memberships for Mantle demo parties -->
-    <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_BIZI_JD" fromDate="1265184000000"/>
-    <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_BIZI_BD" fromDate="1265184000000"/>
+    <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_ZIZI_JD" fromDate="1265184000000"/>
+    <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_ZIZI_BD" fromDate="1265184000000"/>
     <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_ACME_SA" fromDate="1265184000000"/>
     <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_BLUTH_GOB" fromDate="1265184000000"/>
 
@@ -65,16 +65,16 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="HiveMind PM Build Out"
             workEffortTypeEnumId="WetProject" statusId="WeInProgress" statusFlowId="HmTaskSimple"
             totalClientCostAllowed="10000" costUomId="USD"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_SERVICES" roleTypeId="VendorBillFrom" fromDate="1265184000000"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_SERVICES" roleTypeId="VendorBillFrom" fromDate="1265184000000"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="Manager"
             emplPositionClassId="ProgrammerLead" fromDate="1265184000000" statusId="PRTYASGN_ASSIGNED"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_JD" roleTypeId="Worker"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_JD" roleTypeId="Worker"
             emplPositionClassId="Programmer" fromDate="1265184000000" statusId="PRTYASGN_ASSIGNED"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_BD" roleTypeId="Worker"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_BD" roleTypeId="Worker"
             emplPositionClassId="Programmer" fromDate="1265184000000" statusId="PRTYASGN_ASSIGNED"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_DEVA" roleTypeId="OrgTeam"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_DEVA" roleTypeId="OrgTeam"
             fromDate="1265184000000" statusId="PRTYASGN_ASSIGNED"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_BIZI_DEVB" roleTypeId="OrgTeam"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_DEVB" roleTypeId="OrgTeam"
             fromDate="1265184000000" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME" roleTypeId="CustomerBillTo" fromDate="1265184000000"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME_SA" roleTypeId="ClientManager"
@@ -108,7 +108,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <!-- Project Expense (Purchase) Invoice - Travel paid by individual -->
     <mantle.account.invoice.Invoice invoiceId="HM-001" invoiceTypeEnumId="InvoiceSales" fromPartyId="EX_JOHN_DOE"
-            toPartyId="ORG_BIZI_SERVICES" statusId="InvoiceReceived" invoiceDate="2013-03-17 12:00:00" currencyUomId="USD"
+            toPartyId="ORG_ZIZI_SERVICES" statusId="InvoiceReceived" invoiceDate="2013-03-17 12:00:00" currencyUomId="USD"
             description="March visit travel expenses"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="01" itemTypeEnumId="ItemExpTravAir"
             quantity="1" amount="299.75" description="United Airfare"/>
@@ -121,12 +121,12 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="05" itemTypeEnumId="ItemExpTravLocal"
             quantity="1" amount="84.00" description="Airport Parking"/>
     <mantle.work.effort.WorkEffortInvoice invoiceId="HM-001" workEffortId="HM"/>
-    <!-- Project Expense (Purchase) Invoice - Hosting paid by Biziwork company-->
+    <!-- Project Expense (Purchase) Invoice - Hosting paid by Ziziwork company-->
     <mantle.party.Party partyId="HM_AWS" partyTypeEnumId="PtyOrganization"/>
     <mantle.party.Organization partyId="HM_AWS" organizationName="Amazon Web Services"/>
     <mantle.party.PartyRole partyId="HM_AWS" roleTypeId="VendorBillFrom"/>
     <mantle.account.invoice.Invoice invoiceId="HM-002" invoiceTypeEnumId="InvoiceSales" fromPartyId="HM_AWS"
-            toPartyId="ORG_BIZI_SERVICES" statusId="InvoiceReceived" invoiceDate="2013-03-01 12:00:00" currencyUomId="USD"
+            toPartyId="ORG_ZIZI_SERVICES" statusId="InvoiceReceived" invoiceDate="2013-03-01 12:00:00" currencyUomId="USD"
             description="Amazon web hosting March 2013"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="01" itemTypeEnumId="ItemExpHosting"
             quantity="1" amount="216.00" description="RDS Services"/>
@@ -177,9 +177,9 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
     <!-- task worker and time entries -->
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="Worker"
             fromDate="1265184000000" statusId="PRTYASGN_ASSIGNED" receiveNotifications="Y"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_BIZI_JD" roleTypeId="Worker"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_ZIZI_JD" roleTypeId="Worker"
             fromDate="1265184000000" statusId="PRTYASGN_ASSIGNED" receiveNotifications="N"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_BIZI_DEVA" roleTypeId="OrgTeam"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_ZIZI_DEVA" roleTypeId="OrgTeam"
             fromDate="1265184000000" statusId="PRTYASGN_ASSIGNED"/>
     <mantle.work.TaskServices.addTaskTime partyId="EX_JOHN_DOE" hours="8" breakHours="2"
             workEffortId="HM-004" comments="Create Task and My Tasks first pass"
@@ -197,7 +197,7 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
     <mantle.work.time.TimeEntry timeEntryId="HM-004-02" partyId="EX_JOHN_DOE" hours="5.75" breakHours="1.25"
             workEffortId="HM-004" comments="Create Task and My Tasks add more fields" rateTypeEnumId="RatpStandard"
             rateAmountId="Default-StClSrPg" vendorRateAmountId="Default-StVnSrPg" fromDate="2013-03-04 10:00:00" thruDate="2013-03-04 17:00:00"/>
-    <mantle.work.time.TimeEntry timeEntryId="HM-004-03" partyId="ORG_BIZI_JD" hours="2" breakHours="0"
+    <mantle.work.time.TimeEntry timeEntryId="HM-004-03" partyId="ORG_ZIZI_JD" hours="2" breakHours="0"
             workEffortId="HM-004" comments="study code" rateTypeEnumId="RatpStandard"
             rateAmountId="Default-StClPg" vendorRateAmountId="Default-StVnPg" fromDate="2013-03-05 10:00:00" thruDate="2013-03-05 12:00:00"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-003" toWorkEffortId="HM-004"
@@ -222,29 +222,29 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
     </mantle.party.communication.CommunicationEvent>
     <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-01"/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
-            fromPartyId="ORG_BLUTH_GOB" entryDate="2013-03-02 18:00:00" contentType="text/plain"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
+            fromPartyId="ORG_BLUTH_GOB" toPartyId="EX_JOHN_DOE" entryDate="2013-03-02 18:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
             body="Yes, please also display remaining hours."/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A1" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01-A" rootCommEventId="HM-004-01"
-            fromPartyId="EX_JOHN_DOE" entryDate="2013-03-02 20:00:00" contentType="text/plain"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="HM-004-01-A" rootCommEventId="HM-004-01"
+            fromPartyId="EX_JOHN_DOE" toPartyId="ORG_BLUTH_GOB" entryDate="2013-03-02 20:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
             body="It is done."/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A1A" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01-A1" rootCommEventId="HM-004-01"
-            fromPartyId="ORG_BLUTH_GOB" entryDate="2013-03-02 21:00:00" contentType="text/plain"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="HM-004-01-A1" rootCommEventId="HM-004-01"
+            fromPartyId="ORG_BLUTH_GOB" toPartyId="EX_JOHN_DOE" entryDate="2013-03-02 21:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
             body="It's about time..."/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-B" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
-            fromPartyId="ORG_BLUTH_GOB" entryDate="2013-03-02 19:00:00" contentType="text/plain"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
+            fromPartyId="ORG_BLUTH_GOB" toPartyId="EX_JOHN_DOE" entryDate="2013-03-02 19:00:00" contentType="text/plain"
             subject="RE: Remaining hours question"
             body="Make it pretty as well! And fix your attitude while you're at it."/>
 
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-02" communicationEventTypeId="Comment"
-            contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="" rootCommEventId=""
-            fromPartyId="ORG_BLUTH_GOB" entryDate="2013-03-04 17:00:00" contentType="text/plain"
+            contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="" rootCommEventId=""
+            fromPartyId="ORG_BLUTH_GOB" toPartyId="EX_JOHN_DOE" entryDate="2013-03-04 17:00:00" contentType="text/plain"
             subject="Why isn't this working yet?!?"
             body="This still doesn't seem to be right. You guys aren't even worth a detailed bug report so I won't bother. Just fix it."/>
     <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-02"/>
