@@ -19,40 +19,105 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="searchSuggest">
         <actions>
             <script>
+
+                import org.apache.commons.collections.set.ListOrderedSet
+                import org.elasticsearch.index.query.QueryBuilders
+                import org.elasticsearch.search.SearchHit
+                import org.elasticsearch.search.SearchHitField
+                import org.elasticsearch.search.SearchHits
+                import org.elasticsearch.search.highlight.HighlightField
+                import org.moqui.context.ExecutionContext
+
+                ExecutionContext ec = context.ec
+
+                org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("search_actions")
+
+                ListOrderedSet optionList = new ListOrderedSet()
+
+                indexName = "${ec.tenantId}__hivemind".toLowerCase()
+                queryString = "${term}*"
+
+                SearchHits hits = ec.elasticSearchClient.prepareSearch().setIndices(indexName).setTypes(documentType)
+                        .setQuery(QueryBuilders.queryString(queryString)).setSize(20)
+                        .setHighlighterFragmentSize(50)
+                        .addHighlightedField("*").setHighlighterPreTags("").setHighlighterPostTags("*")
+                        .execute().actionGet().getHits()
+                // .setHighlighterRequireFieldMatch(true).setHighlighterType("plain")
+                // logger.warn("=========== queryString [${queryString}], hits ${hits.totalHits()}")
+                for (SearchHit hit in hits) {
+                    // logger.warn("=========== hit ${hit.getId()}; ${hit.getHighlightFields().values()}")
+                    for (HighlightField hlf in hit.getHighlightFields().values()) {
+                        optionList.addAll(hlf.fragments())
+                    }
+                }
+
+                def outList = []
+                for (String option in optionList) outList.add([value: option, label: option])
+                ec.web.sendJsonResponse(outList)
+            </script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+    <transition name="searchSuggestOld">
+        <actions>
+            <script>
                 import org.elasticsearch.search.suggest.Suggest
+                import org.elasticsearch.search.suggest.Suggest.Suggestion
+                import org.elasticsearch.search.suggest.SuggestBuilder
+                import org.elasticsearch.action.suggest.SuggestResponse
                 import org.elasticsearch.search.suggest.phrase.DirectCandidateGenerator
                 import org.elasticsearch.search.suggest.phrase.PhraseSuggestionBuilder
                 import org.elasticsearch.search.suggest.term.TermSuggestionBuilder
+                import org.elasticsearch.search.suggest.completion.CompletionSuggestionBuilder
+                import org.elasticsearch.search.suggest.completion.CompletionSuggestionFuzzyBuilder
 
                 org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("search_actions")
 
                 org.moqui.context.ExecutionContext ec = context.ec
-                String field = "name"
-                // TODO: get this working - for whatever reason no suggestions come back in spite of trying dozens of combinations of parameters, maybe wait for next ES release...
+                indexName = "${ec.tenantId}__hivemind".toLowerCase()
+                // get this working - for whatever reason no suggestions come back in spite of trying dozens of combinations of parameters, maybe wait for next ES release...
                 // see ES suggest docs at: http://www.elasticsearch.org/guide/reference/api/search/suggest/
-                Suggest suggest = ec.elasticSearchClient.prepareSuggest("hivemind")
-                        .addSuggestion(new PhraseSuggestionBuilder("phraseSb").analyzer("body").maxErrors(1.0F)
-                            .addCandidateGenerator(PhraseSuggestionBuilder.candidateGenerator(field).suggestMode("always").minWordLength(3).sort("score").minDocFreq(0F).maxTermFreq(1.0F))
-                            .gramSize(2).confidence(0.0F).size(1).field(field).text(term))
-                        .execute().actionGet().getSuggest()
-                //.addSuggestion(new TermSuggestionBuilder("termSb").size(20).minWordLength(3).suggestMode("always").sort("score").field("name").text(term))
+                /* Suggest suggest = ec.elasticSearchClient.prepareSuggest(indexName)
+                .addSuggestion(new PhraseSuggestionBuilder("phraseSb").analyzer("body").maxErrors(1.0F)
+                .addCandidateGenerator(PhraseSuggestionBuilder.candidateGenerator(field).suggestMode("always").minWordLength(2).sort("score").minDocFreq(0F).maxTermFreq(1.0F))
+                .gramSize(2).confidence(0.0F).size(1).text(term))
+                .execute().actionGet().getSuggest() */
+                // .field(field).suggestMode("always").sort("score")
 
+                // NOTE: this is probably a lost cause, have to setup specific _mapping, and the document must be in a
+                //     certain structure, namely have an input field, see:
+                // http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-suggesters-completion.html
 
-                logger.warn("========= suggest term=${term}, size=${suggest.size()}")
+                /* here is a start, setting these fields to completion, but they still don't have input elements:
+                curl -X PUT localhost:9200/default__hivemind/HmTask/_mapping -d '{ "HmTask" : { "properties" : {
+                "name" : { "type" : "completion" },
+                "type" : { "type" : "completion" },
+                "status" : { "type" : "completion" }
+                } } }'
 
-                Iterator it = suggest.iterator()
+                NOTE that there is no good Java API for this, basically just XContentBuilder and
+                XContentFactory.jsonBuilder() stuff to build the JSON through pretty ugly API calls
+                */
+
+                // It may be a better approach to do a normal search and find partially matching strings in the result...
+
+                SuggestResponse suggestResponse = ec.elasticSearchClient.prepareSuggest(indexName)
+                .addSuggestion(new CompletionSuggestionFuzzyBuilder("name-suggest").field("name").text(term).size(20))
+                .addSuggestion(new CompletionSuggestionFuzzyBuilder("type-suggest").field("type").text(term).size(20))
+                .addSuggestion(new CompletionSuggestionFuzzyBuilder("status-suggest").field("status").text(term).size(20))
+                .execute().actionGet()
+                logger.warn("========= suggest term=${term}, suggest size=${suggestResponse.getSuggest().size()}")
+
                 List optionList = []
-                while (it.hasNext()) {
-                    Suggest.Suggestion suggestion = it.next()
-                    logger.warn("========= suggest term=${term}, suggestion name ${suggestion.getName()}, size=${suggestion.getEntries().size()}")
-
-                    for (Suggest.Suggestion.Entry entry in suggestion.getEntries()) {
-                        String entryText = entry.getText()
-                        logger.warn("========== entryText [${entryText}] options size ${entry.getOptions().size()}")
-                        for (Suggest.Suggestion.Entry.Option option in entry.getOptions()) {
-                            logger.warn("========== entryText [${entryText}], optionText [${option.getText()}]")
-                        }
-                    }
+                for (Suggestion suggestion in suggestResponse.getSuggest()) {
+                for (Suggestion.Entry entry in suggestion.getEntries()) {
+                String entryText = entry.getText()
+                logger.warn("========== entryText [${entryText}] options size ${entry.getOptions().size()}")
+                for (Suggestion.Entry.Option option in entry.getOptions()) {
+                logger.warn("========== entryText [${entryText}], optionText [${option.getText()}]")
+                optionList.add(option.getText())
+                }
+                }
                 }
 
                 def outList = []
@@ -70,7 +135,8 @@ This Work includes contributions authored by David E. Jones, not as a
         </if>
     </actions>
     <widgets>
-        <form-single name="SearchOptions" transition="submitSearch">
+        <form-single name="SearchOptions" transition=".">
+            <!-- TODO: add this back once issues fixes are in place:
             <field name="documentType"><default-field title="">
                 <drop-down allow-empty="true">
                     <entity-options key="${dataDocumentId}" text="${documentName}">
@@ -80,12 +146,13 @@ This Work includes contributions authored by David E. Jones, not as a
                     </entity-options>
                 </drop-down>
             </default-field></field>
+            -->
             <field name="queryString"><default-field title="">
-                <text-line size="40"/>
-                <!-- <text-line ac-transition="searchSuggest" ac-min-length="3" size="40"/> -->
+                <!-- <text-line size="40"/> -->
+                <text-line ac-transition="searchSuggest" ac-min-length="3" size="40"/>
             </default-field></field>
             <field name="submitButton"><default-field title="Search"><submit/></default-field></field>
-            <field-layout><field-row-big><field-ref name="documentType"/><field-ref name="queryString"/>
+            <field-layout><field-row-big><!-- <field-ref name="documentType"/> --><field-ref name="queryString"/>
                 <field-ref name="submitButton"/></field-row-big></field-layout>
         </form-single>
 
