@@ -82,14 +82,14 @@ This Work includes contributions authored by David E. Jones, not as a
 
             <form-list name="MyTasks" list="myTaskList">
                 <field name="rootWorkEffortId">
-                    <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}">
+                    <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}" link-type="anchor">
                         <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
                 </field>
                 <field name="milestoneWorkEffortId"><default-field title="Milestone">
-                    <link text="${milestoneWorkEffortId?:''}" url="milestoneSummary"/>
+                    <link text="${milestoneWorkEffortId?:''}" url="milestoneSummary" link-type="anchor"/>
                 </default-field></field>
                 <field name="workEffortId"><default-field title="Task">
-                    <link text="${workEffortId}: ${workEffortName}" url="editTask"/>
+                    <link text="${workEffortId}: ${workEffortName}" url="editTask" link-type="anchor"/>
                 </default-field></field>
                 <field name="priority"><default-field title="Pri"><display/></default-field></field>
                 <field name="purposeEnumId">

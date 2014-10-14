@@ -27,6 +27,12 @@ This Work includes contributions authored by David E. Jones, not as a
                 <entity-find-related-one value-field="dataDocument" cache="true"
                         relationship-name="moqui.entity.document.DataDocumentLink" to-value-field="dataDocumentLink"/>
                 <set field="linkUrl" from="ec.resource.evaluateStringExpand(dataDocumentLink?.linkUrl, '', document)"/>
+                <!-- TODO: enable this once code merged
+                <if condition="dataDocumentLink?.urlType == 'transition' || dataDocumentLink?.urlType == 'screen'">
+                    <set field="linkUrlInfo" from="new ScreenUrlInfo(sri, null, null, linkUrl, null, null)"/>
+                    <set field="linkUrl" from="linkUrlInfo.urlWithParams"/>
+                </if>
+                -->
                 <set field="documentTitle" from="ec.resource.evaluateStringExpand(dataDocument?.documentTitle, '', document)"/>
                 <script>outList.add([value:document._id, urlToOpen:linkUrl, label:"${dataDocument.documentName} - ${document._id}: ${documentTitle}".toString()])</script>
             </iterate>
