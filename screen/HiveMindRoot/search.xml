@@ -71,12 +71,22 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <form-single name="SearchOptions" transition="submitSearch">
+            <field name="documentType"><default-field title="">
+                <drop-down allow-empty="true">
+                    <entity-options key="${dataDocumentId}" text="${documentName}">
+                        <entity-find entity-name="moqui.entity.document.DataDocument" cache="true">
+                            <econdition field-name="indexName" value="hivemind"/><order-by field-name="documentName"/>
+                        </entity-find>
+                    </entity-options>
+                </drop-down>
+            </default-field></field>
             <field name="queryString"><default-field title="">
                 <text-line size="40"/>
                 <!-- <text-line ac-transition="searchSuggest" ac-min-length="3" size="40"/> -->
             </default-field></field>
             <field name="submitButton"><default-field title="Search"><submit/></default-field></field>
-            <field-layout><field-row-big><field-ref name="queryString"/><field-ref name="submitButton"/></field-row-big></field-layout>
+            <field-layout><field-row-big><field-ref name="documentType"/><field-ref name="queryString"/>
+                <field-ref name="submitButton"/></field-row-big></field-layout>
         </form-single>
 
         <form-list name="SearchResults" list="documentList" paginate="true" paginate-always-show="true">
