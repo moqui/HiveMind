@@ -39,162 +39,17 @@ This Work includes contributions authored by David E. Jones, not as a
             linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
 
     <!-- Project -->
-    <moqui.entity.document.DataDocument dataDocumentId="HmProject" indexName="hivemind" documentName="Project"
-            primaryEntityName="mantle.work.effort.WorkEffort" documentTitle="${name}"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortName" fieldNameAlias="name"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject" fieldPath="workEffortTypeEnumId"/><!-- this is aliased so we can have a condition on it -->
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
-            fieldPath="WorkEffort#moqui.basic.StatusItem:description" fieldNameAlias="status"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
-            fieldPath="WorkEffortType#moqui.basic.Enumeration:description" fieldNameAlias="type"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
-            fieldPath="WorkEffortPurpose#moqui.basic.Enumeration:description" fieldNameAlias="purpose"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
-            fieldPath="mantle.work.effort.WorkEffortParty:partyId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.RoleType:description" fieldNameAlias="role"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Person:firstName"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Organization:organizationName"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmProject"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Person:lastName"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
-            relationshipName="mantle.work.effort.WorkEffort" documentAlias="WorkEffort"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
-            relationshipName="WorkEffort#moqui.basic.StatusItem" documentAlias="StatusItem"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
-            relationshipName="WorkEffortType#moqui.basic.Enumeration" documentAlias="WorkEffortType"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
-            relationshipName="WorkEffortPurpose#moqui.basic.Enumeration" documentAlias="WorkEffortPurpose"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
-            relationshipName="mantle.work.effort.WorkEffortParty" documentAlias="Party"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
-            relationshipName="mantle.party.RoleType" documentAlias="RoleType"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
-            relationshipName="mantle.party.Person" documentAlias="Person"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmProject"
-            relationshipName="mantle.party.Organization" documentAlias="Organization"/>
-    <moqui.entity.document.DataDocumentCondition dataDocumentId="HmProject"
-            fieldNameAlias="workEffortTypeEnumId" fieldValue="WetProject"/>
+    <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleProject" newDataDocumentId="HmProject" newIndexName="hivemind"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmProject" label="Edit Project"
             linkUrl="/apps/hm/Project/ProjectSummary?workEffortId=${workEffortId}"/>
 
     <!-- Task -->
-    <moqui.entity.document.DataDocument dataDocumentId="HmTask" indexName="hivemind" documentName="Task"
-            primaryEntityName="mantle.work.effort.WorkEffort" documentTitle="${name}"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="rootWorkEffortId" fieldNameAlias="project"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="parentWorkEffortId" fieldNameAlias="parent"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortName" fieldNameAlias="name"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="workEffortTypeEnumId"/><!-- this is aliased so we can have a condition on it -->
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="priority"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="statusId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="WorkEffort#moqui.basic.StatusItem:description" fieldNameAlias="status"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="WorkEffortType#moqui.basic.Enumeration:description" fieldNameAlias="type"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="purposeEnumId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="WorkEffortPurpose#moqui.basic.Enumeration:description" fieldNameAlias="purpose"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask" fieldPath="resolutionEnumId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="WorkEffortResolution#moqui.basic.Enumeration:description" fieldNameAlias="resolution"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="mantle.work.effort.WorkEffortParty:partyId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.RoleType:description" fieldNameAlias="role"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Person:firstName"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Person:lastName"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="mantle.work.effort.WorkEffortParty:mantle.party.Organization:organizationName"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="mantle.work.effort.WorkEffortAssoc:toWorkEffortId" fieldNameAlias="assocToId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="mantle.work.effort.WorkEffortAssoc:WorkEffortAssocType#moqui.basic.Enumeration:description"
-            fieldNameAlias="assocType"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="To#mantle.work.effort.WorkEffortAssoc:workEffortId" fieldNameAlias="assocFromId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmTask"
-            fieldPath="To#mantle.work.effort.WorkEffortAssoc:WorkEffortAssocType#moqui.basic.Enumeration:description"
-            fieldNameAlias="assocTypeTo"/>
-
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="mantle.work.effort.WorkEffort" documentAlias="WorkEffort"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="WorkEffort#moqui.basic.StatusItem" documentAlias="StatusItem"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="WorkEffortType#moqui.basic.Enumeration" documentAlias="WorkEffortType"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="WorkEffortPurpose#moqui.basic.Enumeration" documentAlias="WorkEffortPurpose"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="WorkEffortResolution#moqui.basic.Enumeration" documentAlias="WorkEffortResolution"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="mantle.work.effort.WorkEffortParty" documentAlias="Party"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="mantle.party.RoleType" documentAlias="RoleType"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="mantle.party.Person" documentAlias="Person"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="mantle.party.Organization" documentAlias="Organization"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="mantle.work.effort.WorkEffortAssoc" documentAlias="Assoc"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="To#mantle.work.effort.WorkEffortAssoc" documentAlias="AssocTo"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmTask"
-            relationshipName="WorkEffortAssocType#moqui.basic.Enumeration" documentAlias="WorkEffortAssocType"/>
-
-    <moqui.entity.document.DataDocumentCondition dataDocumentId="HmTask"
-            fieldNameAlias="workEffortTypeEnumId" fieldValue="WetTask"/>
+    <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleTask" newDataDocumentId="HmTask" newIndexName="hivemind"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmTask" label="Task Summary"
             linkUrl="/apps/hm/Task/TaskSummary?workEffortId=${workEffortId}"/>
 
     <!-- Request -->
-    <moqui.entity.document.DataDocument dataDocumentId="HmRequest" indexName="hivemind" documentName="Request"
-            primaryEntityName="mantle.request.Request" documentTitle="${name}"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest" fieldPath="requestId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest" fieldPath="requestName" fieldNameAlias="name"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
-            fieldPath="Request#moqui.basic.StatusItem:description" fieldNameAlias="status"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
-            fieldPath="RequestType#moqui.basic.Enumeration:description" fieldNameAlias="type"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
-            fieldPath="RequestResolution#moqui.basic.Enumeration:description" fieldNameAlias="resolution"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
-            fieldPath="mantle.request.RequestWorkEffort:workEffortId" fieldNameAlias="task"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
-            fieldPath="mantle.request.RequestParty:partyId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
-            fieldPath="mantle.request.RequestParty:mantle.party.RoleType:description" fieldNameAlias="role"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
-            fieldPath="mantle.request.RequestParty:mantle.party.Person:firstName"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
-            fieldPath="mantle.request.RequestParty:mantle.party.Person:lastName"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmRequest"
-            fieldPath="mantle.request.RequestParty:mantle.party.Organization:organizationName"/>
-
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
-            relationshipName="mantle.request.Request" documentAlias="Request"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
-            relationshipName="Request#moqui.basic.StatusItem" documentAlias="StatusItem"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
-            relationshipName="RequestType#moqui.basic.Enumeration" documentAlias="RequestType"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
-            relationshipName="RequestResolution#moqui.basic.Enumeration" documentAlias="RequestResolution"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
-            relationshipName="mantle.request.RequestWorkEffort" documentAlias="RequestWorkEffort"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
-            relationshipName="mantle.request.RequestParty" documentAlias="RequestParty"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
-            relationshipName="mantle.party.RoleType" documentAlias="RoleType"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
-            relationshipName="mantle.party.Person" documentAlias="Person"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmRequest"
-            relationshipName="mantle.party.Organization" documentAlias="Organization"/>
-
+    <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleRequest" newDataDocumentId="HmRequest" newIndexName="hivemind"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmRequest" label="Edit Request"
             linkUrl="/apps/hm/Request/EditRequest?requestId=${requestId}"/>
 
