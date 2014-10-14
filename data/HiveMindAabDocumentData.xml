@@ -39,12 +39,14 @@ This Work includes contributions authored by David E. Jones, not as a
             linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
 
     <!-- Project -->
-    <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleProject" newDataDocumentId="HmProject" newIndexName="hivemind"/>
+    <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleProject" newDataDocumentId="HmProject"
+            newIndexName="hivemind" copyConditions="true"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmProject" label="Edit Project"
             linkUrl="/apps/hm/Project/ProjectSummary?workEffortId=${workEffortId}"/>
 
     <!-- Task -->
-    <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleTask" newDataDocumentId="HmTask" newIndexName="hivemind"/>
+    <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleTask" newDataDocumentId="HmTask"
+            newIndexName="hivemind" copyConditions="true"/>
     <moqui.entity.document.DataDocumentLink dataDocumentId="HmTask" label="Task Summary"
             linkUrl="/apps/hm/Task/TaskSummary?workEffortId=${workEffortId}"/>
 
