@@ -131,10 +131,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <service-call name="org.moqui.impl.EntityServices.search#DataDocuments" out-map="context"
                         in-map="context + [indexName:'hivemind', documentType:'HmTask']"/>
 
-                <set field="workEffortIdList" from="[]"/>
-                <iterate list="documentList" entry="document">
-                    <script>workEffortIdList.add(document._id)</script>
-                </iterate>
+                <set field="workEffortIdList" from="documentList._id"/>
                 <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="taskList">
                     <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"
                             input-fields-map="searchInputs"/>
@@ -339,7 +336,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </field>
             <field name="workEffortName">
                 <header-field title="Name" show-order-by="case-insensitive"/>
-                <default-field><link text="${workEffortName}" url="editTask"/></default-field>
+                <default-field><link text="${workEffortName}" url="editTask" link-type="anchor"/></default-field>
             </field>
             <field name="purposeEnumId">
                 <header-field title="Purpose" show-order-by="true"/>
