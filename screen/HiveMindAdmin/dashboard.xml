@@ -50,41 +50,41 @@ This Work includes contributions authored by David E. Jones, not as a
             <panel-left>
                 <label text="Operate" type="h2"/>
                 <container>
-                    <link url="WikiSpace"><image url="/hmstatic/images/wiki-documents7.png" url-type="plain"/></link>
+                    <link url="WikiSpace" link-type="anchor"><image url="/hmstatic/images/wiki-documents7.png" url-type="plain"/></link>
                     <link text="Wiki Spaces" url="WikiSpace"/>
                 </container>
                 <container>
-                    <link url="Project"><image url="/hmstatic/images/project-business120.png" url-type="plain"/></link>
+                    <link url="Project" link-type="anchor"><image url="/hmstatic/images/project-business120.png" url-type="plain"/></link>
                     <link text="Projects" url="Project"/>
                 </container>
                 <container>
-                    <link url="Invoice"><image url="/hmstatic/images/invoice-pay.png" url-type="plain"/></link>
+                    <link url="Invoice" link-type="anchor"><image url="/hmstatic/images/invoice-pay.png" url-type="plain"/></link>
                     <link text="Invoices" url="Invoice"/>
                 </container>
                 <container>
-                    <link url="Reports"><image url="/hmstatic/images/reports-dollar116.png" url-type="plain"/></link>
+                    <link url="Reports" link-type="anchor"><image url="/hmstatic/images/reports-dollar116.png" url-type="plain"/></link>
                     <link text="Reports" url="Reports"/>
                 </container>
 
                 <label text="Setup" type="h2"/>
                 <container>
-                    <link url="Vendor"><image url="/hmstatic/images/vendor-person25.png" url-type="plain"/></link>
+                    <link url="Vendor" link-type="anchor"><image url="/hmstatic/images/vendor-person25.png" url-type="plain"/></link>
                     <link text="Vendor(s)" url="Vendor"/>
                 </container>
                 <container>
-                    <link url="Client"><image url="/hmstatic/images/client-businessmen26.png" url-type="plain"/></link>
+                    <link url="Client" link-type="anchor"><image url="/hmstatic/images/client-businessmen26.png" url-type="plain"/></link>
                     <link text="Clients" url="Client"/>
                 </container>
                 <container>
-                    <link url="User"><image url="/hmstatic/images/user-man27.png" url-type="plain"/></link>
+                    <link url="User" link-type="anchor"><image url="/hmstatic/images/user-man27.png" url-type="plain"/></link>
                     <link text="Users" url="User"/>
                 </container>
                 <container>
-                    <link url="Team"><image url="/hmstatic/images/team-businessmen18.png" url-type="plain"/></link>
+                    <link url="Team" link-type="anchor"><image url="/hmstatic/images/team-businessmen18.png" url-type="plain"/></link>
                     <link text="Teams" url="Team"/>
                 </container>
                 <container>
-                    <link url="EditRateAmounts"><image url="/hmstatic/images/rates-internet16.png" url-type="plain"/></link>
+                    <link url="EditRateAmounts" link-type="anchor"><image url="/hmstatic/images/rates-internet16.png" url-type="plain"/></link>
                     <link text="Rates" url="EditRateAmounts"/>
                 </container>
             </panel-left>
@@ -116,14 +116,14 @@ This Work includes contributions authored by David E. Jones, not as a
                         </iterate>
                     </row-actions>
                     <field name="name"><default-field title="Internal Organization">
-                        <link url="editVendor" text="${organizationName?:''}${firstName?:''} ${lastName?:''}"/>
+                        <link url="editVendor" text="${organizationName?:''}${firstName?:''} ${lastName?:''}" link-type="anchor"/>
                     </default-field></field>
                     <field name="recSummary"><default-field title="Receivable">
-                        <link url="findInvoice" text="${recDesc}"
+                        <link url="findInvoice" text="${recDesc?:'None'}" link-type="anchor"
                                 parameter-map="[fromPartyId:partyId, statusId:'InvoiceFinalized,InvoiceSent', statusId_op:'in']"/>
                     </default-field></field>
                     <field name="pblSummary"><default-field title="Payable">
-                        <link url="findInvoice" text="${pblDesc}"
+                        <link url="findInvoice" text="${pblDesc?:'None'}" link-type="anchor"
                                 parameter-map="[toPartyId:partyId, statusId:'InvoiceReceived,InvoiceApproved', statusId_op:'in']"/>
                     </default-field></field>
                 </form-list>
@@ -251,16 +251,16 @@ This Work includes contributions authored by David E. Jones, not as a
                                                         <container style="col-lg-12"><label text="${pstats.taskCount} Tasks" type="strong"/></container>
                                                     </container>
                                                     <container style="row">
-                                                        <container style="col-lg-5"><link text="Approved - ${pstats.taskCountByStatusMap.WeApproved?:0}" style="text-warning" url="findTask" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeApproved']"/></container>
-                                                        <container style="col-lg-7"><link text="On Hold - ${pstats.taskCountByStatusMap.WeOnHold?:0}" style="text-danger" url="findTask" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeOnHold']"/></container>
+                                                        <container style="col-lg-5"><link text="Approved - ${pstats.taskCountByStatusMap.WeApproved?:0}" style="text-warning" url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeApproved']"/></container>
+                                                        <container style="col-lg-7"><link text="On Hold - ${pstats.taskCountByStatusMap.WeOnHold?:0}" style="text-danger" url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeOnHold']"/></container>
                                                     </container>
                                                     <container style="row">
-                                                        <container style="col-lg-5"><link text="In Progress - ${pstats.taskCountByStatusMap.WeInProgress?:0}" style="text-success" url="findTask" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInProgress']"/></container>
-                                                        <container style="col-lg-7"><link text="Complete/Closed - ${((pstats.taskCountByStatusMap.WeComplete?:0) as BigDecimal) + ((pstats.taskCountByStatusMap.WeClosed?:0) as BigDecimal)}" style="text-info" url="findTask" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeComplete,WeClosed', statusId_op:'in']"/></container>
+                                                        <container style="col-lg-5"><link text="In Progress - ${pstats.taskCountByStatusMap.WeInProgress?:0}" style="text-success" url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInProgress']"/></container>
+                                                        <container style="col-lg-7"><link text="Complete/Closed - ${((pstats.taskCountByStatusMap.WeComplete?:0) as BigDecimal) + ((pstats.taskCountByStatusMap.WeClosed?:0) as BigDecimal)}" style="text-info" url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeComplete,WeClosed', statusId_op:'in']"/></container>
                                                     </container>
                                                     <container style="row">
-                                                        <container style="col-lg-5"><link text="In Planning - ${pstats.taskCountByStatusMap.WeInPlanning?:0}" url="findTask" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInPlanning']"/></container>
-                                                        <container style="col-lg-7"><link text="Cancelled - ${pstats.taskCountByStatusMap.WeCancelled?:0}" url="findTask" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeCancelled']"/></container>
+                                                        <container style="col-lg-5"><link text="In Planning - ${pstats.taskCountByStatusMap.WeInPlanning?:0}" url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInPlanning']"/></container>
+                                                        <container style="col-lg-7"><link text="Cancelled - ${pstats.taskCountByStatusMap.WeCancelled?:0}" url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeCancelled']"/></container>
                                                     </container>
                                                 </container>
                                             </container>
