@@ -136,7 +136,6 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <form-single name="SearchOptions" transition=".">
-            <!-- TODO: add this back once issues fixes are in place:
             <field name="documentType"><default-field title="">
                 <drop-down allow-empty="true">
                     <entity-options key="${dataDocumentId}" text="${documentName}">
@@ -146,13 +145,12 @@ This Work includes contributions authored by David E. Jones, not as a
                     </entity-options>
                 </drop-down>
             </default-field></field>
-            -->
             <field name="queryString"><default-field title="">
                 <!-- <text-line size="40"/> -->
                 <text-line ac-transition="searchSuggest" ac-min-length="3" size="40"/>
             </default-field></field>
             <field name="submitButton"><default-field title="Search"><submit/></default-field></field>
-            <field-layout><field-row-big><!-- <field-ref name="documentType"/> --><field-ref name="queryString"/>
+            <field-layout><field-row-big><field-ref name="documentType"/><field-ref name="queryString"/>
                 <field-ref name="submitButton"/></field-row-big></field-layout>
         </form-single>
 
@@ -171,8 +169,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="id"><default-field><display text="${_id}"/></default-field></field>
             <field name="documentTitle"><default-field title="Title"><display/></default-field></field>
             <field name="link"><default-field>
-                <link url="${linkUrl}" text="${dataDocumentLink.label}" link-type="anchor" url-type="plain"/>
-                <!-- TODO: add this once merged: ${dataDocumentLink.urlType?:'plain'} -->
+                <link url="${linkUrl}" text="${dataDocumentLink.label}" link-type="anchor" url-type="${dataDocumentLink.urlType?:'plain'}"/>
             </default-field></field>
         </form-list>
     </widgets>
