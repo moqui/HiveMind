@@ -44,17 +44,17 @@ This Work includes contributions authored by David E. Jones, not as a
 
                             // send WikiPage updated notification
                             StringBuilder toAddresses = new StringBuilder()
-                            EntityList wikiSpaceUserList = ec.entity.makeFind("HiveMind.wiki.WikiSpaceUser")
+                            EntityList wikiSpaceUserList = ec.entity.find("HiveMind.wiki.WikiSpaceUser")
                                     .condition([wikiSpaceId:document.WikiPage.wikiSpaceId,  receiveNotifications:"Y"]).list()
                             if (wikiSpaceUserList) for (EntityValue wikiSpaceUser in wikiSpaceUserList) {
-                                String emailAddress = ec.entity.makeFind("moqui.security.UserAccount")
+                                String emailAddress = ec.entity.find("moqui.security.UserAccount")
                                         .condition("userId", wikiSpaceUser.userId).one()?.emailAddress
                                 if (emailAddress) { if (toAddresses) toAddresses.append(",");  toAddresses.append(emailAddress) }
                             }
-                            EntityList wikiPageUserList = ec.entity.makeFind("HiveMind.wiki.WikiPageUser")
+                            EntityList wikiPageUserList = ec.entity.find("HiveMind.wiki.WikiPageUser")
                                     .condition([wikiPageId:document._id,  receiveNotifications:"Y"]).list()
                             if (wikiPageUserList) for (EntityValue wikiPageUser in wikiPageUserList) {
-                                String emailAddress = ec.entity.makeFind("moqui.security.UserAccount")
+                                String emailAddress = ec.entity.find("moqui.security.UserAccount")
                                         .condition("userId", wikiPageUser.userId).one()?.emailAddress
                                 if (emailAddress) { if (toAddresses) toAddresses.append(",");  toAddresses.append(emailAddress) }
                             }
@@ -74,7 +74,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
                             // send task updated notification
                             StringBuilder toAddresses = new StringBuilder()
-                            EntityList workEffortPartyList = ec.entity.makeFind("mantle.work.effort.WorkEffortParty")
+                            EntityList workEffortPartyList = ec.entity.find("mantle.work.effort.WorkEffortParty")
                                     .condition([workEffortId:document._id,  receiveNotifications:"Y"])
                                     .conditionDate(null, null, null).list()
                             if (workEffortPartyList) for (EntityValue workEffortParty in workEffortPartyList) {

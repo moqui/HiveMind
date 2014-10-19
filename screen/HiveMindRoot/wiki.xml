@@ -182,7 +182,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                     <parameter name="filename" from="attachment.filename"/>
                                 </link>
                                 <container>
-                                    <label text="${attachment.contentType} - ${ec.l10n.formatValue(new Timestamp(attachment.lastModified), 'yyyy-MM-dd HH:mm')}" type="p"/>
+                                    <label text="${attachment.contentType} - ${ec.l10n.format(new Timestamp(attachment.lastModified), 'yyyy-MM-dd HH:mm')}" type="p"/>
                                 </container>
                                 <!-- TODO: add delete link; maybe just move to a _trash directory? -->
                             </widgets>
@@ -289,7 +289,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                             <field-map field-name="userId" from="wph.userId"/></entity-find-one>
                                     </actions>
                                     <widgets>
-                                        <label text="By ${paua?.firstName?:''} ${paua?.lastName?:''} (${paua?.username ?: partyNote.userId}) at ${ec.l10n.formatValue(wph.changeDateTime, 'yyyy-MM-dd HH:mm')}" type="p"/>
+                                        <label text="By ${paua?.firstName?:''} ${paua?.lastName?:''} (${paua?.username ?: partyNote.userId}) at ${ec.l10n.format(wph.changeDateTime, 'yyyy-MM-dd HH:mm')}" type="p"/>
                                     </widgets>
                                 </section-iterate>
                             </box-body>

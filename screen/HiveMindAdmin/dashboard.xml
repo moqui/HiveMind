@@ -131,9 +131,9 @@ This Work includes contributions authored by David E. Jones, not as a
                 <section-iterate name="ActiveProjectSection" list="projectList" entry="project">
                     <actions>
                         <service-call name="mantle.work.ProjectServices.get#ProjectStats" in-map="[workEffort:project]" out-map="pstats"/>
-                        <set field="estimatedCompletePercentString" from="ec.l10n.formatValue(pstats.estimatedCompletePercent, '#')"/>
-                        <set field="estimatedRemainingPercentString" from="ec.l10n.formatValue(pstats.estimatedRemainingPercent, '#')"/>
-                        <set field="clientBudgetUsedPercentString" from="ec.l10n.formatValue(pstats.clientBudgetUsedPercent, '#')"/>
+                        <set field="estimatedCompletePercentString" from="ec.l10n.format(pstats.estimatedCompletePercent, '#')"/>
+                        <set field="estimatedRemainingPercentString" from="ec.l10n.format(pstats.estimatedRemainingPercent, '#')"/>
+                        <set field="clientBudgetUsedPercentString" from="ec.l10n.format(pstats.clientBudgetUsedPercent, '#')"/>
                     </actions>
                     <widgets>
                         <container-box>
@@ -161,7 +161,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                                     ]]></text></render-mode>
                                                 </container>
                                                 <container style="col-lg-3">
-                                                    <label text="${ec.l10n.formatValue(pstats.estimatedCompletePercent, '00.00')}%"/>
+                                                    <label text="${ec.l10n.format(pstats.estimatedCompletePercent, '00.00')}%"/>
                                                     <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.actualPlusRemainingOverEstimated>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
                                                 </container>
                                             </container>
@@ -173,7 +173,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                                     ]]></text></render-mode>
                                                 </container>
                                                 <container style="col-lg-3">
-                                                    <label text="${ec.l10n.formatValue(pstats.clientBudgetUsedPercent, '00.00')}%"/>
+                                                    <label text="${ec.l10n.format(pstats.clientBudgetUsedPercent, '00.00')}%"/>
                                                     <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.clientActualOverBudget>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
                                                 </container>
                                             </container>
@@ -186,19 +186,19 @@ This Work includes contributions authored by David E. Jones, not as a
                                                     ]]></text></render-mode>
                                                 </container>
                                                 <container style="col-lg-3">
-                                                    <label text="${ec.l10n.formatValue(pstats.estimatedCompleteBudgetPercentGap, '00.00')}%"/>
+                                                    <label text="${ec.l10n.format(pstats.estimatedCompleteBudgetPercentGap, '00.00')}%"/>
                                                     <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.estimatedCompleteOverBudget>glyphicon-exclamation-sign text-warning<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
                                                 </container>
                                             </container>
                                             <container style="row">
                                                 <container style="col-lg-4">
-                                                    <label text="Estimate ${ec.l10n.formatValue(project.estimatedWorkTime, '#.#')} hrs" type="strong"/>
+                                                    <label text="Estimate ${ec.l10n.format(project.estimatedWorkTime, '#.#')} hrs" type="strong"/>
                                                 </container>
                                                 <container style="col-lg-4">
-                                                    <label text="Worked ${ec.l10n.formatValue(project.actualWorkTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverEstimated ? 'text-danger' : 'text-success'}"/>
+                                                    <label text="Worked ${ec.l10n.format(project.actualWorkTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverEstimated ? 'text-danger' : 'text-success'}"/>
                                                 </container>
                                                 <container style="col-lg-4">
-                                                    <label text="Est. Rem. ${ec.l10n.formatValue(project.remainingWorkTime, '#.#')} hrs" type="strong" style="text-info"/>
+                                                    <label text="Est. Rem. ${ec.l10n.format(project.remainingWorkTime, '#.#')} hrs" type="strong" style="text-info"/>
                                                 </container>
                                             </container>
                                             <container style="row">
