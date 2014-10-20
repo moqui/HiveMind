@@ -14,10 +14,12 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-include="false" standalone="true">
 
+    <transition name="search"><default-response url="../../search"/></transition>
+
     <transition name="getSearchOptions">
         <actions>
             <service-call name="org.moqui.impl.EntityServices.search#DataDocuments" out-map="context"
-                    in-map="[queryString:term, indexName:'hivemind']"/>
+                    in-map="[queryString:(term + '*'), indexName:'hivemind']"/>
             <set field="outList" from="[]"/>
             <iterate list="documentList" entry="document">
                 <entity-find-one entity-name="moqui.entity.document.DataDocument" value-field="dataDocument" cache="true">
@@ -27,6 +29,10 @@ This Work includes contributions authored by David E. Jones, not as a
                 <entity-find-related-one value-field="dataDocument" cache="true"
                         relationship-name="moqui.entity.document.DataDocumentLink" to-value-field="dataDocumentLink"/>
                 <set field="linkUrl" from="ec.resource.evaluateStringExpand(dataDocumentLink?.linkUrl, '', document)"/>
+                <if condition="dataDocumentLink?.urlType == 'transition' || dataDocumentLink?.urlType == 'screen'">
+                    <set field="linkUrlInfo" from="new org.moqui.impl.screen.ScreenUrlInfo(sri, null, null, linkUrl, null, null)"/>
+                    <set field="linkUrl" from="linkUrlInfo.urlWithParams"/>
+                </if>
                 <set field="documentTitle" from="ec.resource.evaluateStringExpand(dataDocument?.documentTitle, '', document)"/>
                 <script>outList.add([value:document._id, urlToOpen:linkUrl, label:"${dataDocument.documentName} - ${document._id}: ${documentTitle}".toString()])</script>
             </iterate>
@@ -46,13 +52,14 @@ This Work includes contributions authored by David E. Jones, not as a
             source: function(request, response) { $.ajax({
                 url: "${sri.screenUrlInfo.url}/getSearchOptions", type: "POST", dataType: "json", data: { term: request.term },
                 success: function(data) { response($.map(data, function(item) { return { label: item.label, value: item.value, urlToOpen: item.urlToOpen } })); }
-            }); }, minLength: 2,
+            }); }, minLength: 3,
             select: function(event, ui) { if (ui.item) { this.value = ui.item.value; window.open(ui.item.urlToOpen, "_self"); } }
         });
         $("#SearchBox").focus();
     </script>
                 ]]></text>
             </render-mode>
+            <container><link url="search" text="Full Search" link-type="anchor"/></container>
         </container>
     </widgets>
 </screen>

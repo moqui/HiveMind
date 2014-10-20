@@ -189,14 +189,14 @@ This Work includes contributions authored by David E. Jones, not as a
             <panel-left size="240">
                 <label text="Task ID: ${workEffortId}" type="strong"/>
                 <container><label text="Project: " type="strong"/></container>
-                <link text="${project.workEffortId} - ${project.workEffortName}" url="projectSummary">
+                <link text="${project.workEffortId} - ${project.workEffortName}" url="projectSummary" link-type="anchor">
                     <parameter name="workEffortId" from="project.workEffortId"/>
                 </link>
 
                 <section name="MilestoneSection"><condition><expression>milestone</expression></condition>
                     <widgets>
                         <container><label text="Milestone: " type="strong"/></container>
-                        <link text="${milestone.workEffortId} - ${milestone.workEffortName}" url="milestoneSummary">
+                        <link text="${milestone.workEffortId} - ${milestone.workEffortName}" url="milestoneSummary" link-type="anchor">
                             <parameter name="milestoneWorkEffortId" from="milestone.workEffortId"/>
                         </link>
                     </widgets>
@@ -204,7 +204,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <section name="ParentTaskSection"><condition><expression>parentTask</expression></condition>
                     <widgets>
                         <container><label text="Parent Task: " type="strong"/></container>
-                        <link text="${parentTask.workEffortId} - ${parentTask.workEffortName}" url="taskSummary">
+                        <link text="${parentTask.workEffortId} - ${parentTask.workEffortName}" url="taskSummary" link-type="anchor">
                             <parameter name="workEffortId" from="parentTask.workEffortId"/>
                         </link>
                     </widgets>
@@ -226,10 +226,10 @@ This Work includes contributions authored by David E. Jones, not as a
                         <editable-load transition="getTaskResolutions"/>
                     </editable>
                 </container>
-                <container><label text="Due Date: " type="strong"/><label text="${ec.l10n.formatValue(task.estimatedCompletionDate, 'yyyy-MM-dd')}"/></container>
-                <container><label text="Estimated Hours: " type="strong"/><label text="${ec.l10n.formatValue(task.estimatedWorkTime, '#.00')}"/></container>
-                <container><label text="Remaining Hours: " type="strong"/><label text="${ec.l10n.formatValue(task.remainingWorkTime, '#.00')}"/></container>
-                <container><label text="Actual Hours: " type="strong"/><label text="${ec.l10n.formatValue(task.actualWorkTime, '#.00')}"/></container>
+                <container><label text="Due Date: " type="strong"/><label text="${ec.l10n.format(task.estimatedCompletionDate, 'yyyy-MM-dd')}"/></container>
+                <container><label text="Estimated Hours: " type="strong"/><label text="${ec.l10n.format(task.estimatedWorkTime, '#.00')}"/></container>
+                <container><label text="Remaining Hours: " type="strong"/><label text="${ec.l10n.format(task.remainingWorkTime, '#.00')}"/></container>
+                <container><label text="Actual Hours: " type="strong"/><label text="${ec.l10n.format(task.actualWorkTime, '#.00')}"/></container>
 
                 <container-box>
                     <box-header><label text="Assignments" type="h5"/></box-header>
@@ -266,7 +266,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                 </entity-find-one>
                             </actions>
                             <widgets>
-                                <label text="- ${ec.l10n.formatValue(timeEntry.hours, '#.00')}h at ${timeEntry.fromDate?:''} by ${paua.firstName} ${paua.lastName} ${paua.username ? '(' + paua.username + ')' :''}" type="p"/>
+                                <label text="- ${ec.l10n.format(timeEntry.hours, '#.00')}h at ${timeEntry.fromDate?:''} by ${paua.firstName} ${paua.lastName} ${paua.username ? '(' + paua.username + ')' :''}" type="p"/>
                             </widgets>
                         </section-iterate>
                     </box-body>
@@ -314,7 +314,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                 <container style="task-comment">
                                     <label text="${commEventDetail.subject}" type="strong"/>
                                     <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
-                                    <label text="at ${ec.l10n.formatValue(commEventDetail.entryDate, 'yyyy-MM-dd HH:mm')}" type="span"/>
+                                    <label text="at ${ec.l10n.format(commEventDetail.entryDate, 'yyyy-MM-dd HH:mm')}" type="span"/>
                                     <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="taskCommentReply">
                                         <parameter name="parentCommEventId" from="commEventDetail.communicationEventId"/>
                                     </dynamic-dialog>
@@ -349,7 +349,7 @@ This Work includes contributions authored by David E. Jones, not as a
                                 </entity-find-one>
                             </actions>
                             <widgets>
-                                <label text="${oldStatusItem ? oldStatusItem.description + ' to ' : ''}${statusItem?.description}${(userAccount?.username ? ' by ' + userAccount.username : '')} at ${ec.l10n.formatValue(statusHistory.changedDate, 'yyyy-MM-dd HH:mm')}" type="p"/>
+                                <label text="${oldStatusItem ? oldStatusItem.description + ' to ' : ''}${statusItem?.description}${(userAccount?.username ? ' by ' + userAccount.username : '')} at ${ec.l10n.format(statusHistory.changedDate, 'yyyy-MM-dd HH:mm')}" type="p"/>
                             </widgets>
                         </section-iterate>
                     </box-body>
@@ -387,7 +387,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             </actions>
                             <widgets>
                                 <container style="shaded-area">
-                                    <link text="${childTask.workEffortId} - ${childTask.workEffortName}" url="taskSummary">
+                                    <link text="${childTask.workEffortId} - ${childTask.workEffortName}" url="taskSummary" link-type="anchor">
                                         <parameter name="workEffortId" from="childTask.workEffortId"/>
                                     </link>
                                     <label text="${childPurpose.description} - ${childStatus.description} - ${childResolution.description}" type="p"/>
@@ -410,7 +410,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             <widgets>
                                 <container style="shaded-area">
                                     <label text="This ${assocType.description}" type="p"/>
-                                    <link text="${relatedTo.toWorkEffortId} - ${relatedTo.workEffortName}" url="taskSummary">
+                                    <link text="${relatedTo.toWorkEffortId} - ${relatedTo.workEffortName}" url="taskSummary" link-type="anchor">
                                         <parameter name="workEffortId" from="relatedTo.toWorkEffortId"/>
                                     </link>
                                 </container>
@@ -424,7 +424,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             </actions>
                             <widgets>
                                 <container style="shaded-area">
-                                    <link text="${relatedFrom.fromWorkEffortId} - ${relatedFrom.workEffortName}" url="taskSummary">
+                                    <link text="${relatedFrom.fromWorkEffortId} - ${relatedFrom.workEffortName}" url="taskSummary" link-type="anchor">
                                         <parameter name="workEffortId" from="relatedFrom.fromWorkEffortId"/>
                                     </link>
                                     <label text="${assocType.description} This" type="p"/>
@@ -448,7 +448,7 @@ This Work includes contributions authored by David E. Jones, not as a
                             </actions>
                             <widgets>
                                 <container style="">
-                                    <link text="${werd.requestId} - ${werd.requestName}" url="editRequest">
+                                    <link text="${werd.requestId} - ${werd.requestName}" url="editRequest" link-type="anchor">
                                         <parameter name="requestId" from="werd.requestId"/>
                                     </link>
                                     <label text="${requestType.description} - ${statusItem.description}" type="p"/>
@@ -463,8 +463,8 @@ This Work includes contributions authored by David E. Jones, not as a
                     <box-body>
                         <section-iterate name="TaskWikiPageList" list="wpaweList" entry="wpawe">
                             <widgets><container>
-                                <link text="${wpawe.wikiSpaceId}" url="/apps/hm/wiki/${wpawe.wikiSpaceId}" url-type="plain"/>
-                                <link text="/${wpawe.pagePath}" url="/apps/hm/wiki/${wpawe.wikiSpaceId}/${wpawe.pagePath?:''}" url-type="plain"/>
+                                <link text="${wpawe.wikiSpaceId}" url="/apps/hm/wiki/${wpawe.wikiSpaceId}" url-type="plain" link-type="anchor"/>
+                                <link text="/${wpawe.pagePath}" url="/apps/hm/wiki/${wpawe.wikiSpaceId}/${wpawe.pagePath?:''}" url-type="plain" link-type="anchor"/>
                             </container></widgets>
                         </section-iterate>
                     </box-body>

@@ -22,7 +22,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <container id="dashboard-wiki-title"><label text="Wiki Spaces" type="h3"/></container>
             <section-iterate name="WikiSpaces" list="wikiSpaceAndUserList" entry="wikiSpace">
                 <widgets><container>
-                    <link text="- ${wikiSpace.wikiSpaceId}: ${wikiSpace.description}" url="wiki/${wikiSpace.wikiSpaceId}" url-type="plain"/>
+                    <link text="${wikiSpace.wikiSpaceId}: ${wikiSpace.description}" url="wiki/${wikiSpace.wikiSpaceId}" url-type="plain" link-type="anchor"/>
                 </container></widgets>
             </section-iterate>
             <!--

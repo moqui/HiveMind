@@ -47,7 +47,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
             <form-list name="MyRequests" list="myRequestList">
                 <field name="requestId">
-                    <default-field title="ID"><link url="editRequest" text="${requestId}"/></default-field>
+                    <default-field title="ID"><link url="editRequest" text="${requestId}" link-type="anchor"/></default-field>
                 </field>
                 <field name="requestName">
                     <default-field title="Name"><display also-hidden="false"/></default-field>

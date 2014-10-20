@@ -25,7 +25,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <form-list name="MyProjectList" list="myProjectList">
-            <field name="workEffortId"><default-field title="ID"><link url="projectSummary" text="${workEffortId}"/></default-field></field>
+            <field name="workEffortId"><default-field title="ID"><link url="projectSummary" text="${workEffortId}" link-type="anchor"/></default-field></field>
             <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
             <field name="statusId"><default-field title="Status">
                 <display-entity entity-name="StatusItem" text="${description}"/>
