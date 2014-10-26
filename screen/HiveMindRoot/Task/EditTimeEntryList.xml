@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-include="false" standalone="true">
 
-    <parameter name="workEffortId"/>
+    <parameter name="workEffortId" required="true"/>
 
     <transition name="editUser"><default-response url="../../../hmadmin/User/EditUser"/></transition>
 

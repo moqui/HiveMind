@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-title="Request" default-menu-index="1">
 
-    <parameter name="requestId"/>
+    <parameter name="requestId" required="true"/>
 
     <transition name="updateRequest">
         <service-call name="mantle.request.RequestServices.update#Request" in-map="context"/>

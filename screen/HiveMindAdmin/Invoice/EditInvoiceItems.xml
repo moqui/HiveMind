@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-title="Items" default-menu-index="2">
 
-    <parameter name="invoiceId"/>
+    <parameter name="invoiceId" required="true"/>
     <parameter name="invoiceId_0"/>
 
     <transition name="createInvoiceItem">

@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-title="Assignments" default-menu-index="3">
 
-    <parameter name="workEffortId"/>
+    <parameter name="workEffortId" required="true"/>
 
     <transition name="addAssignment">
         <service-call name="create#mantle.work.effort.WorkEffortParty" in-map="context"/>

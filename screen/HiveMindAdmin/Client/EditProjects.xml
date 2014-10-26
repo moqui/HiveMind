@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-title="Projects" default-menu-index="2">
 
-    <parameter name="partyId"/>
+    <parameter name="partyId" required="true"/>
 
     <transition name="createProject">
         <service-call name="mantle.work.ProjectServices.create#Project" in-map="context"/>
