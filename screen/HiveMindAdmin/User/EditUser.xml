@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-title="User" default-menu-index="1">
 
-    <parameter name="partyId"/>
+    <parameter name="partyId" required="true"/>
 
     <transition name="updateUser">
         <service-call name="mantle.party.PartyServices.update#Account" in-map="context"/>

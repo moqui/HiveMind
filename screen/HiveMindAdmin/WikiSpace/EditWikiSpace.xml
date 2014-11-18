@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-title="Wiki Space" default-menu-index="1">
 
-    <parameter name="wikiSpaceId"/>
+    <parameter name="wikiSpaceId" required="true"/>
 
     <transition name="updateSpace">
         <service-call name="update#HiveMind.wiki.WikiSpace" in-map="context"/>

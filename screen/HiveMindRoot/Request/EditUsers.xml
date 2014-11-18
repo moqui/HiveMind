@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-title="Users" default-menu-index="2">
 
-    <parameter name="requestId"/>
+    <parameter name="requestId" required="true"/>
 
     <transition name="addUser">
         <service-call name="create#mantle.request.RequestParty" in-map="context"/>

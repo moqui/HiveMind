@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-title="Task" default-menu-index="1">
 
-    <parameter name="workEffortId"/>
+    <parameter name="workEffortId" required="true"/>
 
     <transition name="updateTask">
         <service-call name="mantle.work.TaskServices.update#Task" in-map="context"/>

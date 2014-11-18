@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-title="Milestones" default-menu-index="2">
 
-    <parameter name="rootWorkEffortId"/>
+    <parameter name="rootWorkEffortId" required="true"/>
 
     <transition name="createMilestone">
         <service-call name="mantle.work.ProjectServices.create#Milestone" in-map="context" out-map="bogus"/>

@@ -14,7 +14,7 @@ This Work includes contributions authored by David E. Jones, not as a
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
         default-menu-title="Invoice" default-menu-index="1">
 
-    <parameter name="invoiceId"/>
+    <parameter name="invoiceId" required="true"/>
 
     <transition name="updateInvoice">
         <service-call name="update#mantle.account.invoice.Invoice" in-map="context"/>
