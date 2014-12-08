@@ -18,7 +18,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="milestoneWorkEffortId_0"/>
 
     <transition name="editMilestones"><default-response url="../EditMilestones"/></transition>
-    <transition name="editTask"><default-response url="../../../hm/Task/TaskSummary"/></transition>
+    <transition name="editTask"><default-response url="//hm/Task/TaskSummary"/></transition>
     <transition name="updateTask">
         <service-call name="mantle.work.TaskServices.update#Task" in-map="context"/>
         <default-response url="."/>

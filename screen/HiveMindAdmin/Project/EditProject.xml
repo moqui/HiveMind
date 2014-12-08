@@ -25,7 +25,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="editVendor"><default-response url="../../Vendor/EditVendor"/></transition>
 
     <transition name="editProject"><default-response url="."/></transition>
-    <transition name="findTask"><default-response url="../../../hm/Task/FindTask"/></transition>
+    <transition name="findTask"><default-response url="//hm/Task/FindTask"/></transition>
 
     <pre-actions>
         <script>html_scripts.add('/assets/lib/sparkline/jquery.sparkline.min.js')</script>

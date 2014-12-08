@@ -16,9 +16,9 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="workEffortId" required="true"/>
     <parameter name="rootWorkEffortId"/>
 
-    <transition name="editClient"><default-response url="../../../hmadmin/Client/EditClient"/></transition>
-    <transition name="editVendor"><default-response url="../../../hmadmin/Vendor/EditVendor"/></transition>
-    <transition name="editUser"><default-response url="../../../hmadmin/User/EditUser"/></transition>
+    <transition name="editClient"><default-response url="//hmadmin/Client/EditClient"/></transition>
+    <transition name="editVendor"><default-response url="//hmadmin/Vendor/EditVendor"/></transition>
+    <transition name="editUser"><default-response url="//hmadmin/User/EditUser"/></transition>
     <transition name="milestoneSummary"><default-response url="../MilestoneSummary"/></transition>
 
     <transition name="taskSummary"><default-response url="../../Task/TaskSummary"/></transition>
