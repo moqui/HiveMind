@@ -82,33 +82,21 @@ This Work includes contributions authored by David E. Jones, not as a
         <default-response type="none"/>
     </transition>
 
-    <transition name="createTask">
-        <service-call name="mantle.work.TaskServices.create#Task" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="createTask"><service-call name="mantle.work.TaskServices.create#Task" in-map="context"/><default-response url="."/></transition>
     <transition name="getProjectParties">
-        <actions>
-            <service-call name="mantle.work.ProjectServices.get#ProjectParties" in-map="context" out-map="context"/>
-            <script>ec.web.sendJsonResponse(resultList)</script>
-        </actions>
+        <service-call name="mantle.work.ProjectServices.get#ProjectParties" web-send-json-response="resultList"/>
         <default-response type="none"/>
     </transition>
     <transition name="getProjectMilestones">
-        <actions>
-            <service-call name="mantle.work.ProjectServices.get#ProjectMilestones" in-map="context" out-map="context"/>
-            <script>ec.web.sendJsonResponse(resultList)</script>
-        </actions>
+        <service-call name="mantle.work.ProjectServices.get#ProjectMilestones" web-send-json-response="resultList"/>
         <default-response type="none"/>
     </transition>
     <transition name="getProjectTasks">
-        <actions>
-            <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>
-            <script>ec.web.sendJsonResponse(resultList)</script>
-        </actions>
+        <service-call name="mantle.work.ProjectServices.get#ProjectTasks" web-send-json-response="resultList"/>
         <default-response type="none"/>
     </transition>
 
-    <transition name="taskSummary"><default-response url="../../Task/TaskSummary"/></transition>
+    <transition name="taskSummary"><default-response url="."/></transition>
     <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
 
@@ -135,8 +123,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </entity-find>
         <set field="milestoneAssoc" from="milestoneAssocList?.getAt(0)"/>
         <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="milestone">
-            <field-map field-name="workEffortId" from="milestoneAssoc?.workEffortId"/>
-        </entity-find-one>
+            <field-map field-name="workEffortId" from="milestoneAssoc?.workEffortId"/></entity-find-one>
 
         <entity-find entity-name="TimeEntry" list="timeEntryList">
             <econdition field-name="workEffortId"/>
@@ -145,9 +132,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
         <!-- Comments -->
         <entity-find entity-name="mantle.work.effort.WorkEffortCommEventDetail" list="commEventDetailList">
-            <econdition field-name="workEffortId"/>
-            <order-by field-name="entryDate"/>
-        </entity-find>
+            <econdition field-name="workEffortId"/><order-by field-name="entryDate"/></entity-find>
 
         <!-- Status History -->
         <entity-find entity-name="moqui.entity.EntityAuditLog" list="statusHistoryList">
@@ -158,9 +143,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </entity-find>
         <!-- Assignments -->
         <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
-            <date-filter/>
-            <econdition field-name="workEffortId"/>
-        </entity-find>
+            <date-filter/><econdition field-name="workEffortId"/></entity-find>
         <!-- Child Tasks -->
         <entity-find entity-name="mantle.work.effort.WorkEffort" list="childTaskList">
             <econdition field-name="parentWorkEffortId" from="workEffortId"/>
@@ -177,12 +160,10 @@ This Work includes contributions authored by David E. Jones, not as a
         </entity-find>
         <!-- Requests -->
         <entity-find entity-name="mantle.request.WorkEffortRequestDetail" list="werdList">
-            <econdition field-name="workEffortId"/>
-        </entity-find>
+            <econdition field-name="workEffortId"/></entity-find>
         <!-- Wiki Pages -->
         <entity-find entity-name="HiveMind.wiki.WikiPageAndWorkEffort" list="wpaweList">
-            <econdition field-name="workEffortId"/>
-        </entity-find>
+            <econdition field-name="workEffortId"/></entity-find>
     </actions>
     <widgets>
         <container-panel id="task-summary-panel" dynamic="true">
@@ -237,11 +218,9 @@ This Work includes contributions authored by David E. Jones, not as a
                         <section-iterate name="TaskAssignList" list="weapdList" entry="weapd">
                             <actions>
                                 <entity-find-one entity-name="mantle.party.RoleType" value-field="roleType" cache="true">
-                                    <field-map field-name="roleTypeId" from="weapd.roleTypeId"/>
-                                </entity-find-one>
+                                    <field-map field-name="roleTypeId" from="weapd.roleTypeId"/></entity-find-one>
                                 <entity-find-one entity-name="moqui.basic.StatusItem" value-field="statusItem" cache="true">
-                                    <field-map field-name="statusId" from="weapd.statusId"/>
-                                </entity-find-one>
+                                    <field-map field-name="statusId" from="weapd.statusId"/></entity-find-one>
                             </actions>
                             <widgets>
                                 <container style="shaded-area">
@@ -262,8 +241,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         <section-iterate name="TimeEntryList" list="timeEntryList" entry="timeEntry">
                             <actions>
                                 <entity-find-one entity-name="mantle.party.PersonAndUserAccount" value-field="paua">
-                                    <field-map field-name="partyId" from="timeEntry.partyId"/>
-                                </entity-find-one>
+                                    <field-map field-name="partyId" from="timeEntry.partyId"/></entity-find-one>
                             </actions>
                             <widgets>
                                 <label text="- ${ec.l10n.format(timeEntry.hours, '#.00')}h at ${timeEntry.fromDate?:''} by ${paua.firstName} ${paua.lastName} ${paua.username ? '(' + paua.username + ')' :''}" type="p"/>
@@ -339,14 +317,11 @@ This Work includes contributions authored by David E. Jones, not as a
                         <section-iterate name="StatusHistoryList" list="statusHistoryList" entry="statusHistory">
                             <actions>
                                 <entity-find-one entity-name="moqui.security.UserAccount" value-field="userAccount">
-                                    <field-map field-name="userId" from="statusHistory?.changedByUserId"/>
-                                </entity-find-one>
+                                    <field-map field-name="userId" from="statusHistory?.changedByUserId"/></entity-find-one>
                                 <entity-find-one entity-name="moqui.basic.StatusItem" value-field="oldStatusItem" cache="true">
-                                    <field-map field-name="statusId" from="statusHistory?.oldValueText"/>
-                                </entity-find-one>
+                                    <field-map field-name="statusId" from="statusHistory?.oldValueText"/></entity-find-one>
                                 <entity-find-one entity-name="moqui.basic.StatusItem" value-field="statusItem" cache="true">
-                                    <field-map field-name="statusId" from="statusHistory?.newValueText"/>
-                                </entity-find-one>
+                                    <field-map field-name="statusId" from="statusHistory?.newValueText"/></entity-find-one>
                             </actions>
                             <widgets>
                                 <label text="${oldStatusItem ? oldStatusItem.description + ' to ' : ''}${statusItem?.description}${(userAccount?.username ? ' by ' + userAccount.username : '')} at ${ec.l10n.format(statusHistory.changedDate, 'yyyy-MM-dd HH:mm')}" type="p"/>
@@ -404,29 +379,25 @@ This Work includes contributions authored by David E. Jones, not as a
                         <section-iterate name="TaskRelatedToList" list="relatedToList" entry="relatedTo">
                             <actions>
                                 <entity-find-one entity-name="moqui.basic.Enumeration" value-field="assocType" cache="true">
-                                    <field-map field-name="enumId" from="relatedTo.workEffortAssocTypeEnumId"/>
-                                </entity-find-one>
+                                    <field-map field-name="enumId" from="relatedTo.workEffortAssocTypeEnumId"/></entity-find-one>
                             </actions>
                             <widgets>
                                 <container style="shaded-area">
                                     <label text="This ${assocType.description}" type="p"/>
                                     <link text="${relatedTo.toWorkEffortId} - ${relatedTo.workEffortName}" url="taskSummary" link-type="anchor">
-                                        <parameter name="workEffortId" from="relatedTo.toWorkEffortId"/>
-                                    </link>
+                                        <parameter name="workEffortId" from="relatedTo.toWorkEffortId"/></link>
                                 </container>
                             </widgets>
                         </section-iterate>
                         <section-iterate name="TaskRelatedFromList" list="relatedFromList" entry="relatedFrom">
                             <actions>
                                 <entity-find-one entity-name="moqui.basic.Enumeration" value-field="assocType" cache="true">
-                                    <field-map field-name="enumId" from="relatedFrom.workEffortAssocTypeEnumId"/>
-                                </entity-find-one>
+                                    <field-map field-name="enumId" from="relatedFrom.workEffortAssocTypeEnumId"/></entity-find-one>
                             </actions>
                             <widgets>
                                 <container style="shaded-area">
                                     <link text="${relatedFrom.fromWorkEffortId} - ${relatedFrom.workEffortName}" url="taskSummary" link-type="anchor">
-                                        <parameter name="workEffortId" from="relatedFrom.fromWorkEffortId"/>
-                                    </link>
+                                        <parameter name="workEffortId" from="relatedFrom.fromWorkEffortId"/></link>
                                     <label text="${assocType.description} This" type="p"/>
                                 </container>
                             </widgets>
@@ -440,17 +411,14 @@ This Work includes contributions authored by David E. Jones, not as a
                         <section-iterate name="TaskRequestList" list="werdList" entry="werd">
                             <actions>
                                 <entity-find-one entity-name="moqui.basic.Enumeration" value-field="requestType" cache="true">
-                                    <field-map field-name="enumId" from="werd.requestTypeEnumId"/>
-                                </entity-find-one>
+                                    <field-map field-name="enumId" from="werd.requestTypeEnumId"/></entity-find-one>
                                 <entity-find-one entity-name="moqui.basic.StatusItem" value-field="statusItem" cache="true">
-                                    <field-map field-name="statusId" from="werd.statusId"/>
-                                </entity-find-one>
+                                    <field-map field-name="statusId" from="werd.statusId"/></entity-find-one>
                             </actions>
                             <widgets>
                                 <container style="">
                                     <link text="${werd.requestId} - ${werd.requestName}" url="editRequest" link-type="anchor">
-                                        <parameter name="requestId" from="werd.requestId"/>
-                                    </link>
+                                        <parameter name="requestId" from="werd.requestId"/></link>
                                     <label text="${requestType.description} - ${statusItem.description}" type="p"/>
                                 </container>
                             </widgets>
