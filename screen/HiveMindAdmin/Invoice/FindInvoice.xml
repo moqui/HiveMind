@@ -17,10 +17,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="findInvoice"><default-response url="."/></transition>
     <transition name="editInvoice"><default-response url="../EditInvoice"/></transition>
 
-    <transition name="createProjectInvoiceItems">
-        <service-call name="mantle.account.InvoiceServices.create#ProjectInvoiceItems" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="createProjectInvoiceItems"><service-call name="mantle.account.InvoiceServices.create#ProjectInvoiceItems"/><default-response url="."/></transition>
 
     <transition name="getOpenClientInvoicesByProject">
         <actions>
@@ -75,8 +72,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <actions>
         <entity-find entity-name="mantle.account.invoice.Invoice" list="invoiceList">
-            <search-form-inputs default-order-by="-invoiceDate"/>
-        </entity-find>
+            <search-form-inputs default-order-by="-invoiceDate"/></entity-find>
     </actions>
     <widgets>
         <container>
@@ -86,8 +82,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         <drop-down allow-empty="true">
                             <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]">
                                 <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                                    <econdition field-name="roleTypeId" value="VendorBillFrom"/>
-                                </entity-find>
+                                    <econdition field-name="roleTypeId" value="VendorBillFrom"/></entity-find>
                             </entity-options>
                         </drop-down>
                     </default-field></field>
@@ -95,8 +90,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         <drop-down allow-empty="true">
                             <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]">
                                 <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                                    <econdition field-name="roleTypeId" value="CustomerBillTo"/>
-                                </entity-find>
+                                    <econdition field-name="roleTypeId" value="CustomerBillTo"/></entity-find>
                             </entity-options>
                         </drop-down>
                     </default-field></field>
