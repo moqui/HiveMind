@@ -71,7 +71,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </field>
             <field name="workEffortName">
                 <header-field title="Task" show-order-by="case-insensitive"/>
-                <default-field><link url="editTask" text="${toWorkEffortId}: ${workEffortName}">
+                <default-field><link url="editTask" text="${toWorkEffortId}: ${workEffortName}" link-type="anchor">
                     <parameter name="workEffortId" from="toWorkEffortId"/></link></default-field>
             </field>
 
@@ -80,12 +80,12 @@ This Work includes contributions authored by David E. Jones, not as a
                     <set field="currentDescription" from="currentStatus?.description"/></widget-template-include>
             </default-field></field>
             <field name="estimatedCompletionDate">
-                <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
+                <default-field title="Due Date"><date-time type="date"/></default-field>
             </field>
             <field name="estimatedWorkTime"><default-field title="Estimated">
                 <text-line size="4"/></default-field></field>
             <field name="actualWorkTime"><default-field title="Actual">
-                <display format="#.00"/></default-field></field>
+                <display format="0.00"/></default-field></field>
 
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
         </form-list>
