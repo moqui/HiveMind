@@ -319,7 +319,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </field>
             <field name="milestoneWorkEffortId">
                 <header-field title="Milestone" show-order-by="case-insensitive"/>
-                <default-field><link text="${milestoneWorkEffortId?:''}" url="milestoneSummary"/></default-field>
+                <default-field><link text="${milestoneWorkEffortId?:''}" url="milestoneSummary" condition="milestoneWorkEffortId"/></default-field>
             </field>
             <field name="priority">
                 <header-field show-order-by="true"/>
@@ -327,7 +327,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </field>
             <field name="parentWorkEffortId">
                 <header-field title="Parent" show-order-by="case-insensitive"/>
-                <default-field><link url="editTask" text="${parentWorkEffortId?:'--'}">
+                <default-field><link url="editTask" text="${parentWorkEffortId?:'--'}" condition="parentWorkEffortId">
                     <parameter name="workEffortId" from="parentWorkEffortId"/></link></default-field>
             </field>
             <field name="workEffortId">
