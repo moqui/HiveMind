@@ -62,7 +62,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <form-list name="UserList" list="userList">
             <field name="username">
                 <header-field show-order-by="case-insensitive"/>
-                <default-field><link url="editUser" text="${username?:'--'}"/></default-field>
+                <default-field><link url="editUser" text="${username?:'--'}" link-type="anchor"/></default-field>
             </field>
             <field name="firstName"><header-field show-order-by="case-insensitive"/><default-field><display/></default-field></field>
             <field name="lastName"><header-field show-order-by="case-insensitive"/><default-field><display/></default-field></field>
