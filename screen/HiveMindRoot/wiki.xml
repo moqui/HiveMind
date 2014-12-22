@@ -300,11 +300,11 @@ This Work includes contributions authored by David E. Jones, not as a
             </panel-left>
             <panel-center>
                 <container id="wiki-breadcrumbs">
-                    <link text="${wikiSpace?.description?:'Space Root'}" url="${baseLinkUrl}" url-type="plain"/>
+                    <link text="${wikiSpace?.description?:'Space Root'}" url="${baseLinkUrl}" url-type="plain" link-type="anchor"/>
                     <section-iterate name="breadcrumbs" list="breadcrumbMapList" entry="breadcrumbMap">
                         <widgets>
                             <label text="/"/>
-                            <link text="${breadcrumbMap.pageName}" url="${baseLinkUrl}/${breadcrumbMap.pagePath}" url-type="plain"/>
+                            <link text="${breadcrumbMap.pageName}" url="${baseLinkUrl}/${breadcrumbMap.pagePath}" url-type="plain" link-type="anchor"/>
                         </widgets>
                     </section-iterate>
                 </container>
