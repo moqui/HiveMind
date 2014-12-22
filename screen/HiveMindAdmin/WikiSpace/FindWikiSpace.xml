@@ -60,7 +60,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
         <form-list name="WikiSpaceList" list="spaceList" skip-form="true">
             <field name="wikiSpaceId"><header-field show-order-by="case-insensitive" title="Wiki Space"/><default-field>
-                <link url="editSpace" text="${wikiSpaceId}: ${description}"/>
+                <link url="editSpace" text="${wikiSpaceId}: ${description}" link-type="anchor"/>
             </default-field></field>
             <field name="rootPageLocation"><header-field show-order-by="case-insensitive" title="Root Page"/>
                 <default-field><display also-hidden="false"/></default-field></field>
