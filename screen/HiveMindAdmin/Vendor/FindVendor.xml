@@ -51,7 +51,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
         <form-list name="VendorList" list="vendorList">
             <field name="editVendorLink"><header-field show-order-by="case-insensitive"/><default-field>
-                <link url="editVendor" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
+                <link url="editVendor" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}" link-type="anchor"/>
             </default-field></field>
             <field name="disabled"><header-field title="Disabled?" show-order-by="case-insensitive"/><default-field><display text="${disabled?:'N'}"/></default-field></field>
         </form-list>

@@ -16,14 +16,8 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <parameter name="invoiceId" required="true"/>
 
-    <transition name="updateInvoice">
-        <service-call name="update#mantle.account.invoice.Invoice" in-map="context"/>
-        <default-response url="."/>
-    </transition>
-    <transition name="recordPayment">
-        <service-call name="mantle.account.PaymentServices.create#InvoicePayment" in-map="context" out-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="updateInvoice"><service-call name="update#mantle.account.invoice.Invoice"/><default-response url="."/></transition>
+    <transition name="recordPayment"><service-call name="mantle.account.PaymentServices.create#InvoicePayment"/><default-response url="."/></transition>
     
     <transition name="Invoice.pdf">
         <default-response url="${ec.web.getWebappRootUrl(false, null)}/fop/apps/hmadmin/Invoice/PrintInvoice" url-type="plain">
@@ -41,8 +35,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <widgets>
         <container>
             <link url="Invoice.pdf" text="Invoice PDF" target-window="_blank" link-type="anchor-button">
-                <parameter name="invoiceId"/>
-            </link>
+                <parameter name="invoiceId"/></link>
 
             <section name="RecordPaymentSection">
                 <condition><expression>validStatusIds.contains(invoice?.statusId)</expression></condition>
@@ -98,8 +91,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <drop-down allow-empty="true">
                     <entity-options key="${settlementTermId}" text="${description}">
                         <entity-find entity-name="mantle.account.invoice.SettlementTerm">
-                            <order-by field-name="description"/>
-                        </entity-find>
+                            <order-by field-name="description"/></entity-find>
                     </entity-options>
                 </drop-down>
             </default-field></field>

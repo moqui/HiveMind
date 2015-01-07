@@ -47,7 +47,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <form-list name="TeamList" list="teamList">
             <field name="organizationName">
                 <header-field show-order-by="case-insensitive" title="Name"><text-find/></header-field>
-                <default-field><link url="editTeam" text="${organizationName}"/></default-field>
+                <default-field><link url="editTeam" text="${organizationName}" link-type="anchor"/></default-field>
             </field>
             <field name="disabled">
                 <header-field title="Disabled?" show-order-by="case-insensitive"/>

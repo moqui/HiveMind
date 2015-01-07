@@ -26,7 +26,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="Reports"><default-response url="../Reports"/></transition>
 
     <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
-    <transition name="findTask"><default-response url="../../hm/Task/FindTask"/></transition>
+    <transition name="findTask"><default-response url="//hm/Task/FindTask"/></transition>
 
     <transition name="editVendor"><default-response url="../Vendor/EditVendor"/></transition>
     <transition name="findInvoice"><default-response url="../Invoice/FindInvoice"/></transition>
@@ -251,16 +251,26 @@ This Work includes contributions authored by David E. Jones, not as a
                                                         <row-col lg="12"><label text="${pstats.taskCount} Tasks" type="strong"/></row-col>
                                                     </container-row>
                                                     <container-row>
-                                                        <row-col lg="5"><link text="Approved - ${pstats.taskCountByStatusMap.WeApproved?:0}" style="text-warning" url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeApproved']"/></row-col>
-                                                        <row-col lg="7"><link text="On Hold - ${pstats.taskCountByStatusMap.WeOnHold?:0}" style="text-danger" url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeOnHold']"/></row-col>
+                                                        <row-col lg="5"><link text="Approved - ${pstats.taskCountByStatusMap.WeApproved?:0}"
+                                                                style="text-warning" url="findTask" link-type="anchor"
+                                                                parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeApproved']"/></row-col>
+                                                        <row-col lg="7"><link text="On Hold - ${pstats.taskCountByStatusMap.WeOnHold?:0}"
+                                                                style="text-danger" url="findTask" link-type="anchor"
+                                                                parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeOnHold']"/></row-col>
                                                     </container-row>
                                                     <container-row>
-                                                        <row-col lg="5"><link text="In Progress - ${pstats.taskCountByStatusMap.WeInProgress?:0}" style="text-success" url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInProgress']"/></row-col>
-                                                        <row-col lg="7"><link text="Complete/Closed - ${((pstats.taskCountByStatusMap.WeComplete?:0) as BigDecimal) + ((pstats.taskCountByStatusMap.WeClosed?:0) as BigDecimal)}" style="text-info" url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeComplete,WeClosed', statusId_op:'in']"/></row-col>
+                                                        <row-col lg="5"><link text="In Progress - ${pstats.taskCountByStatusMap.WeInProgress?:0}"
+                                                                style="text-success" url="findTask" link-type="anchor"
+                                                                parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInProgress']"/></row-col>
+                                                        <row-col lg="7"><link text="Complete/Closed - ${((pstats.taskCountByStatusMap.WeComplete?:0) as BigDecimal) + ((pstats.taskCountByStatusMap.WeClosed?:0) as BigDecimal)}"
+                                                                style="text-info" url="findTask" link-type="anchor"
+                                                                parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeComplete,WeClosed', statusId_op:'in']"/></row-col>
                                                     </container-row>
                                                     <container-row>
-                                                        <row-col lg="5"><link text="In Planning - ${pstats.taskCountByStatusMap.WeInPlanning?:0}" url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInPlanning']"/></row-col>
-                                                        <row-col lg="7"><link text="Cancelled - ${pstats.taskCountByStatusMap.WeCancelled?:0}" url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeCancelled']"/></row-col>
+                                                        <row-col lg="5"><link text="In Planning - ${pstats.taskCountByStatusMap.WeInPlanning?:0}"
+                                                                url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInPlanning']"/></row-col>
+                                                        <row-col lg="7"><link text="Cancelled - ${pstats.taskCountByStatusMap.WeCancelled?:0}"
+                                                                url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeCancelled']"/></row-col>
                                                     </container-row>
                                                 </row-col>
                                             </container-row>

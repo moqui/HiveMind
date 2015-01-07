@@ -20,7 +20,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <service-call name="mantle.request.RequestServices.update#Request" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editClient"><default-response url="../../../hmadmin/Client/EditClient"/></transition>
+    <transition name="editClient"><default-response url="//hmadmin/Client/EditClient"/></transition>
 
     <actions>
         <entity-find-one entity-name="mantle.request.Request" value-field="request"/>

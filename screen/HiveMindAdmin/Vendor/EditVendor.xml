@@ -122,7 +122,7 @@ This Work includes contributions authored by David E. Jones, not as a
                     <field name="partyId"><default-field><hidden/></default-field></field>
                     <field name="currentRep"><default-field title="Current Rep">
                         <link text="${repPerson ? repPerson.firstName + ' ' + repPerson.lastName : ''}" url="editUser"
-                                parameter-map="[partyId:repPerson?.partyId]"/>
+                                parameter-map="[partyId:repPerson?.partyId]" link-type="anchor"/>
                     </default-field></field>
                     <field name="repPartyId"><default-field title="New Rep User">
                         <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>

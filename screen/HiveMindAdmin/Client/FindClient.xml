@@ -48,7 +48,7 @@ This Work includes contributions authored by David E. Jones, not as a
         <form-list name="ClientList" list="clientList">
             <field name="organizationName">
                 <header-field show-order-by="case-insensitive" title="Name"><text-find/></header-field>
-                <default-field><link url="editClient" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/></default-field>
+                <default-field><link url="editClient" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}" link-type="anchor"/></default-field>
             </field>
             <field name="disabled">
                 <header-field title="Disabled?" show-order-by="case-insensitive"/>

@@ -159,6 +159,14 @@ This Work includes contributions authored by David E. Jones, not as a
 
             <field name="findButton"><header-field title="Find"><submit/></header-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+
+            <form-list-column><field-ref name="rateTypeEnumId"/><field-ref name="ratePurposeEnumId"/></form-list-column>
+            <form-list-column><field-ref name="workEffortId"/><field-ref name="partyId"/></form-list-column>
+            <form-list-column><field-ref name="emplPositionClassId"/></form-list-column>
+            <form-list-column><field-ref name="fromDate"/><field-ref name="thruDate"/></form-list-column>
+            <form-list-column><field-ref name="rateAmount"/></form-list-column>
+            <form-list-column><field-ref name="rateCurrencyUomId"/></form-list-column>
+            <form-list-column><field-ref name="findButton"/></form-list-column>
         </form-list>
     </widgets>
 </screen>
