@@ -54,7 +54,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
         </entity-find>
-        <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="myTaskList">
+        <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="myTaskList" distinct="true">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="statusId" operator="not-in" value="WeClosed,WeCancelled"/>
