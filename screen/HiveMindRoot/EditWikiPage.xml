@@ -59,15 +59,10 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="pageText">
                 <conditional-field condition="wikiType == 'md'">
                     <render-mode>
-                        <text><![CDATA[
-                <div class="box">
-                  <header>
-                    <h5>Markdown Editor</h5>
+                        <text type="html"><![CDATA[<div class="box"><header><h5>Markdown Editor</h5>
                     <ul class="nav nav-tabs pull-right">
-                      <li class="active">
-                        <a href="#markdown" data-toggle="tab">Markdown</a>
-                      </li>
-                      <li> <a href="#preview" data-toggle="tab">Preview</a>  </li>
+                      <li class="active"><a href="#markdown" data-toggle="tab">Markdown</a></li>
+                      <li><a href="#preview" data-toggle="tab">Preview</a></li>
                     </ul>
                   </header>
                   <div id="div-3" class="body tab-content">
@@ -79,17 +74,13 @@ ${pageText}
                         </textarea>
                       </div>
                     </div>
-                    <div class="tab-pane fade" id="preview">
-                      <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
-                    </div>
+                    <div class="tab-pane fade" id="preview"><div id="wmd-preview" class="wmd-panel wmd-preview"></div></div>
                   </div>
                 </div>
-                    ]]></text>
+                        ]]></text>
                     </render-mode>
                 </conditional-field>
-                <default-field>
-                    <text-area cols="100" rows="30"/>
-                </default-field>
+                <default-field><text-area cols="100" rows="30"/></default-field>
             </field>
             <field name="submitButton">
                 <conditional-field condition="isCreate" title="Create Page"><submit/></conditional-field>
@@ -99,7 +90,7 @@ ${pageText}
                 <link text="Cancel" url="${baseLinkUrl}/${pagePath?:parentPath?:''}" url-type="plain" link-type="anchor-button"/>
             </default-field></field>
             <field name="syntaxLink"><default-field title="">
-                <link text="Syntax Reference" url-type="plain" url="http://daringfireball.net/projects/markdown/syntax"/>
+                <link text="Syntax Reference" url-type="plain" url="http://daringfireball.net/projects/markdown/syntax" link-type="anchor"/>
             </default-field></field>
             <field-layout>
                 <field-ref name="parentPath"/>
