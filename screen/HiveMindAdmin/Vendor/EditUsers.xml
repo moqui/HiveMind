@@ -64,8 +64,10 @@ This Work includes contributions authored by David E. Jones, not as a
                 </default-field></field>
                 <field name="fromRoleTypeId"><default-field title="Role">
                     <drop-down>
-                        <option key="Manager" text="Manager"/>
-                        <option key="Worker" text="Worker"/>
+                        <entity-options key="${roleTypeId}" text="${description}">
+                            <entity-find entity-name="mantle.party.RoleGroupMemberAndType" cache="true">
+                                <econdition field-name="roleGroupEnumId" value="RgpProjectVendor"/>
+                                <order-by field-name="description"/></entity-find></entity-options>
                     </drop-down>
                 </default-field></field>
 
@@ -86,8 +88,10 @@ This Work includes contributions authored by David E. Jones, not as a
             </default-field></field>
             <field name="fromRoleTypeId"><header-field title="Role" show-order-by="true"/><default-field>
                 <drop-down>
-                    <option key="Manager" text="Manager"/>
-                    <option key="Worker" text="Worker"/>
+                    <entity-options key="${roleTypeId}" text="${description}">
+                        <entity-find entity-name="mantle.party.RoleGroupMemberAndType" cache="true">
+                            <econdition field-name="roleGroupEnumId" value="RgpProjectVendor"/>
+                            <order-by field-name="description"/></entity-find></entity-options>
                 </drop-down>
                 <!-- <display-entity entity-name="RoleType" text="${description}"/> -->
             </default-field></field>

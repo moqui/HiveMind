@@ -33,7 +33,7 @@ This Work includes contributions authored by David E. Jones, not as a
         </entity-find>
     </actions>
     <widgets>
-        <container-dialog id="AddUserAssignDialog" button-text="Add User Assignment">
+        <container-dialog id="AddUserAssignDialog" button-text="Add Project Assignment">
             <form-single name="AddUserAssignForm" transition="addUserAssign">
                 <field name="partyId"><default-field><hidden/></default-field></field>
 
@@ -47,8 +47,10 @@ This Work includes contributions authored by David E. Jones, not as a
 
                 <field name="roleTypeId"><default-field title="Role">
                     <drop-down>
-                        <option key="Worker" text="Worker"/>
-                        <option key="Manager" text="Manager"/>
+                        <entity-options key="${roleTypeId}" text="${description}">
+                            <entity-find entity-name="mantle.party.RoleGroupMemberAndType" cache="true">
+                                <econdition field-name="roleGroupEnumId" value="RgpProject"/>
+                                <order-by field-name="description"/></entity-find></entity-options>
                     </drop-down>
                 </default-field></field>
 

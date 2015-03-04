@@ -63,8 +63,10 @@ This Work includes contributions authored by David E. Jones, not as a
                 </default-field></field>
                 <field name="roleTypeId"><default-field title="Role">
                     <drop-down>
-                        <option key="Worker" text="Worker"/>
-                        <option key="Manager" text="Manager"/>
+                        <entity-options key="${roleTypeId}" text="${description}">
+                            <entity-find entity-name="mantle.party.RoleGroupMemberAndType" cache="true">
+                                <econdition field-name="roleGroupEnumId" value="RgpProject"/>
+                                <order-by field-name="description"/></entity-find></entity-options>
                     </drop-down>
                 </default-field></field>
 
