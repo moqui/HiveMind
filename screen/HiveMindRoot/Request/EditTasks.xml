@@ -142,7 +142,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         <set field="statusTypeId" value="WorkEffort"/></widget-template-include>
                 </default-field></field>
                 <field name="estimatedCompletionDate" entry-name="request.responseRequiredDate">
-                    <default-field title="Due Date"><date-time format="yyyy-MM-dd hh:mm"/></default-field></field>
+                    <default-field title="Due Date"><date-time/></default-field></field>
                 <field name="estimatedWorkTime"><default-field title="Estimated Hours"><text-line size="5"/></default-field></field>
                 <field name="description" entry-name="request.description">
                     <default-field title="Description"><text-area rows="10" cols="60"/></default-field></field>
@@ -154,11 +154,11 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="requestId"><default-field><hidden/></default-field></field>
 
             <field name="rootWorkEffortId">
-                <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}">
+                <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}" link-type="anchor">
                     <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
             </field>
             <field name="workEffortId"><default-field title="Task"><display text=""/>
-                <link text="${workEffortId}: ${workEffortName}" url="editTask"/>
+                <link text="${workEffortId}: ${workEffortName}" url="editTask" link-type="anchor"/>
             </default-field></field>
             <!-- <field name="workEffortName"><default-field title="Name"><display/></default-field></field> -->
             <field name="priority"><default-field title="Pri"><display/></default-field></field>

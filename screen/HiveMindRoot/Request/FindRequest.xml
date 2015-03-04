@@ -93,7 +93,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         <set field="statusTypeId" value="Request"/></widget-template-include>
                 </default-field></field>
                 <field name="responseRequiredDate">
-                    <default-field title="Due Date"><date-time type="date-time" format="yyyy-MM-dd hh:mm"/></default-field>
+                    <default-field title="Due Date"><date-time type="date-time"/></default-field>
                 </field>
 
                 <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
@@ -126,7 +126,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </field>
             <field name="responseRequiredDate">
                 <header-field title="Due Date" show-order-by="true"/>
-                <default-field><display format="yyyy-MM-dd hh:mm"/></default-field>
+                <default-field><display/></default-field>
             </field>
         </form-list>
     </widgets>

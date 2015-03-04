@@ -131,7 +131,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
             </field>
             <field name="toWorkEffortId"><default-field title="To ID"><display text=""/>
-                <link text="${toWorkEffortId}" url="taskSummary"><parameter name="workEffortId" from="toWorkEffortId"/></link>
+                <link text="${toWorkEffortId}" url="taskSummary" link-type="anchor"><parameter name="workEffortId" from="toWorkEffortId"/></link>
             </default-field></field>
             <field name="workEffortName"><default-field title="To Name"><display/></default-field></field>
             <field name="fromDate"><default-field title="At"><display/></default-field></field>
@@ -145,7 +145,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="toWorkEffortId"><default-field><hidden/></default-field></field>
 
             <field name="fromWorkEffortId"><default-field title="From ID"><display text=""/>
-                <link text="${fromWorkEffortId}" url="taskSummary"/>
+                <link text="${fromWorkEffortId}" url="taskSummary" link-type="anchor"/>
             </default-field></field>
             <field name="workEffortName"><default-field title="From Name"><display/></default-field></field>
             <field name="workEffortAssocTypeEnumId">

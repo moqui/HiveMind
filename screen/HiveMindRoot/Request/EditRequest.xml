@@ -37,7 +37,8 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="clientPartyId" entry-name="clientRp?.partyId"><default-field title="Client">
                 <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                     <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
-                <link url="editClient" text="Edit Client"><parameter name="partyId" from="clientRp?.partyId"/></link>
+                <link url="editClient" text="Edit Client" parameter-map="[partyId:clientRp.partyId]" link-type="anchor"
+                        condition="clientRp"/>
             </default-field></field>
             <field name="requestName"><default-field title="Name"><text-line size="80"/></default-field></field>
             <field name="description"><default-field><text-area rows="10" cols="80"/></default-field></field>
@@ -58,15 +59,9 @@ This Work includes contributions authored by David E. Jones, not as a
                     <set field="enumTypeId" value="RequestResolution"/><set field="noCurrentSelectedKey" value="RrUnresolved"/></widget-template-include>
             </default-field></field>
             <field name="responseRequiredDate">
-                <default-field title="Due Date"><date-time type="date-time" format="yyyy-MM-dd hh:mm"/></default-field>
+                <default-field title="Due Date"><date-time type="date-time"/></default-field>
             </field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
-            
-            <field-layout>
-                <fields-not-referenced/>
-                <field-row><field-ref name="statusId"/><field-ref name="responseRequiredDate"/></field-row>
-                <field-ref name="submitButton"/>
-            </field-layout>
         </form-single>
     </widgets>
 </screen>

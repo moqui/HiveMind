@@ -48,8 +48,8 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="remainingWorkTime" entry-name="workEffort.remainingWorkTime"><default-field title="Remaining Hours">
                 <text-line size="5"/></default-field></field>
             <field name="hours"><default-field><text-line size="5"/></default-field></field>
-            <field name="fromDate"><default-field title="From"><date-time format="yyyy-MM-dd hh:mm"/></default-field></field>
-            <field name="thruDate"><default-field title="Thru"><date-time format="yyyy-MM-dd hh:mm"/></default-field></field>
+            <field name="fromDate"><default-field title="From"><date-time/></default-field></field>
+            <field name="thruDate"><default-field title="Thru"><date-time/></default-field></field>
             <field name="breakHours"><default-field><text-line size="5"/></default-field></field>
             <field name="submitButton"><default-field title="Add Time"><submit/></default-field></field>
 

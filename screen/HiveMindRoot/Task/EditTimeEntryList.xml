@@ -32,7 +32,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <!-- <field name="timeEntryId"><default-field title="ID"><display also-hidden="false"/></default-field></field> -->
             <field name="partyId"><default-field>
                 <display-entity entity-name="Person" text="${firstName} ${lastName} (${partyId})" also-hidden="false"/>
-                <link url="editUser" text="Edit User"/>
+                <link url="editUser" text="Edit User" link-type="anchor"/>
             </default-field></field>
             <field name="comments"><default-field><display also-hidden="false"/></default-field></field>
             <field name="hours"><default-field><display format="#.00" also-hidden="false"/></default-field></field>
