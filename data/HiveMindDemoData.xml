@@ -68,9 +68,9 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_SERVICES" roleTypeId="VendorBillFrom" fromDate="1265184000000"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="Manager"
             emplPositionClassId="ProgrammerLead" fromDate="1265184000000" statusId="WeptAssigned"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_JD" roleTypeId="Worker"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_JD" roleTypeId="Assignee"
             emplPositionClassId="Programmer" fromDate="1265184000000" statusId="WeptAssigned"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_BD" roleTypeId="Worker"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_BD" roleTypeId="Assignee"
             emplPositionClassId="Programmer" fromDate="1265184000000" statusId="WeptAssigned"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_DEVA" roleTypeId="OrgTeam"
             fromDate="1265184000000" statusId="WeptAssigned"/>
@@ -79,7 +79,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME" roleTypeId="CustomerBillTo" fromDate="1265184000000"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME_SA" roleTypeId="ClientManager"
             fromDate="1265184000000" statusId="WeptAssigned"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME_BA" roleTypeId="Worker"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME_BA" roleTypeId="Assignee"
             fromDate="1265184000000" statusId="WeptAssigned"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME_TM" roleTypeId="OrgTeam"
             fromDate="1265184000000" statusId="WeptAssigned"/>
@@ -149,7 +149,7 @@ This Work includes contributions authored by David E. Jones, not as a
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="4" remainingWorkTime="4"
             timeUomId="TF_hr" workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeInProgress"
             resolutionEnumId="WerUnresolved"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM-002" partyId="EX_JOHN_DOE" roleTypeId="Worker"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM-002" partyId="EX_JOHN_DOE" roleTypeId="Assignee"
             fromDate="1265184000000" statusId="WeptAssigned"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-002"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="1265184000000" sequenceNum="2"/>
@@ -175,9 +175,9 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
         ]]></description>
     </mantle.work.effort.WorkEffort>
     <!-- task worker and time entries -->
-    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="Worker"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="Assignee"
             fromDate="1265184000000" statusId="WeptAssigned" receiveNotifications="Y"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_ZIZI_JD" roleTypeId="Worker"
+    <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_ZIZI_JD" roleTypeId="Assignee"
             fromDate="1265184000000" statusId="WeptAssigned" receiveNotifications="N"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_ZIZI_DEVA" roleTypeId="OrgTeam"
             fromDate="1265184000000" statusId="WeptAssigned"/>
@@ -292,7 +292,7 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
             statusId="ReqInProgress" requestResolutionEnumId="RrUnresolved" requestName="Add Create Request on dashboard"
             description="Please add Create Request popup on dashboard screen for convenient request creation."
             filedByPartyId="" priority="2" requestDate="1265184000000" responseRequiredDate="2013-07-31 12:00:00"/>
-    <mantle.request.RequestParty requestId="DEMO_001" partyId="EX_JOHN_DOE" roleTypeId="Worker" fromDate="1265184000000" thruDate=""/>
+    <mantle.request.RequestParty requestId="DEMO_001" partyId="EX_JOHN_DOE" roleTypeId="Assignee" fromDate="1265184000000" thruDate=""/>
     <mantle.request.RequestParty requestId="DEMO_001" partyId="ORG_ACME" roleTypeId="CustomerBillTo" fromDate="1265184000000" thruDate=""/>
     <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-007"/>
 
@@ -300,7 +300,7 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
             statusId="ReqDraft" requestResolutionEnumId="RrUnresolved" requestName="Why is there so little color in the app?"
             description="" filedByPartyId="" priority="2" requestDate="1265184000000"
             responseRequiredDate="2013-07-31 12:00:00"/>
-    <mantle.request.RequestParty requestId="DEMO_002" partyId="EX_JOHN_DOE" roleTypeId="Worker" fromDate="1265184000000" thruDate=""/>
+    <mantle.request.RequestParty requestId="DEMO_002" partyId="EX_JOHN_DOE" roleTypeId="Assignee" fromDate="1265184000000" thruDate=""/>
 
     <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-004"/>
     <mantle.request.RequestWorkEffort requestId="DEMO_002" workEffortId="HM-004"/>
