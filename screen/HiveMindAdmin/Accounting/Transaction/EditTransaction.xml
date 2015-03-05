@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
+        default-menu-title="Transaction" default-menu-index="1" default-menu-include="false">
+
+    <parameter name="acctgTransId" required="true"/>
+
+    <transition name="updateAcctgTrans"><service-call name="mantle.ledger.LedgerServices.update#AcctgTrans"/><default-response url="."/></transition>
+    <transition name="postAcctgTrans"><service-call name="mantle.ledger.LedgerServices.post#AcctgTrans"/><default-response url="."/></transition>
+    <transition name="postReverseAcctgTrans"><service-call name="mantle.ledger.LedgerServices.post#ReverseAcctgTrans"/><default-response url="."/></transition>
+
+    <transition name="createAcctgTransEntry"><service-call name="mantle.ledger.LedgerServices.create#AcctgTransEntry"/><default-response url="."/></transition>
+    <transition name="updateAcctgTransEntry"><service-call name="mantle.ledger.LedgerServices.update#AcctgTransEntry"/><default-response url="."/></transition>
+    <transition name="deleteAcctgTransEntry"><service-call name="mantle.ledger.LedgerServices.delete#AcctgTransEntry"/><default-response url="."/></transition>
+
+    <transition name="editInvoice"><default-response url="//hmadmin/Accounting/EditInvoice"/></transition>
+    <transition name="editPayment"><default-response url="//hmadmin/Accounting/EditPayment"/></transition>
+
+    <transition name="getOrgGlAccountList">
+        <actions>
+            <entity-find-one entity-name="mantle.ledger.account.GlAccountAndOrganization" value-field="glAccount">
+                <field-map field-name="organizationPartyId" from="partyId"/>
+                <field-map field-name="glAccountId" from="term"/></entity-find-one>
+            <if condition="glAccount">
+                <set field="glaList" from="[glAccount]"/>
+
+                <else>
+                    <entity-find entity-name="mantle.ledger.account.GlAccountAndOrganization" list="glaList" limit="20">
+                        <econdition field-name="organizationPartyId" from="partyId"/>
+                        <econditions combine="or">
+                            <econdition field-name="glAccountId" operator="like" value="%${term}%" ignore-case="true"/>
+                            <econdition field-name="accountCode" operator="like" value="%${term}%" ignore-case="true"/>
+                            <econdition field-name="accountName" operator="like" value="%${term}%" ignore-case="true"/>
+                        </econditions>
+                        <order-by field-name="accountCode"/>
+                    </entity-find>
+                </else>
+            </if>
+            <script>
+                def outList = []
+                for (def gla in glaList) outList.add([value:gla.glAccountId, label:"${gla.accountCode?:''} - ${gla.accountName?:''}".toString()])
+                ec.web.sendJsonResponse(outList)
+            </script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
+    <actions>
+        <entity-find-one entity-name="mantle.ledger.transaction.AcctgTrans" value-field="acctgTrans"/>
+        <set field="organizationPartyId" from="acctgTrans.organizationPartyId"/>
+        <service-call name="mantle.ledger.LedgerServices.calculate#AcctgTransTrialBalance"
+                in-map="[acctgTransId:acctgTransId]" out-map="context"/>
+
+        <entity-find-one entity-name="mantle.party.PartyDetail" value-field="orgDetail">
+            <field-map field-name="partyId" from="acctgTrans.organizationPartyId"/></entity-find-one>
+        <entity-find-one entity-name="mantle.party.PartyDetail" value-field="otherDetail">
+            <field-map field-name="partyId" from="acctgTrans.otherPartyId"/></entity-find-one>
+
+        <entity-find-one entity-name="moqui.basic.Enumeration" value-field="typeEnum">
+            <field-map field-name="enumId" from="acctgTrans.acctgTransTypeEnumId"/></entity-find-one>
+        <entity-find-one entity-name="moqui.basic.Uom" value-field="amountUom">
+            <field-map field-name="uomId" from="acctgTrans.amountUomId"/></entity-find-one>
+        <entity-find-one entity-name="moqui.basic.Uom" value-field="origCurrencyAmountUom">
+            <field-map field-name="uomId" from="acctgTrans.origCurrencyAmountUomId"/></entity-find-one>
+
+        <set field="glJournal" from="acctgTrans.'mantle.ledger.transaction.GlJournal'"/>
+
+        <entity-find entity-name="mantle.ledger.transaction.AcctgTransEntry" list="entryList">
+            <econdition field-name="acctgTransId"/><order-by field-name="acctgTransEntrySeqId"/></entity-find>
+    </actions>
+    <widgets>
+        <section name="NotPostedSection"><condition><expression>acctgTrans.isPosted != "Y"</expression></condition>
+            <widgets>
+                <link url="postAcctgTrans" text="Post Transaction"/>
+
+                <container-dialog id="UpdateTxDialog" button-text="Update Transaction" width="900">
+                    <form-single name="UpdateAcctgTrans" map="acctgTrans" transition="updateAcctgTrans">
+                        <field name="acctgTransId"><default-field><hidden/></default-field></field>
+                        <field name="acctgTransTypeEnumId"><default-field title="TX Type">
+                            <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                                <set field="enumTypeId" value="AcctgTransType"/></widget-template-include>
+                        </default-field></field>
+                        <field name="organizationPartyId"><default-field title="Organization">
+                            <display text="${orgDetail.organizationName?:''} [${orgDetail.pseudoId}]"/>
+                        </default-field></field>
+
+                        <field name="transactionDate"><default-field><date-time/></default-field></field>
+                        <field name="amountUomId"><default-field title="Currency">
+                            <drop-down style="chosen-wide"><entity-options key="${uomId}" text="${description} [${uomId}]">
+                                <entity-find entity-name="moqui.basic.Uom">
+                                    <econdition field-name="uomTypeEnumId" value="UT_CURRENCY_MEASURE"/>
+                                    <order-by field-name="description"/>
+                                </entity-find>
+                            </entity-options></drop-down>
+                        </default-field></field>
+                        <field name="origCurrencyAmountUomId"><default-field title="Orig. Currency">
+                            <drop-down allow-empty="true" style="chosen-wide"><entity-options key="${uomId}" text="${description} [${uomId}]">
+                                <entity-find entity-name="moqui.basic.Uom">
+                                    <econdition field-name="uomTypeEnumId" value="UT_CURRENCY_MEASURE"/>
+                                    <order-by field-name="description"/>
+                                </entity-find>
+                            </entity-options></drop-down>
+                        </default-field></field>
+                        <field name="glJournalId"><default-field title="Journal">
+                            <drop-down allow-empty="true" style="chosen-wide">
+                                <entity-options key="${glJournalId}" text="${glJournalName}">
+                                    <entity-find entity-name="mantle.ledger.transaction.GlJournal">
+                                        <econdition field-name="isPosted" operator="not-equals" value="Y" or-null="true"/>
+                                        <order-by field-name="glJournalName"/></entity-find>
+                                </entity-options>
+                            </drop-down>
+                        </default-field></field>
+
+                        <field name="description"><default-field><text-area cols="80" rows="5"/></default-field></field>
+
+                        <field name="invoiceId"><default-field title="Invoice ID">
+                            <text-line size="20"/>
+                            <link url="editInvoice" text="${invoiceId?:''}" link-type="anchor"/>
+                        </default-field></field>
+                        <field name="paymentId"><default-field title="Payment ID">
+                            <text-line size="20"/>
+                            <link url="editPayment" text="${paymentId?:''}" link-type="anchor"/>
+                        </default-field></field>
+                        <field name="paymentApplicationId"><default-field><text-line size="20"/></default-field></field>
+
+                        <field name="finAccountTransId"><default-field><text-line size="20"/></default-field></field>
+                        <field name="otherPartyId"><default-field title="Other Party ID">
+                            <text-line/></default-field></field>
+
+                        <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+
+                        <field-layout>
+                            <fields-not-referenced/>
+                            <field-row><field-ref name="invoiceId"/><field-ref name="paymentApplicationId"/></field-row>
+                            <field-row><field-ref name="paymentId"/><field-ref name="finAccountTransId"/></field-row>
+                            <field-row><field-ref name="otherPartyId"/></field-row>
+                            <field-row><field-ref name="submitButton"/></field-row>
+                        </field-layout>
+                    </form-single>
+                </container-dialog>
+            </widgets>
+            <fail-widgets>
+                <link url="postReverseAcctgTrans" text="Post Reverse Transaction"/>
+            </fail-widgets>
+        </section>
+
+        <container-row>
+            <row-col lg="1"><label text="ID" type="strong"/></row-col>
+            <row-col lg="3"><label text="${acctgTransId}"/></row-col>
+            <row-col lg="1"><label text="Organization" type="strong"/></row-col>
+            <row-col lg="3"><label text="${orgDetail.organizationName?:''} [${orgDetail.pseudoId}]" type="p"/></row-col>
+            <row-col lg="1"><label text="TX Type" type="strong"/></row-col>
+            <row-col lg="3"><label text="${typeEnum?.description?:''}"/></row-col>
+        </container-row>
+        <container-row>
+            <row-col lg="1"><label text="Journal" type="strong"/></row-col>
+            <row-col lg="3"><label text="${glJournal?.glJournalName?:''} [${acctgTrans.glJournalId?:''}]" type="p"/></row-col>
+            <row-col lg="1"><label text="Currency" type="strong"/></row-col>
+            <row-col lg="3"><label text="${amountUom?.description} [${amountUom?.uomId}]" type="p"/></row-col>
+            <row-col lg="1"><label text="Orig. Currency" type="strong"/></row-col>
+            <row-col lg="3"><label text="${origCurrencyAmountUom?.description?:''} [${origCurrencyAmountUom?.uomId?:''}]"/></row-col>
+        </container-row>
+        <container-row>
+            <row-col lg="1"><label text="TX Date" type="strong"/></row-col>
+            <row-col lg="3"><label text="${ec.l10n.format(acctgTrans.transactionDate, null)}"/></row-col>
+            <row-col lg="1"><label text="Is Posted" type="strong"/></row-col>
+            <row-col lg="3"><label text="${acctgTrans.isPosted}"/></row-col>
+            <row-col lg="1"><label text="Posted Date" type="strong"/></row-col>
+            <row-col lg="3"><label text="${ec.l10n.format(acctgTrans.postedDate, null)}"/></row-col>
+        </container-row>
+        <container-row>
+            <row-col lg="1"><label text="Invoice" type="strong"/></row-col>
+            <row-col lg="3"><link url="editInvoice" text="${acctgTrans.invoiceId?:''}" link-type="anchor" parameter-map="[invoiceId:acctgTrans.invoiceId]"/></row-col>
+            <row-col lg="1"><label text="Payment" type="strong"/></row-col>
+            <row-col lg="3"><link url="editPayment" text="${acctgTrans.paymentId?:''}" link-type="anchor" parameter-map="[paymentId:acctgTrans.paymentId]"/></row-col>
+            <row-col lg="1"><label text="Pmnt Appl" type="strong"/></row-col>
+            <row-col lg="3"><label text="${acctgTrans.paymentApplicationId?:''}"/></row-col>
+        </container-row>
+        <container-row>
+            <row-col lg="1"><label text="Fin Acct TX" type="strong"/></row-col>
+            <row-col lg="3"><label text="${acctgTrans.finAccountTransId?:''}"/></row-col>
+            <row-col lg="1"><label text="Other Party" type="strong"/></row-col>
+            <row-col lg="3"><label text="${otherDetail?.organizationName?:''}${otherDetail?.firstName?:''} ${otherDetail?.lastName?:''} [${otherDetail?.pseudoId?:''}]"/></row-col>
+        </container-row>
+        <container-row>
+            <row-col lg="1"><label text="Description" type="strong"/></row-col>
+            <row-col style="col-lg-11"><label text="${acctgTrans.description?:''}" type="p"/></row-col>
+        </container-row>
+        <container-row>
+            <row-col lg="1"><label text="Debit" type="strong"/></row-col>
+            <row-col lg="3"><label text="${ec.l10n.formatCurrency(debitTotal, acctgTrans.amountUomId, 2)}"/></row-col>
+            <row-col lg="1"><label text="Credit" type="strong"/></row-col>
+            <row-col lg="3"><label text="${ec.l10n.formatCurrency(creditTotal, acctgTrans.amountUomId, 2)}"/></row-col>
+        </container-row>
+
+        <section name="NotPostedItemSection"><condition><expression>acctgTrans.isPosted != "Y"</expression></condition>
+            <widgets>
+                <container-dialog id="AddEntryDialog" button-text="Add Entry">
+                    <form-single name="AddEntryForm" transition="createAcctgTransEntry">
+                        <field name="acctgTransId"><default-field><hidden/></default-field></field>
+                        <field name="acctgTransEntrySeqId"><default-field><hidden/></default-field></field>
+
+                        <field name="amount">
+                            <default-field><text-line size="8"/></default-field>
+                        </field>
+                        <field name="origCurrencyAmount">
+                            <default-field title="Orig Currency Amt"><text-line size="8"/></default-field>
+                        </field>
+                        <field name="debitCreditFlag">
+                            <default-field title="Debit Credit"><drop-down><option key="D"/><option key="C"/></drop-down></default-field>
+                        </field>
+                        <field name="glAccountTypeEnumId"><default-field title="Entry Acct Type">
+                            <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                                <set field="enumTypeId" value="GlAccountType"/><set field="allowEmpty" value="true"/></widget-template-include>
+                        </default-field></field>
+                        <field name="glAccountId"><default-field title="GL Account">
+                            <text-line size="50" ac-transition="getOrgGlAccountList"/>
+                        </default-field></field>
+
+                        <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
+                    </form-single>
+                </container-dialog>
+            </widgets>
+        </section>
+
+        <form-list name="EntryListForm" list="entryList" transition="updateAcctgTransEntry">
+            <row-actions>
+                <entity-find-one entity-name="mantle.ledger.account.GlAccount" value-field="glAccount"/>
+            </row-actions>
+            <field name="acctgTransId"><default-field><hidden/></default-field></field>
+            <field name="acctgTransEntrySeqId"><default-field><hidden/></default-field></field>
+
+            <field name="amount">
+                <conditional-field condition="acctgTrans.isPosted != 'Y'">
+                    <text-line size="12"/>
+                </conditional-field>
+                <default-field><display currency-unit-field="acctgTrans.amountUomId"/></default-field>
+            </field>
+            <field name="origCurrencyAmount">
+                <conditional-field condition="acctgTrans.isPosted != 'Y'">
+                    <text-line size="12"/>
+                </conditional-field>
+                <default-field title="Orig Currency Amt"><display currency-unit-field="acctgTrans.origCurrencyAmountUomId"/></default-field>
+            </field>
+            <field name="debitCreditFlag">
+                <conditional-field condition="acctgTrans.isPosted != 'Y'">
+                    <drop-down><option key="D"/><option key="C"/></drop-down>
+                </conditional-field>
+                <default-field title="Dbt Cdt"><display/></default-field>
+            </field>
+            <field name="glAccountTypeEnumId">
+                <conditional-field condition="acctgTrans.isPosted != 'Y'">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="GlAccountType"/><set field="allowEmpty" value="true"/></widget-template-include>
+                </conditional-field>
+                <default-field title="Entry Acct Type"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+            </field>
+            <field name="glAccountId">
+                <conditional-field condition="acctgTrans.isPosted != 'Y'">
+                    <text-line size="20" ac-transition="getOrgGlAccountList"
+                            ac-initial-text="${glAccount?.accountCode} - ${glAccount?.accountName}"/>
+                </conditional-field>
+                <default-field title="GL Account"><display text="${glAccount?.accountCode} - ${glAccount?.accountName}"/></default-field>
+            </field>
+            <field name="invoiceItemSeqId">
+                <default-field title="Invc Itm"><display/></default-field>
+            </field>
+
+            <field name="submitButton">
+                <conditional-field condition="acctgTrans.isPosted != 'Y'" title="Update">
+                    <submit/>
+                </conditional-field>
+                <default-field title=""><display/></default-field>
+            </field>
+            <field name="removeLink">
+                <conditional-field condition="acctgTrans.isPosted != 'Y'" title="Update">
+                    <link url="deleteAcctgTransEntry" text="Remove"/>
+                </conditional-field>
+                <default-field title=""><display/></default-field>
+            </field>
+        </form-list>
+    </widgets>
+</screen>

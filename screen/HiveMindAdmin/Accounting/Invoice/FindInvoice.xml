@@ -158,7 +158,7 @@ This Work includes contributions authored by David E. Jones, not as a
                 <service-call name="mantle.account.InvoiceServices.get#InvoiceTotal" in-map="[invoiceId:invoiceId]" out-map="context"/>
             </row-actions>
             <field name="editInvoiceLink"><header-field show-order-by="case-insensitive" title="Edit"/><default-field>
-                <link url="editInvoice" text="Edit ${invoiceId}"/>
+                <link url="editInvoice" text="Edit ${invoiceId}" link-type="anchor"/>
             </default-field></field>
             <field name="fromPartyId"><default-field title="From">
                 <display-entity entity-name="mantle.party.PartyDetail" also-hidden="false" key-field-name="partyId"
