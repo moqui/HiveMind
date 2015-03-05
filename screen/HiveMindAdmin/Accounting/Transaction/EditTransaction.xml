@@ -28,16 +28,17 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="editPayment"><default-response url="//hmadmin/Accounting/EditPayment"/></transition>
 
     <transition name="getOrgGlAccountList">
+        <parameter name="organizationPartyId"/>
         <actions>
             <entity-find-one entity-name="mantle.ledger.account.GlAccountAndOrganization" value-field="glAccount">
-                <field-map field-name="organizationPartyId" from="partyId"/>
+                <field-map field-name="organizationPartyId"/>
                 <field-map field-name="glAccountId" from="term"/></entity-find-one>
             <if condition="glAccount">
                 <set field="glaList" from="[glAccount]"/>
 
                 <else>
                     <entity-find entity-name="mantle.ledger.account.GlAccountAndOrganization" list="glaList" limit="20">
-                        <econdition field-name="organizationPartyId" from="partyId"/>
+                        <econdition field-name="organizationPartyId"/>
                         <econditions combine="or">
                             <econdition field-name="glAccountId" operator="like" value="%${term}%" ignore-case="true"/>
                             <econdition field-name="accountCode" operator="like" value="%${term}%" ignore-case="true"/>
@@ -45,6 +46,7 @@ This Work includes contributions authored by David E. Jones, not as a
                         </econditions>
                         <order-by field-name="accountCode"/>
                     </entity-find>
+                    <!-- <log level="warn" message="========= organizationPartyId=${organizationPartyId}, term=${term}, glaList: ${glaList}"/> -->
                 </else>
             </if>
             <script>
@@ -242,15 +244,11 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="acctgTransEntrySeqId"><default-field><hidden/></default-field></field>
 
             <field name="amount">
-                <conditional-field condition="acctgTrans.isPosted != 'Y'">
-                    <text-line size="12"/>
-                </conditional-field>
+                <conditional-field condition="acctgTrans.isPosted != 'Y'"><text-line size="10"/></conditional-field>
                 <default-field><display currency-unit-field="acctgTrans.amountUomId"/></default-field>
             </field>
             <field name="origCurrencyAmount">
-                <conditional-field condition="acctgTrans.isPosted != 'Y'">
-                    <text-line size="12"/>
-                </conditional-field>
+                <conditional-field condition="acctgTrans.isPosted != 'Y'"><text-line size="8"/></conditional-field>
                 <default-field title="Orig Currency Amt"><display currency-unit-field="acctgTrans.origCurrencyAmountUomId"/></default-field>
             </field>
             <field name="debitCreditFlag">
@@ -268,7 +266,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </field>
             <field name="glAccountId">
                 <conditional-field condition="acctgTrans.isPosted != 'Y'">
-                    <text-line size="20" ac-transition="getOrgGlAccountList"
+                    <text-line size="40" ac-transition="getOrgGlAccountList"
                             ac-initial-text="${glAccount?.accountCode} - ${glAccount?.accountName}"/>
                 </conditional-field>
                 <default-field title="GL Account"><display text="${glAccount?.accountCode} - ${glAccount?.accountName}"/></default-field>
