@@ -22,14 +22,14 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <transition name="WikiSpace"><default-response url="../WikiSpace"/></transition>
     <transition name="Project"><default-response url="../Project"/></transition>
-    <transition name="Invoice"><default-response url="../Invoice"/></transition>
-    <transition name="Reports"><default-response url="../Reports"/></transition>
+    <transition name="Invoice"><default-response url="//hmadmin/Accounting/Invoice"/></transition>
+    <transition name="Reports"><default-response url="//hmadmin/Accounting/Reports"/></transition>
 
     <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
     <transition name="findTask"><default-response url="//hm/Task/FindTask"/></transition>
 
     <transition name="editVendor"><default-response url="../Vendor/EditVendor"/></transition>
-    <transition name="findInvoice"><default-response url="../Invoice/FindInvoice"/></transition>
+    <transition name="findInvoice"><default-response url="//hmadmin/Accounting/FindInvoice"/></transition>
 
     <pre-actions>
         <script>html_scripts.add('/assets/lib/sparkline/jquery.sparkline.min.js')</script>
@@ -51,41 +51,41 @@ This Work includes contributions authored by David E. Jones, not as a
                 <label text="Operate" type="h2"/>
                 <container>
                     <link url="WikiSpace" link-type="anchor"><image url="/hmstatic/images/wiki-documents7.png" url-type="plain"/></link>
-                    <link text="Wiki Spaces" url="WikiSpace"/>
+                    <link text="Wiki Spaces" url="WikiSpace" link-type="anchor"/>
                 </container>
                 <container>
                     <link url="Project" link-type="anchor"><image url="/hmstatic/images/project-business120.png" url-type="plain"/></link>
-                    <link text="Projects" url="Project"/>
+                    <link text="Projects" url="Project" link-type="anchor"/>
                 </container>
                 <container>
                     <link url="Invoice" link-type="anchor"><image url="/hmstatic/images/invoice-pay.png" url-type="plain"/></link>
-                    <link text="Invoices" url="Invoice"/>
+                    <link text="Invoices" url="Invoice" link-type="anchor"/>
                 </container>
                 <container>
                     <link url="Reports" link-type="anchor"><image url="/hmstatic/images/reports-dollar116.png" url-type="plain"/></link>
-                    <link text="Reports" url="Reports"/>
+                    <link text="Reports" url="Reports" link-type="anchor"/>
                 </container>
 
                 <label text="Setup" type="h2"/>
                 <container>
                     <link url="Vendor" link-type="anchor"><image url="/hmstatic/images/vendor-person25.png" url-type="plain"/></link>
-                    <link text="Vendor(s)" url="Vendor"/>
+                    <link text="Vendor(s)" url="Vendor" link-type="anchor"/>
                 </container>
                 <container>
                     <link url="Client" link-type="anchor"><image url="/hmstatic/images/client-businessmen26.png" url-type="plain"/></link>
-                    <link text="Clients" url="Client"/>
+                    <link text="Clients" url="Client" link-type="anchor"/>
                 </container>
                 <container>
                     <link url="User" link-type="anchor"><image url="/hmstatic/images/user-man27.png" url-type="plain"/></link>
-                    <link text="Users" url="User"/>
+                    <link text="Users" url="User" link-type="anchor"/>
                 </container>
                 <container>
                     <link url="Team" link-type="anchor"><image url="/hmstatic/images/team-businessmen18.png" url-type="plain"/></link>
-                    <link text="Teams" url="Team"/>
+                    <link text="Teams" url="Team" link-type="anchor"/>
                 </container>
                 <container>
                     <link url="EditRateAmounts" link-type="anchor"><image url="/hmstatic/images/rates-internet16.png" url-type="plain"/></link>
-                    <link text="Rates" url="EditRateAmounts"/>
+                    <link text="Rates" url="EditRateAmounts" link-type="anchor"/>
                 </container>
             </panel-left>
 
