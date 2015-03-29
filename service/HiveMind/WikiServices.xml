@@ -280,12 +280,10 @@ This Work includes contributions authored by David E. Jones, not as a
     <service verb="get" noun="WikiPageManualDocumentData" authenticate="anonymous-view">
         <implements service="org.moqui.EntityServices.add#ManualDocumentData"/>
         <actions>
-            <!-- primaryEntityValue is a WikiPage entity value -->
-            <set field="wikiPageMap" from="document.get('WikiPage')"/>
-            <set field="pagePath" from="wikiPageMap.pagePath"/>
+            <!-- primaryEntityValue is a WikiPage entity value, fields will be in the root document Map -->
             <service-call name="HiveMind.WikiServices.get#WikiPageInfo" out-map="wikiPageInfo"
-                    in-map="[wikiSpaceId:wikiPageMap.wikiSpaceId, pagePath:pagePath]"/>
-            <set field="baseLinkUrl" value="/apps/hm/wiki/${wikiPageMap.wikiSpaceId}"/>
+                    in-map="[wikiSpaceId:document.wikiSpaceId, pagePath:document.pagePath]"/>
+            <set field="baseLinkUrl" value="/apps/hm/wiki/${document.wikiSpaceId}"/>
             <!-- TODO: add attachments too (for indexing)? -->
             <set field="document.content" from="ec.resource.getLocationText(wikiPageInfo.pageLocation, false)"/>
         </actions>
