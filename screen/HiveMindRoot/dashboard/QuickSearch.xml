@@ -30,12 +30,13 @@ This Work includes contributions authored by David E. Jones, not as a
                         relationship-name="moqui.entity.document.DataDocumentLink" to-value-field="dataDocumentLink"/>
                 <set field="linkUrl" from="ec.resource.evaluateStringExpand(dataDocumentLink?.linkUrl, '', document)"/>
                 <if condition="dataDocumentLink?.urlType == 'transition' || dataDocumentLink?.urlType == 'screen'">
-                    <set field="linkUrlInfo" from="new org.moqui.impl.screen.ScreenUrlInfo(sri, null, null, linkUrl, null, null)"/>
-                    <set field="linkUrl" from="linkUrlInfo.urlWithParams"/>
+                    <set field="linkUrlInstance" from="new org.moqui.impl.screen.ScreenUrlInfo(sri, null, null, linkUrl, null, null).url"/>
+                    <set field="linkUrl" from="linkUrlInstance.urlWithParams"/>
                 </if>
                 <set field="documentTitle" from="ec.resource.evaluateStringExpand(dataDocument?.documentTitle, '', document)"/>
                 <script>outList.add([value:document._id, urlToOpen:linkUrl, label:"${dataDocument.documentName} - ${document._id}: ${documentTitle}".toString()])</script>
             </iterate>
+            <log level="warn" message="======= outList: ${outList}"/>
             <script>ec.web.sendJsonResponse(outList)</script>
         </actions>
         <default-response type="none"/>
@@ -50,7 +51,7 @@ This Work includes contributions authored by David E. Jones, not as a
     <script>
         $("#SearchBox").autocomplete({
             source: function(request, response) { $.ajax({
-                url: "${sri.screenUrlInfo.url}/getSearchOptions", type: "POST", dataType: "json", data: { term: request.term },
+                url: "${sri.screenUrlInstance.url}/getSearchOptions", type: "POST", dataType: "json", data: { term: request.term },
                 success: function(data) { response($.map(data, function(item) { return { label: item.label, value: item.value, urlToOpen: item.urlToOpen } })); }
             }); }, minLength: 3,
             select: function(event, ui) { if (ui.item) { this.value = ui.item.value; window.open(ui.item.urlToOpen, "_self"); } }
