@@ -27,7 +27,7 @@ This Work includes contributions authored by David E. Jones, not as a
     </actions>
     <widgets>
         <form-single name="AddTaskTime" transition="addTaskTime" background-submit="true"
-                background-reload-id="EditTimeEntryList" background-message="Time entry saved">
+                background-reload-id="EditTimeEntryList"><!--  background-message="Time entry saved" -->
             <field name="workEffortId"><default-field><hidden/></default-field></field>
             <field name="partyId"><default-field title="Worker">
                 <drop-down no-current-selected-key="${ec.user.userAccount.partyId}" current="selected">

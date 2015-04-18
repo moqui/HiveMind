@@ -17,9 +17,11 @@ This Work includes contributions authored by David E. Jones, not as a
     <parameter name="workEffortId" required="true"/>
 
     <transition name="editUser"><default-response url="//hmadmin/User/EditUser"/></transition>
+    <transition name="deleteTimeEntry"><service-call name="delete#mantle.work.time.TimeEntry"/>
+        <default-response url="../EditTimeEntries"/></transition>
 
     <actions>
-        <entity-find entity-name="TimeEntry" list="timeEntryList">
+        <entity-find entity-name="mantle.work.time.TimeEntry" list="timeEntryList">
             <econdition field-name="workEffortId"/>
             <order-by field-name="fromDate"/><order-by field-name="lastUpdatedStamp"/>
         </entity-find>
@@ -37,7 +39,7 @@ This Work includes contributions authored by David E. Jones, not as a
             <field name="comments"><default-field><display also-hidden="false"/></default-field></field>
             <field name="hours"><default-field><display format="#.00" also-hidden="false"/></default-field></field>
             <field name="breakHours"><default-field title="Break"><display format="#.00" also-hidden="false"/></default-field></field>
-            <field name="date"><default-field><display text="${fromDate?:''} - ${thruDate?:''}" also-hidden="false"/></default-field></field>
+            <field name="timeRange"><default-field><display text="${fromDate?:''} - ${thruDate?:''}" also-hidden="false"/></default-field></field>
             <field name="rateTypeEnumId"><default-field title="Rate Type"><display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId"/></default-field></field>
             <!-- don't show rates to general users:
             <field name="amount">
@@ -48,6 +50,8 @@ This Work includes contributions authored by David E. Jones, not as a
             </field>
             <field name="invoice"><default-field><display text="${invoiceId?:''}:${invoiceItemSeqId?:''}" also-hidden="false"/></default-field></field>
             -->
+            <field name="deleteButton"><default-field title="">
+                <link url="deleteTimeEntry" text="Delete" confirmation="Are you sure?"/></default-field></field>
         </form-list>
     </widgets>
 </screen>
