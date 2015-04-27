@@ -22,7 +22,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <transition name="WikiSpace"><default-response url="../WikiSpace"/></transition>
     <transition name="Project"><default-response url="../Project"/></transition>
-    <transition name="Invoice"><default-response url="//hmadmin/Accounting/Invoice"/></transition>
+    <transition name="Accounting"><default-response url="../Accounting"/></transition>
     <transition name="Reports"><default-response url="//hmadmin/Accounting/Reports"/></transition>
 
     <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
@@ -58,8 +58,8 @@ This Work includes contributions authored by David E. Jones, not as a
                     <link text="Projects" url="Project" link-type="anchor"/>
                 </container>
                 <container>
-                    <link url="Invoice" link-type="anchor"><image url="/hmstatic/images/invoice-pay.png" url-type="plain"/></link>
-                    <link text="Invoices" url="Invoice" link-type="anchor"/>
+                    <link url="Accounting" link-type="anchor"><image url="/hmstatic/images/invoice-pay.png" url-type="plain"/></link>
+                    <link text="Accounting" url="Accounting" link-type="anchor"/>
                 </container>
                 <container>
                     <link url="Reports" link-type="anchor"><image url="/hmstatic/images/reports-dollar116.png" url-type="plain"/></link>
