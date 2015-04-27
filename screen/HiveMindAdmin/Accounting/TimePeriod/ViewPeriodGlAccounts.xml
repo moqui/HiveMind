@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
+        default-menu-title="Accounts" default-menu-index="2">
+
+    <parameter name="timePeriodId" required="true"/>
+    
+    <transition name="closePeriod"><service-call name="mantle.ledger.LedgerServices.close#FinancialTimePeriod"/>
+        <default-response url="."/></transition>
+
+    <actions>
+        <entity-find-one entity-name="mantle.party.time.TimePeriod" value-field="timePeriod"/>
+        <service-call name="mantle.ledger.LedgerServices.find#PartyAcctgPreference"
+                in-map="[organizationPartyId:timePeriod.partyId]" out-map="context"/>
+
+        <entity-find entity-name="mantle.ledger.account.GlAccountOrgTimePeriod" list="gaotpList">
+            <econdition field-name="timePeriodId"/>
+            <!-- Not all sub-orgs will have accounting settings, may inherit: <econdition field-name="organizationPartyId" from="timePeriod.partyId"/> -->
+            <order-by field-name="glAccountId"/>
+        </entity-find>
+    </actions>
+    <widgets>
+        <label text="Accounts for ${timePeriod.periodName} [${timePeriod.timePeriodId}]" type="h3"/>
+        
+        <section name="ClosePeriodSection" condition="timePeriod.isClosed == 'Y'">
+            <widgets><label text="Period Closed" type="h4"/></widgets>
+            <fail-widgets><link url="closePeriod" text="Close Period" confirmation="Close period ${timePeriod.periodName} [${timePeriod.timePeriodId}]?"/></fail-widgets>
+        </section>
+
+        <form-list name="PeriodGlAccountList" list="gaotpList" skip-form="true">
+            <field name="glAccountId"><default-field title="GL Account">
+                <display-entity entity-name="mantle.ledger.account.GlAccount" text="${accountCode} - ${accountName}"/>
+            </default-field></field>
+            <field name="postedDebits"><default-field><display currency-unit-field="partyAcctgPreference.baseCurrencyUomId"/></default-field></field>
+            <field name="postedCredits"><default-field><display currency-unit-field="partyAcctgPreference.baseCurrencyUomId"/></default-field></field>
+            <field name="beginningBalance"><default-field><display currency-unit-field="partyAcctgPreference.baseCurrencyUomId"/></default-field></field>
+            <field name="endingBalance"><default-field><display currency-unit-field="partyAcctgPreference.baseCurrencyUomId"/></default-field></field>
+        </form-list>
+    </widgets>
+</screen>

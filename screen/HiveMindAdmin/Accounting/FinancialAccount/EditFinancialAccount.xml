@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
+        default-menu-title="Financial Account" default-menu-index="1">
+
+    <parameter name="finAccountId" required="true"/>
+
+    <transition name="updateFinancialAccount"><service-call name="mantle.account.FinancialAccountServices.update#FinancialAccount"/>
+        <default-response url="."/></transition>
+    <transition name="updateStatus"><service-call name="mantle.account.FinancialAccountServices.update#FinancialAccount"/>
+        <default-response url="."/></transition>
+
+    <transition-include name="getPartyList" location="component://mantle-usl/template/party/PartyForms.xml"/>
+
+    <actions>
+        <entity-find-one entity-name="mantle.account.financial.FinancialAccount" value-field="financialAccount"/>
+        <set field="statusId" from="financialAccount?.statusId"/>
+        <set field="changedEntityName" value="mantle.account.financial.FinancialAccount"/>
+        <set field="pkPrimaryValue" from="finAccountId"/>
+    </actions>
+    <widgets>
+        <section-include name="StatusChangeSection" location="component://mantle-usl/template/basic/StatusWidgets.xml"/>
+
+        <container-row>
+            <row-col lg="7">
+                <form-single name="UpdateFinancialAccountForm" transition="updateFinancialAccount" map="financialAccount">
+                    <field name="finAccountId"><default-field><hidden/></default-field></field>
+                    <field name="finAccountTypeId"><default-field title="Type">
+                        <drop-down style="chosen-wide">
+                            <entity-options key="${finAccountTypeId}" text="${description}">
+                                <entity-find entity-name="mantle.account.financial.FinancialAccountType">
+                                    <order-by field-name="description"/></entity-find></entity-options>
+                        </drop-down>
+                    </default-field></field>
+                    <field name="organizationPartyId"><default-field title="Organization">
+                        <display-entity entity-name="mantle.party.PartyDetail" also-hidden="false"
+                                text="${organizationName?:''}${firstName?:''} ${lastName?:''} [${pseudoId}]"/>
+                    </default-field></field>
+                    <field name="ownerPartyId"><default-field title="Account Owner">
+                        <text-line size="50" ac-transition="getPartyList"/></default-field></field>
+
+                    <field name="finAccountName"><default-field title="Account Name"><text-line size="50"/></default-field></field>
+                    <field name="finAccountCode"><default-field title="Account #"><display/></default-field></field>
+                    <!-- Do something with finAccountPin? -->
+
+                    <field name="actualBalance"><default-field title="Balance">
+                        <display currency-unit-field="currencyUomId"/></default-field></field>
+                    <field name="availableBalance"><default-field title="Available">
+                        <display currency-unit-field="currencyUomId"/></default-field></field>
+
+                    <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+                </form-single>
+            </row-col>
+            <row-col lg="5">
+                <section-include name="StatusHistorySection" location="component://mantle-usl/template/basic/StatusWidgets.xml"/>
+            </row-col>
+        </container-row>
+    </widgets>
+</screen>
