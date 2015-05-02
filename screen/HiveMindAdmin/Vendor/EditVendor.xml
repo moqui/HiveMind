@@ -16,23 +16,18 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <parameter name="partyId" required="true"/>
 
-    <transition name="updateParty">
-        <service-call name="mantle.party.PartyServices.update#PartyDetail" in-map="context"/>
-        <default-response url="."/>
-    </transition>
-    <transition name="storeContactInfo">
-        <service-call name="mantle.party.ContactServices.store#PartyContactInfo" in-map="context" out-map="context"/>
-        <default-response url="."/>
-    </transition>
-    <transition name="addPartyRole">
-        <service-call name="create#mantle.party.PartyRole" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="updateParty"><service-call name="mantle.party.PartyServices.update#PartyDetail"/>
+        <default-response url="."/></transition>
+    <transition name="storeContactInfo"><service-call name="mantle.party.ContactServices.store#PartyContactInfo"/>
+        <default-response url="."/></transition>
+    <transition name="addPartyRole"><service-call name="create#mantle.party.PartyRole"/>
+        <default-response url="."/></transition>
     <transition name="initPartyAccountingConfiguration">
         <service-call name="mantle.ledger.LedgerServices.init#PartyAccountingConfiguration"
                 in-map="[sourcePartyId:'DefaultSettings', organizationPartyId:partyId]"/>
         <default-response url="."/>
     </transition>
+    <transition name="acctgPreference"><default-response url="../Accounting/AcctgPreference"/></transition>
 
     <transition name="editUser"><default-response url="../../User/EditUser"/></transition>
     <transition name="setVendorRep">
@@ -160,20 +155,21 @@ This Work includes contributions authored by David E. Jones, not as a
                 <section name="ClientSection"><condition><expression>!clientRoleType</expression></condition><widgets>
                     <link url="addPartyRole" url-type="transition" link-type="hidden-form" text="Make Client"
                             confirmation="Are you sure you want to make this party a Client?">
-                        <parameter name="partyId"/><parameter name="roleTypeId" value="CustomerBillTo"/>
-                    </link>
+                        <parameter name="partyId"/><parameter name="roleTypeId" value="CustomerBillTo"/></link>
                 </widgets></section>
                 <section name="InternalSection"><condition><expression>!internalRoleType</expression></condition><widgets>
                     <link url="addPartyRole" url-type="transition" link-type="hidden-form" text="Make Internal Org"
                             confirmation="Are you sure you want to make this party an Internal Organization?">
-                        <parameter name="partyId"/><parameter name="roleTypeId" value="OrgInternal"/>
-                    </link>
+                        <parameter name="partyId"/><parameter name="roleTypeId" value="OrgInternal"/></link>
                 </widgets></section>
-                <section name="AcctgConfSection"><condition><expression>internalRoleType &amp;&amp; !partyAcctgPreference</expression></condition><widgets>
+                <section name="InitAcctgConfSection"><condition><expression>internalRoleType &amp;&amp; !partyAcctgPreference</expression></condition><widgets>
                     <link url="initPartyAccountingConfiguration" url-type="transition" link-type="hidden-form" text="Init Accounting Configuration"
                             confirmation="Are you sure you want to initialize Accounting Configuration with default settings?">
-                        <parameter name="partyId"/>
-                    </link>
+                        <parameter name="partyId"/></link>
+                </widgets></section>
+                <section name="EditAcctgConfSection"><condition><expression>partyAcctgPreference</expression></condition><widgets>
+                    <link url="acctgPreference" url-type="transition" link-type="anchor-button" text="Edit Accounting Configuration">
+                        <parameter name="partyId"/></link>
                 </widgets></section>
             </panel-center>
         </container-panel>

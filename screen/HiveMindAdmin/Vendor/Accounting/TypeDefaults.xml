@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
+        default-menu-title="Account Types" default-menu-index="3">
+
+    <parameter name="partyId" required="true"/>
+
+    <transition name="editGlAccount"><default-response url="//hmadmin/Accounting/GlAccount/EditGlAccount"/></transition>
+    <transition name="storeConfig"><service-call name="store#mantle.ledger.config.GlAccountTypeDefault"/>
+        <default-response url="."/></transition>
+
+    <transition name="getOrgGlAccountList">
+        <parameter name="organizationPartyId"/>
+        <actions>
+            <entity-find-one entity-name="mantle.ledger.account.GlAccountAndOrganization" value-field="glAccount">
+                <field-map field-name="organizationPartyId"/>
+                <field-map field-name="glAccountId" from="term"/></entity-find-one>
+            <if condition="glAccount">
+                <set field="glaList" from="[glAccount]"/>
+
+                <else>
+                    <entity-find entity-name="mantle.ledger.account.GlAccountAndOrganization" list="glaList" limit="20">
+                        <econdition field-name="organizationPartyId"/>
+                        <econditions combine="or">
+                            <econdition field-name="glAccountId" operator="like" value="%${term}%" ignore-case="true"/>
+                            <econdition field-name="accountCode" operator="like" value="%${term}%" ignore-case="true"/>
+                            <econdition field-name="accountName" operator="like" value="%${term}%" ignore-case="true"/>
+                        </econditions>
+                        <order-by field-name="accountCode"/>
+                    </entity-find>
+                </else>
+            </if>
+            <script>
+                def outList = []
+                for (def gla in glaList) outList.add([value:gla.glAccountId, label:"${gla.accountCode?:''} - ${gla.accountName?:''}".toString()])
+                ec.web.sendJsonResponse(outList)
+            </script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+
+    <actions>
+        <set field="organizationPartyId" from="partyId"/>
+        <entity-find-one entity-name="mantle.party.Organization" value-field="organization"/>
+
+        <entity-find entity-name="mantle.ledger.config.GlAccountAndTypeDefault" list="allConfigList">
+            <econdition field-name="organizationPartyId"/></entity-find>
+        <entity-find entity-name="moqui.basic.Enumeration" list="typeEnumList">
+            <econdition field-name="enumTypeId" value="GlAccountType"/><order-by field-name="description"/></entity-find>
+    </actions>
+    <widgets>
+        <form-list name="AllEnumList" list="typeEnumList" list-entry="typeEnum" transition="storeConfig">
+            <row-actions>
+                <filter-map-list list="allConfigList" to-list="configList">
+                    <field-map field-name="glAccountTypeEnumId" from="typeEnum.enumId"/></filter-map-list>
+                <set field="configItem" from="configList?.getAt(0)"/>
+                <script>if (configItem) context.putAll(configItem)</script>
+            </row-actions>
+
+            <field name="partyId"><default-field><hidden/></default-field></field>
+            <field name="glAccountTypeEnumId" entry-name="typeEnum.enumId"><default-field><hidden/></default-field></field>
+            <field name="organizationPartyId"><default-field><hidden/></default-field></field>
+            
+            <field name="accountType"><default-field><display text="${typeEnum.description}"/></default-field></field>
+            <field name="glAccountId"><default-field title="GL Account">
+                <text-line size="20" ac-transition="getOrgGlAccountList"/></default-field></field>
+            <field name="accountCode">
+                <conditional-field condition="!configItem"><display text=" "/></conditional-field>
+                <default-field><link url="editGlAccount" text="${accountCode}"/></default-field>
+            </field>
+            <field name="accountName"><default-field><display/></default-field></field>
+            <field name="accountGlAccountTypeEnumId"><default-field title="Type">
+                <display-entity entity-name="moqui.basic.Enumeration"/></default-field></field>
+            <field name="glAccountClassEnumId"><default-field title="Class">
+                <display-entity entity-name="moqui.basic.Enumeration"/></default-field></field>
+
+            <field name="submitButton">
+                <conditional-field condition="configItem" title="Update"><submit/></conditional-field>
+                <default-field title="Add"><submit/></default-field>
+            </field>
+        </form-list>
+    </widgets>
+</screen>

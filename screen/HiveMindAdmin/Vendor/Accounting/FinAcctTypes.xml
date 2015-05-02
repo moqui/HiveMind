@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This Work is in the public domain and is provided on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+You are solely responsible for determining the appropriateness of using
+this Work and assume any risks associated with your use of this Work.
+
+This Work includes contributions authored by David E. Jones, not as a
+"work for hire", who hereby disclaims any copyright to the same.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
+        default-menu-title="Financial Acct Types" default-menu-index="7">
+
+    <parameter name="partyId" required="true"/>
+
+    <transition name="editGlAccount"><default-response url="//hmadmin/Accounting/GlAccount/EditGlAccount"/></transition>
+    <transition name="storeConfig"><service-call name="store#mantle.ledger.config.FinancialAccountTypeGlAccount"/>
+        <default-response url="."/></transition>
+
+    <transition-include name="getOrgGlAccountList" location="component://HiveMind/screen/HiveMindAdmin/Vendor/Accounting/TypeDefaults.xml"/>
+
+    <actions>
+        <set field="organizationPartyId" from="partyId"/>
+        <entity-find-one entity-name="mantle.party.Organization" value-field="organization"/>
+
+        <entity-find entity-name="mantle.ledger.config.FinancialAccountTypeAndGlAccount" list="allConfigList">
+            <econdition field-name="organizationPartyId"/></entity-find>
+
+        <entity-find entity-name="mantle.account.financial.FinancialAccountType" list="finAcctTypeList">
+            <order-by field-name="description"/></entity-find>
+    </actions>
+    <widgets>
+        <form-list name="AllTypesList" list="finAcctTypeList" list-entry="finAcctType" transition="storeConfig">
+            <row-actions>
+                <filter-map-list list="allConfigList" to-list="configList">
+                    <field-map field-name="finAccountTypeId" from="finAcctType.finAccountTypeId"/></filter-map-list>
+                <set field="configItem" from="configList?.getAt(0)"/>
+                <script>if (configItem) context.putAll(configItem)</script>
+            </row-actions>
+
+            <field name="partyId"><default-field><hidden/></default-field></field>
+            <field name="finAccountTypeId" entry-name="finAcctType.finAccountTypeId"><default-field><hidden/></default-field></field>
+            <field name="organizationPartyId"><default-field><hidden/></default-field></field>
+            
+            <field name="accountType"><default-field><display text="${finAcctType.description}"/></default-field></field>
+            
+            <field name="glAccountId">
+                <default-field title="GL Account">
+                    <text-line size="20" ac-transition="getOrgGlAccountList"/>
+                </default-field>
+            </field>
+            
+            <field name="accountCode">
+                <conditional-field condition="!configItem"><display text=" "/></conditional-field>
+                <default-field><link url="editGlAccount" text="${accountCode}"/></default-field>
+            </field>
+            <field name="accountName">
+                <default-field><display/></default-field>
+            </field>
+
+            <field name="glAccountTypeEnumId">
+                <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+            </field>
+            <field name="glAccountClassEnumId">
+                <default-field title="Class"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+            </field>
+            <field name="submitButton">
+                <conditional-field condition="configItem" title="Update"><submit/></conditional-field>
+                <default-field title="Add"><submit/></default-field>
+            </field>
+        </form-list>
+    </widgets>
+</screen>
