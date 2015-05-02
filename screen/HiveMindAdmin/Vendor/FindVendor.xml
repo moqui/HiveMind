@@ -27,9 +27,13 @@ This Work includes contributions authored by David E. Jones, not as a
     </pre-actions>
     
     <actions>
-        <entity-find entity-name="mantle.party.PartyDetailAndRole" list="vendorList">
+        <entity-find entity-name="mantle.party.PartyDetailAndRole" list="vendorList" distinct="true">
             <search-form-inputs default-order-by="organizationName,firstName,lastName"/>
-            <econdition field-name="roleTypeId" value="VendorBillFrom"/>
+            <econdition field-name="roleTypeId" operator="in" value="VendorBillFrom,OrgInternal"/>
+            <select-field field-name="partyId"/><select-field field-name="pseudoId"/>
+            <select-field field-name="organizationName"/>
+            <select-field field-name="firstName"/><select-field field-name="lastName"/>
+            <select-field field-name="disabled"/>
         </entity-find>
     </actions>
     <widgets>
@@ -50,9 +54,16 @@ This Work includes contributions authored by David E. Jones, not as a
         </container>
 
         <form-list name="VendorList" list="vendorList">
-            <field name="editVendorLink"><header-field show-order-by="case-insensitive"/><default-field>
-                <link url="editVendor" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}" link-type="anchor"/>
+            <row-actions>
+                <entity-find entity-name="mantle.party.PartyRoleAndType" list="roleList">
+                    <econdition field-name="partyId"/>
+                </entity-find>
+                <iterate list="roleList" entry="role"><script>if (roleStr) { roleStr += ", " }; if (role.description) { roleStr = (roleStr?:'') + role.description }</script></iterate>
+            </row-actions>
+            <field name="editVendorLink"><header-field title="Edit Vendor/Org" show-order-by="case-insensitive"/><default-field>
+                <link url="editVendor" text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${pseudoId}]" link-type="anchor"/>
             </default-field></field>
+            <field name="roleTypeId"><default-field title="Roles"><display text="${roleStr?:''}"/></default-field></field>
             <field name="disabled"><header-field title="Disabled?" show-order-by="case-insensitive"/><default-field><display text="${disabled?:'N'}"/></default-field></field>
         </form-list>
     </widgets>
