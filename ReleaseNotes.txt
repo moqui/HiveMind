@@ -2,21 +2,19 @@
 HiveMind Project Manager Release Notes
 
 ===========================================================================
-Release 1.1.1 - TBD
+Release 1.1.1 - 2 May 2015 (estimated)
 ===========================================================================
 
 HiveMind PM 1.1.1 is a minor new feature and bug fix release.
 
-This release is based on Moqui Framework version TODO and Mantle Business
-Artifacts version TODO.
+This release is based on Moqui Framework version 1.5.2 and Mantle Business
+Artifacts version 1.0.1.
 
 New Features:
 
-TODO
-
-Bug Fixes:
-
-TODO
+- Various changes for new features in Moqui Framework
+- More complete accounting (GL, invoices, payments, etc) and internal org
+  setup screens
 
 ===========================================================================
 Release 1.1.0 - 07 Mar 2015
