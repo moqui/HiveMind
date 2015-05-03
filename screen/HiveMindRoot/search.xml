@@ -147,7 +147,7 @@ This Work includes contributions authored by David E. Jones, not as a
             </default-field></field>
             <field name="queryString"><default-field title="">
                 <!-- <text-line size="40"/> -->
-                <text-line ac-transition="searchSuggest" ac-min-length="3" size="40"/>
+                <text-line ac-transition="searchSuggest" ac-min-length="3" size="40" ac-use-actual="true"/>
             </default-field></field>
             <field name="submitButton"><default-field title="Search"><submit/></default-field></field>
             <field-layout><field-row-big><field-ref name="documentType"/><field-ref name="queryString"/>
