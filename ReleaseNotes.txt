@@ -2,7 +2,7 @@
 HiveMind Project Manager Release Notes
 
 ===========================================================================
-Release 1.1.2 - 2 May 2015
+Release 1.1.2 - TBD
 ===========================================================================
 
 HiveMind PM 1.1.2 is a minor new feature and bug fix release.
