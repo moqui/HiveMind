@@ -16,7 +16,7 @@ This Work includes contributions authored by David E. Jones, not as a
 
     <parameter name="partyId" required="true"/>
 
-    <transition name="editGlAccount"><default-response url="//hmadmin/Accounting/GlAccount/EditGlAccount"/></transition>
+    <transition name="editGlAccount"><default-response url="../../../Accounting/GlAccount/EditGlAccount"/></transition>
 
     <transition name="storeConfig"><service-call name="store#mantle.ledger.config.PaymentTypeGlAccount"/>
         <default-response url="."/></transition>

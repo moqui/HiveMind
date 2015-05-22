@@ -23,13 +23,13 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="WikiSpace"><default-response url="../WikiSpace"/></transition>
     <transition name="Project"><default-response url="../Project"/></transition>
     <transition name="Accounting"><default-response url="../Accounting"/></transition>
-    <transition name="Reports"><default-response url="//hmadmin/Accounting/Reports"/></transition>
+    <transition name="Reports"><default-response url="../Accounting/Reports"/></transition>
 
     <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
     <transition name="findTask"><default-response url="//hm/Task/FindTask"/></transition>
 
     <transition name="editVendor"><default-response url="../Vendor/EditVendor"/></transition>
-    <transition name="findInvoice"><default-response url="//hmadmin/Accounting/FindInvoice"/></transition>
+    <transition name="findInvoice"><default-response url="../Accounting/Invoice/FindInvoice"/></transition>
 
     <pre-actions>
         <script>html_scripts.add('/assets/lib/sparkline/jquery.sparkline.min.js')</script>

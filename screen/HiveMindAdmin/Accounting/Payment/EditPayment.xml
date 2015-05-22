@@ -22,10 +22,10 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="updateStatus"><service-call name="update#mantle.account.payment.Payment"/>
         <default-response url="."/></transition>
 
-    <transition name="editInvoice"><default-response url="//hmadmin/Accounting/EditInvoice"/></transition>
+    <transition name="editInvoice"><default-response url="../../Invoice/EditInvoice"/></transition>
     <transition name="applyInvoicePayment"><service-call name="mantle.account.PaymentServices.apply#InvoicePayment"/>
         <default-response url="."/></transition>
-    <transition name="editTransaction"><default-response url="//hmadmin/Accounting/EditTransaction"/></transition>
+    <transition name="editTransaction"><default-response url="../../Transaction/EditTransaction"/></transition>
 
     <actions>
         <service-call name="mantle.account.PaymentServices.get#PaymentDisplayInfo" in-map="[paymentId:paymentId]" out-map="context"/>

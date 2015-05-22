@@ -19,10 +19,10 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="updateInvoice"><service-call name="update#mantle.account.invoice.Invoice"/><default-response url="."/></transition>
     <transition name="updateStatus"><service-call name="update#mantle.account.invoice.Invoice"/><default-response url="."/></transition>
 
-    <transition name="editPayment"><default-response url="//hmadmin/Accounting/EditPayment"/></transition>
+    <transition name="editPayment"><default-response url="../../Payment/EditPayment"/></transition>
     <transition name="recordPayment"><service-call name="mantle.account.PaymentServices.create#InvoicePayment"/><default-response url="."/></transition>
     <transition name="sendPromisedPayment"><service-call name="mantle.account.PaymentServices.send#PromisedPayment"/><default-response url="."/></transition>
-    <transition name="editTransaction"><default-response url="//hmadmin/Accounting/EditTransaction"/></transition>
+    <transition name="editTransaction"><default-response url="../../Transaction/EditTransaction"/></transition>
 
     <transition name="Invoice.pdf">
         <default-response url="${ec.web.getWebappRootUrl(false, null)}/fop/apps/hmadmin/Accounting/Invoice/PrintInvoice" url-type="plain">

@@ -19,8 +19,8 @@ This Work includes contributions authored by David E. Jones, not as a
     <transition name="createAcctgTrans"><service-call name="mantle.ledger.LedgerServices.create#AcctgTrans"/>
         <default-response url="../EditTransaction"/></transition>
 
-    <transition name="editInvoice"><default-response url="//hmadmin/Accounting/EditInvoice"/></transition>
-    <transition name="editPayment"><default-response url="//hmadmin/Accounting/EditPayment"/></transition>
+    <transition name="editInvoice"><default-response url="../../Invoice/EditInvoice"/></transition>
+    <transition name="editPayment"><default-response url="../../Payment/EditPayment"/></transition>
 
     <actions>
         <entity-find entity-name="mantle.ledger.transaction.AcctgTrans" list="acctgTransList">
