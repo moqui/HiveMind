@@ -59,7 +59,7 @@ along with this software (see the LICENSE.md file). If not, see
 
                     <field name="effectiveDate"><default-field><display also-hidden="false"/></default-field></field>
 
-                    <field name="amount"><default-field><text-line size="12" format="#.00"/></default-field></field>
+                    <field name="amount"><default-field><text-line size="12" format="0.00"/></default-field></field>
                     <field name="amountUomId"><default-field title="Currency">
                         <display-entity entity-name="moqui.basic.Uom" text="${description} [${uomId}]"/>
                         <!-- don't allow changing this, set based on partyAcctgPreference.baseCurrencyUomId in current impl:
@@ -72,7 +72,7 @@ along with this software (see the LICENSE.md file). If not, see
                         -->
                     </default-field></field>
 
-                    <field name="originalCurrencyAmount"><default-field><text-line size="12" format="#.00"/></default-field></field>
+                    <field name="originalCurrencyAmount"><default-field><text-line size="12" format="0.00"/></default-field></field>
                     <field name="originalCurrencyUomId"><default-field title="Original Currency">
                         <drop-down allow-empty="true"><entity-options key="${uomId}" text="${description} [${uomId}]">
                             <entity-find entity-name="moqui.basic.Uom">
@@ -132,10 +132,18 @@ along with this software (see the LICENSE.md file). If not, see
                                 <link url="editInvoice" text="#${invoice.invoiceId?:''}" link-type="anchor"
                                         parameter-map="[invoiceId:invoice.invoiceId]"/>
                             </default-field></field>
-                            <field name="invoiceTotal"><default-field title="Total"><display currency-unit-field="invoice.currencyUomId"/></default-field></field>
-                            <field name="unpaidTotal"><default-field title="Unpaid"><display currency-unit-field="invoice.currencyUomId"/></default-field></field>
-                            <field name="amount" entry-name="maxApplicableAmount"><default-field title="Amount"><text-line size="8" format="#.00"/></default-field></field>
-                            <field name="submitButton"><default-field title="Apply"><submit/></default-field></field>
+                            <field name="invoiceTotal"><default-field title="Total">
+                                <display currency-unit-field="invoice.currencyUomId"/></default-field></field>
+                            <field name="unpaidTotal"><default-field title="Unpaid">
+                                <display currency-unit-field="invoice.currencyUomId"/></default-field></field>
+                            <field name="amount" entry-name="maxApplicableAmount">
+                                <conditional-field condition="maxApplicableAmount"><text-line size="8" format="0.00"/></conditional-field>
+                                <default-field title="Amount"><display text=""/></default-field>
+                            </field>
+                            <field name="submitButton">
+                                <conditional-field condition="maxApplicableAmount" title="Apply"><submit/></conditional-field>
+                                <default-field title=""><display text=""/></default-field>
+                            </field>
                         </form-list>
                     </box-body>
                 </container-box>
