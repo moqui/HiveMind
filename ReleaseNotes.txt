@@ -1,11 +1,11 @@
 
-HiveMind Project Manager Release Notes
+HiveMind Project Management and Service ERP Release Notes
 
 ===========================================================================
 Release 1.1.2 - TBD
 ===========================================================================
 
-HiveMind PM 1.1.2 is a minor new feature and bug fix release.
+HiveMind 1.1.2 is a minor new feature and bug fix release.
 
 This release is based on Moqui Framework version TODO and Mantle Business
 Artifacts version TODO.
