@@ -24,13 +24,48 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition-include name="getPartyList" location="component://mantle-usl/template/party/PartyForms.xml"/>
 
+    <transition name="FinancialAccountStatement.pdf">
+        <default-response url="${ec.web.getWebappRootUrl(false, null)}/fop/apps/${appRoot}/Accounting/FinancialAccount/FinancialAccountStatement" url-type="plain">
+            <parameter name="renderMode" value="xsl-fo"/><parameter name="pageNoLimit" value="true"/>
+            <parameter name="finAccountId"/><parameter name="year"/><parameter name="month"/>
+            <parameter name="filename" value="AccountStatement-${finAccountId}-${year ?: 'ALL-' + ec.l10n.format(ec.user.nowTimestamp, 'yyyy-MM-dd')}${month ? '-' + month : ''}.pdf"/>
+        </default-response>
+    </transition>
+
     <actions>
         <entity-find-one entity-name="mantle.account.financial.FinancialAccount" value-field="financialAccount"/>
         <set field="statusId" from="financialAccount?.statusId"/>
         <set field="changedEntityName" value="mantle.account.financial.FinancialAccount"/>
         <set field="pkPrimaryValue" from="finAccountId"/>
+
+        <script><![CDATA[
+            yearList = []
+            int curYear = ec.user.getNowCalendar().get(Calendar.YEAR)
+            for (int i = 0; i < 10; i++) yearList.add((curYear - i) as String)
+        ]]></script>
     </actions>
     <widgets>
+        <container-dialog id="StatementDialog" button-text="Statement PDF">
+            <form-single name="StatementForm" transition="FinancialAccountStatement.pdf">
+                <field name="finAccountId"><default-field><hidden/></default-field></field>
+                <field name="year"><default-field>
+                    <drop-down><list-options list="yearList"/></drop-down>
+                </default-field></field>
+                <field name="month"><default-field>
+                    <drop-down>
+                        <option key="01" text="January"/><option key="02" text="February"/>
+                        <option key="03" text="March"/><option key="04" text="April"/>
+                        <option key="05" text="May"/><option key="06" text="June"/>
+                        <option key="07" text="July"/><option key="08" text="August"/>
+                        <option key="09" text="September"/><option key="10" text="October"/>
+                        <option key="11" text="November"/><option key="12" text="December"/>
+                    </drop-down>
+                </default-field></field>
+                <field name="submitButton"><default-field title="Get Statement"><submit/></default-field></field>
+            </form-single>
+        </container-dialog>
+        <link url="FinancialAccountStatement.pdf" text="Full History PDF"/>
+
         <section-include name="StatusChangeSection" location="component://mantle-usl/template/basic/StatusWidgets.xml"/>
 
         <container-row>
