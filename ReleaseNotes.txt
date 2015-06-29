@@ -12,7 +12,8 @@ Artifacts version TODO.
 
 New Features:
 
-TODO
+- New PDF (XSL-FO) documents for payment check, payment detail, and
+  financial account statement (in addition to the existing invoice PDF)
 
 Bug Fixes:
 
