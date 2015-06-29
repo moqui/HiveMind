@@ -28,6 +28,21 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response url="."/></transition>
     <transition name="editTransaction"><default-response url="../../Transaction/EditTransaction"/></transition>
 
+    <transition name="PaymentCheck.pdf">
+        <default-response url="${ec.web.getWebappRootUrl(false, null)}/fop/apps/${appRoot}/Accounting/Payment/PaymentCheck" url-type="plain">
+            <parameter name="renderMode" value="xsl-fo"/><parameter name="pageNoLimit" value="true"/>
+            <parameter name="paymentIds" from="paymentId"/>
+            <parameter name="filename" value="PaymentCheck-${paymentId}.pdf"/>
+        </default-response>
+    </transition>
+    <transition name="PaymentDetail.pdf">
+        <default-response url="${ec.web.getWebappRootUrl(false, null)}/fop/apps/${appRoot}/Accounting/Payment/PaymentDetail" url-type="plain">
+            <parameter name="renderMode" value="xsl-fo"/><parameter name="pageNoLimit" value="true"/>
+            <parameter name="paymentIds" from="paymentId"/>
+            <parameter name="filename" value="PaymentDetail-${paymentId}.pdf"/>
+        </default-response>
+    </transition>
+
     <actions>
         <service-call name="mantle.account.PaymentServices.get#PaymentDisplayInfo" in-map="[paymentId:paymentId]" out-map="context"/>
         <set field="statusId" from="payment?.statusId"/>
@@ -40,6 +55,9 @@ along with this software (see the LICENSE.md file). If not, see
             <section-iterate name="AcctgTransLinks" list="acctgTransIdSet" entry="acctgTransId"><widgets>
                 <link url="editTransaction" text="TX #${acctgTransId}" link-type="anchor-button"/>
             </widgets></section-iterate>
+
+            <link url="PaymentCheck.pdf" text="Check PDF"/>
+            <link url="PaymentDetail.pdf" text="Detail PDF"/>
 
             <section-include name="StatusChangeSection" location="component://mantle-usl/template/basic/StatusWidgets.xml"/>
         </container>
