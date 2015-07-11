@@ -29,6 +29,7 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response url="${ec.web.getWebappRootUrl(false, null)}/fop/apps/hmadmin/Accounting/Invoice/PrintInvoice" url-type="plain">
             <parameter name="renderMode" value="xsl-fo"/><parameter name="pageNoLimit" value="true"/>
             <parameter name="invoiceId"/>
+            <parameter name="filename" value="Invoice-${invoiceId}.pdf"/>
         </default-response>
     </transition>
 
@@ -40,8 +41,7 @@ along with this software (see the LICENSE.md file). If not, see
     </actions>
     <widgets>
         <container>
-            <link url="Invoice.pdf" text="Invoice PDF" target-window="_blank" link-type="anchor-button">
-                <parameter name="invoiceId"/></link>
+            <link url="Invoice.pdf" text="Invoice PDF" link-type="anchor-button"><parameter name="invoiceId"/></link>
 
             <section-iterate name="AcctgTransLinks" list="acctgTransIdSet" entry="acctgTransId"><widgets>
                 <link url="editTransaction" text="TX #${acctgTransId}" link-type="anchor-button"/>
