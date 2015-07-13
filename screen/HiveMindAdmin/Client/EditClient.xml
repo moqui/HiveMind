@@ -17,18 +17,14 @@ along with this software (see the LICENSE.md file). If not, see
 
     <parameter name="partyId" required="true"/>
 
-    <transition name="updateParty">
-        <service-call name="mantle.party.PartyServices.update#PartyDetail" in-map="context"/>
-        <default-response url="."/>
-    </transition>
-    <transition name="storeContactInfo">
-        <service-call name="mantle.party.ContactServices.store#PartyContactInfo" in-map="context" out-map="context"/>
-        <default-response url="."/>
-    </transition>
-    <transition name="addPartyRole">
-        <service-call name="create#mantle.party.PartyRole" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="updateParty"><service-call name="mantle.party.PartyServices.update#PartyDetail"/>
+        <default-response url="."/></transition>
+    <transition name="storeContactInfo"><service-call name="mantle.party.ContactServices.store#PartyContactInfo"/>
+        <default-response url="."/></transition>
+    <transition-include name="getGeoCountryStates" location="component://mantle-usl/template/party/PartyForms.xml"/>
+
+    <transition name="addPartyRole"><service-call name="create#mantle.party.PartyRole"/>
+        <default-response url="."/></transition>
 
     <transition name="editUser"><default-response url="../../User/EditUser"/></transition>
     <transition name="setClientRep">
