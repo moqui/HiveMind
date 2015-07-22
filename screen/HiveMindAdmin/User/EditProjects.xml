@@ -90,9 +90,10 @@ along with this software (see the LICENSE.md file). If not, see
                     <field-map field-name="statusId" from="partyStatusId"/></entity-find-one>
             </row-actions>
             <field name="partyId"><default-field><hidden/></default-field></field>
+            <field name="workEffortId"><default-field><hidden/></default-field></field>
 
-            <field name="workEffortId"><default-field title="Project">
-                <link text="${workEffortId} - ${workEffortName}" url="editProject"/>
+            <field name="project"><default-field title="Project">
+                <link text="${workEffortId} - ${workEffortName}" url="editProject" link-type="anchor"/>
             </default-field></field>
             <field name="roleTypeId"><header-field title="Role" show-order-by="true"/>
                 <default-field><display-entity entity-name="RoleType" text="${description}"/></default-field>
