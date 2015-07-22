@@ -40,6 +40,24 @@ along with this software (see the LICENSE.md file). If not, see
         </actions>
         <default-response url="."/>
     </transition>
+    <transition name="addUser">
+        <actions>
+            <entity-find-one entity-name="PersonAndUserAccount" value-field="personAndUserAccount"/>
+            <service-call name="create#moqui.security.UserGroupMember" in-map="[userGroupId:'HIVE_MIND_USERS',
+                    userId:personAndUserAccount.userId, fromDate:ec.user.nowTimestamp]"/>
+        </actions>
+        <default-response url="."/>
+    </transition>
+    <transition name="removeUser">
+        <actions>
+            <entity-find-one entity-name="PersonAndUserAccount" value-field="personAndUserAccount"/>
+            <entity-delete-by-condition entity-name="moqui.security.UserGroupMember">
+                <econdition field-name="userGroupId" value="HIVE_MIND_USERS"/>
+                <econdition field-name="userId" from="personAndUserAccount.userId"/>
+            </entity-delete-by-condition>
+        </actions>
+        <default-response url="."/>
+    </transition>
 
     <actions>
         <entity-find-one entity-name="mantle.party.PersonAndUserAccount" value-field="personAndUserAccount"/>
@@ -73,6 +91,10 @@ along with this software (see the LICENSE.md file). If not, see
                 <section name="UserAdminSection"><condition><expression>ec.user.isInGroup(personAndUserAccount.userId, "HIVE_MIND_ADMIN", null, ec)</expression></condition>
                     <widgets><link url="removeAdmin" text="Remove from Admin Group" link-type="hidden-form" parameter-map="[partyId:partyId]"/></widgets>
                     <fail-widgets><link url="addAdmin" text="Add to Admin Group" link-type="hidden-form" parameter-map="[partyId:partyId]"/></fail-widgets>
+                </section>
+                <section name="UserUseSection"><condition><expression>ec.user.isInGroup(personAndUserAccount.userId, "HIVE_MIND_USERS", null, ec)</expression></condition>
+                    <widgets><link url="removeUser" text="Remove from User Group" link-type="hidden-form" parameter-map="[partyId:partyId]"/></widgets>
+                    <fail-widgets><link url="addUser" text="Add to User Group" link-type="hidden-form" parameter-map="[partyId:partyId]"/></fail-widgets>
                 </section>
 
                 <form-single name="EditUser" transition="updateUser" map="personAndUserAccount">
