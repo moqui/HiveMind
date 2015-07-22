@@ -21,8 +21,8 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="findUser"><default-response url="."/></transition>
     <transition name="createUser">
         <actions>
-        <service-call name="mantle.party.PartyServices.create#Account" in-map="context + [loginAfterCreate:'false']" out-map="context"/>
-        <service-call name="create#moqui.security.UserGroupMember" in-map="[userGroupId:'HIVE_MIND_USERS', userId:context.userId, fromDate:ec.user.nowTimestamp]"/>
+            <service-call name="mantle.party.PartyServices.create#Account" in-map="context + [loginAfterCreate:'false']" out-map="context"/>
+            <service-call name="create#moqui.security.UserGroupMember" in-map="[userGroupId:'HIVE_MIND_USERS', userId:context.userId, fromDate:ec.user.nowTimestamp]"/>
         </actions>
         <default-response url="../EditUser"/>
         <error-response url="."/>
