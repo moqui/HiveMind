@@ -60,7 +60,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <field-ref name="hours"/>
                 </field-group>
                 <field-group title="OR From/Thru/Break">
-                    <field-ref name="fromDate"/><field-ref name="thruDate"/><field-ref name="breakHours"/>
+                    <field-ref name="fromDate"/><field-ref name="thruDate"/>
                 </field-group>
                 <field-ref name="submitButton"/>
             </field-layout>
