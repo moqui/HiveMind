@@ -48,22 +48,17 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="comments"><default-field><text-area cols="60" rows="3"/></default-field></field>
             <field name="remainingWorkTime" entry-name="workEffort.remainingWorkTime"><default-field title="Remaining Hours">
                 <text-line size="5"/></default-field></field>
+
+            <field name="pieceCount"><default-field><text-line size="6"/></default-field></field>
+            <field name="breakHours"><default-field><text-line size="5" default-value="0"/></default-field></field>
+            <field name="instructions"><default-field title="">
+                <display text="Enter values for 2 of the 3 below, or just Hours and Thru will be set to now"/>
+            </default-field></field>
             <field name="hours"><default-field><text-line size="5"/></default-field></field>
             <field name="fromDate"><default-field title="From"><date-time/></default-field></field>
             <field name="thruDate"><default-field title="Thru"><date-time/></default-field></field>
-            <field name="breakHours"><default-field><text-line size="5"/></default-field></field>
-            <field name="submitButton"><default-field title="Add Time"><submit/></default-field></field>
 
-            <field-layout collapsible="true">
-                <fields-not-referenced/>
-                <field-group title="Enter Hours">
-                    <field-ref name="hours"/>
-                </field-group>
-                <field-group title="OR From/Thru/Break">
-                    <field-ref name="fromDate"/><field-ref name="thruDate"/>
-                </field-group>
-                <field-ref name="submitButton"/>
-            </field-layout>
+            <field name="submitButton"><default-field title="Add Time"><submit/></default-field></field>
         </form-single>
 
         <dynamic-container id="EditTimeEntryList" transition="editTimeEntryList"/>

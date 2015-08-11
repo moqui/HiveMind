@@ -38,9 +38,9 @@ along with this software (see the LICENSE.md file). If not, see
                 <link url="editUser" text="Edit User" link-type="anchor"/>
             </default-field></field>
             <field name="comments"><default-field><display also-hidden="false"/></default-field></field>
-            <field name="hours"><default-field><display format="#.00" also-hidden="false"/></default-field></field>
-            <field name="breakHours"><default-field title="Break"><display format="#.00" also-hidden="false"/></default-field></field>
-            <field name="timeRange"><default-field><display text="${fromDate?:''} - ${thruDate?:''}" also-hidden="false"/></default-field></field>
+            <field name="hours"><default-field><display format="0.00" also-hidden="false"/></default-field></field>
+            <field name="breakHours"><default-field title="Break"><display format="0.00" also-hidden="false"/></default-field></field>
+            <field name="timeRange"><default-field><display text="${ec.l10n.format(fromDate, '')} - ${ec.l10n.format(thruDate, '')}" also-hidden="false"/></default-field></field>
             <field name="rateTypeEnumId"><default-field title="Rate Type"><display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId"/></default-field></field>
             <!-- don't show rates to general users:
             <field name="amount">
