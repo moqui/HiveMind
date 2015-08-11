@@ -59,6 +59,17 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="thruDate"><default-field title="Thru"><date-time/></default-field></field>
 
             <field name="submitButton"><default-field title="Add Time"><submit/></default-field></field>
+
+            <field-layout>
+                <field-row><field-ref name="partyId"/><field-ref name="rateTypeEnumId"/></field-row>
+                <field-ref name="comments"/>
+                <field-ref name="remainingWorkTime"/>
+                <field-row><field-ref name="breakHours"/><field-ref name="pieceCount"/></field-row>
+                <field-ref name="instructions"/>
+                <field-ref name="hours"/>
+                <field-row><field-ref name="fromDate"/><field-ref name="thruDate"/></field-row>
+                <field-ref name="submitButton"/>
+            </field-layout>
         </form-single>
 
         <dynamic-container id="EditTimeEntryList" transition="editTimeEntryList"/>
