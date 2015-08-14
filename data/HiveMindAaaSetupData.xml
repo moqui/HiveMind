@@ -13,14 +13,14 @@ along with this software (see the LICENSE.md file). If not, see
 -->
 <entity-facade-xml type="seed">
     <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot/apps.xml"
-            subscreenName="hm" userGroupId="ALL_USERS" subscreenLocation="component://HiveMind/screen/HiveMindRoot.xml"
+            subscreenName="hm" subscreenLocation="component://HiveMind/screen/HiveMindRoot.xml"
             menuTitle="HiveMind PM" menuIndex="8" menuInclude="Y"/>
     <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot/apps.xml"
-            subscreenName="hmadmin" userGroupId="ALL_USERS" subscreenLocation="component://HiveMind/screen/HiveMindAdmin.xml"
+            subscreenName="hmadmin" subscreenLocation="component://HiveMind/screen/HiveMindAdmin.xml"
             menuTitle="HiveMind Admin" menuIndex="9" menuInclude="Y"/>
 
     <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot.xml"
-            subscreenName="hmstatic" userGroupId="ALL_USERS" subscreenLocation="component://HiveMind/screen/hmstatic.xml"
+            subscreenName="hmstatic" subscreenLocation="component://HiveMind/screen/hmstatic.xml"
             menuTitle="hmstatic" menuInclude="N"/>
     <!-- NOTE: make sure this css path matches where the hmstatic root screen is mounted -->
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="50" resourceTypeEnumId="STRT_STYLESHEET"
