@@ -33,9 +33,8 @@ along with this software (see the LICENSE.md file). If not, see
                 <!-- don't show rates to general users: <entity-find-one entity-name="mantle.humanres.rate.RateAmount" value-field="rateAmount" cache="true"/> -->
             </row-actions>
             <!-- <field name="timeEntryId"><default-field title="ID"><display also-hidden="false"/></default-field></field> -->
-            <field name="partyId"><default-field>
-                <display-entity entity-name="Person" text="${firstName} ${lastName} (${partyId})" also-hidden="false"/>
-                <link url="editUser" text="Edit User" link-type="anchor"/>
+            <field name="partyId"><default-field title="User">
+                <link url="editUser" entity-name="mantle.party.PartyDetail" text="PartyNameTemplate" link-type="anchor"/>
             </default-field></field>
             <field name="comments"><default-field><display also-hidden="false"/></default-field></field>
             <field name="hours"><default-field><display format="0.00" also-hidden="false"/></default-field></field>
