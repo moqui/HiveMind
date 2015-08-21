@@ -72,7 +72,7 @@ along with this software (see the LICENSE.md file). If not, see
 
         <!-- TODO: limit to locales for tenant -->
         <set field="localeStringList" from="[]"/>
-        <iterate list="Locale.getAvailableLocales()" entry="lcl"><script>localeStringList.add([locale:lcl.toString(), name:lcl.getDisplayName()])</script></iterate>
+        <iterate list="Locale.getAvailableLocales()" entry="lcl"><script>localeStringList.add([locale:lcl.toString(), name:lcl.getDisplayName(ec.user.locale)])</script></iterate>
         <order-map-list list="localeStringList"><order-by field-name="name"/></order-map-list>
     </actions>
     <widgets>
@@ -107,7 +107,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <field name="emailAddress" entry-name="primaryEmail.emailAddress"><default-field><text-line/></default-field></field>
 
                     <field name="locale"><default-field>
-                        <drop-down allow-empty="true" combo-box="true"><list-options list="localeStringList"/></drop-down>
+                        <drop-down allow-empty="true" combo-box="true"><list-options list="localeStringList" key="${locale}" text="${name}"/></drop-down>
                     </default-field></field>
                     <field name="timeZone"><default-field>
                         <!-- TODO: limit time zones to tenant zones -->
