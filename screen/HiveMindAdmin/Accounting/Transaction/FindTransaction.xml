@@ -16,6 +16,7 @@ along with this software (see the LICENSE.md file). If not, see
         default-menu-include="false">
 
     <transition name="editTransaction"><default-response url="../EditTransaction"/></transition>
+    <transition name="findTransactionEntry"><default-response url="../FindTransactionEntry"/></transition>
 
     <transition name="createAcctgTrans"><service-call name="mantle.ledger.LedgerServices.create#AcctgTrans"/>
         <default-response url="../EditTransaction"/></transition>
@@ -29,6 +30,7 @@ along with this software (see the LICENSE.md file). If not, see
         </entity-find>
     </actions>
     <widgets>
+        <link url="findTransactionEntry" text="Find Entries"/>
         <container-dialog id="CreateTxDialog" button-text="New Transaction">
             <form-single name="CreateAcctgTrans" transition="createAcctgTrans">
                 <field name="acctgTransTypeEnumId"><default-field title="TX Type">
