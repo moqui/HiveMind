@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This software is in the public domain under CC0 1.0 Universal.
+
+To the extent possible under law, the author(s) have dedicated all
+copyright and related and neighboring rights to this software to the
+public domain worldwide. This software is distributed without any
+warranty.
+
+You should have received a copy of the CC0 Public Domain Dedication
+along with this software (see the LICENSE.md file). If not, see
+<http://creativecommons.org/publicdomain/zero/1.0/>.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
+        default-menu-include="false" standalone="true">
+
+    <parameter name="acctgTransId" required="true"/>
+    <parameter name="acctgTransEntrySeqId" required="true"/>
+
+    <transition name="moveTransEntry"><service-call name="mantle.ledger.LedgerServices.move#AcctgTransEntry"/>
+        <default-response url=".."/></transition>
+    <transition-include name="getOrgGlAccountList" location="component://mantle-usl/template/account/AccountTransitions.xml"/>
+
+    <actions>
+        <entity-find-one entity-name="mantle.ledger.transaction.AcctgTrans" value-field="acctgTrans"/>
+        <entity-find-one entity-name="mantle.ledger.transaction.AcctgTransEntry" value-field="acctgTransEntry"/>
+    </actions>
+    <widgets>
+        <form-single name="ReceiveForm" transition="moveTransEntry">
+            <field name="acctgTransId"><default-field><hidden/></default-field></field>
+            <field name="acctgTransEntrySeqId"><default-field title="Entry"><display/></default-field></field>
+
+            <field name="amount" entry-name="acctgTransEntry.amount"><default-field>
+                <display currency-unit-field="acctgTrans.amountUomId"/>
+            </default-field></field>
+            <field name="fromGlAccountId" entry-name="acctgTransEntry.glAccountId"><default-field title="From Account">
+                <display-entity entity-name="mantle.ledger.account.GlAccount" text="GlAccountNameTemplate"/>
+            </default-field></field>
+            <field name="glAccountId"><default-field title="To Account">
+                <text-line size="50" ac-transition="getOrgGlAccountList"
+                        parameter-map="[organizationPartyId:acctgTrans.organizationPartyId]"/>
+            </default-field></field>
+
+            <field name="submitButton"><default-field title="Move"><submit/></default-field></field>
+        </form-single>
+    </widgets>
+</screen>

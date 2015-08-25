@@ -21,7 +21,7 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="storeConfig"><service-call name="store#mantle.ledger.config.PaymentMethodTypeGlAccount"/>
         <default-response url="."/></transition>
 
-    <transition-include name="getOrgGlAccountList" location="component://HiveMind/screen/HiveMindAdmin/Vendor/Accounting/TypeDefaults.xml"/>
+    <transition-include name="getOrgGlAccountList" location="component://mantle-usl/template/account/AccountTransitions.xml"/>
 
     <actions>
         <set field="organizationPartyId" from="partyId"/>

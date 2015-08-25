@@ -48,6 +48,8 @@ along with this software (see the LICENSE.md file). If not, see
                 <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
                     <set field="enumTypeId" value="GlAccountClass"/></widget-template-include>
             </default-field></field>
+            <field name="disallowPosting"><default-field>
+                <drop-down allow-empty="true"><option key="Y"/><option key="N"/></drop-down></default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
         </form-single>
 

@@ -23,7 +23,7 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response url="."/>
     </transition>
 
-    <transition-include name="getGlAccountList" location="component://HiveMind/screen/HiveMindAdmin/Accounting/GlAccount/FindGlAccount.xml"/>
+    <transition-include name="getGlAccountList" location="component://mantle-usl/template/account/AccountTransitions.xml"/>
 
     <actions>
         <set field="organizationPartyId" from="partyId"/>

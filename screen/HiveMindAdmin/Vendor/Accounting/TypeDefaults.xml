@@ -21,35 +21,7 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="storeConfig"><service-call name="store#mantle.ledger.config.GlAccountTypeDefault"/>
         <default-response url="."/></transition>
 
-    <transition name="getOrgGlAccountList">
-        <parameter name="organizationPartyId"/>
-        <actions>
-            <entity-find-one entity-name="mantle.ledger.account.GlAccountAndOrganization" value-field="glAccount">
-                <field-map field-name="organizationPartyId"/>
-                <field-map field-name="glAccountId" from="term"/></entity-find-one>
-            <if condition="glAccount">
-                <set field="glaList" from="[glAccount]"/>
-
-                <else>
-                    <entity-find entity-name="mantle.ledger.account.GlAccountAndOrganization" list="glaList" limit="20">
-                        <econdition field-name="organizationPartyId"/>
-                        <econditions combine="or">
-                            <econdition field-name="glAccountId" operator="like" value="%${term}%" ignore-case="true"/>
-                            <econdition field-name="accountCode" operator="like" value="%${term}%" ignore-case="true"/>
-                            <econdition field-name="accountName" operator="like" value="%${term}%" ignore-case="true"/>
-                        </econditions>
-                        <order-by field-name="accountCode"/>
-                    </entity-find>
-                </else>
-            </if>
-            <script>
-                def outList = []
-                for (def gla in glaList) outList.add([value:gla.glAccountId, label:"${gla.accountCode?:''} - ${gla.accountName?:''}".toString()])
-                ec.web.sendJsonResponse(outList)
-            </script>
-        </actions>
-        <default-response type="none"/>
-    </transition>
+    <transition-include name="getOrgGlAccountList" location="component://mantle-usl/template/account/AccountTransitions.xml"/>
 
     <actions>
         <set field="organizationPartyId" from="partyId"/>
