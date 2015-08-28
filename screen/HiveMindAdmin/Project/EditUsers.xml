@@ -13,7 +13,7 @@ along with this software (see the LICENSE.md file). If not, see
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
-        default-menu-title="Users" default-menu-index="3">
+        default-menu-title="Parties" default-menu-index="3">
 
     <parameter name="rootWorkEffortId" required="true"/>
 
@@ -49,7 +49,8 @@ along with this software (see the LICENSE.md file). If not, see
 
     <actions>
         <set field="workEffortId" from="rootWorkEffortId"/>
-        <entity-find entity-name="WorkEffortPartyAndPerson" list="wepapList">
+        <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="wepapList">
+            <search-form-inputs/>
             <econdition field-name="workEffortId" from="rootWorkEffortId"/>
         </entity-find>
     </actions>
@@ -102,10 +103,15 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="workEffortId"><default-field><hidden/></default-field></field>
             <field name="partyId"><default-field><hidden/></default-field></field>
             <field name="username"><header-field show-order-by="case-insensitive"/>
-                <default-field><link url="editUser" text="${username?:'--'}"/></default-field>
+                <default-field><link url="editUser" text="${username}" link-type="anchor" condition="username"/></default-field>
             </field>
-            <field name="firstName"><header-field title="First" show-order-by="case-insensitive"/><default-field><display also-hidden="false"/></default-field></field>
-            <field name="lastName"><header-field title="Last" show-order-by="case-insensitive"/><default-field><display also-hidden="false"/></default-field></field>
+            <field name="firstName"><header-field title="First" show-order-by="case-insensitive"/><default-field>
+                <display also-hidden="false"/></default-field></field>
+            <field name="lastName"><header-field title="Last" show-order-by="case-insensitive"/><default-field>
+                <display also-hidden="false"/></default-field></field>
+            <field name="organizationName"><header-field title="Org" show-order-by="case-insensitive"/><default-field>
+                <display also-hidden="false"/></default-field></field>
+
             <field name="roleTypeId"><header-field title="Role" show-order-by="true"/>
                 <default-field><display-entity entity-name="RoleType" text="${description}"/></default-field>
             </field>
@@ -126,7 +132,7 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
 
             <form-list-column><field-ref name="username"/><field-ref name="roleTypeId"/></form-list-column>
-            <form-list-column><field-ref name="firstName"/><field-ref name="lastName"/></form-list-column>
+            <form-list-column><field-ref name="firstName"/><field-ref name="lastName"/><field-ref name="organizationName"/></form-list-column>
             <form-list-column><field-ref name="fromDate"/><field-ref name="thruDate"/></form-list-column>
             <form-list-column><field-ref name="expectationEnumId"/><field-ref name="emplPositionClassId"/></form-list-column>
             <form-list-column><field-ref name="statusId"/><field-ref name="submitButton"/></form-list-column>
