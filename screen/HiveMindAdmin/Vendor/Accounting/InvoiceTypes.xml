@@ -11,17 +11,16 @@ You should have received a copy of the CC0 Public Domain Dedication
 along with this software (see the LICENSE.md file). If not, see
 <http://creativecommons.org/publicdomain/zero/1.0/>.
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
-        default-menu-title="Item Types" default-menu-index="4">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
+        default-menu-title="Invoice Types" default-menu-index="4">
 
     <parameter name="partyId" required="true"/>
 
     <transition name="editGlAccount"><default-response url="../../../Accounting/GlAccount/EditGlAccount"/></transition>
 
-    <transition name="storeConfig"><service-call name="store#mantle.ledger.config.ItemTypeGlAccount"/>
+    <transition name="storeConfig"><service-call name="store#mantle.ledger.config.InvoiceTypeTransType"/>
         <default-response url="."/></transition>
-    <transition name="updateConfig"><service-call name="update#mantle.ledger.config.ItemTypeGlAccount"/>
+    <transition name="updateConfig"><service-call name="update#mantle.ledger.config.InvoiceTypeTransType"/>
         <default-response url="."/></transition>
 
     <transition-include name="getOrgGlAccountList" location="component://mantle-usl/template/account/AccountTransitions.xml"/>
@@ -30,29 +29,34 @@ along with this software (see the LICENSE.md file). If not, see
         <set field="organizationPartyId" from="partyId"/>
         <entity-find-one entity-name="mantle.party.Organization" value-field="organization"/>
 
-        <entity-find entity-name="mantle.ledger.config.ItemTypeAndGlAccount" list="allConfigList">
-            <econdition field-name="organizationPartyId"/><order-by field-name="itemTypeDescription"/></entity-find>
+        <entity-find entity-name="mantle.ledger.config.InvoiceTypeTransTypeDetail" list="allConfigList">
+            <econdition field-name="organizationPartyId"/><order-by field-name="invoiceTypeDescription,isPayable"/></entity-find>
 
         <entity-find entity-name="moqui.basic.Enumeration" list="typeEnumList">
-            <econdition field-name="enumTypeId" value="ItemType"/><order-by field-name="description"/></entity-find>
+            <econdition field-name="enumTypeId" value="InvoiceType"/><order-by field-name="description"/></entity-find>
         <set field="allItemTypeEnumIds" from="typeEnumList.enumId"/>
-        <set field="configTypeEnumIds" from="allConfigList.itemTypeEnumId"/>
+        <set field="configTypeEnumIds" from="allConfigList.invoiceTypeEnumId"/>
         <set field="noConfigTypeEnumIds" from="allItemTypeEnumIds - configTypeEnumIds"/>
     </actions>
     <widgets>
-        <container-dialog id="AddConfigDialog" button-text="Add Item Type Account">
+        <container-dialog id="AddConfigDialog" button-text="Add Invoice Type Mapping">
             <!-- this form is still needed (even with the no config list form) for adding other directions -->
             <form-single name="AddConfigForm" transition="storeConfig">
                 <field name="partyId"><default-field><hidden/></default-field></field>
                 <field name="organizationPartyId"><default-field><hidden/></default-field></field>
 
-                <field name="itemTypeEnumId"><default-field>
+                <field name="invoiceTypeEnumId"><default-field title="Invoice Type">
                     <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
-                        <set field="enumTypeId" value="ItemType"/></widget-template-include>
+                        <set field="enumTypeId" value="InvoiceType"/></widget-template-include>
                 </default-field></field>
-                <field name="direction"><default-field><drop-down>
-                    <option key="E" text="Either"/><option key="I" text="Incoming (Purchase)"/><option key="O" text="Outgoing (Sales)"/>
-                </drop-down></default-field></field>
+                <field name="isPayable"><default-field>
+                    <drop-down><option key="Y" text="Y (Payable)"/><option key="N" text="N (Receivable)"/></drop-down>
+                </default-field></field>
+
+                <field name="acctgTransTypeEnumId"><default-field title="Transaction Type">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="AcctgTransType"/></widget-template-include>
+                </default-field></field>
                 <field name="glAccountId"><default-field title="GL Account">
                     <text-line size="50" ac-transition="getOrgGlAccountList"/></default-field></field>
 
@@ -60,16 +64,20 @@ along with this software (see the LICENSE.md file). If not, see
             </form-single>
         </container-dialog>
 
-        <container-dialog id="MissingConfigDialog" button-text="Add From Missing Item Types" width="800">
-            <form-list name="MissingConfigForm" list="noConfigTypeEnumIds" list-entry="itemTypeEnumId" transition="storeConfig">
+        <container-dialog id="MissingConfigDialog" button-text="Add From Missing Invoice Types" width="800">
+            <form-list name="MissingConfigForm" list="noConfigTypeEnumIds" list-entry="invoiceTypeEnumId" transition="storeConfig">
                 <field name="partyId"><default-field><hidden/></default-field></field>
                 <field name="organizationPartyId"><default-field><hidden/></default-field></field>
 
-                <field name="itemTypeEnumId"><default-field><display-entity entity-name="moqui.basic.Enumeration"/></default-field></field>
-                <field name="direction"><default-field>
-                    <drop-down><option key="E" text="Either"/><option key="I" text="Incoming (Purchase)"/><option key="O" text="Outgoing (Sales)"/></drop-down>
+                <field name="invoiceTypeEnumId"><default-field title="Invoice Type"><display-entity entity-name="moqui.basic.Enumeration"/></default-field></field>
+                <field name="isPayable"><default-field>
+                    <drop-down><option key="Y" text="Y (Payable)"/><option key="N" text="N (Receivable)"/></drop-down>
                 </default-field></field>
 
+                <field name="acctgTransTypeEnumId"><default-field title="Transaction Type">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="AcctgTransType"/></widget-template-include>
+                </default-field></field>
                 <field name="glAccountId"><default-field title="GL Account">
                     <text-line size="50" ac-transition="getOrgGlAccountList"/></default-field></field>
 
@@ -80,23 +88,26 @@ along with this software (see the LICENSE.md file). If not, see
         <form-list name="AllConfigList" list="allConfigList" transition="updateConfig">
             <field name="partyId"><default-field><hidden/></default-field></field>
             <field name="organizationPartyId"><default-field><hidden/></default-field></field>
-            <field name="itemTypeEnumId"><default-field><hidden/></default-field></field>
+            <field name="invoiceTypeEnumId"><default-field><hidden/></default-field></field>
 
-            <field name="itemType"><default-field><display text="${itemTypeDescription}"/></default-field></field>
-            <field name="direction"><default-field><display/></default-field></field>
+            <field name="invoiceTypeDescription"><default-field title="Invoice Type"><display/></default-field></field>
+            <field name="isPayable"><default-field><display/></default-field></field>
 
+            <field name="acctgTransTypeEnumId"><default-field title="Transaction Type">
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                    <set field="enumTypeId" value="AcctgTransType"/></widget-template-include>
+            </default-field></field>
             <field name="glAccountId"><default-field title="GL Account">
                 <text-line size="50" ac-transition="getOrgGlAccountList"/></default-field></field>
             
             <field name="accountCode"><default-field>
-                <link url="editGlAccount" text="${accountCode}" link-type="anchor"/></default-field></field>
+                <link url="editGlAccount" text="${accountCode}" link-type="anchor" condition="accountCode"/></default-field></field>
             <field name="accountName"><default-field><display/></default-field></field>
 
             <field name="glAccountTypeEnumId"><default-field title="Type">
                 <display-entity entity-name="moqui.basic.Enumeration"/></default-field></field>
             <field name="glAccountClassEnumId"><default-field title="Class">
                 <display-entity entity-name="moqui.basic.Enumeration"/></default-field></field>
-
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
         </form-list>
     </widgets>

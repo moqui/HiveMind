@@ -13,12 +13,12 @@ along with this software (see the LICENSE.md file). If not, see
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.5.xsd"
-        default-menu-title="Payment Methods" default-menu-index="6">
+        default-menu-title="Financial Acct Reasons" default-menu-index="7">
 
     <parameter name="partyId" required="true"/>
 
     <transition name="editGlAccount"><default-response url="../../../Accounting/GlAccount/EditGlAccount"/></transition>
-    <transition name="storeConfig"><service-call name="store#mantle.ledger.config.PaymentMethodTypeGlAccount"/>
+    <transition name="storeConfig"><service-call name="store#mantle.ledger.config.FinancialAccountReasonGlAccount"/>
         <default-response url="."/></transition>
 
     <transition-include name="getOrgGlAccountList" location="component://mantle-usl/template/account/AccountTransitions.xml"/>
@@ -27,26 +27,28 @@ along with this software (see the LICENSE.md file). If not, see
         <set field="organizationPartyId" from="partyId"/>
         <entity-find-one entity-name="mantle.party.Organization" value-field="organization"/>
 
-        <entity-find entity-name="mantle.ledger.config.PaymentMethodTypeAndGlAccount" list="allConfigList">
+        <entity-find entity-name="mantle.ledger.config.FinancialAccountReasonAndGlAccount" list="allConfigList">
             <econdition field-name="organizationPartyId"/></entity-find>
 
-        <entity-find entity-name="moqui.basic.Enumeration" list="typeEnumList">
-            <econdition field-name="enumTypeId" value="PaymentMethodType"/><order-by field-name="description"/></entity-find>
+        <entity-find entity-name="moqui.basic.Enumeration" list="finAcctReasonList">
+            <econdition field-name="enumTypeId" value="FinancialAccountTransReason"/>
+            <order-by field-name="description"/></entity-find>
     </actions>
     <widgets>
-        <form-list name="AllEnumList" list="typeEnumList" list-entry="typeEnum" transition="storeConfig">
+        <form-list name="AllTypesList" list="finAcctReasonList" list-entry="finAcctReason" transition="storeConfig">
             <row-actions>
                 <filter-map-list list="allConfigList" to-list="configList">
-                    <field-map field-name="paymentMethodTypeEnumId" from="typeEnum.enumId"/></filter-map-list>
+                    <field-map field-name="reasonEnumId" from="finAcctReason.enumId"/></filter-map-list>
                 <set field="configItem" from="configList?.getAt(0)"/>
                 <script>if (configItem) context.putAll(configItem)</script>
             </row-actions>
 
             <field name="partyId"><default-field><hidden/></default-field></field>
-            <field name="paymentMethodTypeEnumId" entry-name="typeEnum.enumId"><default-field><hidden/></default-field></field>
+            <field name="reasonEnumId" entry-name="finAcctReason.enumId"><default-field><hidden/></default-field></field>
             <field name="organizationPartyId"><default-field><hidden/></default-field></field>
             
-            <field name="accountType"><default-field><display text="${typeEnum.description}"/></default-field></field>
+            <field name="reason"><default-field title="TX Reason">
+                <display text="${finAcctReason.description}"/></default-field></field>
             
             <field name="glAccountId"><default-field title="GL Account">
                 <text-line size="50" ac-transition="getOrgGlAccountList"/></default-field></field>
@@ -61,7 +63,6 @@ along with this software (see the LICENSE.md file). If not, see
                 <display-entity entity-name="moqui.basic.Enumeration"/></default-field></field>
             <field name="glAccountClassEnumId"><default-field title="Class">
                 <display-entity entity-name="moqui.basic.Enumeration"/></default-field></field>
-
             <field name="submitButton">
                 <conditional-field condition="configItem" title="Update"><submit/></conditional-field>
                 <default-field title="Add"><submit/></default-field>

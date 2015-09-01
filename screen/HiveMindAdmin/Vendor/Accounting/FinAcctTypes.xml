@@ -48,26 +48,20 @@ along with this software (see the LICENSE.md file). If not, see
             
             <field name="accountType"><default-field><display text="${finAcctType.description}"/></default-field></field>
             
-            <field name="glAccountId">
-                <default-field title="GL Account">
-                    <text-line size="20" ac-transition="getOrgGlAccountList"/>
-                </default-field>
-            </field>
+            <field name="glAccountId"><default-field title="GL Account">
+                <text-line size="50" ac-transition="getOrgGlAccountList"/></default-field></field>
             
             <field name="accountCode">
                 <conditional-field condition="!configItem"><display text=" "/></conditional-field>
-                <default-field><link url="editGlAccount" text="${accountCode}"/></default-field>
+                <default-field><link url="editGlAccount" text="${accountCode}" link-type="anchor"/></default-field>
             </field>
-            <field name="accountName">
-                <default-field><display/></default-field>
-            </field>
+            <field name="accountName"><default-field><display/></default-field></field>
 
-            <field name="glAccountTypeEnumId">
-                <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
-            </field>
-            <field name="glAccountClassEnumId">
-                <default-field title="Class"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
-            </field>
+            <field name="glAccountTypeEnumId"><default-field title="Type">
+                <display-entity entity-name="moqui.basic.Enumeration"/></default-field></field>
+            <field name="glAccountClassEnumId"><default-field title="Class">
+                <display-entity entity-name="moqui.basic.Enumeration"/></default-field></field>
+
             <field name="submitButton">
                 <conditional-field condition="configItem" title="Update"><submit/></conditional-field>
                 <default-field title="Add"><submit/></default-field>

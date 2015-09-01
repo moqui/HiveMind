@@ -76,7 +76,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <drop-down><option key="Y" text="Y (Payable/Outgoing)"/><option key="N" text="N (Receivable/Incoming)"/></drop-down>
                 </default-field></field>
                 <field name="glAccountId"><default-field title="GL Account">
-                    <text-line size="25" ac-transition="getOrgGlAccountList"/></default-field></field>
+                    <text-line size="50" ac-transition="getOrgGlAccountList"/></default-field></field>
 
                 <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
             </form-list>
@@ -91,8 +91,9 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="isApplied"><default-field><display/></default-field></field>
             <field name="isPayable"><default-field><display/></default-field></field>
             <field name="glAccountId"><default-field title="GL Account">
-                <text-line size="20" ac-transition="getOrgGlAccountList"/></default-field></field>
-            <field name="accountCode"><default-field><link url="editGlAccount" text="${accountCode}"/></default-field></field>
+                <text-line size="50" ac-transition="getOrgGlAccountList"/></default-field></field>
+            <field name="accountCode"><default-field>
+                <link url="editGlAccount" text="${accountCode}" link-type="anchor"/></default-field></field>
             <field name="accountName"><default-field><display/></default-field></field>
             <field name="glAccountTypeEnumId"><default-field title="Type">
                 <display-entity entity-name="moqui.basic.Enumeration"/></default-field></field>

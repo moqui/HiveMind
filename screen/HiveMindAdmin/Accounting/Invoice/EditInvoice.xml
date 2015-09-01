@@ -40,20 +40,22 @@ along with this software (see the LICENSE.md file). If not, see
         <set field="statusId" from="invoice?.statusId"/>
     </actions>
     <widgets>
-        <container>
-            <link url="Invoice.pdf" text="Invoice PDF" link-type="anchor-button"><parameter name="invoiceId"/></link>
-
-            <section-iterate name="AcctgTransLinks" list="acctgTransIdSet" entry="acctgTransId"><widgets>
-                <link url="editTransaction" text="TX #${acctgTransId}" link-type="anchor-button"/>
-            </widgets></section-iterate>
-
-            <section-include name="StatusChangeSection" location="component://mantle-usl/template/basic/StatusWidgets.xml"/>
-        </container>
-
         <container-row>
             <row-col lg="6">
+                <container>
+                    <link url="Invoice.pdf" text="Invoice PDF" link-type="anchor-button"><parameter name="invoiceId"/></link>
+
+                    <section-iterate name="AcctgTransLinks" list="acctgTransIdSet" entry="acctgTransId"><widgets>
+                        <link url="editTransaction" text="TX #${acctgTransId}" link-type="anchor-button"/>
+                    </widgets></section-iterate>
+                </container>
+
                 <form-single name="EditInvoice" transition="updateInvoice" map="invoice">
                     <field name="invoiceId"><default-field><display/></default-field></field>
+                    <field name="invoiceTypeEnumId"><default-field title="Type">
+                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                            <set field="enumTypeId" value="InvoiceType"/></widget-template-include>
+                    </default-field></field>
                     <field name="fromPartyId"><default-field title="From">
                         <display-entity entity-name="mantle.party.PartyDetail" also-hidden="false" key-field-name="partyId"
                                 text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${pseudoId}]"/>
@@ -62,13 +64,17 @@ along with this software (see the LICENSE.md file). If not, see
                         <display-entity entity-name="mantle.party.PartyDetail" also-hidden="false" key-field-name="partyId"
                                 text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${pseudoId}]"/>
                     </default-field></field>
+                    <field name="invoiceTypeEnumId">
+                        <conditional-field title="Type" condition="invoice.statusId in ['InvoiceInProcess', 'InvoiceIncoming', 'InvoiceReceived']">
+                            <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                                <set field="enumTypeId" value="InvoiceType"/></widget-template-include>
+                        </conditional-field>
+                        <default-field title="Type">
+                            <display-entity entity-name="moqui.basic.Enumeration"/>
+                        </default-field>
+                    </field>
                     <field name="invoiceDate"><default-field><display also-hidden="false"/></default-field></field>
                     <field name="invoiceTotal"><default-field><display currency-unit-field="currencyUomId"/></default-field></field>
-                    <!-- <field name="statusId"><default-field title="Status">
-                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
-                            <set field="currentDescription" from="invoice?.'Invoice#moqui.basic.StatusItem'?.description"/>
-                            <set field="statusId" from="invoice?.statusId"/></widget-template-include>
-                    </default-field></field> -->
                     <field name="dueDate"><default-field><date-time/></default-field></field>
                     <field name="settlementTermId"><default-field title="Settlement Term">
                         <drop-down allow-empty="true">
@@ -85,6 +91,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </form-single>
             </row-col>
             <row-col lg="6">
+                <section-include name="StatusChangeSection" location="component://mantle-usl/template/basic/StatusWidgets.xml"/>
                 <section-include name="StatusHistorySection" location="component://mantle-usl/template/basic/StatusWidgets.xml"/>
 
                 <container-box>

@@ -95,6 +95,10 @@ along with this software (see the LICENSE.md file). If not, see
                             </entity-options>
                         </drop-down>
                     </default-field></field>
+                    <field name="invoiceTypeEnumId"><default-field title="Type">
+                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                            <set field="enumTypeId" value="InvoiceType"/><set field="noCurrentSelectedKey" value="InvoiceSales"/></widget-template-include>
+                    </default-field></field>
                     <field name="invoiceDate"><default-field><date-find type="timestamp"/></default-field></field>
                     <field name="statusId"><default-field title="Status">
                         <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
@@ -161,14 +165,44 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="editInvoiceLink"><header-field show-order-by="case-insensitive" title="Edit"/><default-field>
                 <link url="editInvoice" text="Edit ${invoiceId}" link-type="anchor"/>
             </default-field></field>
-            <field name="fromPartyId"><default-field title="From">
-                <display-entity entity-name="mantle.party.PartyDetail" also-hidden="false" key-field-name="partyId"
-                        text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]"/>
-            </default-field></field>
-            <field name="toPartyId"><default-field title="To">
-                <display-entity entity-name="mantle.party.PartyDetail" also-hidden="false" key-field-name="partyId"
-                        text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]"/>
-            </default-field></field>
+            <field name="invoiceTypeEnumId">
+                <header-field title="Type" show-order-by="true">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="InvoiceType"/><set field="allowEmpty" value="true"/>
+                        <set field="style" value=" "/></widget-template-include>
+                </header-field>
+                <default-field><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+            </field>
+            <field name="fromPartyId">
+                <header-field title="From"><drop-down allow-empty="true">
+                    <entity-options key="${partyId}" text="PartyNameTemplate">
+                        <entity-find entity-name="mantle.party.PartyDetailAndRole">
+                            <econdition field-name="roleTypeId" operator="in" value="VendorBillFrom,OrgInternal"/>
+                            <order-by field-name="organizationName,firstName"/>
+                        </entity-find>
+                    </entity-options>
+                </drop-down></header-field>
+                <default-field>
+                    <display-entity entity-name="mantle.party.PartyDetail" text="PartyNameTemplate"/>
+                    <!-- <link url="editParty" entity-name="mantle.party.PartyDetail" text="PartyNameTemplate"
+                        link-type="anchor" parameter-map="[partyId:fromPartyId]"/> -->
+                </default-field>
+            </field>
+            <field name="toPartyId">
+                <header-field title="To"><drop-down allow-empty="true">
+                    <entity-options key="${partyId}" text="PartyNameTemplate">
+                        <entity-find entity-name="mantle.party.PartyDetailAndRole">
+                            <econdition field-name="roleTypeId" operator="in" value="CustomerBillTo,OrgInternal"/>
+                            <order-by field-name="organizationName,firstName"/>
+                        </entity-find>
+                    </entity-options>
+                </drop-down></header-field>
+                <default-field>
+                    <display-entity entity-name="mantle.party.PartyDetail" text="PartyNameTemplate"/>
+                    <!-- <link url="editParty" entity-name="mantle.party.PartyDetail" text="PartyNameTemplate"
+                        link-type="anchor" parameter-map="[partyId:toPartyId]"/> -->
+                </default-field>
+            </field>
             <field name="invoiceDate"><header-field show-order-by="true"/><default-field><display also-hidden="false"/></default-field></field>
             <field name="invoiceTotal"><default-field title="Total"><display currency-unit-field="currencyUomId"/></default-field></field>
             <field name="statusId"><header-field show-order-by="true"/>

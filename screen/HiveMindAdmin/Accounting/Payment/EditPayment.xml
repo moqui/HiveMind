@@ -28,6 +28,11 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response url="."/></transition>
     <transition name="editTransaction"><default-response url="../../Transaction/EditTransaction"/></transition>
 
+    <transition name="editFinancialAccount"><default-response url="../../FinancialAccount/EditFinancialAccount"/></transition>
+    <transition name="financialAccountTrans"><default-response url="../../FinancialAccount/FinancialAccountTrans"/></transition>
+
+    <transition-include name="getGlAccountList" location="component://mantle-usl/template/account/AccountTransitions.xml"/>
+
     <transition name="PaymentCheck.pdf">
         <default-response url="${ec.web.getWebappRootUrl(false, null)}/fop/apps/${appRoot}/Accounting/Payment/PaymentCheck" url-type="plain">
             <parameter name="renderMode" value="xsl-fo"/><parameter name="pageNoLimit" value="true"/>
@@ -46,24 +51,23 @@ along with this software (see the LICENSE.md file). If not, see
     <actions>
         <service-call name="mantle.account.PaymentServices.get#PaymentDisplayInfo" in-map="[paymentId:paymentId]" out-map="context"/>
         <set field="statusId" from="payment?.statusId"/>
+        <set field="paymentEditable" from="statusId in ['PmntProposed', 'PmntPromised', 'PmntAuthorized']"/>
     </actions>
     <widgets>
-        <container>
-            <section-iterate name="InvoiceLinks" list="invoiceIdSet" entry="invoiceId"><widgets>
-                <link url="editInvoice" text="Invoice #${invoiceId}"/>
-            </widgets></section-iterate>
-            <section-iterate name="AcctgTransLinks" list="acctgTransIdSet" entry="acctgTransId"><widgets>
-                <link url="editTransaction" text="TX #${acctgTransId}" link-type="anchor-button"/>
-            </widgets></section-iterate>
-
-            <link url="PaymentCheck.pdf" text="Check PDF"/>
-            <link url="PaymentDetail.pdf" text="Detail PDF"/>
-
-            <section-include name="StatusChangeSection" location="component://mantle-usl/template/basic/StatusWidgets.xml"/>
-        </container>
-
         <container-row>
             <row-col lg="6">
+                <container>
+                    <section-iterate name="InvoiceLinks" list="invoiceIdSet" entry="invoiceId"><widgets>
+                        <link url="editInvoice" text="Invoice #${invoiceId}"/>
+                    </widgets></section-iterate>
+                    <section-iterate name="AcctgTransLinks" list="acctgTransIdSet" entry="acctgTransId"><widgets>
+                        <link url="editTransaction" text="TX #${acctgTransId}" link-type="anchor-button"/>
+                    </widgets></section-iterate>
+
+                    <link url="PaymentCheck.pdf" text="Check PDF"/>
+                    <link url="PaymentDetail.pdf" text="Detail PDF"/>
+                </container>
+
                 <form-single name="EditPayment" transition="updatePayment" map="payment">
                     <field name="paymentId"><default-field><display/></default-field></field>
                     <field name="fromPartyId"><default-field title="From">
@@ -77,7 +81,10 @@ along with this software (see the LICENSE.md file). If not, see
 
                     <field name="effectiveDate"><default-field><display also-hidden="false"/></default-field></field>
 
-                    <field name="amount"><default-field><text-line size="12" format="0.00"/></default-field></field>
+                    <field name="amount">
+                        <conditional-field condition="paymentEditable"><text-line size="12" format="0.00"/></conditional-field>
+                        <default-field><display format="0.00"/></default-field>
+                    </field>
                     <field name="amountUomId"><default-field title="Currency">
                         <display-entity entity-name="moqui.basic.Uom" text="${description} [${uomId}]"/>
                         <!-- don't allow changing this, set based on partyAcctgPreference.baseCurrencyUomId in current impl:
@@ -100,18 +107,63 @@ along with this software (see the LICENSE.md file). If not, see
                         </entity-options></drop-down>
                     </default-field></field>
 
-                    <field name="paymentMethodTypeEnumId"><default-field title="Method Type">
-                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
-                            <set field="enumTypeId" value="PaymentMethodType"/></widget-template-include>
-                    </default-field></field>
-                    <field name="paymentMethodId"><default-field title="Payment Method">
-                        <drop-down allow-empty="true">
-                            <entity-options key="${paymentMethodId}" text="${typeDescription} - ${description}">
-                                <entity-find entity-name="mantle.account.method.PaymentMethodAndType">
-                                    <econdition field-name="ownerPartyId" from="payment.fromPartyId"/></entity-find>
-                            </entity-options>
-                        </drop-down>
-                    </default-field></field>
+                    <field name="paymentTypeEnumId">
+                        <conditional-field title="Type" condition="paymentEditable">
+                            <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                                <set field="enumTypeId" value="PaymentType"/></widget-template-include>
+                        </conditional-field>
+                        <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+                    </field>
+                    <field name="paymentMethodTypeEnumId">
+                        <conditional-field title="Method Type" condition="paymentEditable">
+                            <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                                <set field="enumTypeId" value="PaymentMethodType"/></widget-template-include>
+                        </conditional-field>
+                        <default-field title="Method Type"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+                    </field>
+                    <field name="paymentMethodId">
+                        <conditional-field title="Payment Method" condition="paymentEditable">
+                            <drop-down allow-empty="true">
+                                <entity-options key="${paymentMethodId}" text="${typeDescription} - ${description}">
+                                    <entity-find entity-name="mantle.account.method.PaymentMethodAndType">
+                                        <econdition field-name="ownerPartyId" from="payment.fromPartyId"/></entity-find>
+                                </entity-options></drop-down>
+                        </conditional-field>
+                        <default-field title="Payment Method"><display-entity entity-name="mantle.account.method.PaymentMethodAndType"
+                                text="${typeDescription} - ${description}"/></default-field>
+                    </field>
+
+                    <field name="overrideGlAccountId">
+                        <conditional-field title="Override (Cash) GL Account" condition="paymentEditable">
+                            <text-line size="50" ac-transition="getGlAccountList"/></conditional-field>
+                        <default-field title="Override (Cash) GL Account"><display-entity entity-name="mantle.ledger.account.GlAccount"
+                                text="GlAccountNameTemplate"/></default-field>
+                    </field>
+                    <field name="orderId">
+                        <conditional-field condition="payment.orderId" title="Order">
+                            <display text="OrderPartNameTemplate" text-map="payment"/>
+                            <!-- TODO: how to link to OrderDetail in PopCommerce that doesn't exist in HiveMind?
+                            <link url="orderDetail" text="OrderPartNameTemplate" text-map="payment" link-type="anchor"
+                                    parameter-map="[orderId:payment.orderId]"/> -->
+                        </conditional-field>
+                        <default-field><ignored/></default-field>
+                    </field>
+                    <field name="finAccountId">
+                        <conditional-field condition="payment.finAccountId" title="Financial Account">
+                            <link url="editFinancialAccount" text="FinancialAccountNameTemplate"
+                                  entity-name="mantle.account.financial.FinancialAccount" link-type="anchor"
+                                  parameter-map="[finAccountId:payment.finAccountId]"/>
+                        </conditional-field>
+                        <default-field><ignored/></default-field>
+                    </field>
+                    <field name="finAccountTransId">
+                        <conditional-field condition="payment.finAccountId" title="Financial Account TX">
+                            <link url="financialAccountTrans" text="#${payment.finAccountTransId}" link-type="anchor"
+                                    parameter-map="[finAccountId:payment.finAccountId, finAccountTransId:payment.finAccountTransId]"/>
+                        </conditional-field>
+                        <default-field><ignored/></default-field>
+                    </field>
+
                     <field name="paymentAuthCode"><default-field title="Auth Code"><text-line size="15"/></default-field></field>
                     <field name="paymentRefNum"><default-field title="Ref Number"><text-line size="15"/></default-field></field>
 
@@ -121,6 +173,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </form-single>
             </row-col>
             <row-col lg="6">
+                <section-include name="StatusChangeSection" location="component://mantle-usl/template/basic/StatusWidgets.xml"/>
                 <section-include name="StatusHistorySection" location="component://mantle-usl/template/basic/StatusWidgets.xml"/>
 
                 <container-box>
