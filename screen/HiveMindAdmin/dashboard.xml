@@ -51,41 +51,41 @@ along with this software (see the LICENSE.md file). If not, see
             <panel-left>
                 <label text="Operate" type="h2"/>
                 <container>
-                    <link url="WikiSpace" link-type="anchor"><image url="/hmstatic/images/wiki-documents7.png" url-type="plain"/></link>
+                    <link url="WikiSpace" link-type="anchor"><image url="/hmstatic/images/wiki-documents7.png" url-type="screen"/></link>
                     <link text="Wiki Spaces" url="WikiSpace" link-type="anchor"/>
                 </container>
                 <container>
-                    <link url="Project" link-type="anchor"><image url="/hmstatic/images/project-business120.png" url-type="plain"/></link>
+                    <link url="Project" link-type="anchor"><image url="/hmstatic/images/project-business120.png" url-type="screen"/></link>
                     <link text="Projects" url="Project" link-type="anchor"/>
                 </container>
                 <container>
-                    <link url="Accounting" link-type="anchor"><image url="/hmstatic/images/invoice-pay.png" url-type="plain"/></link>
+                    <link url="Accounting" link-type="anchor"><image url="/hmstatic/images/invoice-pay.png" url-type="screen"/></link>
                     <link text="Accounting" url="Accounting" link-type="anchor"/>
                 </container>
                 <container>
-                    <link url="Reports" link-type="anchor"><image url="/hmstatic/images/reports-dollar116.png" url-type="plain"/></link>
+                    <link url="Reports" link-type="anchor"><image url="/hmstatic/images/reports-dollar116.png" url-type="screen"/></link>
                     <link text="Reports" url="Reports" link-type="anchor"/>
                 </container>
 
                 <label text="Setup" type="h2"/>
                 <container>
-                    <link url="Vendor" link-type="anchor"><image url="/hmstatic/images/vendor-person25.png" url-type="plain"/></link>
+                    <link url="Vendor" link-type="anchor"><image url="/hmstatic/images/vendor-person25.png" url-type="screen"/></link>
                     <link text="Vendor(s)" url="Vendor" link-type="anchor"/>
                 </container>
                 <container>
-                    <link url="Client" link-type="anchor"><image url="/hmstatic/images/client-businessmen26.png" url-type="plain"/></link>
+                    <link url="Client" link-type="anchor"><image url="/hmstatic/images/client-businessmen26.png" url-type="screen"/></link>
                     <link text="Clients" url="Client" link-type="anchor"/>
                 </container>
                 <container>
-                    <link url="User" link-type="anchor"><image url="/hmstatic/images/user-man27.png" url-type="plain"/></link>
+                    <link url="User" link-type="anchor"><image url="/hmstatic/images/user-man27.png" url-type="screen"/></link>
                     <link text="Users" url="User" link-type="anchor"/>
                 </container>
                 <container>
-                    <link url="Team" link-type="anchor"><image url="/hmstatic/images/team-businessmen18.png" url-type="plain"/></link>
+                    <link url="Team" link-type="anchor"><image url="/hmstatic/images/team-businessmen18.png" url-type="screen"/></link>
                     <link text="Teams" url="Team" link-type="anchor"/>
                 </container>
                 <container>
-                    <link url="EditRateAmounts" link-type="anchor"><image url="/hmstatic/images/rates-internet16.png" url-type="plain"/></link>
+                    <link url="EditRateAmounts" link-type="anchor"><image url="/hmstatic/images/rates-internet16.png" url-type="screen"/></link>
                     <link text="Rates" url="EditRateAmounts" link-type="anchor"/>
                 </container>
             </panel-left>
