@@ -1,5 +1,10 @@
 ## HiveMind Project Management and Service ERP
 
+[![license](https://img.shields.io/badge/license-CC0%201.0%20Universal-blue.svg)](https://github.com/moqui/HiveMind/blob/master/LICENSE.md)
+[![release](https://img.shields.io/github/release/moqui/HiveMind.svg)](https://github.com/moqui/HiveMind/releases)
+[![commits since release](https://img.shields.io/github/commits-since/moqui/HiveMind/release-1.1.1.svg)](https://github.com/moqui/HiveMind/commits/master)
+[![downloads](https://img.shields.io/github/downloads/moqui/HiveMind/latest/total.svg)](https://github.com/moqui/HiveMind/releases)
+
 HiveMind is a comprehensive ERP application for service organizations. It
 includes a project management application featuring project/task,
 request, and content (wiki) management. There is support for multiple
