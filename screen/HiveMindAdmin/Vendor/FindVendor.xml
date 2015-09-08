@@ -62,7 +62,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <iterate list="roleList" entry="role"><script>if (roleStr) { roleStr += ", " }; if (role.description) { roleStr = (roleStr?:'') + role.description }</script></iterate>
             </row-actions>
             <field name="editVendorLink"><header-field title="Edit Vendor/Org" show-order-by="case-insensitive"/><default-field>
-                <link url="editVendor" text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${pseudoId}]" link-type="anchor"/>
+                <link url="editVendor" text="PartyNameTemplate" link-type="anchor"/>
             </default-field></field>
             <field name="roleTypeId"><default-field title="Roles"><display text="${roleStr?:''}"/></default-field></field>
             <field name="disabled"><header-field title="Disabled?" show-order-by="case-insensitive"/><default-field><display text="${disabled?:'N'}"/></default-field></field>
