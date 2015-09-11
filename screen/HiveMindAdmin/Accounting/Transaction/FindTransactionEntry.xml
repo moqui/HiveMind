@@ -31,6 +31,7 @@ along with this software (see the LICENSE.md file). If not, see
             <select-field field-name="isPosted"/><select-field field-name="amountUomId"/>
             <select-field field-name="acctgTransEntrySeqId"/><select-field field-name="amount"/>
             <select-field field-name="debitCreditFlag"/><select-field field-name="glAccountId"/>
+            <select-field field-name="assetId"/>
         </entity-find>
     </actions>
     <widgets>
@@ -82,6 +83,10 @@ along with this software (see the LICENSE.md file). If not, see
                 <header-field title="GL Account"><text-line size="30" ac-transition="getGlAccountList"/></header-field>
                 <default-field><link url="editGlAccount" link-type="anchor" entity-name="mantle.ledger.account.GlAccount"
                         text="GlAccountNameTemplate"/></default-field>
+            </field>
+            <field name="assetId">
+                <header-field title="Asset" show-order-by="true"><text-line size="10"/></header-field>
+                <default-field><link url="assetDetail" text="${assetId?:''}" link-type="anchor"/></default-field>
             </field>
 
             <field name="find">

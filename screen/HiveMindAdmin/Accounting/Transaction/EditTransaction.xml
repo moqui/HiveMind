@@ -246,6 +246,11 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="invoiceItemSeqId">
                 <default-field title="Invc Itm"><display/></default-field>
             </field>
+            <field name="productId"><default-field title="Product">
+                <link url="editProduct" entity-name="mantle.product.Product" text="ProductNameTemplate" link-type="anchor"/>
+            </default-field></field>
+            <field name="assetId"><default-field title="Asset">
+                <link url="assetDetail" text="${assetId?:''}" link-type="anchor"/></default-field></field>
 
             <field name="submitButton">
                 <conditional-field condition="acctgTrans.isPosted != 'Y'" title="Update"><submit/></conditional-field>
