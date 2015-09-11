@@ -209,9 +209,9 @@ along with this software (see the LICENSE.md file). If not, see
                     </editable>
                 </container>
                 <container><label text="Due Date: " type="strong"/><label text="${ec.l10n.format(task.estimatedCompletionDate, 'yyyy-MM-dd')}"/></container>
-                <container><label text="Estimated Hours: " type="strong"/><label text="${ec.l10n.format(task.estimatedWorkTime, '#.00')}"/></container>
-                <container><label text="Remaining Hours: " type="strong"/><label text="${ec.l10n.format(task.remainingWorkTime, '#.00')}"/></container>
-                <container><label text="Actual Hours: " type="strong"/><label text="${ec.l10n.format(task.actualWorkTime, '#.00')}"/></container>
+                <container><label text="Estimated Hours: " type="strong"/><label text="${ec.l10n.format(task.estimatedWorkTime, '0.00')}"/></container>
+                <container><label text="Remaining Hours: " type="strong"/><label text="${ec.l10n.format(task.remainingWorkTime, '0.00')}"/></container>
+                <container><label text="Actual Hours: " type="strong"/><label text="${ec.l10n.format(task.actualWorkTime, '0.00')}"/></container>
 
                 <container-box>
                     <box-header><label text="Assignments" type="h5"/></box-header>
@@ -245,7 +245,7 @@ along with this software (see the LICENSE.md file). If not, see
                                     <field-map field-name="partyId" from="timeEntry.partyId"/></entity-find-one>
                             </actions>
                             <widgets>
-                                <label text="- ${ec.l10n.format(timeEntry.hours, '#.00')}h at ${timeEntry.fromDate?:''} by ${paua.firstName} ${paua.lastName} ${paua.username ? '(' + paua.username + ')' :''}" type="p"/>
+                                <label text="- ${ec.l10n.format(timeEntry.hours, '0.00')}h at ${timeEntry.fromDate?:''} by ${paua.firstName} ${paua.lastName} ${paua.username ? '(' + paua.username + ')' :''}" type="p"/>
                             </widgets>
                         </section-iterate>
                     </box-body>
