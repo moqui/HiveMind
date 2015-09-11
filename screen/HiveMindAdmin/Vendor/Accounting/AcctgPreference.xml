@@ -42,7 +42,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <field name="partyId"><default-field><hidden/></default-field></field>
                     <field name="organizationPartyId"><default-field><hidden/></default-field></field>
 
-                    <!-- TODO: fiscalYearStartMonth, fiscalYearStartDay, invoiceSequenceEnumId, orderSequenceEnumId -->
+                    <!-- TODO (once actually used): fiscalYearStartMonth, fiscalYearStartDay, invoiceSequenceEnumId, orderSequenceEnumId -->
 
                     <field name="baseCurrencyUomId"><default-field title="Base Currency">
                         <display-entity entity-name="moqui.basic.Uom" text="${description} [${uomId}]"/></default-field></field>

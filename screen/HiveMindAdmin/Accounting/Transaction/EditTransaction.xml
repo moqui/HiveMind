@@ -27,6 +27,8 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="editInvoice"><default-response url="../../Invoice/EditInvoice"/></transition>
     <transition name="editPayment"><default-response url="../../Payment/EditPayment"/></transition>
+    <transition name="editProduct"><default-response url="../../../Catalog/Product/EditProduct"/></transition>
+    <transition name="assetDetail"><default-response url="../../../Asset/AssetDetail"/></transition>
 
     <transition-include name="getOrgGlAccountList" location="component://mantle-usl/template/account/AccountTransitions.xml"/>
 
