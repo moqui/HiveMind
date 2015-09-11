@@ -2,22 +2,24 @@
 HiveMind Project Management and Service ERP Release Notes
 
 ===========================================================================
-Release 1.1.2 - TBD
+Release 1.1.2 - 11 Sep 2015
 ===========================================================================
 
 HiveMind 1.1.2 is a minor new feature and bug fix release.
 
-This release is based on Moqui Framework version TODO and Mantle Business
-Artifacts version TODO.
+This release is based on Moqui Framework version 1.5.3 and Mantle Business
+Artifacts version 1.1.0 with updates as needed for these new versions.
 
-New Features:
+The project management application currently has 31 screens and 54 forms.
+The admin application currently has 57 screens and 121 forms. HiveMind has
+around 13k lines of text, mostly in XML files (with a small number of lines
+in FTL, MarkDown, and CWiki files).
 
-- New PDF (XSL-FO) documents for payment check, payment detail, and
-  financial account statement (in addition to the existing invoice PDF)
-
-Bug Fixes:
-
-TODO
+This release includes new PDF (XSL-FO) documents for payment check, payment
+detail, and financial account statement (in addition to the existing
+invoice PDF). There are various accounting improvements based on the
+significant accounting improvements in Mantle. These include improved
+invoice and transaction screens, expanded configuration, etc.
 
 ===========================================================================
 Release 1.1.1 - 2 May 2015
