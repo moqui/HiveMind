@@ -2,6 +2,23 @@
 HiveMind Project Management and Service ERP Release Notes
 
 ===========================================================================
+Release 1.1.3 - TBD
+===========================================================================
+
+HiveMind 1.1.3 is a minor new feature and bug fix release.
+
+This release is based on Moqui Framework version TODO and Mantle Business
+Artifacts version TODO with updates as needed for these new versions.
+
+TODO
+
+New Features:
+
+
+Bug Fixes:
+
+
+===========================================================================
 Release 1.1.2 - 11 Sep 2015
 ===========================================================================
 
