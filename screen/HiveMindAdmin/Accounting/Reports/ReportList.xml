@@ -35,33 +35,35 @@ along with this software (see the LICENSE.md file). If not, see
         <container>
             <container-dialog id="BalanceSheetDialog" button-text="Balance Sheet">
                 <form-single name="BalanceSheetForm" transition="viewBalanceSheet">
-                    <field name="organizationPartyId"><default-field>
+                    <field name="organizationPartyId"><default-field title="Organization">
                         <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
-                            <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
+                            <set field="roleTypeId" value="OrgInternal"/><set field="style" value="chosen-wider"/></widget-template-include>
                     </default-field></field>
-                    <field name="timePeriodIdList"><default-field>
-                        <drop-down size="20" allow-multiple="true">
+                    <field name="timePeriodIdList"><default-field title="Time Periods">
+                        <drop-down size="40" allow-multiple="true" style="chosen-wider">
                             <dynamic-options transition="getOrganizationFiscalTimePeriods" value-field="timePeriodId"
                                     label-field="periodName">
                                 <depends-on field="organizationPartyId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
+                    <field name="detail"><default-field><check><option key="true" text=" "/></check></default-field></field>
                     <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
             <container-dialog id="IncomeStatementDialog" button-text="Income Statement">
                 <form-single name="IncomeStatementForm" transition="viewIncomeStatement">
-                    <field name="organizationPartyId"><default-field>
+                    <field name="organizationPartyId"><default-field title="Organization">
                         <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
-                            <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
+                            <set field="roleTypeId" value="OrgInternal"/><set field="style" value="chosen-wider"/></widget-template-include>
                     </default-field></field>
-                    <field name="timePeriodIdList"><default-field>
-                        <drop-down size="20" allow-multiple="true">
+                    <field name="timePeriodIdList"><default-field title="Time Periods">
+                        <drop-down size="40" allow-multiple="true" style="chosen-wider">
                             <dynamic-options transition="getOrganizationFiscalTimePeriods" value-field="timePeriodId"
                                     label-field="periodName">
                                 <depends-on field="organizationPartyId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
+                    <field name="detail"><default-field><check><option key="true" text=" "/></check></default-field></field>
                     <field name="submitButton"><default-field title="Run"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
@@ -70,9 +72,9 @@ along with this software (see the LICENSE.md file). If not, see
         <container>
             <container-dialog id="PostedAmountSummaryDialog" button-text="Posted Amount Summary">
                 <form-single name="PostedAmountSummaryForm" transition="viewPostedAmountSummary">
-                    <field name="organizationPartyId"><default-field>
+                    <field name="organizationPartyId"><default-field title="Organization">
                         <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
-                            <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
+                            <set field="roleTypeId" value="OrgInternal"/><set field="style" value="chosen-wider"/></widget-template-include>
                     </default-field></field>
                     <field name="fromDate"><default-field><date-time/></default-field></field>
                     <field name="thruDate"><default-field><date-time/></default-field></field>
@@ -88,14 +90,14 @@ along with this software (see the LICENSE.md file). If not, see
             </container-dialog>
             <container-dialog id="PostedBalanceSummaryDialog" button-text="Posted Balance Summary">
                 <form-single name="PostedBalanceSummaryForm" transition="viewPostedBalanceSummary">
-                    <field name="organizationPartyId"><default-field>
+                    <field name="organizationPartyId"><default-field title="Organization">
                         <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
-                            <set field="roleTypeId" value="OrgInternal"/></widget-template-include>
+                            <set field="roleTypeId" value="OrgInternal"/><set field="style" value="chosen-wider"/></widget-template-include>
                     </default-field></field>
                     <field name="fromDate"><default-field><date-time/></default-field></field>
                     <field name="thruDate"><default-field><date-time/></default-field></field>
-                    <field name="timePeriodId"><default-field>
-                        <drop-down allow-empty="true">
+                    <field name="timePeriodId"><default-field title="Time Period">
+                        <drop-down allow-empty="true" style="chosen-wider">
                             <dynamic-options transition="getOrganizationFiscalTimePeriods" value-field="timePeriodId"
                                     label-field="periodName">
                                 <depends-on field="organizationPartyId"/></dynamic-options>
