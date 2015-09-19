@@ -88,7 +88,14 @@ along with this software (see the LICENSE.md file). If not, see
                 <header-field title="Journal"><text-find size="8" hide-options="true"/></header-field>
                 <default-field><display/></default-field>
             </field>
-
+            <field name="acctgTransTypeEnumId">
+                <header-field title="TX Type" show-order-by="true">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="AcctgTransType"/><set field="allowEmpty" value="true"/>
+                        <set field="style" value=" "/></widget-template-include>
+                </header-field>
+                <default-field><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+            </field>
             <field name="organizationPartyId">
                 <header-field title="Organization">
                     <drop-down allow-empty="true">

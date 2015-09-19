@@ -17,6 +17,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <parameter name="acctgTransId" required="true"/>
 
+    <transition name="editTransaction"><default-response url="."/></transition>
     <transition name="updateAcctgTrans"><service-call name="mantle.ledger.LedgerServices.update#AcctgTrans"/><default-response url="."/></transition>
     <transition name="postAcctgTrans"><service-call name="mantle.ledger.LedgerServices.post#AcctgTrans"/><default-response url="."/></transition>
     <transition name="postReverseAcctgTrans"><service-call name="mantle.ledger.LedgerServices.post#ReverseAcctgTrans"/><default-response url="."/></transition>
@@ -27,8 +28,9 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="editInvoice"><default-response url="../../Invoice/EditInvoice"/></transition>
     <transition name="editPayment"><default-response url="../../Payment/EditPayment"/></transition>
-    <transition name="editProduct"><default-response url="../../../Catalog/Product/EditProduct"/></transition>
-    <transition name="assetDetail"><default-response url="../../../Asset/AssetDetail"/></transition>
+    <!-- TODO: need a way to easily link to these in POP Commerce without linking to them in HiveMind -->
+    <transition name="editProduct"><default-response url="."/></transition><!-- ../../../Catalog/Product/EditProduct -->
+    <transition name="assetDetail"><default-response url="."/></transition><!-- ../../../Asset/AssetDetail -->
 
     <transition-include name="getOrgGlAccountList" location="component://mantle-usl/template/account/AccountTransitions.xml"/>
 
@@ -172,6 +174,14 @@ along with this software (see the LICENSE.md file). If not, see
         <container-row>
             <row-col lg="1"><label text="Description" type="strong"/></row-col>
             <row-col style="col-lg-11"><label text="${acctgTrans.description?:''}" type="p"/></row-col>
+        </container-row>
+        <container-row>
+            <row-col lg="1"><label text="Reversed By" type="strong"/></row-col>
+            <row-col lg="3"><link url="editTransaction" text="${acctgTrans.reversedByAcctgTransId}" link-type="anchor"
+                    parameter-map="[acctgTransId:acctgTrans.reversedByAcctgTransId]" condition="acctgTrans.reversedByAcctgTransId"/></row-col>
+            <row-col lg="1"><label text="Reverse Of" type="strong"/></row-col>
+            <row-col lg="3"><link url="editTransaction" text="${acctgTrans.reverseOfAcctgTransId}" link-type="anchor"
+                    parameter-map="[acctgTransId:acctgTrans.reverseOfAcctgTransId]" condition="acctgTrans.reverseOfAcctgTransId"/></row-col>
         </container-row>
         <container-row>
             <row-col lg="1"><label text="Debit" type="strong"/></row-col>

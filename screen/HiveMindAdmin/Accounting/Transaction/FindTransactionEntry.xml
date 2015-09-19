@@ -27,6 +27,7 @@ along with this software (see the LICENSE.md file). If not, see
         <entity-find entity-name="mantle.ledger.transaction.AcctgTransAndEntry" list="acctgTransEntryList">
             <search-form-inputs default-order-by="-transactionDate,acctgTransEntrySeqId"/>
             <select-field field-name="acctgTransId"/><select-field field-name="glJournalId"/>
+            <select-field field-name="acctgTransTypeEnumId"/>
             <select-field field-name="organizationPartyId"/><select-field field-name="transactionDate"/>
             <select-field field-name="isPosted"/><select-field field-name="amountUomId"/>
             <select-field field-name="acctgTransEntrySeqId"/><select-field field-name="amount"/>
@@ -44,7 +45,14 @@ along with this software (see the LICENSE.md file). If not, see
                 <header-field title="Journal"><text-find size="8" hide-options="true"/></header-field>
                 <default-field><display/></default-field>
             </field>
-
+            <field name="acctgTransTypeEnumId">
+                <header-field title="TX Type" show-order-by="true">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="AcctgTransType"/><set field="allowEmpty" value="true"/>
+                        <set field="style" value=" "/></widget-template-include>
+                </header-field>
+                <default-field><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+            </field>
             <field name="organizationPartyId">
                 <header-field title="Organization">
                     <drop-down allow-empty="true">
