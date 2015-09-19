@@ -19,6 +19,8 @@ along with this software (see the LICENSE.md file). If not, see
     
     <transition name="postFaDepreciations"><service-call name="mantle.ledger.AssetAutoPostServices.calculateAndPost#AllFixedAssetDepreciations"/>
         <default-response url="."/></transition>
+    <transition name="recalculateAmounts"><service-call name="mantle.ledger.LedgerServices.recalculate#GlAccountOrgTimePeriodAmounts"/>
+        <default-response url="."/></transition>
     <transition name="closePeriod"><service-call name="mantle.ledger.LedgerServices.close#FinancialTimePeriod"/>
         <default-response url="."/></transition>
 
@@ -40,6 +42,7 @@ along with this software (see the LICENSE.md file). If not, see
             <widgets><label text="Period Closed" type="h4"/></widgets>
             <fail-widgets>
                 <link url="postFaDepreciations" text="Post Depreciation for Fixed Assets"/>
+                <link url="recalculateAmounts" text="Recalculate Amounts"/>
                 <link url="closePeriod" text="Close Period" confirmation="Close period ${timePeriod.periodName} [${timePeriod.timePeriodId}]?"/>
             </fail-widgets>
         </section>
