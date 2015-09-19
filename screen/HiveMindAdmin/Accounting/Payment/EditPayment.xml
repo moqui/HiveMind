@@ -52,6 +52,7 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="mantle.account.PaymentServices.get#PaymentDisplayInfo" in-map="[paymentId:paymentId]" out-map="context"/>
         <set field="statusId" from="payment?.statusId"/>
         <set field="paymentEditable" from="statusId in ['PmntProposed', 'PmntPromised', 'PmntAuthorized']"/>
+        <set field="paymentVoid" from="statusId in ['PmntCancelled', 'PmntVoid', 'PmntRefunded']"/>
     </actions>
     <widgets>
         <container-row>
@@ -193,32 +194,33 @@ along with this software (see the LICENSE.md file). If not, see
                     </box-body>
                 </container-box>
 
-                <container-box>
-                    <box-header><label text="Applicable Unpaid Invoices" type="h5"/></box-header>
-                    <box-body>
-                        <form-list name="UnpaidInvoiceList" list="unpaidInvoiceInfoList" transition="applyInvoicePayment">
-                            <field name="paymentId"><default-field><hidden/></default-field></field>
-                            <field name="invoiceId" entry-name="invoice.invoiceId"><default-field title="Invoice">
-                                <display text=""/><!-- so that it is rendered, and a hidden value is added -->
-                                <link url="editInvoice" text="#${invoice.invoiceId?:''}" link-type="anchor"
-                                        parameter-map="[invoiceId:invoice.invoiceId]"/>
-                            </default-field></field>
-                            <field name="invoiceTotal"><default-field title="Total">
-                                <display currency-unit-field="invoice.currencyUomId"/></default-field></field>
-                            <field name="unpaidTotal"><default-field title="Unpaid">
-                                <display currency-unit-field="invoice.currencyUomId"/></default-field></field>
-                            <field name="amount" entry-name="maxApplicableAmount">
-                                <conditional-field condition="maxApplicableAmount"><text-line size="8" format="0.00"/></conditional-field>
-                                <default-field title="Amount"><display text=""/></default-field>
-                            </field>
-                            <field name="submitButton">
-                                <conditional-field condition="maxApplicableAmount" title="Apply"><submit/></conditional-field>
-                                <default-field title=""><display text=""/></default-field>
-                            </field>
-                        </form-list>
-                    </box-body>
-                </container-box>
-
+                <section name="ApplyToInvoiceSection" condition="!paymentVoid &amp;&amp; unappliedTotal > 0"><widgets>
+                    <container-box>
+                        <box-header><label text="Applicable Unpaid Invoices" type="h5"/></box-header>
+                        <box-body>
+                            <form-list name="UnpaidInvoiceList" list="unpaidInvoiceInfoList" transition="applyInvoicePayment">
+                                <field name="paymentId"><default-field><hidden/></default-field></field>
+                                <field name="invoiceId" entry-name="invoice.invoiceId"><default-field title="Invoice">
+                                    <display text=""/><!-- so that it is rendered, and a hidden value is added -->
+                                    <link url="editInvoice" text="#${invoice.invoiceId?:''}" link-type="anchor"
+                                            parameter-map="[invoiceId:invoice.invoiceId]"/>
+                                </default-field></field>
+                                <field name="invoiceTotal"><default-field title="Total">
+                                    <display currency-unit-field="invoice.currencyUomId"/></default-field></field>
+                                <field name="unpaidTotal"><default-field title="Unpaid">
+                                    <display currency-unit-field="invoice.currencyUomId"/></default-field></field>
+                                <field name="amount" entry-name="maxApplicableAmount">
+                                    <conditional-field condition="maxApplicableAmount"><text-line size="8" format="0.00"/></conditional-field>
+                                    <default-field title="Amount"><display text=""/></default-field>
+                                </field>
+                                <field name="submitButton">
+                                    <conditional-field condition="maxApplicableAmount" title="Apply"><submit/></conditional-field>
+                                    <default-field title=""><display text=""/></default-field>
+                                </field>
+                            </form-list>
+                        </box-body>
+                    </container-box>
+                </widgets></section>
             </row-col>
         </container-row>
     </widgets>
