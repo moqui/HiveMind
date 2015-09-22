@@ -74,7 +74,7 @@ along with this software (see the LICENSE.md file). If not, see
                         </default-field>
                     </field>
                     <field name="invoiceDate"><default-field><display also-hidden="false"/></default-field></field>
-                    <field name="invoiceTotal"><default-field><display currency-unit-field="currencyUomId"/></default-field></field>
+                    <field name="invoiceTotal"><default-field><display currency-unit-field="_formMap.currencyUomId"/></default-field></field>
                     <field name="dueDate"><default-field><date-time/></default-field></field>
                     <field name="settlementTermId"><default-field title="Settlement Term">
                         <drop-down allow-empty="true">
@@ -97,12 +97,12 @@ along with this software (see the LICENSE.md file). If not, see
                 <container-box>
                     <box-header><label text="Payment Applications" type="h5"/></box-header>
                     <box-body>
-                        <label text="Applied Payments ${ec.l10n.formatCurrency(appliedPaymentsTotal, currencyUomId, 2)}, Unpayed ${ec.l10n.formatCurrency(unpaidTotal, currencyUomId, 2)}" type="strong"/>
+                        <label text="Applied Payments ${ec.l10n.formatCurrency(appliedPaymentsTotal, _formMap.currencyUomId, 2)}, Unpayed ${ec.l10n.formatCurrency(unpaidTotal, _formMap.currencyUomId, 2)}" type="strong"/>
                         <form-list name="PaymentApplicationList" list="paymentApplicationList">
                             <field name="paymentId"><default-field title="Payment">
                                 <link url="editPayment" text="#${paymentId?:''}" link-type="anchor"/>
                             </default-field></field>
-                            <field name="amountApplied"><default-field title="Amount"><display currency-unit-field="currencyUomId"/></default-field></field>
+                            <field name="amountApplied"><default-field title="Amount"><display currency-unit-field="_formMap.currencyUomId"/></default-field></field>
                             <field name="appliedDate"><default-field title="Date"><display/></default-field></field>
                         </form-list>
                     </box-body>
