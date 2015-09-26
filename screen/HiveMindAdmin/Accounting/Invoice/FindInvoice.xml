@@ -83,7 +83,7 @@ along with this software (see the LICENSE.md file). If not, see
                         <drop-down allow-empty="true">
                             <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]">
                                 <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                                    <econdition field-name="roleTypeId" value="VendorBillFrom"/></entity-find>
+                                    <econdition field-name="roleTypeId" operator="in" value="Supplier,VendorBillFrom,OrgInternal"/></entity-find>
                             </entity-options>
                         </drop-down>
                     </default-field></field>
@@ -91,7 +91,7 @@ along with this software (see the LICENSE.md file). If not, see
                         <drop-down allow-empty="true">
                             <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]">
                                 <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                                    <econdition field-name="roleTypeId" value="CustomerBillTo"/></entity-find>
+                                    <econdition field-name="roleTypeId" operator="in" value="Customer,CustomerBillTo,OrgInternal"/></entity-find>
                             </entity-options>
                         </drop-down>
                     </default-field></field>
