@@ -18,9 +18,12 @@ along with this software (see the LICENSE.md file). If not, see
     <parameter name="invoiceId" required="true" from="invoiceId ?: invoiceId_0"/>
     <parameter name="invoiceId_0"/>
 
-    <transition name="createInvoiceItem"><service-call name="create#mantle.account.invoice.InvoiceItem"/><default-response url="."/></transition>
-    <transition name="updateInvoiceItem"><service-call name="update#mantle.account.invoice.InvoiceItem"/><default-response url="."/></transition>
-    <transition name="deleteInvoiceItem"><service-call name="delete#mantle.account.invoice.InvoiceItem"/><default-response url="."/></transition>
+    <transition name="createInvoiceItem"><service-call name="mantle.account.InvoiceServices.create#InvoiceItem"/>
+        <default-response url="."/></transition>
+    <transition name="updateInvoiceItem"><service-call name="mantle.account.InvoiceServices.update#InvoiceItem"/>
+        <default-response url="."/></transition>
+    <transition name="deleteInvoiceItem"><service-call name="mantle.account.InvoiceServices.delete#InvoiceItem"/>
+        <default-response url="."/></transition>
 
     <transition-include name="getGlAccountList" location="component://mantle-usl/template/account/AccountTransitions.xml"/>
 

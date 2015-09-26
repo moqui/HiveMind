@@ -17,7 +17,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <parameter name="invoiceId" required="true"/>
 
-    <transition name="updateInvoice"><service-call name="update#mantle.account.invoice.Invoice"/><default-response url="."/></transition>
+    <transition name="updateInvoice"><service-call name="mantle.account.InvoiceServices.update#Invoice"/><default-response url="."/></transition>
     <transition name="updateStatus"><service-call name="update#mantle.account.invoice.Invoice"/><default-response url="."/></transition>
 
     <transition name="editPayment"><default-response url="../../Payment/EditPayment"/></transition>
@@ -97,7 +97,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <container-box>
                     <box-header><label text="Payment Applications" type="h5"/></box-header>
                     <box-body>
-                        <label text="Applied Payments ${ec.l10n.formatCurrency(appliedPaymentsTotal, invoice.currencyUomId, 2)}, Unpayed ${ec.l10n.formatCurrency(unpaidTotal, invoice.currencyUomId, 2)}" type="strong"/>
+                        <label text="Applied Payments ${ec.l10n.formatCurrency(appliedPaymentsTotal, invoice.currencyUomId, 2)}, Unpaid ${ec.l10n.formatCurrency(unpaidTotal, invoice.currencyUomId, 2)}" type="strong"/>
                         <form-list name="PaymentApplicationList" list="paymentApplicationList">
                             <field name="paymentId"><default-field title="Payment">
                                 <link url="editPayment" text="#${paymentId?:''}" link-type="anchor"/>
