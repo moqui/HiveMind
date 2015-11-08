@@ -123,7 +123,7 @@ along with this software (see the LICENSE.md file). If not, see
                         <default-field title="Method Type"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
                     </field>
                     <field name="paymentMethodId">
-                        <conditional-field title="Payment Method" condition="paymentEditable">
+                        <conditional-field title="From Payment Method" condition="paymentEditable">
                             <drop-down allow-empty="true">
                                 <entity-options key="${paymentMethodId}" text="${typeDescription} - ${description}">
                                     <entity-find entity-name="mantle.account.method.PaymentMethodAndType">
@@ -134,6 +134,20 @@ along with this software (see the LICENSE.md file). If not, see
                                 text="${typeDescription} - ${description}"/></default-field>
                     </field>
 
+                    <field name="toPaymentMethodId">
+                        <conditional-field title="To Payment Method" condition="paymentEditable">
+                            <drop-down allow-empty="true">
+                                <entity-options key="${paymentMethodId}" text="${typeDescription} - ${description}">
+                                    <entity-find entity-name="mantle.account.method.PaymentMethodAndType">
+                                        <econdition field-name="ownerPartyId" from="payment.toPartyId"/></entity-find>
+                                </entity-options>
+                            </drop-down>
+                        </conditional-field>
+                        <default-field title="Payment Method">
+                            <display-entity entity-name="mantle.account.method.PaymentMethodAndType"
+                                    text="${typeDescription} - ${description}"/>
+                        </default-field>
+                    </field>
                     <field name="overrideGlAccountId">
                         <conditional-field title="Override (Cash) GL Account" condition="paymentEditable">
                             <text-line size="50" ac-transition="getGlAccountList"/></conditional-field>
