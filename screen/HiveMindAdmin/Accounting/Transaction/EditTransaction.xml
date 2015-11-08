@@ -50,7 +50,7 @@ along with this software (see the LICENSE.md file). If not, see
         <entity-find-one entity-name="moqui.basic.Uom" value-field="amountUom">
             <field-map field-name="uomId" from="acctgTrans.amountUomId"/></entity-find-one>
         <entity-find-one entity-name="moqui.basic.Uom" value-field="origCurrencyAmountUom">
-            <field-map field-name="uomId" from="acctgTrans.origCurrencyAmountUomId"/></entity-find-one>
+            <field-map field-name="uomId" from="acctgTrans.originalCurrencyUomId"/></entity-find-one>
 
         <set field="glJournal" from="acctgTrans.'mantle.ledger.transaction.GlJournal'"/>
 
@@ -82,7 +82,7 @@ along with this software (see the LICENSE.md file). If not, see
                                 </entity-find>
                             </entity-options></drop-down>
                         </default-field></field>
-                        <field name="origCurrencyAmountUomId"><default-field title="Orig. Currency">
+                        <field name="originalCurrencyUomId"><default-field title="Orig. Currency">
                             <drop-down allow-empty="true" style="chosen-wide"><entity-options key="${uomId}" text="${description} [${uomId}]">
                                 <entity-find entity-name="moqui.basic.Uom">
                                     <econdition field-name="uomTypeEnumId" value="UT_CURRENCY_MEASURE"/>
@@ -200,7 +200,7 @@ along with this software (see the LICENSE.md file). If not, see
                         <field name="amount">
                             <default-field><text-line size="8"/></default-field>
                         </field>
-                        <field name="origCurrencyAmount">
+                        <field name="originalCurrencyAmount">
                             <default-field title="Orig Currency Amt"><text-line size="8"/></default-field>
                         </field>
                         <field name="debitCreditFlag">
@@ -231,9 +231,9 @@ along with this software (see the LICENSE.md file). If not, see
                 <conditional-field condition="acctgTrans.isPosted != 'Y'"><text-line size="10"/></conditional-field>
                 <default-field><display currency-unit-field="acctgTrans.amountUomId"/></default-field>
             </field>
-            <field name="origCurrencyAmount">
+            <field name="originalCurrencyAmount">
                 <conditional-field condition="acctgTrans.isPosted != 'Y'"><text-line size="8"/></conditional-field>
-                <default-field title="Orig Currency Amt"><display currency-unit-field="acctgTrans.origCurrencyAmountUomId"/></default-field>
+                <default-field title="Orig Currency Amt"><display currency-unit-field="acctgTrans.originalCurrencyUomId"/></default-field>
             </field>
             <field name="debitCreditFlag">
                 <conditional-field condition="acctgTrans.isPosted != 'Y'">
