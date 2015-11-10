@@ -73,6 +73,14 @@ along with this software (see the LICENSE.md file). If not, see
                             <display-entity entity-name="moqui.basic.Enumeration"/>
                         </default-field>
                     </field>
+                    <field name="referenceNumber"><default-field tooltip="Other party Invoice ID or other reference number">
+                        <text-line size="20"/></default-field></field>
+                    <field name="dupWarning">
+                        <conditional-field title="" condition="dupInvoiceList">
+                            <label text="Found invoice(s) with same Reference Number: ${dupInvoiceList.invoiceId}" style="text-danger"/>
+                        </conditional-field>
+                        <default-field><ignored/></default-field>
+                    </field>
                     <field name="invoiceDate"><default-field><display also-hidden="false"/></default-field></field>
                     <field name="invoiceTotal"><default-field><display currency-unit-field="invoice.currencyUomId"/></default-field></field>
                     <field name="dueDate"><default-field><date-time/></default-field></field>

@@ -255,9 +255,9 @@ along with this software (see the LICENSE.md file). If not, see
                 </conditional-field>
                 <default-field title="GL Account"><display text="${glAccount?.accountCode} - ${glAccount?.accountName}"/></default-field>
             </field>
-            <field name="invoiceItemSeqId">
-                <default-field title="Invc Itm"><display/></default-field>
-            </field>
+            <field name="reconcileStatusId"><default-field title="Reconciled">
+                <display-entity entity-name="moqui.basic.StatusItem"/></default-field></field>
+            <field name="invoiceItemSeqId"><default-field title="Invc Itm"><display/></default-field></field>
             <field name="productId"><default-field title="Product">
                 <link url="editProduct" entity-name="mantle.product.Product" text="ProductNameTemplate" link-type="anchor"/>
             </default-field></field>

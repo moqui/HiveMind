@@ -90,6 +90,14 @@ along with this software (see the LICENSE.md file). If not, see
                             text="${organizationName?:''}${firstName?:''} ${lastName?:''} [${pseudoId}]"/>
                 </default-field>
             </field>
+
+            <field name="paymentMethodId"><default-field title="From Payment Method">
+                <display-entity entity-name="mantle.account.method.PaymentMethodAndType" text="PaymentMethodAndTypeTemplate"/>
+            </default-field></field>
+            <field name="toPaymentMethodId"><default-field title="To Payment Method">
+                <display-entity entity-name="mantle.account.method.PaymentMethodAndType" text="PaymentMethodAndTypeTemplate"/>
+            </default-field></field>
+
             <field name="effectiveDate">
                 <header-field show-order-by="true"><date-period/></header-field>
                 <default-field><display also-hidden="false"/></default-field>
@@ -113,6 +121,13 @@ along with this software (see the LICENSE.md file). If not, see
                 <header-field title="Find"><submit/></header-field>
                 <default-field title="Amount"><display currency-unit-field="amountUomId"/></default-field>
             </field>
+
+            <form-list-column><field-ref name="editPaymentLink"/></form-list-column>
+            <form-list-column><field-ref name="fromPartyId"/><field-ref name="toPartyId"/></form-list-column>
+            <form-list-column><field-ref name="paymentMethodId"/><field-ref name="toPaymentMethodId"/></form-list-column>
+            <form-list-column><field-ref name="effectiveDate"/><field-ref name="statusId"/></form-list-column>
+            <form-list-column><field-ref name="paymentTypeEnumId"/></form-list-column>
+            <form-list-column><field-ref name="amount"/></form-list-column>
         </form-list>
     </widgets>
 </screen>

@@ -127,10 +127,12 @@ along with this software (see the LICENSE.md file). If not, see
                             <drop-down allow-empty="true">
                                 <entity-options key="${paymentMethodId}" text="${typeDescription} - ${description}">
                                     <entity-find entity-name="mantle.account.method.PaymentMethodAndType">
-                                        <econdition field-name="ownerPartyId" from="payment.fromPartyId"/></entity-find>
+                                        <econdition field-name="ownerPartyId" from="payment.fromPartyId"/>
+                                        <order-by field-name="typeDescription,description"/>
+                                    </entity-find>
                                 </entity-options></drop-down>
                         </conditional-field>
-                        <default-field title="Payment Method"><display-entity entity-name="mantle.account.method.PaymentMethodAndType"
+                        <default-field title="From Payment Method"><display-entity entity-name="mantle.account.method.PaymentMethodAndType"
                                 text="${typeDescription} - ${description}"/></default-field>
                     </field>
 
@@ -139,11 +141,13 @@ along with this software (see the LICENSE.md file). If not, see
                             <drop-down allow-empty="true">
                                 <entity-options key="${paymentMethodId}" text="${typeDescription} - ${description}">
                                     <entity-find entity-name="mantle.account.method.PaymentMethodAndType">
-                                        <econdition field-name="ownerPartyId" from="payment.toPartyId"/></entity-find>
+                                        <econdition field-name="ownerPartyId" from="payment.toPartyId"/>
+                                        <order-by field-name="typeDescription,description"/>
+                                    </entity-find>
                                 </entity-options>
                             </drop-down>
                         </conditional-field>
-                        <default-field title="Payment Method">
+                        <default-field title="To Payment Method">
                             <display-entity entity-name="mantle.account.method.PaymentMethodAndType"
                                     text="${typeDescription} - ${description}"/>
                         </default-field>
