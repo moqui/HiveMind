@@ -99,6 +99,7 @@ along with this software (see the LICENSE.md file). If not, see
                         <drop-down><entity-options key="${partyId}" text="${organizationName}">
                             <entity-find entity-name="mantle.party.PartyDetailAndRole">
                                 <econdition field-name="roleTypeId" value="OrgTeam"/>
+                                <econdition field-name="disabled" value="N" or-null="true"/>
                                 <order-by field-name="organizationName"/>
                             </entity-find>
                         </entity-options></drop-down>

@@ -79,13 +79,16 @@ along with this software (see the LICENSE.md file). If not, see
     </actions>
     <widgets>
         <container>
+            <!--
             <container-dialog id="FindInvoiceDialog" button-text="Search Invoices" width="700">
                 <form-single name="FindInvoice" transition="findInvoice">
                     <field name="fromPartyId"><default-field title="From">
                         <drop-down allow-empty="true">
                             <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]">
                                 <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                                    <econdition field-name="roleTypeId" operator="in" value="Supplier,VendorBillFrom,OrgInternal"/></entity-find>
+                                    <econdition field-name="roleTypeId" operator="in" value="Supplier,Vendor,VendorBillFrom,OrgInternal"/>
+                                    <econdition field-name="disabled" value="N" or-null="true"/>
+                                </entity-find>
                             </entity-options>
                         </drop-down>
                     </default-field></field>
@@ -93,7 +96,9 @@ along with this software (see the LICENSE.md file). If not, see
                         <drop-down allow-empty="true">
                             <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]">
                                 <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                                    <econdition field-name="roleTypeId" operator="in" value="Customer,CustomerBillTo,OrgInternal"/></entity-find>
+                                    <econdition field-name="roleTypeId" operator="in" value="Customer,CustomerBillTo,OrgInternal"/>
+                                    <econdition field-name="disabled" value="N" or-null="true"/>
+                                </entity-find>
                             </entity-options>
                         </drop-down>
                     </default-field></field>
@@ -110,6 +115,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <field name="searchButton"><default-field title="Find"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
+            -->
 
             <container-dialog id="NewInvoiceDialog" button-text="New Invoice">
                 <form-single name="NewInvoiceForm" transition="createInvoice">
@@ -117,7 +123,8 @@ along with this software (see the LICENSE.md file). If not, see
                         <drop-down style="chosen-wider">
                             <entity-options key="${partyId}" text="PartyNameTemplate">
                                 <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                                    <econdition field-name="roleTypeId" operator="in" value="Supplier,VendorBillFrom,OrgInternal"/>
+                                    <econdition field-name="roleTypeId" operator="in" value="Supplier,Vendor,VendorBillFrom,OrgInternal"/>
+                                    <econdition field-name="disabled" value="N" or-null="true"/>
                                     <order-by field-name="organizationName,firstName"/></entity-find></entity-options>
                         </drop-down>
                     </default-field></field>
@@ -126,6 +133,7 @@ along with this software (see the LICENSE.md file). If not, see
                             <entity-options key="${partyId}" text="PartyNameTemplate">
                                 <entity-find entity-name="mantle.party.PartyDetailAndRole">
                                     <econdition field-name="roleTypeId" operator="in" value="Customer,CustomerBillTo,OrgInternal"/>
+                                    <econdition field-name="disabled" value="N" or-null="true"/>
                                     <order-by field-name="organizationName,firstName"/></entity-find></entity-options>
                         </drop-down>
                     </default-field></field>
@@ -212,15 +220,18 @@ along with this software (see the LICENSE.md file). If not, see
                 <header-field title="Type" show-order-by="true">
                     <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
                         <set field="enumTypeId" value="InvoiceType"/><set field="allowEmpty" value="true"/>
-                        <set field="style" value=" "/></widget-template-include>
+                        <set field="style" value=" "/><set field="allowMultiple" value="true"/></widget-template-include>
                 </header-field>
                 <default-field><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
             </field>
+            <field name="referenceNumber"><header-field><text-find size="10" hide-options="true"/></header-field>
+                <default-field><display/></default-field></field>
             <field name="fromPartyId">
                 <header-field title="From"><drop-down allow-empty="true">
                     <entity-options key="${partyId}" text="PartyNameTemplate">
                         <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                            <econdition field-name="roleTypeId" operator="in" value="Supplier,VendorBillFrom,OrgInternal"/>
+                            <econdition field-name="roleTypeId" operator="in" value="Supplier,Vendor,VendorBillFrom,OrgInternal"/>
+                            <econdition field-name="disabled" value="N" or-null="true"/>
                             <order-by field-name="organizationName,firstName"/>
                         </entity-find>
                     </entity-options>
@@ -236,6 +247,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <entity-options key="${partyId}" text="PartyNameTemplate">
                         <entity-find entity-name="mantle.party.PartyDetailAndRole">
                             <econdition field-name="roleTypeId" operator="in" value="Customer,CustomerBillTo,OrgInternal"/>
+                            <econdition field-name="disabled" value="N" or-null="true"/>
                             <order-by field-name="organizationName,firstName"/>
                         </entity-find>
                     </entity-options>
@@ -249,11 +261,23 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="invoiceDate"><header-field show-order-by="true"/><default-field><display also-hidden="false"/></default-field></field>
             <field name="dueDate"><header-field show-order-by="true"><date-period/></header-field>
                 <default-field><display/></default-field></field>
-            <field name="statusId"><header-field show-order-by="true"/>
-                <default-field title="Status"><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
+            <field name="statusId">
+                <header-field title="Status" show-order-by="true">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
+                        <set field="statusTypeId" value="Invoice"/><set field="allowEmpty" value="true"/>
+                        <set field="allowMultiple" value="true"/></widget-template-include>
+                </header-field>
+                <default-field><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
             </field>
             <field name="invoiceTotal"><header-field title="Find"><submit/></header-field>
                 <default-field title="Total"><display currency-unit-field="currencyUomId"/></default-field></field>
+
+            <form-list-column><field-ref name="editInvoiceLink"/></form-list-column>
+            <form-list-column><field-ref name="invoiceTypeEnumId"/><field-ref name="referenceNumber"/></form-list-column>
+            <form-list-column><field-ref name="fromPartyId"/><field-ref name="toPartyId"/></form-list-column>
+            <form-list-column><field-ref name="invoiceDate"/><field-ref name="dueDate"/></form-list-column>
+            <form-list-column><field-ref name="statusId"/></form-list-column>
+            <form-list-column><field-ref name="invoiceTotal"/></form-list-column>
         </form-list>
     </widgets>
 </screen>

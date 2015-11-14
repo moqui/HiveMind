@@ -115,12 +115,12 @@ along with this software (see the LICENSE.md file). If not, see
                         </conditional-field>
                         <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
                     </field>
-                    <field name="paymentMethodTypeEnumId">
-                        <conditional-field title="Method Type" condition="paymentEditable">
+                    <field name="paymentInstrumentEnumId">
+                        <conditional-field title="Instrument" condition="paymentEditable">
                             <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
-                                <set field="enumTypeId" value="PaymentMethodType"/></widget-template-include>
+                                <set field="enumTypeId" value="PaymentInstrument"/></widget-template-include>
                         </conditional-field>
-                        <default-field title="Method Type"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+                        <default-field title="Instrument"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
                     </field>
                     <field name="paymentMethodId">
                         <conditional-field title="From Payment Method" condition="paymentEditable">
@@ -185,6 +185,12 @@ along with this software (see the LICENSE.md file). If not, see
 
                     <field name="paymentAuthCode"><default-field title="Auth Code"><text-line size="15"/></default-field></field>
                     <field name="paymentRefNum"><default-field title="Ref Number"><text-line size="15"/></default-field></field>
+                    <field name="dupWarning">
+                        <conditional-field title="" condition="dupPaymentList">
+                            <label text="Found payment(s) with same Ref Number: ${dupPaymentList.paymentId}" style="text-danger"/>
+                        </conditional-field>
+                        <default-field><ignored/></default-field>
+                    </field>
 
                     <field name="comments"><default-field><text-area cols="60" rows="4"/></default-field></field>
 
@@ -239,6 +245,8 @@ along with this software (see the LICENSE.md file). If not, see
                         </box-body>
                     </container-box>
                 </widgets></section>
+
+                <!-- TODO: section for PaymentContent -->
             </row-col>
         </container-row>
     </widgets>

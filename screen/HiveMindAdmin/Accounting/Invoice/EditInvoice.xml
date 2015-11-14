@@ -136,10 +136,10 @@ along with this software (see the LICENSE.md file). If not, see
                                         <field name="amount"><default-field>
                                             <text-line size="10" default-value="${ec.l10n.formatNumber(invoiceTotal, '#0.00')}"/>
                                         </default-field></field>
-                                        <field name="paymentMethodTypeEnumId"><default-field title="Payment Type">
+                                        <field name="paymentInstrumentEnumId"><default-field title="Payment Instrument">
                                             <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
-                                                <set field="enumTypeId" value="PaymentMethodType"/>
-                                                <set field="noCurrentSelectedKey" value="PmtCompanyCheck"/></widget-template-include>
+                                                <set field="enumTypeId" value="PaymentInstrument"/>
+                                                <set field="noCurrentSelectedKey" value="PiCompanyCheck"/></widget-template-include>
                                         </default-field></field>
                                         <field name="effectiveDate"><default-field><date-time default-value="${ec.l10n.formatTimestamp(ec.user.nowTimestamp, 'yyyy-MM-dd HH:mm:ss')}"/></default-field></field>
                                         <field name="paymentRefNum"><default-field title="Reference Number"><text-line size="10"/></default-field></field>
@@ -161,6 +161,8 @@ along with this software (see the LICENSE.md file). If not, see
                         </container-box>
                     </widgets>
                 </section>
+
+                <!-- TODO: section for InvoiceContent -->
             </row-col>
         </container-row>
     </widgets>
