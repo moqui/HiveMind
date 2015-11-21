@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-This software is in the public domain under CC0 1.0 Universal plus a Grant of Patent License.
+This software is in the public domain under CC0 1.0 Universal plus a
+Grant of Patent License.
 
 To the extent possible under law, the author(s) have dedicated all
 copyright and related and neighboring rights to this software to the
@@ -60,6 +61,9 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="editPaymentLink"><header-field show-order-by="case-insensitive" title="Edit"/><default-field>
                 <link url="editPayment" text="Edit ${paymentId}" link-type="anchor"/>
             </default-field></field>
+            <field name="paymentRefNum"><header-field title="Ref Num" show-order-by="true"><text-line size="8"/></header-field>
+                <default-field><display/></default-field></field>
+
             <field name="fromPartyId">
                 <header-field title="From">
                     <drop-down allow-empty="true">
@@ -119,16 +123,24 @@ along with this software (see the LICENSE.md file). If not, see
                 </header-field>
                 <default-field><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
             </field>
+            <field name="paymentInstrumentEnumId">
+                <header-field title="Instrument">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="PaymentInstrument"/><set field="allowEmpty" value="true"/>
+                        <set field="style" value=" "/></widget-template-include>
+                </header-field>
+                <default-field><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+            </field>
             <field name="amount">
                 <header-field title="Find"><submit/></header-field>
                 <default-field title="Amount"><display currency-unit-field="amountUomId"/></default-field>
             </field>
 
-            <form-list-column><field-ref name="editPaymentLink"/></form-list-column>
+            <form-list-column><field-ref name="editPaymentLink"/><field-ref name="paymentRefNum"/></form-list-column>
             <form-list-column><field-ref name="fromPartyId"/><field-ref name="toPartyId"/></form-list-column>
             <form-list-column><field-ref name="paymentMethodId"/><field-ref name="toPaymentMethodId"/></form-list-column>
             <form-list-column><field-ref name="effectiveDate"/><field-ref name="statusId"/></form-list-column>
-            <form-list-column><field-ref name="paymentTypeEnumId"/></form-list-column>
+            <form-list-column><field-ref name="paymentTypeEnumId"/><field-ref name="paymentInstrumentEnumId"/></form-list-column>
             <form-list-column><field-ref name="amount"/></form-list-column>
         </form-list>
     </widgets>
