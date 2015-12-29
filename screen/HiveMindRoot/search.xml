@@ -39,15 +39,17 @@ along with this software (see the LICENSE.md file). If not, see
                 indexName = "${ec.tenantId}__hivemind".toLowerCase()
                 queryString = "${term}*"
 
-                SearchHits hits = ec.elasticSearchClient.prepareSearch().setIndices(indexName).setTypes(documentType)
-                        .setQuery(QueryBuilders.queryString(queryString)).setSize(20)
-                        .setHighlighterFragmentSize(50)
-                        .addHighlightedField("*").setHighlighterPreTags("").setHighlighterPostTags("*")
+                // not passed through: .setTypes(documentType)
+                SearchHits hits = ec.elasticSearchClient.prepareSearch().setIndices(indexName)
+                        .setQuery(QueryBuilders.queryStringQuery(queryString)).setSize(30)
+                        .setHighlighterFragmentSize(30).setHighlighterNumOfFragments(3)
+                        .setHighlighterForceSource(true).setHighlighterRequireFieldMatch(false)
+                        .addHighlightedField("*").setHighlighterPreTags("*").setHighlighterPostTags("*")
                         .execute().actionGet().getHits()
                 // .setHighlighterRequireFieldMatch(true).setHighlighterType("plain")
-                // logger.warn("=========== queryString [${queryString}], hits ${hits.totalHits()}")
+                logger.warn("=========== queryString [${queryString}], hits ${hits.totalHits()}")
                 for (SearchHit hit in hits) {
-                    // logger.warn("=========== hit ${hit.getId()}; ${hit.getHighlightFields().values()}")
+                    logger.warn("=========== hit ${hit.getId()}; ${hit.getHighlightFields().values()}")
                     for (HighlightField hlf in hit.getHighlightFields().values()) {
                         optionList.addAll(hlf.fragments())
                     }
@@ -72,10 +74,11 @@ along with this software (see the LICENSE.md file). If not, see
                 import org.elasticsearch.search.suggest.term.TermSuggestionBuilder
                 import org.elasticsearch.search.suggest.completion.CompletionSuggestionBuilder
                 import org.elasticsearch.search.suggest.completion.CompletionSuggestionFuzzyBuilder
+                import org.moqui.context.ExecutionContext
 
                 org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("search_actions")
 
-                org.moqui.context.ExecutionContext ec = context.ec
+                ExecutionContext ec = context.ec
                 indexName = "${ec.tenantId}__hivemind".toLowerCase()
                 // get this working - for whatever reason no suggestions come back in spite of trying dozens of combinations of parameters, maybe wait for next ES release...
                 // see ES suggest docs at: http://www.elasticsearch.org/guide/reference/api/search/suggest/
@@ -149,7 +152,7 @@ along with this software (see the LICENSE.md file). If not, see
             </default-field></field>
             <field name="queryString"><default-field title="">
                 <!-- <text-line size="40"/> -->
-                <text-line ac-transition="searchSuggest" ac-min-length="3" size="40" ac-use-actual="true"/>
+                <text-line ac-transition="searchSuggest" ac-min-length="3" size="50" ac-use-actual="true"/>
             </default-field></field>
             <field name="submitButton"><default-field title="Search"><submit/></default-field></field>
             <field-layout><field-row-big><field-ref name="documentType"/><field-ref name="queryString"/>
