@@ -15,14 +15,14 @@ along with this software (see the LICENSE.md file). If not, see
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.6.xsd">
     <widgets>
         <render-mode><text type="html"><![CDATA[<html><body>]]></text></render-mode>
-        <container><label text="Task Updated: ${document._id} - ${document.WorkEffort.name}" type="h2"/></container>
+        <container><label text="Task Updated: ${document._id} - ${document.name}" type="h2"/></container>
         <section name="NameChange">
-            <condition><expression>document.WorkEffort.name != originalDocument.WorkEffort.name</expression></condition>
-            <widgets><container><label text="Task name changed from '${originalDocument.WorkEffort.name}' to '${document.WorkEffort.name}'"/></container></widgets>
+            <condition><expression>document.name != originalDocument.name</expression></condition>
+            <widgets><container><label text="Task name changed from '${originalDocument.name}' to '${document.name}'"/></container></widgets>
         </section>
         <section name="StatusChange">
-            <condition><expression>document.StatusItem.status != originalDocument.StatusItem.status</expression></condition>
-            <widgets><container><label text="Status changed from '${originalDocument.StatusItem.status}' to '${document.StatusItem.status}'"/></container></widgets>
+            <condition><expression>document.status != originalDocument.status</expression></condition>
+            <widgets><container><label text="Status changed from '${originalDocument.status}' to '${document.status}'"/></container></widgets>
         </section>
         <!-- TODO: go through document and originalDocument elements to show what has been updated -->
         <container><label text="New Task Document" type="h2"/></container>
