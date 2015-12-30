@@ -433,8 +433,8 @@ along with this software (see the LICENSE.md file). If not, see
                     <box-body>
                         <section-iterate name="TaskWikiPageList" list="wpaweList" entry="wpawe">
                             <widgets><container>
-                                <link text="${wpawe.wikiSpaceId}" url="/apps/hm/wiki/${wpawe.wikiSpaceId}" url-type="plain" link-type="anchor"/>
-                                <link text="/${wpawe.pagePath}" url="/apps/hm/wiki/${wpawe.wikiSpaceId}/${wpawe.pagePath?:''}" url-type="plain" link-type="anchor"/>
+                                <link text="${wpawe.wikiSpaceId}" url="/apps/hm/wiki/${wpawe.wikiSpaceId}" link-type="anchor"/>
+                                <link text="/${wpawe.pagePath}" url="/apps/hm/wiki/${wpawe.wikiSpaceId}/${wpawe.pagePath?:''}" link-type="anchor"/>
                             </container></widgets>
                         </section-iterate>
                     </box-body>

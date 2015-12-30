@@ -69,10 +69,10 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="wikiPageId"><default-field><hidden/></default-field></field>
 
             <field name="wikiSpaceId"><default-field title="Space"><display text=""/>
-                <link text="${wikiSpaceId}" url="/apps/hm/wiki/${wikiSpaceId}" url-type="plain" link-type="anchor"/>
+                <link text="${wikiSpaceId}" url="/apps/hm/wiki/${wikiSpaceId}" link-type="anchor"/>
             </default-field></field>
             <field name="pagePath"><default-field title="Page"><display text=""/>
-                <link text="${pagePath}" url="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}" url-type="plain" link-type="anchor"/>
+                <link text="${pagePath}" url="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}" link-type="anchor"/>
             </default-field></field>
 
             <field name="submitButton"><default-field title="Delete"><submit/></default-field></field>
