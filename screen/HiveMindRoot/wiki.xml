@@ -141,7 +141,7 @@ along with this software (see the LICENSE.md file). If not, see
                             </script>
                             <set field="newIdPath" value="${treeNodeId == '#' ? '' : treeNodeId + '/'}${curFileName}"/>
                         </actions>
-                        <link text="${curFileName}" url="/apps/hm/wiki/${wikiSpaceId}/${newIdPath}" url-type="plain" id="${newIdPath}"/>
+                        <link text="${curFileName}" url="/apps/hm/wiki/${wikiSpaceId}/${newIdPath}" id="${newIdPath}"/>
                         <tree-sub-node node-name="WikiPageNode" list="childPageList">
                             <actions>
                                 <service-call name="HiveMind.WikiServices.get#WikiPageInfo" out-map="curPageInfo"

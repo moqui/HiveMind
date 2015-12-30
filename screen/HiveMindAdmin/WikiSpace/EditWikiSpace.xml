@@ -32,7 +32,7 @@ along with this software (see the LICENSE.md file). If not, see
     </actions>
     <widgets>
         <container>
-            <link text="View Space" url="/apps/hm/wiki/${wikiSpaceId}" url-type="plain" link-type="anchor-button"/>
+            <link text="View Space" url="/apps/hm/wiki/${wikiSpaceId}" link-type="anchor-button"/>
             <link text="Index Space Pages" url="indexPages" link-type="hidden-form"/>
         </container>
         <form-single name="EditSpace" transition="updateSpace">
