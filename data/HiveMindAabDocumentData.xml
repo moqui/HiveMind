@@ -14,31 +14,22 @@ along with this software (see the LICENSE.md file). If not, see
 -->
 <entity-facade-xml type="seed">
     <!-- Wiki Page -->
-    <moqui.entity.document.DataDocument dataDocumentId="HmWikiPage" indexName="hivemind" documentName="Wiki Page"
+    <dataDocuments dataDocumentId="HmWikiPage" indexName="hivemind" documentName="Wiki Page"
             primaryEntityName="HiveMind.wiki.WikiPage" documentTitle="${wikiSpaceId}/${pagePath?:''}"
-            manualDataServiceName="HiveMind.WikiServices.getWikiPageManualDocumentData"/>
-    <!-- NOTE: service purpose is to get wiki page contents from the file (resource) -->
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="wikiPageId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="wikiSpaceId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="pagePath"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="HiveMind.wiki.WikiSpace:description" fieldNameAlias="space"/>
-    <!-- the history fields are useful for update history and search by users who have updated a page, but also trigger indexing on page update -->
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="HiveMind.wiki.WikiPageHistory:historySeqId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="HiveMind.wiki.WikiPageHistory:changeDateTime"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="HiveMind.wiki.WikiPageHistory:userId"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage"
-            fieldPath="HiveMind.wiki.WikiPageHistory:moqui.security.UserAccount:username"/>
-    <moqui.entity.document.DataDocumentField dataDocumentId="HmWikiPage" fieldPath="HiveMind.wiki.WikiPageHistory:changeDateTime"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmWikiPage"
-            relationshipName="HiveMind.wiki.WikiPage" documentAlias="WikiPage"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmWikiPage"
-            relationshipName="HiveMind.wiki.WikiSpace" documentAlias="WikiSpace"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmWikiPage"
-            relationshipName="HiveMind.wiki.WikiPageHistory" documentAlias="History"/>
-    <moqui.entity.document.DataDocumentRelAlias dataDocumentId="HmWikiPage"
-            relationshipName="moqui.security.UserAccount" documentAlias="UserAccount"/>
-    <moqui.entity.document.DataDocumentLink dataDocumentId="HmWikiPage" label="Wiki Page"
-            linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
+            manualDataServiceName="HiveMind.WikiServices.getWikiPageManualDocumentData">
+        <!-- NOTE: service purpose is to get wiki page contents from the file (resource) -->
+        <fields fieldPath="wikiPageId"/>
+        <fields fieldPath="wikiSpaceId"/>
+        <fields fieldPath="pagePath"/>
+        <fields fieldPath="space:description" fieldNameAlias="space"/>
+        <!-- the history fields are useful for update history and search by users who have updated a page, but also trigger indexing on page update -->
+        <fields fieldPath="histories:historySeqId"/>
+        <fields fieldPath="histories:changeDateTime"/>
+        <fields fieldPath="histories:userId"/>
+        <fields fieldPath="histories:user:username"/>
+        <fields fieldPath="histories:changeDateTime"/>
+        <moqui.entity.document.DataDocumentLink label="Wiki Page" linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
+    </dataDocuments>
 
     <!-- Project -->
     <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleProject" newDataDocumentId="HmProject"
