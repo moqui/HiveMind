@@ -26,9 +26,9 @@ along with this software (see the LICENSE.md file). If not, see
         <fields fieldPath="histories:historySeqId"/>
         <fields fieldPath="histories:changeDateTime"/>
         <fields fieldPath="histories:userId"/>
-        <fields fieldPath="histories:user:username"/>
+        <!-- <fields fieldPath="histories:user:username"/> -->
         <fields fieldPath="histories:changeDateTime"/>
-        <moqui.entity.document.DataDocumentLink label="Wiki Page" linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
+        <links label="Wiki Page" linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
     </dataDocuments>
 
     <!-- Project -->
@@ -51,11 +51,12 @@ along with this software (see the LICENSE.md file). If not, see
     <!-- ================ -->
     <!-- Search Data Feed -->
     <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataFeedTypeEnumId="DTFDTP_RT_PUSH"
-            feedName="HiveMind Search" feedReceiveServiceName="HiveMind.SearchServices.indexAndNotify#HiveMindDocuments"/>
-    <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmWikiPage"/>
-    <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmProject"/>
-    <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmTask"/>
-    <moqui.entity.feed.DataFeedDocument dataFeedId="HiveMindSearch" dataDocumentId="HmRequest"/>
+            feedName="HiveMind Search" feedReceiveServiceName="HiveMind.SearchServices.indexAndNotify#HiveMindDocuments">
+        <documents dataDocumentId="HmWikiPage"/>
+        <documents dataDocumentId="HmProject"/>
+        <documents dataDocumentId="HmTask"/>
+        <documents dataDocumentId="HmRequest"/>
+    </moqui.entity.feed.DataFeed>
 
     <!-- explicitly index the Data Feed documents since the trigger won't be in place until restart -->
     <org.moqui.impl.EntityServices.indexDataFeedDocuments dataFeedId="HiveMindSearch"/>
