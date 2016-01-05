@@ -75,7 +75,7 @@ along with this software (see the LICENSE.md file). If not, see
 
         <if condition="!queryString">
             <!-- pure DB query -->
-            <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="taskList">
+            <entity-find entity-name="mantle.work.effort.PartyTaskSummary" list="taskList">
                 <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"/>
                 <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
                 <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds"/><!-- only tasks in allowed projects -->
@@ -134,7 +134,7 @@ along with this software (see the LICENSE.md file). If not, see
                         in-map="context + [indexName:'hivemind', documentType:'HmTask']"/>
 
                 <set field="workEffortIdList" from="documentList._id"/>
-                <entity-find entity-name="HiveMind.work.effort.PartyTaskSummary" list="taskList">
+                <entity-find entity-name="mantle.work.effort.PartyTaskSummary" list="taskList">
                     <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"
                             input-fields-map="searchInputs"/>
                     <econdition field-name="workEffortId" operator="in" from="workEffortIdList"/>
@@ -164,7 +164,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <!-- the old approach, one record at a time and separate sort:
                 <set field="taskList" from="[]"/>
                 <iterate list="documentList" entry="document">
-                    <entity-find-one entity-name="HiveMind.work.effort.PartyTaskSummary" value-field="task">
+                    <entity-find-one entity-name="mantle.work.effort.PartyTaskSummary" value-field="task">
                         <field-map field-name="workEffortId" from="document._id"/>
                     </entity-find-one>
                     <script>taskList.add(task)</script>

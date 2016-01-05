@@ -138,43 +138,4 @@ along with this software (see the LICENSE.md file). If not, see
         <alias-all entity-alias="WKSP"/>
         <alias-all entity-alias="WSU"/>
     </view-entity>
-
-    <view-entity entity-name="PartyTaskSummary" package-name="HiveMind.work.effort">
-        <member-entity entity-alias="WEFF" entity-name="mantle.work.effort.WorkEffort"/>
-        <member-entity entity-alias="WEP" entity-name="mantle.work.effort.WorkEffortParty" join-from-alias="WEFF" join-optional="true">
-            <key-map field-name="workEffortId"/>
-        </member-entity>
-        <member-entity entity-alias="WETP" entity-name="mantle.work.effort.WorkEffortParty" join-from-alias="WEFF" join-optional="true">
-            <key-map field-name="workEffortId"/>
-        </member-entity>
-        <member-entity entity-alias="TPR" entity-name="mantle.party.PartyRelationship" join-from-alias="WETP" join-optional="true">
-            <key-map field-name="partyId" related-field-name="toPartyId"/>
-        </member-entity>
-        <member-entity entity-alias="WEFF_ASSOC" entity-name="mantle.work.effort.WorkEffortAssoc" join-from-alias="WEFF" join-optional="true">
-            <key-map field-name="workEffortId" related-field-name="toWorkEffortId"/>
-        </member-entity>
-        <member-entity entity-alias="WEFF_MLSTN" entity-name="mantle.work.effort.WorkEffort" join-from-alias="WEFF_ASSOC" join-optional="true">
-            <key-map field-name="workEffortId"/>
-        </member-entity>
-
-        <alias-all entity-alias="WEFF"><exclude field="emplPositionClassId"/></alias-all>
-        <alias-all entity-alias="WEFF_MLSTN" prefix="milestone"/>
-        <alias-all entity-alias="WEP"><exclude field="statusId"/></alias-all>
-        <alias-all entity-alias="WETP" prefix="team"/>
-        <alias name="partyStatusId" entity-alias="WEP" field="statusId"/>
-        <alias name="teamMemberPartyId" entity-alias="TPR" field="fromPartyId"/>
-
-        <!-- <alias name="workEffortAssocTypeEnumId" entity-alias="WEFF_ASSOC"/> -->
-        <alias name="assocFromDate" entity-alias="WEFF_ASSOC" field="fromDate"/>
-        <alias name="assocThruDate" entity-alias="WEFF_ASSOC" field="thruDate"/>
-
-        <entity-condition>
-            <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
-            <econditions combine="or">
-                <econdition entity-alias="WEFF_ASSOC" field-name="workEffortAssocTypeEnumId" value="WeatMilestone"/>
-                <econdition entity-alias="WEFF_ASSOC" field-name="workEffortAssocTypeEnumId" value=""/>
-            </econditions>
-            <date-filter from-field-name="assocFromDate" thru-field-name="assocThruDate"/>
-        </entity-condition>
-    </view-entity>
 </entities>
