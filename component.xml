@@ -3,4 +3,5 @@
         name="HiveMind">
     <depends-on name="mantle-udm"/>
     <depends-on name="mantle-usl"/>
+    <depends-on name="SimpleScreens"/>
 </component>
