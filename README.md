@@ -129,12 +129,12 @@ Java 8 is recommended: <http://www.oracle.com/technetwork/java/javase/downloads/
 
 Here are command line steps, and you can do the same thing with a Git desktop app:
 
-    $ git clone git@github.com:moqui/moqui.git moqui
+    $ git clone git@github.com:moqui/moqui.git
     $ cd moqui/runtime/
-    $ git clone git@github.com:moqui/mantle.git mantle
+    $ git clone git@github.com:moqui/mantle.git
     $ cd component/
     $ git clone git@github.com:moqui/SimpleScreens.git
-    $ git clone git@github.com:moqui/HiveMind.git HiveMind
+    $ git clone git@github.com:moqui/HiveMind.git
     $ cd ../.. (to the moqui directory)
     $ ./gradlew load
     $ ./gradlew run
