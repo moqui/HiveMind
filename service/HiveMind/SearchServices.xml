@@ -46,14 +46,14 @@ along with this software (see the LICENSE.md file). If not, see
 
                             // send WikiPage updated notification
                             StringBuilder toAddresses = new StringBuilder()
-                            EntityList wikiSpaceUserList = ec.entity.find("HiveMind.wiki.WikiSpaceUser")
+                            EntityList wikiSpaceUserList = ec.entity.find("moqui.resource.wiki.WikiSpaceUser")
                                     .condition([wikiSpaceId:document.WikiPage.wikiSpaceId,  receiveNotifications:"Y"]).list()
                             if (wikiSpaceUserList) for (EntityValue wikiSpaceUser in wikiSpaceUserList) {
                                 String emailAddress = ec.entity.find("moqui.security.UserAccount")
                                         .condition("userId", wikiSpaceUser.userId).one()?.emailAddress
                                 if (emailAddress) { if (toAddresses) toAddresses.append(",");  toAddresses.append(emailAddress) }
                             }
-                            EntityList wikiPageUserList = ec.entity.find("HiveMind.wiki.WikiPageUser")
+                            EntityList wikiPageUserList = ec.entity.find("moqui.resource.wiki.WikiPageUser")
                                     .condition([wikiPageId:document._id,  receiveNotifications:"Y"]).list()
                             if (wikiPageUserList) for (EntityValue wikiPageUser in wikiPageUserList) {
                                 String emailAddress = ec.entity.find("moqui.security.UserAccount")

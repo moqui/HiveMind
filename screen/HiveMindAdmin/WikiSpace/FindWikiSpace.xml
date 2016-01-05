@@ -28,7 +28,7 @@ along with this software (see the LICENSE.md file). If not, see
     </pre-actions>
     
     <actions>
-        <entity-find entity-name="HiveMind.wiki.WikiSpace" list="spaceList">
+        <entity-find entity-name="moqui.resource.wiki.WikiSpace" list="spaceList">
             <search-form-inputs default-order-by="wikiSpaceId"/>
         </entity-find>
     </actions>

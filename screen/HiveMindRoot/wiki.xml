@@ -106,10 +106,8 @@ along with this software (see the LICENSE.md file). If not, see
         <!-- <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/> -->
 
         <!-- Comments -->
-        <entity-find entity-name="HiveMind.wiki.WikiPageCommEventDetail" list="commEventDetailList">
-            <econdition field-name="wikiPageId"/>
-            <order-by field-name="entryDate"/>
-        </entity-find>
+        <entity-find entity-name="mantle.party.communication.WikiPageCommEventDetail" list="commEventDetailList">
+            <econdition field-name="wikiPageId"/><order-by field-name="entryDate"/></entity-find>
     </actions>
 
     <widgets>
@@ -195,20 +193,20 @@ along with this software (see the LICENSE.md file). If not, see
                 <section name="PageRelatedSection">
                     <condition><expression>wikiPageId</expression></condition>
                     <actions>
-                        <entity-find entity-name="HiveMind.wiki.WikiPageAndRequest" list="wparList">
+                        <entity-find entity-name="mantle.request.WikiPageAndRequest" list="wparList">
                             <econdition field-name="wikiPageId"/></entity-find>
 
-                        <entity-find entity-name="HiveMind.wiki.WikiPageAndWorkEffort" list="wpaweList">
+                        <entity-find entity-name="mantle.work.effort.WikiPageAndWorkEffort" list="wpaweList">
                             <econdition field-name="wikiPageId"/></entity-find>
                         <filter-map-list list="wpaweList" to-list="projectWpaweList">
                             <field-map field-name="workEffortTypeEnumId" value="WetProject"/></filter-map-list>
                         <filter-map-list list="wpaweList" to-list="taskWpaweList">
                             <field-map field-name="workEffortTypeEnumId" value="WetTask"/></filter-map-list>
 
-                        <entity-find entity-name="HiveMind.wiki.WikiPageAndRequest" list="wparList">
+                        <entity-find entity-name="mantle.request.WikiPageAndRequest" list="wparList">
                             <econdition field-name="wikiPageId"/></entity-find>
 
-                        <entity-find entity-name="HiveMind.wiki.WikiPageHistory" list="wphList">
+                        <entity-find entity-name="moqui.resource.wiki.WikiPageHistory" list="wphList">
                             <econdition field-name="wikiPageId"/><order-by field-name="-changeDateTime"/></entity-find>
                     </actions>
                     <widgets>

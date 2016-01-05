@@ -18,14 +18,10 @@ along with this software (see the LICENSE.md file). If not, see
 
     <parameter name="requestId" required="true"/>
 
-    <transition name="addWpr">
-        <service-call name="create#HiveMind.wiki.WikiPageRequest" in-map="context"/>
-        <default-response url="."/>
-    </transition>
-    <transition name="deleteWpr">
-        <service-call name="delete#HiveMind.wiki.WikiPageRequest" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="addWpr"><service-call name="create#mantle.request.WikiPageRequest" in-map="context"/>
+        <default-response url="."/></transition>
+    <transition name="deleteWpr"><service-call name="delete#mantle.request.WikiPageRequest" in-map="context"/>
+        <default-response url="."/></transition>
 
     <transition name="getSpacePages">
         <actions>
@@ -36,9 +32,8 @@ along with this software (see the LICENSE.md file). If not, see
     </transition>
 
     <actions>
-        <entity-find entity-name="HiveMind.wiki.WikiPageAndRequest" list="wparList">
-            <econdition field-name="requestId"/>
-        </entity-find>
+        <entity-find entity-name="mantle.request.WikiPageAndRequest" list="wparList">
+            <econdition field-name="requestId"/></entity-find>
 
         <service-call name="HiveMind.WikiServices.get#UserWikiSpaces" in-map="[userId:ec.user.userId]" out-map="context"/>
     </actions>

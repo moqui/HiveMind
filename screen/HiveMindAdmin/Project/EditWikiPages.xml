@@ -18,14 +18,10 @@ along with this software (see the LICENSE.md file). If not, see
 
     <parameter name="rootWorkEffortId" required="true"/>
 
-    <transition name="addWpwe">
-        <service-call name="create#HiveMind.wiki.WikiPageWorkEffort" in-map="context"/>
-        <default-response url="."/>
-    </transition>
-    <transition name="deleteWpwe">
-        <service-call name="delete#HiveMind.wiki.WikiPageWorkEffort" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="addWpwe"><service-call name="create#mantle.work.effort.WikiPageWorkEffort" in-map="context"/>
+        <default-response url="."/></transition>
+    <transition name="deleteWpwe"><service-call name="delete#mantle.work.effort.WikiPageWorkEffort" in-map="context"/>
+        <default-response url="."/></transition>
 
     <transition name="getSpacePages">
         <actions>
@@ -39,9 +35,8 @@ along with this software (see the LICENSE.md file). If not, see
         <set field="workEffortId" from="rootWorkEffortId"/>
         <set field="projectWorkEffortId" from="rootWorkEffortId"/>
 
-        <entity-find entity-name="HiveMind.wiki.WikiPageAndWorkEffort" list="wpaweList">
-            <econdition field-name="workEffortId"/>
-        </entity-find>
+        <entity-find entity-name="mantle.work.effort.WikiPageAndWorkEffort" list="wpaweList">
+            <econdition field-name="workEffortId"/></entity-find>
 
         <service-call name="HiveMind.WikiServices.get#UserWikiSpaces" in-map="[userId:ec.user.userId]" out-map="context"/>
     </actions>

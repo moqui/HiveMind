@@ -27,7 +27,7 @@ along with this software (see the LICENSE.md file). If not, see
             <parameter name="breadcrumbMapList" type="List"/>
         </out-parameters>
         <actions>
-            <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage"/>
+            <entity-find-one entity-name="moqui.resource.wiki.WikiPage" value-field="wikiPage"/>
             <set field="wikiSpaceId" from="wikiPage.wikiSpaceId"/>
             <set field="pagePath" from="wikiPage.pagePath"/>
             <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
@@ -45,12 +45,12 @@ along with this software (see the LICENSE.md file). If not, see
             <parameter name="createdRecord" type="Boolean"/>
         </out-parameters>
         <actions>
-            <entity-find entity-name="HiveMind.wiki.WikiPage" list="wikiPageList" cache="true">
+            <entity-find entity-name="moqui.resource.wiki.WikiPage" list="wikiPageList" cache="true">
                 <econdition-object field="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: null)]"/>
             </entity-find>
             <set field="wikiPage" from="wikiPageList?.getAt(0)"/>
             <!--
-            <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage" cache="true">
+            <entity-find-one entity-name="moqui.resource.wiki.WikiPage" value-field="wikiPage" cache="true">
                 <field-map field-name="wikiSpaceId"/>
                 <field-map field-name="pagePath" from="pagePath ?: null"/>
             </entity-find-one>
@@ -58,9 +58,9 @@ along with this software (see the LICENSE.md file). If not, see
 
             <if condition="!wikiPage &amp;&amp; createIfMissing">
                 <!-- no WikiPage record, create one for this page -->
-                <service-call name="create#HiveMind.wiki.WikiPage" out-map="context"
+                <service-call name="create#moqui.resource.wiki.WikiPage" out-map="context"
                         in-map="[wikiSpaceId:wikiSpaceId, pagePath:(pagePath ?: null), createdByUserId:ec.user.userId]"/>
-                <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage" cache="false"/>
+                <entity-find-one entity-name="moqui.resource.wiki.WikiPage" value-field="wikiPage" cache="false"/>
                 <set field="createdRecord" from="true"/>
 
                 <else>
@@ -93,7 +93,7 @@ along with this software (see the LICENSE.md file). If not, see
         </out-parameters>
         <actions>
             <if condition="wikiPageId">
-                <entity-find-one entity-name="HiveMind.wiki.WikiPage" value-field="wikiPage" cache="true"/>
+                <entity-find-one entity-name="moqui.resource.wiki.WikiPage" value-field="wikiPage" cache="true"/>
                 <set field="wikiSpaceId" from="wikiPage.wikiSpaceId"/>
                 <set field="pagePath" from="wikiPage.pagePath"/>
             </if>
@@ -110,7 +110,7 @@ along with this software (see the LICENSE.md file). If not, see
 
             <if condition="!wikiSpaceId"><return error="true" message="Cannot get wiki page info without wikiSpaceId parameter or URL path element"/></if>
 
-            <entity-find-one entity-name="HiveMind.wiki.WikiSpace" value-field="wikiSpace" cache="true"/>
+            <entity-find-one entity-name="moqui.resource.wiki.WikiSpace" value-field="wikiSpace" cache="true"/>
 
             <if condition="!wikiSpace"><return error="true" message="Could not find wiki space with ID [${wikiSpaceId}]"/></if>
 
@@ -121,7 +121,7 @@ along with this software (see the LICENSE.md file). If not, see
 
             <!-- check restrictView for space and page -->
             <if condition="wikiSpace.restrictView == 'Y'">
-                <entity-find entity-name="HiveMind.wiki.WikiSpaceUser" list="wsuList">
+                <entity-find entity-name="moqui.resource.wiki.WikiSpaceUser" list="wsuList">
                     <econdition-object field="[wikiSpaceId:wikiSpaceId, userId:ec.user.userId, allowView:'Y']"/>
                 </entity-find>
                 <if condition="!wsuList">
@@ -129,7 +129,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </if>
             </if>
             <if condition="wikiPage?.restrictView == 'Y'">
-                <entity-find entity-name="HiveMind.wiki.WikiPageUser" list="wpuList">
+                <entity-find entity-name="moqui.resource.wiki.WikiPageUser" list="wpuList">
                     <econdition-object field="[wikiPageId:wikiPageId, userId:ec.user.userId, allowView:'Y']"/>
                 </entity-find>
                 <if condition="!wpuList">
@@ -215,12 +215,12 @@ along with this software (see the LICENSE.md file). If not, see
             <parameter name="pagePath"/>
         </out-parameters>
         <actions>
-            <entity-find-one entity-name="HiveMind.wiki.WikiSpace" value-field="wikiSpace" cache="true"/>
+            <entity-find-one entity-name="moqui.resource.wiki.WikiSpace" value-field="wikiSpace" cache="true"/>
             <service-call name="HiveMind.WikiServices.get#WikiPageId" in-map="context + [createIfMissing:true]" out-map="context"/>
 
             <!-- check restrictUpdate for space and page -->
             <if condition="wikiSpace.restrictUpdate == 'Y'">
-                <entity-find entity-name="HiveMind.wiki.WikiSpaceUser" list="wsuList">
+                <entity-find entity-name="moqui.resource.wiki.WikiSpaceUser" list="wsuList">
                     <econdition-object field="[wikiSpaceId:wikiSpaceId, userId:ec.user.userId, allowUpdate:'Y']"/>
                 </entity-find>
                 <if condition="!wsuList">
@@ -228,7 +228,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </if>
             </if>
             <if condition="wikiPage.restrictUpdate == 'Y'">
-                <entity-find entity-name="HiveMind.wiki.WikiPageUser" list="wpuList">
+                <entity-find entity-name="moqui.resource.wiki.WikiPageUser" list="wpuList">
                     <econdition-object field="[wikiPageId:wikiPageId, userId:ec.user.userId, allowUpdate:'Y']"/>
                 </entity-find>
                 <if condition="!wpuList">
@@ -275,7 +275,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <entity-update value-field="wikiPage"/>
             </if>
 
-            <service-call name="create#HiveMind.wiki.WikiPageHistory" in-map="wikiPageHistoryMap"/>
+            <service-call name="create#moqui.resource.wiki.WikiPageHistory" in-map="wikiPageHistoryMap"/>
         </actions>
     </service>
 
@@ -303,7 +303,7 @@ along with this software (see the LICENSE.md file). If not, see
                     in-map="[communicationEventTypeId:'Comment', contactMechTypeEnumId:'CmtWebForm', statusId:'CeSent',
                         fromPartyId:ec.user.userAccount.partyId, entryDate:ec.user.nowTimestamp,
                         contentType:contentType, subject:subject, body:body]"/>
-            <service-call name="create#HiveMind.wiki.WikiPageCommunicationEvent"
+            <service-call name="create#mantle.party.communication.WikiPageCommunicationEvent"
                     in-map="[wikiPageId:wikiPageId, communicationEventId:communicationEventId]"/>
         </actions>
     </service>
@@ -385,7 +385,7 @@ along with this software (see the LICENSE.md file). If not, see
         <in-parameters><parameter name="userId"/></in-parameters>
         <out-parameters><parameter name="wikiSpaceAndUserList" type="List"/></out-parameters>
         <actions>
-            <entity-find entity-name="HiveMind.wiki.WikiSpaceAndUser" list="wikiSpaceAndUserList">
+            <entity-find entity-name="moqui.resource.wiki.WikiSpaceAndUser" list="wikiSpaceAndUserList">
                 <econditions combine="or">
                     <econdition field-name="restrictView" value="N"/>
                     <econdition field-name="restrictView" from="null"/>
@@ -408,7 +408,7 @@ along with this software (see the LICENSE.md file). If not, see
         </in-parameters>
         <out-parameters><parameter name="wikiPageAndUserList" type="List"/></out-parameters>
         <actions>
-            <entity-find entity-name="HiveMind.wiki.WikiPageAndUser" list="wikiPageAndUserList">
+            <entity-find entity-name="moqui.resource.wiki.WikiPageAndUser" list="wikiPageAndUserList">
                 <econdition field-name="wikiSpaceId"/>
                 <econditions combine="or">
                     <econdition field-name="restrictView" value="N"/>

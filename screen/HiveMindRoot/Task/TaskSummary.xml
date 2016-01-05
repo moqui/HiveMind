@@ -164,7 +164,7 @@ along with this software (see the LICENSE.md file). If not, see
         <entity-find entity-name="mantle.request.WorkEffortRequestDetail" list="werdList">
             <econdition field-name="workEffortId"/></entity-find>
         <!-- Wiki Pages -->
-        <entity-find entity-name="HiveMind.wiki.WikiPageAndWorkEffort" list="wpaweList">
+        <entity-find entity-name="mantle.work.effort.WikiPageAndWorkEffort" list="wpaweList">
             <econdition field-name="workEffortId"/></entity-find>
     </actions>
     <widgets>

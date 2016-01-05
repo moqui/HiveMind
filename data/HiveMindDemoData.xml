@@ -22,28 +22,28 @@ along with this software (see the LICENSE.md file). If not, see
     <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_BLUTH_GOB" fromDate="1265184000000"/>
 
     <!-- ========== DEMO WIKI DATA ========== -->
-    <HiveMind.wiki.WikiSpace wikiSpaceId="DEMO" description="Demo Wiki Space" restrictView="N"
+    <moqui.resource.wiki.WikiSpace wikiSpaceId="DEMO" description="Demo Wiki Space" restrictView="N"
             rootPageLocation="component://HiveMind/WikiSpace/DEMO.md" decoratorScreenLocation=""/>
-    <HiveMind.wiki.WikiSpaceUser wikiSpaceId="DEMO" userId="EX_JOHN_DOE"
+    <moqui.resource.wiki.WikiSpaceUser wikiSpaceId="DEMO" userId="EX_JOHN_DOE"
             receiveNotifications="Y" allowAdmin="Y" allowView="Y" allowUpdate="Y"/>
 
-    <HiveMind.wiki.WikiPage wikiPageId="DEMO" wikiSpaceId="DEMO" pagePath="" createdByUserId="EX_JOHN_DOE"/>
-    <HiveMind.wiki.WikiPageHistory wikiPageId="DEMO" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
-    <HiveMind.wiki.WikiPage wikiPageId="DEMO_DP1" wikiSpaceId="DEMO" pagePath="Demo Page 1" createdByUserId="EX_JOHN_DOE"/>
-    <HiveMind.wiki.WikiPageHistory wikiPageId="DEMO_DP1" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
-    <HiveMind.wiki.WikiPage wikiPageId="DEMO_DP1_CP1" wikiSpaceId="DEMO" pagePath="Demo Page 1/Child Page 1" createdByUserId="EX_JOHN_DOE"/>
-    <HiveMind.wiki.WikiPageHistory wikiPageId="DEMO_DP1_CP1" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
-    <HiveMind.wiki.WikiPage wikiPageId="DEMO_DP1_CP2" wikiSpaceId="DEMO" pagePath="Demo Page 1/Child Page 2" createdByUserId="EX_JOHN_DOE"/>
-    <HiveMind.wiki.WikiPageHistory wikiPageId="DEMO_DP1_CP2" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
-    <HiveMind.wiki.WikiPage wikiPageId="DEMO_DP2" wikiSpaceId="DEMO" pagePath="Demo Page 2" createdByUserId="EX_JOHN_DOE"/>
-    <HiveMind.wiki.WikiPageHistory wikiPageId="DEMO_DP2" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
-    <HiveMind.wiki.WikiPage wikiPageId="DEMO_DP2_CP1" wikiSpaceId="DEMO" pagePath="Demo Page 2/Child Page 1" createdByUserId="EX_JOHN_DOE"/>
-    <HiveMind.wiki.WikiPageHistory wikiPageId="DEMO_DP2_CP1" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
+    <moqui.resource.wiki.WikiPage wikiPageId="DEMO" wikiSpaceId="DEMO" pagePath="" createdByUserId="EX_JOHN_DOE"/>
+    <moqui.resource.wiki.WikiPageHistory wikiPageId="DEMO" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
+    <moqui.resource.wiki.WikiPage wikiPageId="DEMO_DP1" wikiSpaceId="DEMO" pagePath="Demo Page 1" createdByUserId="EX_JOHN_DOE"/>
+    <moqui.resource.wiki.WikiPageHistory wikiPageId="DEMO_DP1" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
+    <moqui.resource.wiki.WikiPage wikiPageId="DEMO_DP1_CP1" wikiSpaceId="DEMO" pagePath="Demo Page 1/Child Page 1" createdByUserId="EX_JOHN_DOE"/>
+    <moqui.resource.wiki.WikiPageHistory wikiPageId="DEMO_DP1_CP1" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
+    <moqui.resource.wiki.WikiPage wikiPageId="DEMO_DP1_CP2" wikiSpaceId="DEMO" pagePath="Demo Page 1/Child Page 2" createdByUserId="EX_JOHN_DOE"/>
+    <moqui.resource.wiki.WikiPageHistory wikiPageId="DEMO_DP1_CP2" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
+    <moqui.resource.wiki.WikiPage wikiPageId="DEMO_DP2" wikiSpaceId="DEMO" pagePath="Demo Page 2" createdByUserId="EX_JOHN_DOE"/>
+    <moqui.resource.wiki.WikiPageHistory wikiPageId="DEMO_DP2" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
+    <moqui.resource.wiki.WikiPage wikiPageId="DEMO_DP2_CP1" wikiSpaceId="DEMO" pagePath="Demo Page 2/Child Page 1" createdByUserId="EX_JOHN_DOE"/>
+    <moqui.resource.wiki.WikiPageHistory wikiPageId="DEMO_DP2_CP1" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
 
-    <HiveMind.wiki.WikiSpace wikiSpaceId="DBDEMO" description="DB Demo Wiki Space" restrictView="N"
+    <moqui.resource.wiki.WikiSpace wikiSpaceId="DBDEMO" description="DB Demo Wiki Space" restrictView="N"
             rootPageLocation="dbresource://HiveMind/WikiSpace/DBDEMO.md" decoratorScreenLocation=""/>
-    <HiveMind.wiki.WikiPage wikiPageId="DBDEMO" wikiSpaceId="DBDEMO" pagePath="" createdByUserId="EX_JOHN_DOE"/>
-    <HiveMind.wiki.WikiPageHistory wikiPageId="DBDEMO" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
+    <moqui.resource.wiki.WikiPage wikiPageId="DBDEMO" wikiSpaceId="DBDEMO" pagePath="" createdByUserId="EX_JOHN_DOE"/>
+    <moqui.resource.wiki.WikiPageHistory wikiPageId="DBDEMO" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
     <moqui.resource.DbResource resourceId="HIVE_MIND" parentResourceId="" filename="HiveMind" isFile="N"/>
     <moqui.resource.DbResource resourceId="WIKI_SPACE" parentResourceId="HIVE_MIND" filename="WikiSpace" isFile="N"/>
     <moqui.resource.DbResource resourceId="DBDEMO_CWIKI" parentResourceId="WIKI_SPACE" filename="DBDEMO.md" isFile="Y"/>
@@ -209,8 +209,8 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-004"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="1265184000000" sequenceNum="4"/>
     <!-- task wiki pages -->
-    <HiveMind.wiki.WikiPageWorkEffort wikiPageId="DEMO_DP1" workEffortId="HM-004"/>
-    <HiveMind.wiki.WikiPageWorkEffort wikiPageId="DEMO_DP2_CP1" workEffortId="HM-004"/>
+    <mantle.work.effort.WikiPageWorkEffort wikiPageId="DEMO_DP1" workEffortId="HM-004"/>
+    <mantle.work.effort.WikiPageWorkEffort wikiPageId="DEMO_DP2_CP1" workEffortId="HM-004"/>
     <!-- task comments -->
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01" communicationEventTypeId="Comment"
             contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="" rootCommEventId=""

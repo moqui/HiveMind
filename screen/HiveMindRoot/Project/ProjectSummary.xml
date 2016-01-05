@@ -53,12 +53,10 @@ along with this software (see the LICENSE.md file). If not, see
             <order-by field-name="estimatedStartDate"/>
         </entity-find>
 
-        <entity-find entity-name="HiveMind.wiki.WikiPageAndWorkEffort" list="wpaweList">
-            <econdition field-name="workEffortId"/>
-        </entity-find>
-        <entity-find entity-name="WorkEffortPartyAndPerson" list="wepapList">
-            <econdition field-name="workEffortId" from="rootWorkEffortId"/>
-        </entity-find>
+        <entity-find entity-name="mantle.work.effort.WikiPageAndWorkEffort" list="wpaweList">
+            <econdition field-name="workEffortId"/></entity-find>
+        <entity-find entity-name="mantle.work.effort.WorkEffortPartyAndPerson" list="wepapList">
+            <econdition field-name="workEffortId" from="rootWorkEffortId"/></entity-find>
     </actions>
     <widgets>
         <container-panel id="ProjectSummaryPanel">
