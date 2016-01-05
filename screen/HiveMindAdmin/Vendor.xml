@@ -15,13 +15,18 @@ along with this software (see the LICENSE.md file). If not, see
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.6.xsd"
         default-menu-title="Vendors" default-menu-index="2" menu-image="/hmstatic/images/vendor-person25.png">
 
-    <subscreens default-item="FindVendor"/>
+    <subscreens default-item="FindVendor">
+        <subscreens-item name="FindVendor" location="component://SimpleScreens/screen/SimpleScreens/Vendor/FindVendor.xml"
+                menu-include="false"/>
+        <subscreens-item name="EditVendor" location="component://SimpleScreens/screen/SimpleScreens/Vendor/EditVendor.xml"
+                menu-index="1" menu-title="Vendor"/>
+        <subscreens-item name="EditUsers" location="component://SimpleScreens/screen/SimpleScreens/Vendor/EditUsers.xml"
+                menu-index="2" menu-title="Users"/>
+        <subscreens-item name="Accounting" location="component://SimpleScreens/screen/SimpleScreens/Vendor/Accounting.xml"
+                menu-index="3" menu-title="Accounting"/>
+    </subscreens>
 
     <widgets>
-        <!-- use a dynamic panel here since a subscreen uses a dynamic panel and this way the heights are correct -->
-        <container-panel id="vendor-panel" dynamic="true">
-            <panel-header spacing="0"><subscreens-menu id="vendor-menu" type="tab"/></panel-header>
-            <panel-center><subscreens-active/></panel-center>
-        </container-panel>
+        <subscreens-panel id="vendor-panel" type="tab"/>
     </widgets>
 </screen>
