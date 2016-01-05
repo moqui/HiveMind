@@ -30,7 +30,7 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="uploadAttachment">
         <actions>
             <set field="filename" from="attachmentFile.getName()"/>
-            <service-call name="HiveMind.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
+            <service-call name="org.moqui.impl.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
             <script><![CDATA[
                 import org.moqui.context.ResourceReference
                 org.moqui.context.ExecutionContext ec = context.ec
@@ -46,7 +46,7 @@ along with this software (see the LICENSE.md file). If not, see
     </transition>
     <transition name="downloadAttachment">
         <actions>
-            <service-call name="HiveMind.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
+            <service-call name="org.moqui.impl.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
             <script><![CDATA[
                 import org.moqui.context.ResourceReference
                 org.moqui.context.ExecutionContext ec = context.ec
@@ -65,10 +65,8 @@ along with this software (see the LICENSE.md file). If not, see
     </transition>
 
     <transition name="wikiCommentReply"><default-response url="WikiCommentReply"/></transition>
-    <transition name="addComment">
-        <service-call name="HiveMind.WikiServices.add#WikiPageComment" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="addComment"><service-call name="mantle.party.CommunicationServices.add#WikiPageComment"/>
+        <default-response url="."/></transition>
     <transition name="getTreeSubNodes">
         <actions><script>sri.getActiveScreenDef().getTree('SpacePageTree').sendSubNodeJson()</script></actions>
         <default-response type="none"/>
@@ -76,7 +74,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <pre-actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
-        <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
+        <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
 
         <!-- redirect to EditWikiPage to create instead of trying to render a page that doesn't exist -->
         <script><![CDATA[
@@ -103,7 +101,7 @@ along with this software (see the LICENSE.md file). If not, see
         <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenPathUrl() + '/' + wikiSpaceId"/>
 
         <!-- this is only used for the WikiPageTree.ftl file, not needed otherwise: -->
-        <!-- <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/> -->
+        <!-- <service-call name="org.moqui.impl.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/> -->
 
         <!-- Comments -->
         <entity-find entity-name="mantle.party.communication.WikiPageCommEventDetail" list="commEventDetailList">
@@ -142,7 +140,7 @@ along with this software (see the LICENSE.md file). If not, see
                         <link text="${curFileName}" url="/apps/hm/wiki/${wikiSpaceId}/${newIdPath}" id="${newIdPath}"/>
                         <tree-sub-node node-name="WikiPageNode" list="childPageList">
                             <actions>
-                                <service-call name="HiveMind.WikiServices.get#WikiPageInfo" out-map="curPageInfo"
+                                <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" out-map="curPageInfo"
                                         in-map="[wikiSpaceId:wikiSpaceId, pagePath:treeNodeId]"/>
                                 <set field="childPageList" from="curPageInfo?.pageReference.getChildren()"/>
                             </actions>
@@ -150,7 +148,7 @@ along with this software (see the LICENSE.md file). If not, see
                     </tree-node>
                     <tree-sub-node node-name="WikiPageNode" list="topPageList">
                         <actions>
-                            <service-call name="HiveMind.WikiServices.get#WikiPageInfo" out-map="rootPageInfo"
+                            <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" out-map="rootPageInfo"
                                     in-map="[wikiSpaceId:wikiSpaceId]"/>
                             <set field="topPageList" from="rootPageInfo.pageReference.getChildren()"/>
                             <!-- <log level="warn" message="============ wikiSpaceId=${wikiSpaceId}; topPageList=${topPageList}"/> -->

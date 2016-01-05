@@ -17,7 +17,7 @@ along with this software (see the LICENSE.md file). If not, see
         default-menu-include="false" standalone="true">
 
     <actions>
-        <service-call name="HiveMind.WikiServices.get#UserWikiSpaces" in-map="[userId:ec.user.userId]" out-map="context"/>
+        <service-call name="org.moqui.impl.WikiServices.get#UserWikiSpaces" in-map="[userId:ec.user.userId]" out-map="context"/>
     </actions>
     <widgets>
         <container id="dashboard-wiki-section">

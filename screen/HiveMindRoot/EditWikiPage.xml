@@ -19,11 +19,8 @@ along with this software (see the LICENSE.md file). If not, see
     <parameter name="wikiSpaceId"/>
     <!-- all other parameters should only be passed explicitly: pagePath, parentPath, pageName -->
 
-    <transition name="updatePage">
-        <service-call name="HiveMind.WikiServices.update#WikiPage"/>
-        <default-response url="../wiki"/>
-        <error-response url="."/>
-    </transition>
+    <transition name="updatePage"><service-call name="org.moqui.impl.WikiServices.update#WikiPage"/>
+        <default-response url="../wiki"/><error-response url="."/></transition>
 
     <pre-actions>
         <script>html_stylesheets.add('/assets/lib/pagedown-bootstrap/css/jquery.pagedown-bootstrap.css')</script>
@@ -33,10 +30,10 @@ along with this software (see the LICENSE.md file). If not, see
     <actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
         <if condition="!isCreate">
-            <service-call name="HiveMind.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
+            <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
             <set field="pageText" from="pageReference?.exists ? ec.resource.getLocationText(pageLocation, false) : ''"/>
         </if>
-        <service-call name="HiveMind.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
+        <service-call name="org.moqui.impl.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
         <set field="isRootPage" from="pageReference?.exists &amp;&amp; !pagePath"/>
         <script>
             def wikiUrl = sri.buildUrl(sri.getRootScreenDef(),

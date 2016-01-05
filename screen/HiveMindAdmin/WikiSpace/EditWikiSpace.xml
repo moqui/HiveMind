@@ -18,24 +18,22 @@ along with this software (see the LICENSE.md file). If not, see
 
     <parameter name="wikiSpaceId" required="true"/>
 
-    <transition name="updateSpace">
-        <service-call name="update#moqui.resource.wiki.WikiSpace" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="updateSpace"><service-call name="update#moqui.resource.wiki.WikiSpace" in-map="context"/>
+        <default-response url="."/></transition>
     <transition name="indexPages">
-        <service-call name="HiveMind.WikiServices.index#WikiSpacePages" in-map="context"/>
+        <service-call name="org.moqui.impl.WikiServices.index#WikiSpacePages" in-map="context + [dataDocumentId:'HmWikiPage']"/>
         <default-response url="."/>
     </transition>
 
     <actions>
-        <entity-find-one entity-name="moqui.resource.wiki.WikiSpace" value-field="fieldValues"/>
+        <entity-find-one entity-name="moqui.resource.wiki.WikiSpace" value-field="wikiSpace"/>
     </actions>
     <widgets>
         <container>
             <link text="View Space" url="/apps/hm/wiki/${wikiSpaceId}" link-type="anchor-button"/>
             <link text="Index Space Pages" url="indexPages" link-type="hidden-form"/>
         </container>
-        <form-single name="EditSpace" transition="updateSpace">
+        <form-single name="EditSpace" map="wikiSpace" transition="updateSpace">
             <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
 
             <field name="description"><default-field><text-line size="60"/></default-field></field>

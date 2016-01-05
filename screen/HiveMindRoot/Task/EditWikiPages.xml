@@ -25,7 +25,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="getSpacePages">
         <actions>
-            <service-call name="HiveMind.WikiServices.get#UserSpaceWikiPageSimpleList" in-map="context" out-map="context"/>
+            <service-call name="org.moqui.impl.WikiServices.get#UserSpaceWikiPageSimpleList" in-map="context" out-map="context"/>
             <script>ec.web.sendJsonResponse(resultList)</script>
         </actions>
         <default-response type="none"/>
@@ -35,7 +35,7 @@ along with this software (see the LICENSE.md file). If not, see
         <entity-find entity-name="mantle.work.effort.WikiPageAndWorkEffort" list="wpaweList">
             <econdition field-name="workEffortId"/></entity-find>
 
-        <service-call name="HiveMind.WikiServices.get#UserWikiSpaces" in-map="[userId:ec.user.userId]" out-map="context"/>
+        <service-call name="org.moqui.impl.WikiServices.get#UserWikiSpaces" in-map="[userId:ec.user.userId]" out-map="context"/>
     </actions>
     <widgets>
         <container-dialog id="AddWpweDialog" button-text="Add Wiki Page">

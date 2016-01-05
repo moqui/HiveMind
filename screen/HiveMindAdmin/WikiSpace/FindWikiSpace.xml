@@ -16,16 +16,11 @@ along with this software (see the LICENSE.md file). If not, see
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.6.xsd"
         default-menu-include="false">
 
-    <transition name="createSpace">
-        <service-call name="HiveMind.WikiServices.create#WikiSpace" in-map="context"/>
-        <default-response url="."/>
-    </transition>
-
+    <transition name="createSpace"><service-call name="org.moqui.impl.WikiServices.create#WikiSpace" in-map="context"/>
+        <default-response url="."/></transition>
     <transition name="editSpace"><default-response url="../EditWikiSpace"/></transition>
 
-    <pre-actions>
-        <set field="html_title" value="Find Wiki Space"/>
-    </pre-actions>
+    <pre-actions><set field="html_title" value="Find Wiki Space"/></pre-actions>
     
     <actions>
         <entity-find entity-name="moqui.resource.wiki.WikiSpace" list="spaceList">

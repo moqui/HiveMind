@@ -16,7 +16,7 @@ along with this software (see the LICENSE.md file). If not, see
     <!-- Wiki Page -->
     <dataDocuments dataDocumentId="HmWikiPage" indexName="hivemind" documentName="Wiki Page"
             primaryEntityName="moqui.resource.wiki.WikiPage" documentTitle="${wikiSpaceId}/${pagePath?:''}"
-            manualDataServiceName="HiveMind.WikiServices.getWikiPageManualDocumentData">
+            manualDataServiceName="HiveMind.SearchServices.getWikiPageManualDocumentData">
         <!-- NOTE: service purpose is to get wiki page contents from the file (resource) -->
         <fields fieldPath="wikiPageId"/>
         <fields fieldPath="wikiSpaceId"/>
