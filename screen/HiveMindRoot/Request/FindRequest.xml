@@ -45,7 +45,7 @@ along with this software (see the LICENSE.md file). If not, see
             <form-single name="FindRequestForm" transition="findRequest">
                 <!--
                 <field name="clientPartyId" entry-name="clientRp?.partyId"><default-field title="Client">
-                    <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
+                    <widget-template-include location="component://SimpleScreens/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                         <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
                 </default-field></field>
                 -->
@@ -73,7 +73,7 @@ along with this software (see the LICENSE.md file). If not, see
         <container-dialog id="NewRequestContainer" button-text="New Request">
             <form-single name="NewRequestForm" transition="createRequest">
                 <field name="clientPartyId"><default-field title="Client">
-                    <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
+                    <widget-template-include location="component://SimpleScreens/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                         <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
                 </default-field></field>
                 <field name="assignToPartyId"><default-field title="Assign To">

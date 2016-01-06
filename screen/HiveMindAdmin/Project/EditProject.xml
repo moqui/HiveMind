@@ -58,12 +58,12 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="workEffortId"><default-field title="Project ID"><hidden/></default-field></field>
             <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
             <field name="clientPartyId" entry-name="clientWep?.partyId"><default-field title="Client">
-                <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
+                <widget-template-include location="component://SimpleScreens/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                     <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
                 <link url="editClient" text="Edit Client"><parameter name="partyId" from="clientWep?.partyId"/></link>
             </default-field></field>
             <field name="vendorPartyId" entry-name="vendorWep?.partyId"><default-field title="Vendor">
-                <widget-template-include location="component://mantle-usl/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
+                <widget-template-include location="component://SimpleScreens/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                     <set field="roleTypeId" value="VendorBillFrom"/><set field="allowEmpty" value="true"/></widget-template-include>
                 <link url="editVendor" text="Edit Vendor"><parameter name="partyId" from="vendorWep?.partyId"/></link>
             </default-field></field>
