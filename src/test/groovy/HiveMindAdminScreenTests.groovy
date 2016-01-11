@@ -93,8 +93,22 @@ class HiveMindAdminScreenTests extends Specification {
 
         where:
         screenPath | containsTextList
+
+        // Accounting/Invoice
         "Accounting/Invoice/FindInvoice?statusId_op=in&statusId=InvoiceReceived,InvoiceApproved&toPartyId=ORG_ZIZI_RETAIL" |
                 ['Ziddleman Incorporated', 'Ziziwork Retail', 'Sales/Purchase']
         "Accounting/Invoice/EditInvoice?invoiceId=55100" | ['Current: Approved', 'Unpaid $1,824.25', 'ORG_ZIZI_RETAIL']
+        "Accounting/Invoice/EditInvoice?invoiceId=55400" |
+                ['ORG_ZIZI_RETAIL', 'Current: Payment Sent', 'Applied Payments $23,830.00']
+        "Accounting/Invoice/EditInvoiceItems?invoiceId=55400" | ['Demo Product One-One', 'Sales - Shipping and Handling']
+        "Accounting/Invoice/PrintInvoice?invoiceId=55400&renderMode=xsl-fo" |
+                ['1350 E. Flamingo Rd. #9876, Las Vegas, NV 89119-5263', 'Asset - Inventory']
+
+        // Accounting/Payment
+        "Accounting/Payment/EditPayment?paymentId=55400" | ['ORG_ZIZI_RETAIL', 'Applied $23,830.00', 'Current: Delivered']
+        "Accounting/Payment/PaymentCheck?paymentIds=55400&renderMode=xsl-fo" | ['Ziddleman Incorporated',
+                'Twenty three thousand eight hundred thirty and 00/100', 'Picker Bot 2000']
+        "Accounting/Payment/PaymentDetail?paymentIds=55400&renderMode=xsl-fo" |
+                ['Ziddleman Incorporated', '$23,830.00', 'Picker Bot 2000']
     }
 }
