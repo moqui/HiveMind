@@ -38,8 +38,8 @@ class HiveMindPmScreenTests extends Specification {
         ec.user.loginUser("worker", "moqui1!", null)
         screenTest = ec.screen.makeTest().baseScreenPath("apps/hm")
 
-        ec.entity.tempSetSequencedIdPrimary("mantle.party.communication.CommunicationEvent", 62100, 10)
-        ec.entity.tempSetSequencedIdPrimary("mantle.work.effort.WorkEffort", 62100, 10)
+        ec.entity.tempSetSequencedIdPrimary("mantle.party.communication.CommunicationEvent", 62200, 10)
+        ec.entity.tempSetSequencedIdPrimary("mantle.work.effort.WorkEffort", 62200, 10)
     }
 
     def cleanupSpec() {
