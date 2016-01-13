@@ -59,7 +59,7 @@ class HiveMindAdminScreenTests extends Specification {
         ec.artifactExecution.enableAuthz()
     }
 
-    def "render HiveMind screens with no required parameters"() {
+    def "render HiveMind Admin screens with no required parameters"() {
         when:
         Set<String> screensToSkip = new HashSet()
         List<String> screenPaths = screenTest.getNoRequiredParameterPaths(screensToSkip)
@@ -73,8 +73,8 @@ class HiveMindAdminScreenTests extends Specification {
     }
 
     @Unroll
-    def "render HiveMind screen (#screenPath, #containsTextList)"() {
-        expect:
+    def "render HiveMind Admin screen (#screenPath, #containsTextList)"() {
+        setup:
         ScreenTestRender str = screenTest.render(screenPath, null, null)
         // logger.info("Rendered ${screenPath} in ${str.getRenderTime()}ms, output:\n${str.output}")
         boolean containsAll = true
@@ -87,7 +87,7 @@ class HiveMindAdminScreenTests extends Specification {
 
         }
 
-        // assertions
+        expect:
         !str.errorMessages
         containsAll
 
