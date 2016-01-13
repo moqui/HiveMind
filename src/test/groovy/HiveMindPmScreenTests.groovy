@@ -104,11 +104,11 @@ class HiveMindPmScreenTests extends Specification {
         // Task
         "Task/TaskSummary?workEffortId=HM-004" | ['HM-MS-001', 'In Progress', 'HM-005', 'DEMO_001',
                 '/Demo Page 2/Child Page 1', 'John Doe', 'also display remaining']
-        // TODO TaskCommentNested.xml
-        // TODO TaskCommentReply.xml
+        "Task/TaskSummary/TaskCommentReply?workEffortId=HM-004&parentCommEventId=HM-004-01" |
+                ['Re: Remaining hours question']
         "Task/EditTask?workEffortId=HM-004" | ['For each task include a link', 'Dashboard My Tasks']
         "Task/EditTimeEntries?workEffortId=HM-004" | ['4.25']
-        // TODO EditTimeEntryList.xml
+        "Task/EditTimeEntryList?workEffortId=HM-004" | ['8.00', 'Create Task and My Tasks first pass']
         "Task/EditUsers?workEffortId=HM-004" | ['john.doe', 'Ziziwork Dev Team A']
         "Task/EditRelated?workEffortId=HM-004" | ['HM-010', 'HM-005', 'Dashboard Create Task']
         "Task/EditRequests?workEffortId=HM-004" | ['DEMO_001', 'Add Create Request', 'New Feature']
@@ -120,6 +120,11 @@ class HiveMindPmScreenTests extends Specification {
         "Request/EditTasks?requestId=DEMO_001" | ['HM-004', 'Dashboard My Tasks', 'New Feature']
         "Request/EditWikiPages?requestId=DEMO_001" | ['Add Wiki Page']
 
-        // TODO wiki, EditWikiPage
+        // wiki
+        "wiki/HmDesign" | ['See child pages for design details.', 'john.doe']
+        "wiki/HmDesign/Actors" | ['HiveMind Design', 'Account Manager - person in Account Services responsible']
+        "EditWikiPage?wikiSpaceId=HmDesign&pagePath=Actors" | ['h2. Actors', '** Account Manager']
+        "wiki/DEMO" | ['Move along, nothing to see here', 'john.doe']
+        "EditWikiPage?wikiSpaceId=DEMO" | ['## Demo Space Root Page']
     }
 }
