@@ -12,8 +12,7 @@ You should have received a copy of the CC0 Public Domain Dedication
 along with this software (see the LICENSE.md file). If not, see
 <http://creativecommons.org/publicdomain/zero/1.0/>.
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.6.xsd"
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.6.xsd"
         default-menu-title="Task Summary" default-menu-index="0">
 
     <parameter name="workEffortId" required="true"/>
@@ -105,10 +104,8 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
 
     <transition name="taskCommentReply"><default-response url="TaskCommentReply"/></transition>
-    <transition name="addComment">
-        <service-call name="mantle.work.TaskServices.add#TaskComment" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="addComment"><service-call name="mantle.work.TaskServices.add#TaskComment"/>
+        <default-response url="."/></transition>
 
     <actions>
         <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="task"/>

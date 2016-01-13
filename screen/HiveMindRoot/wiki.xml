@@ -16,9 +16,11 @@ along with this software (see the LICENSE.md file). If not, see
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.6.xsd"
         allow-extra-path="true" default-menu-include="false">
 
+    <!-- don't declare parameters, don't want them in generated URLs
     <parameter name="wikiSpaceId"/>
     <parameter name="pagePath"/>
     <parameter name="wikiPageId"/>
+    -->
 
     <transition name="editPage"><default-response url="../EditWikiPage"/></transition>
     <transition name="createPage"><default-response url="../EditWikiPage"/></transition>
@@ -309,9 +311,9 @@ along with this software (see the LICENSE.md file). If not, see
                 <container-box>
                     <box-header><label text="${pageName?:''}" type="h5"/></box-header>
                     <box-toolbar>
-                        <link text="Edit Page" url="editPage" link-type="hidden-form" icon="glyphicon glyphicon-pencil">
+                        <link text="Edit Page" url="editPage" link-type="anchor-button" icon="glyphicon glyphicon-pencil">
                             <parameter name="wikiSpaceId"/><parameter name="pagePath"/></link>
-                        <link text="Add Page" url="createPage" link-type="hidden-form" icon="glyphicon glyphicon-plus">
+                        <link text="Add Page" url="createPage" link-type="anchor-button" icon="glyphicon glyphicon-plus">
                             <parameter name="wikiSpaceId"/><parameter name="parentPath" from="pagePath"/>
                             <parameter name="isCreate" value="true"/></link>
                     </box-toolbar>

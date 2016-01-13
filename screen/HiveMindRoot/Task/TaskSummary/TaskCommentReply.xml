@@ -19,15 +19,12 @@ along with this software (see the LICENSE.md file). If not, see
     <parameter name="workEffortId"/>
     <parameter name="parentCommEventId"/>
 
-    <transition name="replyComment">
-        <service-call name="mantle.party.CommunicationServices.reply#CommunicationEvent" in-map="context"/>
-        <default-response url=".."/>
-    </transition>
+    <transition name="replyComment"><service-call name="mantle.party.CommunicationServices.reply#CommunicationEvent"/>
+        <default-response url=".."/></transition>
 
     <actions>
         <entity-find-one entity-name="mantle.party.communication.CommunicationEvent" value-field="communicationEvent">
-            <field-map field-name="communicationEventId" from="parentCommEventId"/>
-        </entity-find-one>
+            <field-map field-name="communicationEventId" from="parentCommEventId"/></entity-find-one>
     </actions>
     <widgets>
         <form-single name="ReplyCommentForm" transition="replyComment">
