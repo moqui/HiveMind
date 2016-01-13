@@ -1,0 +1,21 @@
+language: groovy
+
+jdk:
+  - oraclejdk8
+
+before_script:
+  - cd ..
+  - git clone https://github.com/moqui/moqui.git
+  - cd moqui/runtime
+  - git clone https://github.com/moqui/mantle.git
+  - cd component
+  - git clone https://github.com/moqui/SimpleScreens.git
+  - git clone https://github.com/moqui/HiveMind.git
+  - cd ../..
+
+env:
+  - TERM=dumb
+
+script:
+  - gradle load
+  - gradle runtime/component/HiveMind:test
