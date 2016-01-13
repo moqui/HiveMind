@@ -94,6 +94,42 @@ class HiveMindAdminScreenTests extends Specification {
         where:
         screenPath | containsTextList
 
+        // Vendor
+        "Vendor/EditVendor?partyId=ORG_ZIZI_SERVICES" |
+                ['Ziziwork Services', 'Internal', 'payment.biziwork.services@test.com']
+        "Vendor/EditProjects?partyId=ORG_ZIZI_SERVICES" | ['HM - HiveMind PM Build Out', 'Vendor - Bill From']
+        "Vendor/EditUsers?partyId=ORG_ZIZI_SERVICES" | ['Developer', 'Manager']
+        "Vendor/Accounting/AcctgPreference?partyId=ORG_ZIZI_SERVICES" |
+                ['Ziziwork Industries', 'Clone Accounting Settings']
+
+        // Client
+        "Client/EditClient?partyId=ORG_ACME" |
+                ['Another Company Making Everything', 'Accounts Payable', 'billing.acme@test.com']
+        "Client/EditProjects?partyId=ORG_ACME" | ['HM - HiveMind PM Build Out', 'Customer - Bill To']
+        "Client/EditUsers?partyId=ORG_ACME" | ['Acme', 'Client Manager']
+
+        // User
+        "User/EditUser?partyId=EX_JOHN_DOE" | ['john.doe@test.com', 'John']
+        "User/EditProjects?partyId=EX_JOHN_DOE" | ['Manager', 'Programmer Lead', 'Assigned']
+        "User/EditTasks?partyId=EX_JOHN_DOE" | ['HM-004', 'Dashboard My Tasks', 'Assigned']
+        "User/EditRequests?partyId=EX_JOHN_DOE" | ['DEMO_001', 'Add Create Request on dashboard', 'Assignee']
+
+        // Team
+        "Team/EditTeam?partyId=ORG_ZIZI_DEVA" | ['Ziziwork Dev Team A']
+        "Team/EditUsers?partyId=ORG_ZIZI_DEVA" | ['Developer', 'Worker']
+
+        // Rates
+        "EditRateAmounts?partyId=EX_JOHN_DOE" | ['Standard', 'Client Billing', 'John Doe']
+
+        // WikiSpace
+        "WikiSpace/EditWikiSpace?wikiSpaceId=HmDesign" | ['HiveMind Design', 'HmDesign.cwiki']
+
+        // Project
+        "Project/EditProject?workEffortId=HM" | ['HiveMind PM Build Out', 'In Progress', 'Budget $10,000.00']
+        "Project/EditMilestones?rootWorkEffortId=HM" | ['HM Milestone 1', 'In Progress']
+        "Project/EditUsers?rootWorkEffortId=HM" | ['john.doe', 'Ziziwork Services', 'Customer - Bill To']
+        "Project/EditWikiPages?rootWorkEffortId=HM" | []
+
         // Accounting/Invoice
         "Accounting/Invoice/FindInvoice?statusId_op=in&statusId=InvoiceReceived,InvoiceApproved&toPartyId=ORG_ZIZI_RETAIL" |
                 ['Ziddleman Incorporated', 'Ziziwork Retail', 'Sales/Purchase']
@@ -105,10 +141,37 @@ class HiveMindAdminScreenTests extends Specification {
                 ['1350 E. Flamingo Rd. #9876, Las Vegas, NV 89119-5263', 'Asset - Inventory']
 
         // Accounting/Payment
-        "Accounting/Payment/EditPayment?paymentId=55400" | ['ORG_ZIZI_RETAIL', 'Applied $23,830.00', 'Current: Delivered']
+        "Accounting/Payment/EditPayment?paymentId=55400" |
+                ['ORG_ZIZI_RETAIL', 'Applied $23,830.00', 'Current: Delivered']
         "Accounting/Payment/PaymentCheck?paymentIds=55400&renderMode=xsl-fo" | ['Ziddleman Incorporated',
                 'Twenty three thousand eight hundred thirty and 00/100', 'Picker Bot 2000']
         "Accounting/Payment/PaymentDetail?paymentIds=55400&renderMode=xsl-fo" |
                 ['Ziddleman Incorporated', '$23,830.00', 'Picker Bot 2000']
+
+        // Accounting Other
+        "Accounting/FinancialAccount/EditFinancialAccount?finAccountId=55700" |
+                ['Ziziwork Retail', 'Joe Public', 'Current: Active']
+        "Accounting/FinancialAccount/FinancialAccountTrans?finAccountId=55700" |
+                ['Customer Service Credit', 'Ziziwork Retail ']
+        "Accounting/Transaction/EditTransaction?acctgTransId=55700" |
+                ['Joe Public', '430000000', 'CUSTOMER SERVICE CREDITS']
+        "Accounting/GlAccount/EditGlAccount?glAccountId=110000000" | ['CASH AND EQUIVALENT ASSET', 'Ziziwork Industries']
+
+        // Accounting/Reports
+        "Accounting/Reports/BalanceSheet?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100&detail=true" |
+                ["121000000: ACCOUNTS RECEIVABLE", "210000000: ACCOUNTS PAYABLE"]
+        "Accounting/Reports/IncomeStatement?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100&detail=true" |
+                ["411000000: PRODUCT SALES", "614200000: NETWORK CHARGES"]
+        "Accounting/Reports/CashFlowStatement?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100&detail=true" |
+                ["111100000: GENERAL CHECKING ACCOUNT", "182000000: ACCUMULATED DEPRECIATION - EQUIPMENT"]
+        "Accounting/Reports/RetainedEarningsStatement?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100" |
+                ["Net Earnings", "Ziziwork Retail Fiscal Month"]
+        "Accounting/Reports/FinancialRatios?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100" |
+                ["Total Assets", "Accounts Receivable"]
+
+        "Accounting/Reports/PostedAmountSummary?organizationPartyId=ORG_ZIZI_RETAIL&dateRange_poffset=0&dateRange_period=Year" |
+                ["ACCOUNTS PAYABLE", "DEPRECIATION - EQUIPMENT"]
+        "Accounting/Reports/PostedBalanceSummary?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodId=55100" |
+                ["CUSTOMER SERVICE CREDITS (Contra Revenue)", "NET INCOME (Income)"]
     }
 }
