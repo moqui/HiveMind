@@ -18,14 +18,10 @@ along with this software (see the LICENSE.md file). If not, see
 
     <parameter name="partyId" required="true"/>
 
-    <transition name="addUserAssign">
-        <service-call name="create#WorkEffortParty" in-map="context"/>
-        <default-response url="."/>
-    </transition>
-    <transition name="updateUserAssign">
-        <service-call name="update#WorkEffortParty" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="addUserAssign"><service-call name="create#WorkEffortParty" in-map="context"/>
+        <default-response url="."/></transition>
+    <transition name="updateUserAssign"><service-call name="update#WorkEffortParty" in-map="context"/>
+        <default-response url="."/></transition>
 
     <transition name="editTask"><default-response url="//hm/Task/TaskSummary"/></transition>
 
@@ -59,9 +55,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <field name="workEffortId"><default-field title="Task">
                     <drop-down combo-box="true">
                         <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
-                            <depends-on field="rootWorkEffortId"/>
-                        </dynamic-options>
-                    </drop-down>
+                            <depends-on field="rootWorkEffortId"/></dynamic-options></drop-down>
                 </default-field></field>
 
                 <field name="roleTypeId"><default-field title="Role">
@@ -103,12 +97,10 @@ along with this software (see the LICENSE.md file). If not, see
             </row-actions>
             <field name="partyId"><default-field><hidden/></default-field></field>
 
-            <field name="workEffortId"><default-field title="Task"><display text=""/>
-                <link text="${workEffortId} - ${workEffortName}" url="editTask"/>
-            </default-field></field>
+            <field name="workEffortId"><default-field title="Task">
+                <link text="${workEffortId} - ${workEffortName}" url="editTask" link-type="anchor"/></default-field></field>
             <field name="roleTypeId"><header-field title="Role" show-order-by="true"/>
-                <default-field><display-entity entity-name="RoleType" text="${description}"/></default-field>
-            </field>
+                <default-field><display-entity entity-name="RoleType" text="${description}"/></default-field></field>
 
             <field name="fromDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
             <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
@@ -129,8 +121,7 @@ along with this software (see the LICENSE.md file). If not, see
             </default-field></field>
 
             <field name="receiveNotifications"><default-field title="Notifs?">
-                <drop-down no-current-selected-key="N"><option key="Y"/><option key="N"/></drop-down>
-            </default-field></field>
+                <drop-down no-current-selected-key="N"><option key="Y"/><option key="N"/></drop-down></default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
 
             <form-list-column><field-ref name="workEffortId"/><field-ref name="roleTypeId"/></form-list-column>

@@ -18,6 +18,7 @@ along with this software (see the LICENSE.md file). If not, see
     <subscreens default-item="FindWikiSpace"/>
 
     <widgets>
-        <subscreens-panel id="task-panel" type="tab"/>
+        <!-- <subscreens-panel id="task-panel" type="tab"/> -->
+        <subscreens-active id="task-panel"/>
     </widgets>
 </screen>

@@ -30,7 +30,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="getPersonList">
         <actions>
-            <entity-find entity-name="PersonAndUserAccount" list="pauList" limit="20">
+            <entity-find entity-name="mantle.party.PersonAndUserAccount" list="pauList" limit="20">
                 <econditions combine="or">
                     <econdition field-name="firstName" operator="like" value="%${term}%" ignore-case="true"/>
                     <econdition field-name="lastName" operator="like" value="%${term}%" ignore-case="true"/>
@@ -50,7 +50,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <actions>
         <set field="clientPartyId" from="partyId"/><!-- set this for the user rel update form since it gets a partyId in each Map in the list -->
-        <entity-find entity-name="PartyFromAndRelationship" list="pfarList">
+        <entity-find entity-name="mantle.party.PartyFromAndRelationship" list="pfarList">
             <econdition field-name="toPartyId" from="partyId"/>
         </entity-find>
     </actions>
@@ -84,10 +84,12 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="partyId" entry-name="clientPartyId"><default-field><hidden/></default-field></field>
             <field name="partyRelationshipId"><default-field><hidden/></default-field></field>
             <field name="firstName"><header-field title="First" show-order-by="case-insensitive"/><default-field>
-                <link url="editUser" text="${firstName}"><parameter name="partyId" from="fromPartyId"/></link>
+                <link url="editUser" text="${firstName}" link-type="anchor">
+                    <parameter name="partyId" from="fromPartyId"/></link>
             </default-field></field>
             <field name="lastName"><header-field title="Last" show-order-by="case-insensitive"/><default-field>
-                <link url="editUser" text="${lastName}"><parameter name="partyId" from="fromPartyId"/></link>
+                <link url="editUser" text="${lastName}" link-type="anchor">
+                    <parameter name="partyId" from="fromPartyId"/></link>
             </default-field></field>
             <field name="fromRoleTypeId"><header-field title="Role" show-order-by="true"/><default-field>
                 <drop-down>
