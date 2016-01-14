@@ -34,8 +34,7 @@ class HiveMindAdminScreenTests extends Specification {
 
     def setupSpec() {
         ec = Moqui.getExecutionContext()
-        // this is the user created in WorkPlanToCashBasicFlow
-        ec.user.loginUser("worker", "moqui1!", null)
+        ec.user.loginUser("john.doe", "moqui", null)
         screenTest = ec.screen.makeTest().baseScreenPath("apps/hmadmin")
 
         ec.entity.tempSetSequencedIdPrimary("mantle.party.communication.CommunicationEvent", 62100, 10)
