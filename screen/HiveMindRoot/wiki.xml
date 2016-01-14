@@ -16,11 +16,9 @@ along with this software (see the LICENSE.md file). If not, see
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.6.xsd"
         allow-extra-path="true" default-menu-include="false">
 
-    <!-- don't declare parameters, don't want them in generated URLs
     <parameter name="wikiSpaceId"/>
     <parameter name="pagePath"/>
     <parameter name="wikiPageId"/>
-    -->
 
     <transition name="editPage"><default-response url="../EditWikiPage"/></transition>
     <transition name="createPage"><default-response url="../EditWikiPage"/></transition>
@@ -139,23 +137,22 @@ along with this software (see the LICENSE.md file). If not, see
                             </script>
                             <set field="newIdPath" value="${treeNodeId == '#' ? '' : treeNodeId + '/'}${curFileName}"/>
                         </actions>
-                        <link text="${curFileName}" url="/apps/hm/wiki/${wikiSpaceId}/${newIdPath}" id="${newIdPath}"/>
-                        <tree-sub-node node-name="WikiPageNode" list="childPageList">
-                            <actions>
-                                <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" out-map="curPageInfo"
-                                        in-map="[wikiSpaceId:wikiSpaceId, pagePath:treeNodeId]"/>
-                                <set field="childPageList" from="curPageInfo?.pageReference.getChildren()"/>
-                            </actions>
-                        </tree-sub-node>
+
+                        <link text="${curFileName}" url="/apps/hm/wiki/${wikiSpaceId}/${newIdPath}"
+                                url-noparam="true" id="${newIdPath}"/>
+
+                        <tree-sub-node node-name="WikiPageNode" list="childPageList"><actions>
+                            <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" out-map="curPageInfo"
+                                    in-map="[wikiSpaceId:wikiSpaceId, pagePath:treeNodeId]"/>
+                            <set field="childPageList" from="curPageInfo?.pageReference.getChildren()"/>
+                        </actions></tree-sub-node>
                     </tree-node>
-                    <tree-sub-node node-name="WikiPageNode" list="topPageList">
-                        <actions>
-                            <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" out-map="rootPageInfo"
-                                    in-map="[wikiSpaceId:wikiSpaceId]"/>
-                            <set field="topPageList" from="rootPageInfo.pageReference.getChildren()"/>
-                            <!-- <log level="warn" message="============ wikiSpaceId=${wikiSpaceId}; topPageList=${topPageList}"/> -->
-                        </actions>
-                    </tree-sub-node>
+                    <tree-sub-node node-name="WikiPageNode" list="topPageList"><actions>
+                        <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" out-map="rootPageInfo"
+                                in-map="[wikiSpaceId:wikiSpaceId]"/>
+                        <set field="topPageList" from="rootPageInfo.pageReference.getChildren()"/>
+                        <!-- <log level="warn" message="============ wikiSpaceId=${wikiSpaceId}; topPageList=${topPageList}"/> -->
+                    </actions></tree-sub-node>
                 </tree>
                 <!-- removedin favor of tree above:
                 <render-mode><text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/></render-mode>
