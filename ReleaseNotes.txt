@@ -2,7 +2,7 @@
 HiveMind Project Management and Service ERP Release Notes
 
 ===========================================================================
-Release 1.1.3 - TBD
+Release 1.1.3 - 16 Jan 2016
 ===========================================================================
 
 HiveMind 1.1.3 is a minor new feature and bug fix release.
@@ -10,7 +10,22 @@ HiveMind 1.1.3 is a minor new feature and bug fix release.
 This release is based on Moqui Framework version 1.6.0 and Mantle Business
 Artifacts version 1.2.0 and SimpleScreens version 1.0.0.
 
-TODO
+While there are a few new screens and improvements to the admin and
+PM apps the main changes in this release are quality related. There
+are now screen render tests, run on every git push though Travis CI, and
+there were various fixes and improvements done while writing these tests.
+
+Many screens (around 4500 lines) were moved to the SimpleScreens project
+for more generic reuse. The wiki data model and most of the services were
+moved to Moqui Framework (and those dependent on Mantle to Mantle). These
+changes help HiveMind focus on being an industry specific suite of
+applications while making it easier for other applications to reuse more
+generic functionality that was in HiveMind.
+
+The project management application currently has 31 screens and 54 forms.
+The admin application currently has 57 screens and 124 forms. HiveMind has
+around 7.5k lines of text, mostly in XML files (with a small number of
+lines in FTL, MarkDown, and CWiki files).
 
 New Features:
 
@@ -26,9 +41,6 @@ New Features:
 - Various screens useful in other sorts of applications (and reused in
   PopCommerce) have been moved to the new SimpleScreens project; initially
   this includes all Accounting screens and specific Vendor and User screens
-
-Bug Fixes:
-
 
 ===========================================================================
 Release 1.1.2 - 11 Sep 2015
