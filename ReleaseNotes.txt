@@ -24,8 +24,8 @@ generic functionality that was in HiveMind.
 
 The project management application currently has 31 screens and 54 forms.
 The admin application currently has 57 screens and 124 forms. HiveMind has
-around 7.5k lines of text, mostly in XML files (with a small number of
-lines in FTL, MarkDown, and CWiki files).
+around 7.7k lines of text, mostly in XML files (with a small number of
+lines in Groovy, FTL, MarkDown, and CWiki files).
 
 New Features:
 
