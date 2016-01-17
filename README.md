@@ -3,7 +3,7 @@
 [![license](http://img.shields.io/badge/license-CC0%201.0%20Universal-blue.svg)](https://github.com/moqui/HiveMind/blob/master/LICENSE.md)
 [![build](https://travis-ci.org/moqui/HiveMind.svg)](https://travis-ci.org/moqui/HiveMind)
 [![release](http://img.shields.io/github/release/moqui/HiveMind.svg)](https://github.com/moqui/HiveMind/releases)
-[![commits since release](http://img.shields.io/github/commits-since/moqui/HiveMind/v1.1.2.svg)](https://github.com/moqui/HiveMind/commits/master)
+[![commits since release](http://img.shields.io/github/commits-since/moqui/HiveMind/v1.1.3.svg)](https://github.com/moqui/HiveMind/commits/master)
 [![downloads](http://img.shields.io/github/downloads/moqui/HiveMind/latest/total.svg)](https://github.com/moqui/HiveMind/releases)
 
 HiveMind is a comprehensive ERP application for service organizations. It
