@@ -2,6 +2,21 @@
 HiveMind Project Management and Service ERP Release Notes
 
 ===========================================================================
+Release 1.1.4 - TBD
+===========================================================================
+
+HiveMind 1.1.4 is a minor new feature and bug fix release.
+
+This release is based on Moqui Framework version TODO, Mantle Business
+Artifacts version TODO, and SimpleScreens version TODO.
+
+TODO
+
+New Features
+
+Bug Fixes
+
+===========================================================================
 Release 1.1.3 - 17 Jan 2016
 ===========================================================================
 
@@ -27,7 +42,7 @@ The admin application currently has 57 screens and 124 forms. HiveMind has
 around 7.7k lines of text, mostly in XML files (with a small number of
 lines in Groovy, FTL, MarkDown, and CWiki files).
 
-New Features:
+New Features
 
 - Added screen render tests, initially 87 renders
 - Added Travis CI configuration and setup automated builds
