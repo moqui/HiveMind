@@ -2,7 +2,7 @@
 HiveMind Project Management and Service ERP Release Notes
 
 ===========================================================================
-Release 1.1.3 - 16 Jan 2016
+Release 1.1.3 - 17 Jan 2016
 ===========================================================================
 
 HiveMind 1.1.3 is a minor new feature and bug fix release.
