@@ -4,7 +4,7 @@
 [![build](https://travis-ci.org/moqui/HiveMind.svg)](https://travis-ci.org/moqui/HiveMind)
 [![release](http://img.shields.io/github/release/moqui/HiveMind.svg)](https://github.com/moqui/HiveMind/releases)
 [![commits since release](http://img.shields.io/github/commits-since/moqui/HiveMind/v1.1.3.svg)](https://github.com/moqui/HiveMind/commits/master)
-[![downloads](http://img.shields.io/github/downloads/moqui/HiveMind/latest/total.svg)](https://github.com/moqui/HiveMind/releases)
+[![downloads](http://img.shields.io/github/downloads/moqui/HiveMind/total.svg)](https://github.com/moqui/HiveMind/releases)
 
 HiveMind is a comprehensive ERP application for service organizations. It
 includes a project management application featuring project/task,
@@ -14,105 +14,72 @@ expenses, invoicing (AR/AP), payments, and general ledger.
 
 ### Running HiveMind
 
-To run HiveMind you need Moqui Framework, Mantle Business Artifacts, and 
-SimpleScreens as well as HiveMind itself. Moqui supports a few methods for
-setup and deployment as described in the documentation here:
+To run HiveMind you need Moqui Framework, HiveMind itself, and the 
+components it depends on. Moqui supports a few methods for setup and 
+deployment as described in the documentation here:
 
 <http://www.moqui.org/framework/docs/RunDeploy.html>
 
-The easiest way to try HiveMind is with the binary distribution available
-on GitHub:
+The easiest way to try HiveMind is with the binary distribution available on GitHub:
 
 <https://github.com/moqui/HiveMind/releases>
 
-If you don't have gradle or ant installed you can use this command line to
-run Java directly:
+If you don't have gradle or ant installed you can use this command line to run Java directly:
 
-$ java -Xmx512M -XX:MaxPermSize=128m -jar moqui-${version}.war
+    $ java -Xmx512M -XX:MaxPermSize=128m -jar moqui-${version}.war
 
 Note that with JDK 8 you don't need the -XX:MaxPermSize argument.
 
 ### Build and Run Locally
 
-To get and locally run the latest Moqui, Mantle, SimpleScreens, and 
-HiveMind you'll need JDK 7 or later (Oracle JDK 8 recommended) and either 
-a git client or you can use the **ZIP** download links on each project page
-on GitHub. The GitHub project pages are at:
+To get and locally run the latest HiveMind you'll need JDK 7 or later (Oracle JDK 8 recommended), and either a git 
+client or you can use the **ZIP** download link on GitHub.
 
-<https://github.com/moqui/moqui>
-<https://github.com/moqui/mantle>
-<https://github.com/moqui/SimpleScreens>
-<https://github.com/moqui/HiveMind>
-
-Java can be downloaded here (make sure to use the Download button under
-the **JDK** column, not the under the **JRE** column):
+Java can be downloaded here (make sure to use the Download button under the **JDK** column, NOT the under the JRE column):
 
 <http://www.oracle.com/technetwork/java/javase/downloads/index.html>
 
-The following instructions use the Gradle Wrapper to build. You can 
-optionally download and install Gradle (from <http://www.gradle.org/downloads>)
-and use **gradle** instead of **./gradlew** in the example commands.
+The following instructions use the Gradle Wrapper to build. You can optionally download and install Gradle 
+(from <http://www.gradle.org/downloads>) and use **gradle** instead of **./gradlew** in the example commands.
 
-To download Moqui/Mantle/HiveMind source and build/run locally use the
-following steps:
+To download Moqui/Mantle/HiveMind source and build/run locally use the following steps:
 
 #### Step 1: Download Moqui Framework
 
-Zip: <https://github.com/moqui/moqui/archive/master.zip>
+Zip: <https://github.com/moqui/moqui-framework/archive/master.zip>
 
-Git: <git://github.com/moqui/moqui.git>
+Git: <https://github.com/moqui/moqui-framework.git>
 
-From either source you should have a **moqui** directory for the next steps.
-If you use the Zip download change the directory name from **moqui-master**
-to **moqui**.
+From either source you should put the contents in a **moqui** directory for the next steps. If you use the Zip download 
+change the directory name from **moqui-framework-master** to **moqui**. If you clone the Git repository clone it into 
+a **moqui** directory. 
 
-#### Step 2: Download Mantle Business Artifacts
+#### Step 2: Download HiveMind and Dependencies
 
-Zip: <https://github.com/moqui/mantle/archive/master.zip>
+This is easy with the dependency configuration per component, and the Gradle get component tasks. With Gradle Wrapper 
+you don't need to install Gradle separately to do this. The HiveMind component is configured by default in the Moqui 
+addons.xml file, so just run:
 
-Git: <git://github.com/moqui/mantle.git>
+    $ ./gradlew getComponent -Pcomponent=HiveMind
 
-Put the **mantle** directory in the **moqui/runtime** directory so it is
-located at **moqui/runtime/mantle**. If you use the Zip download change the
-name of the directory from **mantle-master** to **mantle** to make sure the
-directory under the **moqui/runtime** directory has the correct name.
+If you downloaded the zip archive for Moqui Framework this will download the zip archives for HiveMind and each 
+component it depends on. If you cloned from the git repository this will clone all components from their repositories. 
 
-#### Step 3: Download SimpleScreens
+#### Step 3: Build and Load Data
 
-Zip: <https://github.com/moqui/SimpleScreens/archive/master.zip>
+From the **moqui** directory run:
+ 
+    $ ./gradlew load
 
-Git: <git://github.com/moqui/SimpleScreens.git>
+This will build Moqui and load seed and demo data from all components into an embedded H2 database.
 
-Put the **SimpleScreens** directory in the **moqui/runtime/component** directory so
-it is located at **moqui/runtime/component/SimpleScreens**. If you use the Zip
-download change the name of the directory from **SimpleScreens-master** to
-**SimpleScreens** to make sure the directory under the **moqui/runtime/component**
-directory has the correct name.
+#### Step 4: Run Moqui
 
-#### Step 4: Download HiveMind
+From the **moqui** directory run:
+ 
+    $ ./gradlew run
 
-Zip: <https://github.com/moqui/HiveMind/archive/master.zip>
-
-Git: <git://github.com/moqui/HiveMind.git>
-
-Put the **HiveMind** directory in the **moqui/runtime/component** directory so
-it is located at **moqui/runtime/component/HiveMind**. If you use the Zip
-download change the name of the directory from **HiveMind-master** to
-**HiveMind** to make sure the directory under the **moqui/runtime/component**
-directory has the correct name.
-
-#### Step 5: Build and load seed and demo data
-
-From the **moqui** directory run **gradle load**.
-
-This will build Moqui and load data from Moqui, Mantle and HiveMind into
-an embedded H2 database.
-
-#### Step 6: Run Moqui
-
-From the **moqui** directory run **gradle run**.
-
-#### Step 7: Access the HiveMind application
+#### Step 5: Access the HiveMind applications
 
 For the HiveMind Project Management application, in your browser go to:
 
@@ -128,31 +95,18 @@ Use the button in the lower-left corner of the screen login as John Doe.
 
 Java 8 is recommended: <http://www.oracle.com/technetwork/java/javase/downloads/index.html>
 
-Here are command line steps, and you can do the same thing with a Git desktop app:
+Here are command line steps for initial checkout, setup, and run:
 
-    $ git clone git@github.com:moqui/moqui.git
-    $ cd moqui/runtime/
-    $ git clone git@github.com:moqui/mantle.git
-    $ cd component/
-    $ git clone git@github.com:moqui/SimpleScreens.git
-    $ git clone git@github.com:moqui/HiveMind.git
-    $ cd ../.. (to the moqui directory)
+    $ git clone git@github.com:moqui/moqui-framework.git moqui
+    $ cd moqui
+    $ ./gradlew getComponent -Pcomponent=HiveMind
     $ ./gradlew load
     $ ./gradlew run
 
 Here are steps for a basic update:
 
     $ cd moqui
-    $ git pull
-    $ cd runtime/mantle
-    $ git pull
-    $ cd ../component/SimpleScreens
-    $ git pull
-    $ cd ../HiveMind
-    $ git pull
-    $ cd ../../.. (to the moqui directory)
-    $ ./gradlew cleanAll
-    $ ./gradlew load
+    $ ./gradlew cleanAll gitPullAll load
     $ ./gradlew run
 
 To access the project management app go to something like <http://localhost:8080/apps/hm> in a
