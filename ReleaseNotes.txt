@@ -2,10 +2,23 @@
 HiveMind Project Management and Service ERP Release Notes
 
 ===========================================================================
+Release 1.1.5 - TBD
+===========================================================================
+
+HiveMind Project Management and Service ERP 1.1.5 is a minor new feature
+and bug fix release.
+
+This release is based on Moqui Framework version TODO, mantle-udm TODO,
+mantle-usl TODO, and SimpleScreens TODO.
+
+TODO
+
+===========================================================================
 Release 1.1.4 - 24 Jan 2016
 ===========================================================================
 
-HiveMind 1.1.4 is a minor new feature and bug fix release.
+HiveMind Project Management and Service ERP 1.1.4 is a minor new feature
+and bug fix release.
 
 This release is based on Moqui Framework version 1.6.1, mantle-udm 1.0.0,
 mantle-usl 1.0.0, and SimpleScreens 1.0.1.
