@@ -40,6 +40,8 @@ along with this software (see the LICENSE.md file). If not, see
                     sri.getScreenUrlInfo().getPreTransitionPathNameList(), "../wiki")
             baseLinkUrl = wikiUrl.getUrl() + "/" + wikiSpaceId
         </script>
+
+        <set field="wikiType" from="wikiType ?: 'md'"/>
     </actions>
     <widgets>
         <container>
@@ -69,7 +71,7 @@ along with this software (see the LICENSE.md file). If not, see
                       <div class="wmd-panel">
                         <div id="wmd-button-bar" class="btn-toolbar"></div>
                         <textarea class="form-control wmd-input" cols="100" rows="24" name="pageText" id="wmd-input">
-${pageText}
+${pageText!""}
                         </textarea>
                       </div>
                     </div>
@@ -89,7 +91,7 @@ ${pageText}
                 <link text="Cancel" url="${baseLinkUrl}/${pagePath?:parentPath?:''}" url-type="plain" link-type="anchor-button"/>
             </default-field></field>
             <field name="syntaxLink"><default-field title="">
-                <link text="Syntax Reference" url-type="plain" url="http://daringfireball.net/projects/markdown/syntax" link-type="anchor"/>
+                <link text="Syntax Reference" url-type="plain" url="http://daringfireball.net/projects/markdown/syntax" link-type="anchor" condition="wikiType == 'md'"/>
             </default-field></field>
             <field-layout>
                 <field-ref name="parentPath"/>
