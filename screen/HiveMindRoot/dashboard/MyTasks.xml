@@ -20,6 +20,7 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="mantle.work.TaskServices.create#Task" in-map="context"/>
         <default-response url=".."/>
     </transition>
+    <transition name="findTask"><default-response url="../../Task/FindTask"/></transition>
     <transition name="editTask"><default-response url="../../Task/TaskSummary"/></transition>
 
     <transition name="myProjects"><default-response url="../MyProjects"/></transition>
@@ -75,7 +76,7 @@ along with this software (see the LICENSE.md file). If not, see
             <label text="My Open Tasks" type="h3"/>
             <dynamic-dialog id="MyProjectsContainer" button-text="My Projects" transition="myProjects"/>
             <dynamic-dialog id="MyMilestonesContainer" button-text="My Milestones" transition="myMilestones"/>
-
+            <link url="findTask" text="Find Task"/>
             <container-dialog id="NewTaskContainer" button-text="New Task">
                 <form-single name="NewTaskForm" transition="createTask"
                         extends="component://HiveMind/screen/HiveMindRoot/Task/FindTask.xml#NewTaskForm">
