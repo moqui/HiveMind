@@ -59,143 +59,141 @@ along with this software (see the LICENSE.md file). If not, see
             <econdition field-name="workEffortId" from="rootWorkEffortId"/></entity-find>
     </actions>
     <widgets>
-        <container-panel id="ProjectSummaryPanel">
-            <panel-left size="240">
-                <label text="${workEffort.workEffortName}" type="strong"/>
-                <tree name="TaskTree">
-                    <tree-node name="TaskNode">
+        <container-row><row-col lg="5" md="5">
+            <label text="${workEffort.workEffortId}: ${workEffort.workEffortName}" type="strong"/>
+            <tree name="TaskTree">
+                <tree-node name="TaskNode">
+                    <actions>
+                        <!-- <entity-find-related-one value-field="nodeList_entry" relationship-name="WorkEffortPurpose#moqui.basic.Enumeration" to-value-field="childPurpose" cache="true"/> -->
+                        <entity-find-related-one value-field="nodeList_entry" relationship-name="WorkEffort#moqui.basic.StatusItem" to-value-field="childStatus" cache="true"/>
+                    </actions>
+                    <link url="taskSummary" text="${nodeList_entry.workEffortId}: ${nodeList_entry.workEffortName} - ${childStatus?.description}"
+                            id="${treeNodeId == '#' ? '' : treeNodeId + '/'}${nodeList_entry.workEffortId}"><!-- ${childPurpose?.description} - -->
+                        <parameter name="workEffortId" from="nodeList_entry.workEffortId"/></link>
+                    <tree-sub-node node-name="TaskNode" list="childTasks">
                         <actions>
-                            <!-- <entity-find-related-one value-field="nodeList_entry" relationship-name="WorkEffortPurpose#moqui.basic.Enumeration" to-value-field="childPurpose" cache="true"/> -->
-                            <entity-find-related-one value-field="nodeList_entry" relationship-name="WorkEffort#moqui.basic.StatusItem" to-value-field="childStatus" cache="true"/>
-                        </actions>
-                        <link url="taskSummary" text="${nodeList_entry.workEffortId}: ${nodeList_entry.workEffortName} - ${childStatus?.description}"
-                                id="${treeNodeId == '#' ? '' : treeNodeId + '/'}${nodeList_entry.workEffortId}"><!-- ${childPurpose?.description} - -->
-                            <parameter name="workEffortId" from="nodeList_entry.workEffortId"/></link>
-                        <tree-sub-node node-name="TaskNode" list="childTasks">
-                            <actions>
-                                <set field="taskId" from="treeNodeId.split('/').last()"/>
-                                <entity-find entity-name="mantle.work.effort.WorkEffort" list="childTasks">
-                                    <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
-                                    <econdition field-name="parentWorkEffortId" from="taskId"/>
-                                </entity-find>
-                            </actions>
-                        </tree-sub-node>
-                    </tree-node>
-                    <tree-sub-node node-name="TaskNode" list="topLevelTasks">
-                        <actions>
-                            <entity-find entity-name="mantle.work.effort.WorkEffort" list="topLevelTasks">
+                            <set field="taskId" from="treeNodeId.split('/').last()"/>
+                            <entity-find entity-name="mantle.work.effort.WorkEffort" list="childTasks">
                                 <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
-                                <econdition field-name="rootWorkEffortId"/>
-                                <econdition field-name="parentWorkEffortId" from="null"/>
+                                <econdition field-name="parentWorkEffortId" from="taskId"/>
                             </entity-find>
                         </actions>
                     </tree-sub-node>
-                </tree>
-            </panel-left>
-            <panel-center>
-                <form-single name="ViewProject" map="workEffort">
-                    <field name="workEffortId"><default-field title="Project ID"><display/></default-field></field>
-                    <field name="workEffortName"><default-field title="Project Name"><display/></default-field></field>
-                    <field name="clientPartyId" entry-name="clientWep?.partyId"><default-field title="Client">
-                        <display-entity entity-name="mantle.party.PartyDetail" key-field-name="partyId"
-                                text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
-                        <link url="editClient" text="Edit Client" link-type="anchor"><parameter name="partyId" from="clientWep?.partyId"/></link>
-                    </default-field></field>
-                    <field name="vendorPartyId" entry-name="vendorWep?.partyId"><default-field title="Vendor">
-                        <display-entity entity-name="mantle.party.PartyDetail" key-field-name="partyId"
-                                text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
-                        <link url="editVendor" text="Edit Vendor" link-type="anchor"><parameter name="partyId" from="vendorWep?.partyId"/></link>
-                    </default-field></field>
-                    <field name="priority"><default-field><display/></default-field></field>
-                    <field name="statusId"><default-field title="Status">
-                        <display-entity entity-name="moqui.basic.StatusItem"/>
-                    </default-field></field>
-                    <field name="statusFlowId"><default-field title="Status Flow">
-                        <display-entity entity-name="moqui.basic.StatusFlow"/>
-                    </default-field></field>
-                    <field name="estimatedCompletionDate">
-                        <default-field title="Due Date"><display format="yyyy-MM-dd"/></default-field>
-                    </field>
-                    <field name="estimatedWorkTime"><default-field title="Estimated Hours">
-                        <display format="#.00"/></default-field></field>
-                    <field name="actualWorkTime"><default-field title="Actual Hours">
-                        <display format="#.00"/></default-field></field>
-                    <field name="description"><default-field title="Description"><display/></default-field></field>
+                </tree-node>
+                <tree-sub-node node-name="TaskNode" list="topLevelTasks">
+                    <actions>
+                        <entity-find entity-name="mantle.work.effort.WorkEffort" list="topLevelTasks">
+                            <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+                            <econdition field-name="rootWorkEffortId"/>
+                            <econdition field-name="parentWorkEffortId" from="null"/>
+                        </entity-find>
+                    </actions>
+                </tree-sub-node>
+            </tree>
+        </row-col><row-col lg="7" md="7">
+            <form-single name="ViewProject" map="workEffort">
+                <!--
+                <field name="workEffortId"><default-field title="Project ID"><display/></default-field></field>
+                <field name="workEffortName"><default-field title="Project Name"><display/></default-field></field>
+                -->
+                <field name="clientPartyId" entry-name="clientWep?.partyId"><default-field title="Client">
+                    <display-entity entity-name="mantle.party.PartyDetail" key-field-name="partyId"
+                            text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
+                    <link url="editClient" text="Edit Client" link-type="anchor"><parameter name="partyId" from="clientWep?.partyId"/></link>
+                </default-field></field>
+                <field name="vendorPartyId" entry-name="vendorWep?.partyId"><default-field title="Vendor">
+                    <display-entity entity-name="mantle.party.PartyDetail" key-field-name="partyId"
+                            text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
+                    <link url="editVendor" text="Edit Vendor" link-type="anchor"><parameter name="partyId" from="vendorWep?.partyId"/></link>
+                </default-field></field>
+                <field name="priority"><default-field><display/></default-field></field>
+                <field name="statusId"><default-field title="Status">
+                    <display-entity entity-name="moqui.basic.StatusItem"/>
+                </default-field></field>
+                <field name="statusFlowId"><default-field title="Status Flow">
+                    <display-entity entity-name="moqui.basic.StatusFlow"/>
+                </default-field></field>
+                <field name="estimatedCompletionDate">
+                    <default-field title="Due Date"><display format="yyyy-MM-dd"/></default-field>
+                </field>
+                <field name="estimatedWorkTime"><default-field title="Estimated Hours">
+                    <display format="#.00"/></default-field></field>
+                <field name="actualWorkTime"><default-field title="Actual Hours">
+                    <display format="#.00"/></default-field></field>
+                <field name="description"><default-field title="Description"><display/></default-field></field>
 
-                    <field-layout>
-                        <fields-not-referenced/>
-                        <field-row><field-ref name="workEffortName"/><field-ref name="workEffortId"/></field-row>
-                        <field-row><field-ref name="clientPartyId"/><field-ref name="vendorPartyId"/></field-row>
-                        <field-row><field-ref name="priority"/><field-ref name="estimatedCompletionDate"/></field-row>
-                        <field-row><field-ref name="statusId"/><field-ref name="statusFlowId"/></field-row>
-                        <field-row><field-ref name="estimatedWorkTime"/><field-ref name="actualWorkTime"/></field-row>
-                        <field-ref name="description"/>
-                    </field-layout>
-                </form-single>
+                <field-layout>
+                    <fields-not-referenced/>
+                    <!-- <field-row><field-ref name="workEffortName"/><field-ref name="workEffortId"/></field-row> -->
+                    <field-row><field-ref name="clientPartyId"/><field-ref name="vendorPartyId"/></field-row>
+                    <field-row><field-ref name="priority"/><field-ref name="estimatedCompletionDate"/></field-row>
+                    <field-row><field-ref name="statusId"/><field-ref name="statusFlowId"/></field-row>
+                    <field-row><field-ref name="estimatedWorkTime"/><field-ref name="actualWorkTime"/></field-row>
+                    <field-ref name="description"/>
+                </field-layout>
+            </form-single>
 
-                <form-list name="MilestoneList" list="milestoneList" skip-form="true">
-                    <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
-                    <field name="workEffortId"><default-field title="Milestone">
-                        <display/>
-                        <link url="milestoneSummary" text="Summary">
-                            <parameter name="milestoneWorkEffortId" from="workEffortId"/></link>
-                    </default-field></field>
-                    <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
-                    <field name="estimatedStartDate">
-                        <default-field title="Start Date"><display format="yyyy-MM-dd"/></default-field>
-                    </field>
-                    <field name="estimatedCompletionDate">
-                        <default-field title="End Date"><display format="yyyy-MM-dd"/></default-field>
-                    </field>
-                    <field name="statusId"><default-field title="Status">
-                        <display-entity entity-name="moqui.basic.StatusItem"/>
-                    </default-field></field>
-                </form-list>
+            <form-list name="MilestoneList" list="milestoneList" skip-form="true">
+                <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+                <field name="workEffortId"><default-field title="Milestone">
+                    <link url="milestoneSummary" text="${workEffortId}" link-type="anchor">
+                        <parameter name="milestoneWorkEffortId" from="workEffortId"/></link>
+                </default-field></field>
+                <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
+                <field name="estimatedStartDate">
+                    <default-field title="Start Date"><display format="yyyy-MM-dd"/></default-field>
+                </field>
+                <field name="estimatedCompletionDate">
+                    <default-field title="End Date"><display format="yyyy-MM-dd"/></default-field>
+                </field>
+                <field name="statusId"><default-field title="Status">
+                    <display-entity entity-name="moqui.basic.StatusItem"/>
+                </default-field></field>
+            </form-list>
 
-                <form-list name="ViewWpweForm" list="wpaweList" skip-form="true">
-                    <field name="workEffortId"><default-field><hidden/></default-field></field>
-                    <field name="rootWorkEffortId" entry-name="projectWorkEffortId"><default-field><hidden/></default-field></field>
-                    <field name="wikiPageId"><default-field><hidden/></default-field></field>
+            <form-list name="ViewWpweForm" list="wpaweList" skip-form="true">
+                <field name="workEffortId"><default-field><hidden/></default-field></field>
+                <field name="rootWorkEffortId" entry-name="projectWorkEffortId"><default-field><hidden/></default-field></field>
+                <field name="wikiPageId"><default-field><hidden/></default-field></field>
 
-                    <field name="wikiSpaceId"><default-field title="Wiki Space"><display text=""/>
-                        <link text="${wikiSpaceId}" url="/apps/hm/wiki/${wikiSpaceId}"/>
-                    </default-field></field>
-                    <field name="pagePath"><default-field title="Page"><display text=""/>
-                        <link text="${pagePath}" url="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
-                    </default-field></field>
-                </form-list>
+                <field name="wikiSpaceId"><default-field title="Wiki Space"><display text=""/>
+                    <link text="${wikiSpaceId}" url="/apps/hm/wiki/${wikiSpaceId}"/>
+                </default-field></field>
+                <field name="pagePath"><default-field title="Page"><display text=""/>
+                    <link text="${pagePath}" url="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
+                </default-field></field>
+            </form-list>
 
-                <form-list name="ViewUserAssignForm" list="wepapList" skip-form="true">
-                    <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
-                    <field name="workEffortId"><default-field><hidden/></default-field></field>
-                    <field name="partyId"><default-field><hidden/></default-field></field>
-                    <field name="username"><header-field show-order-by="case-insensitive"/>
-                        <default-field><link url="editUser" text="${username?:'--'}" link-type="anchor"/></default-field>
-                    </field>
-                    <field name="firstName"><header-field title="First" show-order-by="case-insensitive"/><default-field><display also-hidden="false"/></default-field></field>
-                    <field name="lastName"><header-field title="Last" show-order-by="case-insensitive"/><default-field><display also-hidden="false"/></default-field></field>
-                    <field name="roleTypeId"><header-field title="Role" show-order-by="true"/>
-                        <default-field><display-entity entity-name="mantle.party.RoleType"/></default-field>
-                    </field>
-                    <field name="fromDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
-                    <field name="thruDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
-                    <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/><default-field>
-                        <display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId"/>
-                    </default-field></field>
-                    <field name="emplPositionClassId"><header-field title="Position Class" show-order-by="true"/>
-                        <default-field><display-entity entity-name="EmplPositionClass" text="${title}"/></default-field>
-                    </field>
-                    <field name="statusId"><header-field title="Status" show-order-by="true"/><default-field>
-                        <display-entity entity-name="moqui.basic.StatusItem"/>
-                    </default-field></field>
+            <form-list name="ViewUserAssignForm" list="wepapList" skip-form="true">
+                <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
+                <field name="workEffortId"><default-field><hidden/></default-field></field>
+                <field name="partyId"><default-field><hidden/></default-field></field>
+                <field name="username"><header-field show-order-by="case-insensitive"/>
+                    <default-field><link url="editUser" text="${username?:'--'}" link-type="anchor"/></default-field>
+                </field>
+                <field name="firstName"><header-field title="First" show-order-by="case-insensitive"/><default-field><display also-hidden="false"/></default-field></field>
+                <field name="lastName"><header-field title="Last" show-order-by="case-insensitive"/><default-field><display also-hidden="false"/></default-field></field>
+                <field name="roleTypeId"><header-field title="Role" show-order-by="true"/>
+                    <default-field><display-entity entity-name="mantle.party.RoleType"/></default-field>
+                </field>
+                <field name="fromDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
+                <field name="thruDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
+                <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/><default-field>
+                    <display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId"/>
+                </default-field></field>
+                <field name="emplPositionClassId"><header-field title="Position Class" show-order-by="true"/>
+                    <default-field><display-entity entity-name="EmplPositionClass" text="${title}"/></default-field>
+                </field>
+                <field name="statusId"><header-field title="Status" show-order-by="true"/><default-field>
+                    <display-entity entity-name="moqui.basic.StatusItem"/>
+                </default-field></field>
 
-                    <form-list-column><field-ref name="username"/><field-ref name="roleTypeId"/></form-list-column>
-                    <form-list-column><field-ref name="firstName"/><field-ref name="lastName"/></form-list-column>
-                    <form-list-column><field-ref name="fromDate"/><field-ref name="thruDate"/></form-list-column>
-                    <form-list-column><field-ref name="expectationEnumId"/><field-ref name="emplPositionClassId"/></form-list-column>
-                    <form-list-column><field-ref name="statusId"/></form-list-column>
-                </form-list>
-            </panel-center>
-        </container-panel>
+                <form-list-column><field-ref name="username"/><field-ref name="roleTypeId"/></form-list-column>
+                <form-list-column><field-ref name="firstName"/><field-ref name="lastName"/></form-list-column>
+                <form-list-column><field-ref name="fromDate"/><field-ref name="thruDate"/></form-list-column>
+                <form-list-column><field-ref name="expectationEnumId"/><field-ref name="emplPositionClassId"/></form-list-column>
+                <form-list-column><field-ref name="statusId"/></form-list-column>
+            </form-list>
+        </row-col></container-row>
     </widgets>
 </screen>
