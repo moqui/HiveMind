@@ -119,7 +119,7 @@ along with this software (see the LICENSE.md file). If not, see
             </default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
 
-            <form-list-column><field-ref name="workEffortId"/><field-ref name="roleTypeId"/></form-list-column>
+            <form-list-column><field-ref name="project"/><field-ref name="roleTypeId"/></form-list-column>
             <form-list-column><field-ref name="fromDate"/><field-ref name="thruDate"/></form-list-column>
             <form-list-column><field-ref name="expectationEnumId"/><field-ref name="emplPositionClassId"/></form-list-column>
             <form-list-column><field-ref name="statusId"/><field-ref name="submitButton"/></form-list-column>
