@@ -55,14 +55,14 @@ along with this software (see the LICENSE.md file). If not, see
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="statusId" operator="not-in" value="WeClosed,WeCancelled"/>
+            <econdition field-name="purposeEnumId" operator="not-equals" value="WepPlaceholder"/>
             <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
             <select-field field-name="workEffortId"/><select-field field-name="workEffortName"/>
             <select-field field-name="priority"/><select-field field-name="purposeEnumId"/>
             <select-field field-name="statusId"/><select-field field-name="estimatedCompletionDate"/>
             <select-field field-name="estimatedWorkTime"/>
             <select-field field-name="remainingWorkTime"/><select-field field-name="actualWorkTime"/>
-            <order-by field-name="milestoneEstimatedStartDate"/>
-            <order-by field-name="priority"/>
+            <order-by field-name="priority,milestoneEstimatedStartDate"/>
         </entity-find>
     </actions>
     <widgets>

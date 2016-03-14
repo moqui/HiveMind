@@ -143,7 +143,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <mantle.work.effort.WorkEffort workEffortId="HM-001" workEffortName="HM Dashboard" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="" resolutionEnumId="WerUnresolved"
-            workEffortTypeEnumId="WetTask" purposeEnumId="WepTask" statusId="WeInProgress"/>
+            workEffortTypeEnumId="WetTask" purposeEnumId="WepPlaceholder" statusId="WeInProgress"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-001"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="1265184000000" sequenceNum="1"/>
 

@@ -36,18 +36,21 @@ along with this software (see the LICENSE.md file). If not, see
         <entity-find entity-name="WorkEffortAssocAndTo" list="inactiveTaskList">
             <econdition field-name="fromWorkEffortId" from="milestoneWorkEffortId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+            <econdition field-name="purposeEnumId" operator="not-equals" value="WepPlaceholder"/>
             <econdition field-name="statusId" operator="in" value="WeInPlanning,WeApproved,WeOnHold"/>
             <order-by field-name="priority"/><order-by field-name="estimatedCompletionDate"/>
         </entity-find>
         <entity-find entity-name="WorkEffortAssocAndTo" list="activeTaskList">
             <econdition field-name="fromWorkEffortId" from="milestoneWorkEffortId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+            <econdition field-name="purposeEnumId" operator="not-equals" value="WepPlaceholder"/>
             <econdition field-name="statusId" value="WeInProgress"/>
             <order-by field-name="priority"/><order-by field-name="estimatedCompletionDate"/>
         </entity-find>
         <entity-find entity-name="WorkEffortAssocAndTo" list="doneTaskList">
             <econdition field-name="fromWorkEffortId" from="milestoneWorkEffortId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+            <econdition field-name="purposeEnumId" operator="not-equals" value="WepPlaceholder"/>
             <econdition field-name="statusId" operator="in" value="WeComplete,WeClosed"/>
             <order-by field-name="priority"/><order-by field-name="estimatedCompletionDate"/>
         </entity-find>

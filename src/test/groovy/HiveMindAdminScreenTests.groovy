@@ -115,7 +115,7 @@ class HiveMindAdminScreenTests extends Specification {
 
         // Team
         "Team/EditTeam?partyId=ORG_ZIZI_DEVA" | ['Ziziwork Dev Team A']
-        "Team/EditUsers?partyId=ORG_ZIZI_DEVA" | ['Developer', 'Worker']
+        "Team/EditUsers?partyId=ORG_ZIZI_DEVA" | ['Developer', 'Assignee']
 
         // Rates
         "EditRateAmounts?partyId=EX_JOHN_DOE" | ['Standard', 'Client Billing', 'John Doe']

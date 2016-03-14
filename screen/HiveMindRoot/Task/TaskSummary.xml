@@ -240,7 +240,7 @@ along with this software (see the LICENSE.md file). If not, see
                                     <field-map field-name="partyId" from="timeEntry.partyId"/></entity-find-one>
                             </actions>
                             <widgets>
-                                <label text="- ${ec.l10n.format(timeEntry.hours, '0.00')}h at ${timeEntry.fromDate?:''} by ${paua.firstName} ${paua.lastName} ${paua.username ? '(' + paua.username + ')' :''}" type="p"/>
+                                <label text="- ${ec.l10n.format(timeEntry.hours, '0.00')}h at ${ec.l10n.format(timeEntry.fromDate, '')} by ${paua.firstName} ${paua.lastName} ${paua.username ? '(' + paua.username + ')' :''}" type="p"/>
                             </widgets>
                         </section-iterate>
                     </box-body>
