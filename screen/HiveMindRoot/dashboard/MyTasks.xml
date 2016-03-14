@@ -30,25 +30,16 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
 
     <transition name="getProjectParties">
-        <actions>
-            <service-call name="mantle.work.ProjectServices.get#ProjectParties" in-map="context" out-map="context"/>
-            <script>ec.web.sendJsonResponse(resultList)</script>
-        </actions>
+        <service-call name="mantle.work.ProjectServices.get#ProjectParties" web-send-json-response="resultList"/>
         <default-response type="none"/>
     </transition>
     <transition name="getProjectMilestones">
-        <actions>
-            <service-call name="mantle.work.ProjectServices.get#ProjectMilestones" in-map="context" out-map="context"/>
-            <script>ec.web.sendJsonResponse(resultList)</script>
-        </actions>
+        <service-call name="mantle.work.ProjectServices.get#ProjectMilestones" web-send-json-response="resultList"/>
         <default-response type="none"/>
     </transition>
     <!--
     <transition name="getProjectTasks">
-        <actions>
-            <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>
-            <script>ec.web.sendJsonResponse(resultList)</script>
-        </actions>
+        <service-call name="mantle.work.ProjectServices.get#ProjectTasks" web-send-json-response="resultList"/>
         <default-response type="none"/>
     </transition>
     -->
