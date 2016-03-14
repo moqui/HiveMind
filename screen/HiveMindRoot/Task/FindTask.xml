@@ -67,7 +67,7 @@ along with this software (see the LICENSE.md file). If not, see
         <if condition="!queryString"><then>
             <!-- pure DB query -->
             <entity-find entity-name="mantle.work.effort.PartyTaskSummary" list="taskList">
-                <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"/>
+                <search-form-inputs default-order-by="priority,rootWorkEffortId,milestoneEstimatedStartDate"/>
                 <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
                 <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds"/><!-- only tasks in allowed projects -->
                 <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
@@ -124,7 +124,7 @@ along with this software (see the LICENSE.md file). If not, see
 
             <set field="workEffortIdList" from="documentList._id"/>
             <entity-find entity-name="mantle.work.effort.PartyTaskSummary" list="taskList">
-                <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"
+                <search-form-inputs default-order-by="priority,rootWorkEffortId,milestoneEstimatedStartDate"
                         input-fields-map="searchInputs"/>
                 <econdition field-name="workEffortId" operator="in" from="workEffortIdList"/>
                 <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds"/><!-- only tasks in allowed projects -->
