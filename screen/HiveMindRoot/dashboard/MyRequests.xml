@@ -59,7 +59,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </row-actions>
                 <field name="priority"><default-field><display also-hidden="false"/></default-field></field>
                 <field name="requestId">
-                    <default-field title="Request"><link url="editRequest" text="${requestId}: ${requestName}" link-type="anchor"/></default-field>
+                    <default-field title="Request"><link url="editRequest" text="RequestNameTemplate" link-type="anchor"/></default-field>
                 </field>
                 <field name="clientPartyId" entry-name="clientRp?.partyId"><default-field title="Client">
                     <display-entity entity-name="mantle.party.PartyDetail" text="PartyNameTemplate"/>

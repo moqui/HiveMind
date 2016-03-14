@@ -80,7 +80,7 @@ along with this software (see the LICENSE.md file). If not, see
             <form-list name="MyTasks" list="myTaskList">
                 <field name="priority"><default-field title="Pri"><display/></default-field></field>
                 <field name="workEffortId"><default-field title="Task">
-                    <link text="${workEffortId}: ${workEffortName}" url="editTask" link-type="anchor"/>
+                    <link text="WorkEffortNameTemplate" url="editTask" link-type="anchor"/>
                 </default-field></field>
                 <field name="rootWorkEffortId">
                     <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}" link-type="anchor">
