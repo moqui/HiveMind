@@ -28,10 +28,7 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="mantle.work.ProjectServices.get#ProjectMilestones" web-send-json-response="resultList"/>
         <default-response type="none"/>
     </transition>
-    <transition name="getProjectTasks">
-        <service-call name="mantle.work.ProjectServices.get#ProjectTasks" web-send-json-response="resultList"/>
-        <default-response type="none"/>
-    </transition>
+    <transition-include name="getTaskList" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
 
     <actions>
         <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="task"/>
@@ -71,10 +68,8 @@ along with this software (see the LICENSE.md file). If not, see
                     <parameter name="milestoneWorkEffortId" from="milestoneAssoc?.workEffortId"/></link>
             </default-field></field>
             <field name="parentWorkEffortId"><default-field title="Parent Task">
-                <drop-down>
-                    <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
-                        <depends-on field="rootWorkEffortId"/></dynamic-options>
-                </drop-down>
+                <text-line ac-transition="getTaskList" ac-min-length="2" size="50">
+                    <depends-on field="rootWorkEffortId"/></text-line>
             </default-field></field>
             <field name="workEffortName"><default-field title="Task Name"><text-line/></default-field></field>
             <field name="priority"><default-field>
