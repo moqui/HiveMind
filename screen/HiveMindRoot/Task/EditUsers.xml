@@ -63,7 +63,7 @@ along with this software (see the LICENSE.md file). If not, see
                         <text-line ac-transition="getPersonList" ac-min-length="2" size="30"/>
                     </default-field></field>
                     <field name="roleTypeId"><default-field title="Role">
-                        <drop-down>
+                        <drop-down no-current-selected-key="Assignee">
                             <entity-options key="${roleTypeId}" text="${description}">
                                 <entity-find entity-name="mantle.party.RoleGroupMemberAndType" cache="true">
                                     <econdition field-name="roleGroupEnumId" value="RgpTask"/>
@@ -71,7 +71,7 @@ along with this software (see the LICENSE.md file). If not, see
                         </drop-down>
                     </default-field></field>
 
-                    <field name="fromDate"><header-field show-order-by="true"/><default-field><date-time default-value="${ec.user.nowTimestamp}"/></default-field></field>
+                    <field name="fromDate" entry-name="ec.user.nowTimestamp"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
                     <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
 
                     <field name="expectationEnumId"><default-field title="Expectation">
@@ -107,7 +107,7 @@ along with this software (see the LICENSE.md file). If not, see
                     </default-field></field>
                     <field name="roleTypeId"><default-field><hidden default-value="OrgTeam"/></default-field></field>
 
-                    <field name="fromDate"><header-field show-order-by="true"/><default-field><date-time default-value="${ec.user.nowTimestamp}"/></default-field></field>
+                    <field name="fromDate" entry-name="ec.user.nowTimestamp"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
                     <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
 
                     <field name="statusId"><default-field title="Status">

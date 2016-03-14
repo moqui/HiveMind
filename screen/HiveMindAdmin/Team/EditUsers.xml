@@ -68,7 +68,7 @@ along with this software (see the LICENSE.md file). If not, see
                     </entity-options></drop-down>
                 </default-field></field>
 
-                <field name="fromDate"><default-field><date-time default-value="${ec.user.nowTimestamp}"/></default-field></field>
+                <field name="fromDate" entry-name="ec.user.nowTimestamp"><default-field><date-time/></default-field></field>
                 <field name="thruDate"><default-field><date-time/></default-field></field>
                 <field name="submitButton"><default-field title="Add Assignment"><submit/></default-field></field>
             </form-single>

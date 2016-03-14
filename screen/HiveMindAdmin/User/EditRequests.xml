@@ -51,7 +51,7 @@ along with this software (see the LICENSE.md file). If not, see
                     </drop-down>
                 </default-field></field>
 
-                <field name="fromDate"><header-field show-order-by="true"/><default-field><date-time default-value="${ec.user.nowTimestamp}"/></default-field></field>
+                <field name="fromDate" entry-name="ec.user.nowTimestamp"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
                 <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
 
                 <field name="receiveNotifications"><default-field>
