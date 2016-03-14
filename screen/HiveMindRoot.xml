@@ -14,6 +14,10 @@ along with this software (see the LICENSE.md file). If not, see
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.6.xsd"
         default-menu-title="HiveMind PM" menu-image="glyphicon glyphicon-check" menu-image-type="icon">
+    <always-actions>
+        <set field="searchIndexName" value="hivemind"/>
+        <set field="searchTaskDocType" value="HmTask"/>
+    </always-actions>
     <subscreens default-item="dashboard" always-use-full-path="true"/>
     <widgets>
         <subscreens-panel id="HiveMindPanel" type="popup" title="HiveMind PM"/>

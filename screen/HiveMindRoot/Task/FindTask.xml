@@ -37,6 +37,7 @@ along with this software (see the LICENSE.md file). If not, see
         </actions>
         <default-response type="none"/>
     </transition>
+    <!--
     <transition name="getProjectTasks">
         <actions>
             <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>
@@ -44,6 +45,8 @@ along with this software (see the LICENSE.md file). If not, see
         </actions>
         <default-response type="none"/>
     </transition>
+    -->
+    <transition-include name="getTaskList" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
 
     <transition name="getProjectParties">
         <actions>
@@ -258,22 +261,23 @@ along with this software (see the LICENSE.md file). If not, see
                     <field name="milestoneWorkEffortId"><default-field title="Milestone">
                         <drop-down style="chosen-wide">
                             <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
-                                <depends-on field="rootWorkEffortId"/>
-                            </dynamic-options>
+                                <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
                     <field name="parentWorkEffortId"><default-field title="Parent Task">
+                        <text-line ac-transition="getTaskList" ac-min-length="2" size="50">
+                            <depends-on field="rootWorkEffortId"/></text-line>
+                        <!--
                         <drop-down style="chosen-wider">
                             <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
-                                <depends-on field="rootWorkEffortId"/>
-                            </dynamic-options>
+                                <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
+                        -->
                     </default-field></field>
                     <field name="assignToPartyId"><default-field title="Assign To">
                         <drop-down no-current-selected-key="${ec.user.userAccount.partyId}" current="selected" allow-empty="true"  style="chosen-wide">
                             <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name">
-                                <depends-on field="rootWorkEffortId"/>
-                            </dynamic-options>
+                                <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
                     <field name="workEffortName"><default-field title="Task Name"><text-line/></default-field></field>

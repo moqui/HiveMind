@@ -43,6 +43,7 @@ along with this software (see the LICENSE.md file). If not, see
         </actions>
         <default-response type="none"/>
     </transition>
+    <!--
     <transition name="getProjectTasks">
         <actions>
             <service-call name="mantle.work.ProjectServices.get#ProjectTasks" in-map="context" out-map="context"/>
@@ -50,6 +51,8 @@ along with this software (see the LICENSE.md file). If not, see
         </actions>
         <default-response type="none"/>
     </transition>
+    -->
+    <transition-include name="getTaskList" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
 
     <actions>
         <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
