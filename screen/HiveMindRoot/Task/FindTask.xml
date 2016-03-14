@@ -64,7 +64,7 @@ along with this software (see the LICENSE.md file). If not, see
         <set field="myProjectIds" from="[]"/>
         <iterate list="myProjectList" entry="myProject"><script>myProjectIds.add(myProject.workEffortId)</script></iterate>
 
-        <if condition="!queryString">
+        <if condition="!queryString"><then>
             <!-- pure DB query -->
             <entity-find entity-name="mantle.work.effort.PartyTaskSummary" list="taskList">
                 <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"/>
@@ -90,87 +90,84 @@ along with this software (see the LICENSE.md file). If not, see
                 <set field="taskSummaryMap.actualWorkTime" from="taskSummaryMap.actualWorkTime + (task.actualWorkTime ?: 0)"/>
             </iterate>
             <set field="taskSummaryList" from="[taskSummaryMap]"/>
+        </then><else>
+            <!-- DataDocument (ElasticSearch) search plus DB query -->
+            <set field="searchInputs" from="new HashMap(ec.web.parameters)"/>
+            <if condition="rootWorkEffortId">
+                <set field="queryString" value="${queryString} AND project:${rootWorkEffortId}"/>
+                <set field="searchInputs.rootWorkEffortId" value=""/>
+            </if>
+            <if condition="parentWorkEffortId">
+                <set field="queryString" value="${queryString} AND parent:${parentWorkEffortId}"/>
+                <set field="searchInputs.parentWorkEffortId" value=""/>
+            </if>
+            <!-- TODO: support not, contains/etc, not ignore case? -->
+            <if condition="workEffortId">
+                <set field="queryString" value="${queryString} AND workEffortId:${workEffortId}"/>
+                <set field="searchInputs.workEffortId" value=""/>
+            </if>
+            <if condition="purposeEnumId">
+                <set field="queryString" value="${queryString} AND purposeEnumId:${purposeEnumId}"/>
+                <set field="searchInputs.purposeEnumId" value=""/>
+            </if>
+            <if condition="statusId">
+                <set field="queryString" value="${queryString} AND statusId:${statusId}"/>
+                <set field="searchInputs.statusId" value=""/>
+            </if>
+            <if condition="resolutionEnumId">
+                <set field="queryString" value="${queryString} AND resolutionEnumId:${resolutionEnumId}"/>
+                <set field="searchInputs.resolutionEnumId" value=""/>
+            </if>
 
+            <service-call name="org.moqui.impl.EntityServices.search#DataDocuments" out-map="context"
+                    in-map="context + [indexName:'hivemind', documentType:'HmTask']"/>
 
-            <else>
-                <!-- DataDocument (ElasticSearch) search plus DB query -->
-                <set field="searchInputs" from="new HashMap(ec.web.parameters)"/>
-                <if condition="rootWorkEffortId">
-                    <set field="queryString" value="${queryString} AND project:${rootWorkEffortId}"/>
-                    <set field="searchInputs.rootWorkEffortId" value=""/>
-                </if>
-                <if condition="parentWorkEffortId">
-                    <set field="queryString" value="${queryString} AND parent:${parentWorkEffortId}"/>
-                    <set field="searchInputs.parentWorkEffortId" value=""/>
-                </if>
-                <!-- TODO: support not, contains/etc, not ignore case? -->
-                <if condition="workEffortId">
-                    <set field="queryString" value="${queryString} AND workEffortId:${workEffortId}"/>
-                    <set field="searchInputs.workEffortId" value=""/>
-                </if>
-                <if condition="purposeEnumId">
-                    <set field="queryString" value="${queryString} AND purposeEnumId:${purposeEnumId}"/>
-                    <set field="searchInputs.purposeEnumId" value=""/>
-                </if>
-                <if condition="statusId">
-                    <set field="queryString" value="${queryString} AND statusId:${statusId}"/>
-                    <set field="searchInputs.statusId" value=""/>
-                </if>
-                <if condition="resolutionEnumId">
-                    <set field="queryString" value="${queryString} AND resolutionEnumId:${resolutionEnumId}"/>
-                    <set field="searchInputs.resolutionEnumId" value=""/>
-                </if>
+            <set field="workEffortIdList" from="documentList._id"/>
+            <entity-find entity-name="mantle.work.effort.PartyTaskSummary" list="taskList">
+                <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"
+                        input-fields-map="searchInputs"/>
+                <econdition field-name="workEffortId" operator="in" from="workEffortIdList"/>
+                <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds"/><!-- only tasks in allowed projects -->
+                <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+                <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
+                <select-field field-name="parentWorkEffortId"/><select-field field-name="workEffortId"/>
+                <select-field field-name="workEffortName"/><select-field field-name="priority"/>
+                <select-field field-name="purposeEnumId"/><select-field field-name="statusId"/>
+                <select-field field-name="resolutionEnumId"/>
+                <select-field field-name="estimatedCompletionDate"/>
+                <select-field field-name="estimatedWorkTime"/>
+                <select-field field-name="remainingWorkTime"/><select-field field-name="actualWorkTime"/>
+            </entity-find>
 
-                <service-call name="org.moqui.impl.EntityServices.search#DataDocuments" out-map="context"
-                        in-map="context + [indexName:'hivemind', documentType:'HmTask']"/>
+            <set field="taskSummaryMap" from="[count:0, rootWorkEffortId:'', milestoneWorkEffortId:'', priority:'',
+                parentWorkEffortId:'', workEffortId:'', workEffortName:'', purposeEnumId:'', statusId:'', resolutionEnumId:'',
+                estimatedCompletionDate:'', estimatedWorkTime:0, remainingWorkTime:0, actualWorkTime:0]"/>
+            <iterate list="taskList" entry="task">
+                <set field="taskSummaryMap.count" from="taskSummaryMap.count + 1"/>
+                <set field="taskSummaryMap.estimatedWorkTime" from="taskSummaryMap.estimatedWorkTime + (task.estimatedWorkTime ?: 0)"/>
+                <set field="taskSummaryMap.remainingWorkTime" from="taskSummaryMap.remainingWorkTime + (task.remainingWorkTime ?: 0)"/>
+                <set field="taskSummaryMap.actualWorkTime" from="taskSummaryMap.actualWorkTime + (task.actualWorkTime ?: 0)"/>
+            </iterate>
+            <set field="taskSummaryList" from="[taskSummaryMap]"/>
 
-                <set field="workEffortIdList" from="documentList._id"/>
-                <entity-find entity-name="mantle.work.effort.PartyTaskSummary" list="taskList">
-                    <search-form-inputs default-order-by="rootWorkEffortId,milestoneEstimatedStartDate,priority"
-                            input-fields-map="searchInputs"/>
-                    <econdition field-name="workEffortId" operator="in" from="workEffortIdList"/>
-                    <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds"/><!-- only tasks in allowed projects -->
-                    <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
-                    <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
-                    <select-field field-name="parentWorkEffortId"/><select-field field-name="workEffortId"/>
-                    <select-field field-name="workEffortName"/><select-field field-name="priority"/>
-                    <select-field field-name="purposeEnumId"/><select-field field-name="statusId"/>
-                    <select-field field-name="resolutionEnumId"/>
-                    <select-field field-name="estimatedCompletionDate"/>
-                    <select-field field-name="estimatedWorkTime"/>
-                    <select-field field-name="remainingWorkTime"/><select-field field-name="actualWorkTime"/>
-                </entity-find>
-
-                <set field="taskSummaryMap" from="[count:0, rootWorkEffortId:'', milestoneWorkEffortId:'', priority:'',
-                    parentWorkEffortId:'', workEffortId:'', workEffortName:'', purposeEnumId:'', statusId:'', resolutionEnumId:'',
-                    estimatedCompletionDate:'', estimatedWorkTime:0, remainingWorkTime:0, actualWorkTime:0]"/>
-                <iterate list="taskList" entry="task">
-                    <set field="taskSummaryMap.count" from="taskSummaryMap.count + 1"/>
-                    <set field="taskSummaryMap.estimatedWorkTime" from="taskSummaryMap.estimatedWorkTime + (task.estimatedWorkTime ?: 0)"/>
-                    <set field="taskSummaryMap.remainingWorkTime" from="taskSummaryMap.remainingWorkTime + (task.remainingWorkTime ?: 0)"/>
-                    <set field="taskSummaryMap.actualWorkTime" from="taskSummaryMap.actualWorkTime + (task.actualWorkTime ?: 0)"/>
-                </iterate>
-                <set field="taskSummaryList" from="[taskSummaryMap]"/>
-
-                <!-- the old approach, one record at a time and separate sort:
-                <set field="taskList" from="[]"/>
-                <iterate list="documentList" entry="document">
-                    <entity-find-one entity-name="mantle.work.effort.PartyTaskSummary" value-field="task">
-                        <field-map field-name="workEffortId" from="document._id"/>
-                    </entity-find-one>
-                    <script>taskList.add(task)</script>
-                    <set field="taskSummaryMap.count" from="taskSummaryMap.count + 1"/>
-                    <set field="taskSummaryMap.estimatedWorkTime" from="taskSummaryMap.estimatedWorkTime + (task.estimatedWorkTime ?: 0)"/>
-                    <set field="taskSummaryMap.remainingWorkTime" from="taskSummaryMap.remainingWorkTime + (task.remainingWorkTime ?: 0)"/>
-                    <set field="taskSummaryMap.actualWorkTime" from="taskSummaryMap.actualWorkTime + (task.actualWorkTime ?: 0)"/>
-                </iterate>
-                <set field="taskSummaryList" from="[taskSummaryMap]"/>
-                <if condition="orderByField">
-                    <script>StupidUtilities.orderMapList(taskList, [orderByField])</script>
-                </if>
-                -->
-            </else>
-        </if>
+            <!-- the old approach, one record at a time and separate sort:
+            <set field="taskList" from="[]"/>
+            <iterate list="documentList" entry="document">
+                <entity-find-one entity-name="mantle.work.effort.PartyTaskSummary" value-field="task">
+                    <field-map field-name="workEffortId" from="document._id"/>
+                </entity-find-one>
+                <script>taskList.add(task)</script>
+                <set field="taskSummaryMap.count" from="taskSummaryMap.count + 1"/>
+                <set field="taskSummaryMap.estimatedWorkTime" from="taskSummaryMap.estimatedWorkTime + (task.estimatedWorkTime ?: 0)"/>
+                <set field="taskSummaryMap.remainingWorkTime" from="taskSummaryMap.remainingWorkTime + (task.remainingWorkTime ?: 0)"/>
+                <set field="taskSummaryMap.actualWorkTime" from="taskSummaryMap.actualWorkTime + (task.actualWorkTime ?: 0)"/>
+            </iterate>
+            <set field="taskSummaryList" from="[taskSummaryMap]"/>
+            <if condition="orderByField">
+                <script>StupidUtilities.orderMapList(taskList, [orderByField])</script>
+            </if>
+            -->
+        </else></if>
     </actions>
     <widgets>
         <!-- for future use with saved task filters: <container><label text="${groovy.json.JsonOutput.toJson(ec.web.requestParameters)}"/></container> -->
@@ -306,23 +303,9 @@ along with this software (see the LICENSE.md file). If not, see
         </container>
 
         <form-list name="ListTasks" list="taskList" skip-form="true" skip-end="true">
-            <field name="rootWorkEffortId">
-                <header-field title="Project" show-order-by="case-insensitive"/>
-                <default-field><link url="projectSummary" text="${rootWorkEffortId?:'--'}" link-type="anchor">
-                    <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
-            </field>
-            <field name="milestoneWorkEffortId">
-                <header-field title="Milestone" show-order-by="case-insensitive"/>
-                <default-field><link text="${milestoneWorkEffortId?:''}" url="milestoneSummary" link-type="anchor" condition="milestoneWorkEffortId"/></default-field>
-            </field>
             <field name="priority">
                 <header-field show-order-by="true"/>
                 <default-field title="Pri"><display/></default-field>
-            </field>
-            <field name="parentWorkEffortId">
-                <header-field title="Parent" show-order-by="case-insensitive"/>
-                <default-field><link url="editTask" text="${parentWorkEffortId?:'--'}" link-type="anchor" condition="parentWorkEffortId">
-                    <parameter name="workEffortId" from="parentWorkEffortId"/></link></default-field>
             </field>
             <field name="workEffortId">
                 <header-field title="ID" show-order-by="true"/>
@@ -331,6 +314,20 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="workEffortName">
                 <header-field title="Name" show-order-by="case-insensitive"/>
                 <default-field><link text="${workEffortName}" url="editTask" link-type="anchor"/></default-field>
+            </field>
+            <field name="parentWorkEffortId">
+                <header-field title="Parent" show-order-by="case-insensitive"/>
+                <default-field><link url="editTask" text="${parentWorkEffortId?:'--'}" link-type="anchor" condition="parentWorkEffortId">
+                    <parameter name="workEffortId" from="parentWorkEffortId"/></link></default-field>
+            </field>
+            <field name="rootWorkEffortId">
+                <header-field title="Project" show-order-by="case-insensitive"/>
+                <default-field><link url="projectSummary" text="${rootWorkEffortId?:'--'}" link-type="anchor">
+                    <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
+            </field>
+            <field name="milestoneWorkEffortId">
+                <header-field title="Milestone" show-order-by="case-insensitive"/>
+                <default-field><link text="${milestoneWorkEffortId?:''}" url="milestoneSummary" link-type="anchor" condition="milestoneWorkEffortId"/></default-field>
             </field>
             <field name="purposeEnumId">
                 <header-field title="Purpose" show-order-by="true"/>

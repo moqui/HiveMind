@@ -20,6 +20,7 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="mantle.request.RequestServices.create#Request" in-map="context"/>
         <default-response url=".."/>
     </transition>
+    <transition name="findRequest"><default-response url="../../Request/FindRequest"/></transition>
     <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
 
     <transition name="getPersonList">
@@ -41,6 +42,7 @@ along with this software (see the LICENSE.md file). If not, see
     <widgets>
         <container id="dashboard-requests-section">
             <label text="My Open Requests" type="h3"/>
+            <link url="findRequest" text="Find Request"/>
             <container-dialog id="NewRequestContainer" button-text="New Request">
                 <form-single name="NewRequest" transition="createRequest"
                         extends="component://HiveMind/screen/HiveMindRoot/Request/FindRequest.xml#NewRequestForm">
@@ -48,13 +50,20 @@ along with this software (see the LICENSE.md file). If not, see
             </container-dialog>
 
             <form-list name="MyRequests" list="myRequestList">
-                <field name="requestId">
-                    <default-field title="ID"><link url="editRequest" text="${requestId}" link-type="anchor"/></default-field>
-                </field>
-                <field name="requestName">
-                    <default-field title="Name"><display also-hidden="false"/></default-field>
-                </field>
+                <row-actions>
+                    <entity-find entity-name="mantle.request.RequestParty" list="clientRpList">
+                        <date-filter/><econdition field-name="requestId"/>
+                        <econdition field-name="roleTypeId" value="CustomerBillTo"/>
+                    </entity-find>
+                    <set field="clientRp" from="clientRpList?.getAt(0)"/>
+                </row-actions>
                 <field name="priority"><default-field><display also-hidden="false"/></default-field></field>
+                <field name="requestId">
+                    <default-field title="Request"><link url="editRequest" text="${requestId}: ${requestName}" link-type="anchor"/></default-field>
+                </field>
+                <field name="clientPartyId" entry-name="clientRp?.partyId"><default-field title="Client">
+                    <display-entity entity-name="mantle.party.PartyDetail" text="PartyNameTemplate"/>
+                </default-field></field>
                 <field name="requestTypeEnumId">
                     <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
                 </field>

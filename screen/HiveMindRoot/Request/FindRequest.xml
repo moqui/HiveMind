@@ -103,6 +103,17 @@ along with this software (see the LICENSE.md file). If not, see
         </container-dialog>
 
         <form-list name="ListRequests" list="requestList" skip-form="true">
+            <row-actions>
+                <entity-find entity-name="mantle.request.RequestParty" list="clientRpList">
+                    <date-filter/><econdition field-name="requestId"/>
+                    <econdition field-name="roleTypeId" value="CustomerBillTo"/>
+                </entity-find>
+                <set field="clientRp" from="clientRpList?.getAt(0)"/>
+            </row-actions>
+            <field name="priority">
+                <header-field show-order-by="true"/>
+                <default-field><display also-hidden="false"/></default-field>
+            </field>
             <field name="requestId">
                 <default-field title="ID"><link url="editRequest" text="${requestId}" link-type="anchor"/></default-field>
             </field>
@@ -110,10 +121,9 @@ along with this software (see the LICENSE.md file). If not, see
                 <header-field title="Name" show-order-by="case-insensitive"/>
                 <default-field><display also-hidden="false"/></default-field>
             </field>
-            <field name="priority">
-                <header-field show-order-by="true"/>
-                <default-field><display also-hidden="false"/></default-field>
-            </field>
+            <field name="clientPartyId" entry-name="clientRp?.partyId"><default-field title="Client">
+                <display-entity entity-name="mantle.party.PartyDetail" text="PartyNameTemplate"/>
+            </default-field></field>
             <field name="requestTypeEnumId">
                 <header-field title="Type" show-order-by="true"/>
                 <default-field><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>

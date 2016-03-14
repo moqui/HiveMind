@@ -78,6 +78,10 @@ along with this software (see the LICENSE.md file). If not, see
             </container-dialog>
 
             <form-list name="MyTasks" list="myTaskList">
+                <field name="priority"><default-field title="Pri"><display/></default-field></field>
+                <field name="workEffortId"><default-field title="Task">
+                    <link text="${workEffortId}: ${workEffortName}" url="editTask" link-type="anchor"/>
+                </default-field></field>
                 <field name="rootWorkEffortId">
                     <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}" link-type="anchor">
                         <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
@@ -85,10 +89,6 @@ along with this software (see the LICENSE.md file). If not, see
                 <field name="milestoneWorkEffortId"><default-field title="Milestone">
                     <link text="${milestoneWorkEffortId?:''}" url="milestoneSummary" link-type="anchor"/>
                 </default-field></field>
-                <field name="workEffortId"><default-field title="Task">
-                    <link text="${workEffortId}: ${workEffortName}" url="editTask" link-type="anchor"/>
-                </default-field></field>
-                <field name="priority"><default-field title="Pri"><display/></default-field></field>
                 <field name="purposeEnumId">
                     <default-field title="Purpose"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
                 </field>
