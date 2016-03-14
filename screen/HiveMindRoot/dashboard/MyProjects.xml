@@ -19,15 +19,16 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
 
     <actions>
-        <entity-find entity-name="WorkEffortAndParty" list="myProjectList">
+        <entity-find entity-name="WorkEffortAndParty" list="myProjectList" distinct="true">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+            <select-field field-name="workEffortId,workEffortName,statusId"/>
         </entity-find>
     </actions>
     <widgets>
         <form-list name="MyProjectList" list="myProjectList">
-            <field name="workEffortId"><default-field title="ID"><link url="projectSummary" text="${workEffortId}" link-type="anchor"/></default-field></field>
+            <field name="workEffortId"><default-field title="ID"><link url="projectSummary" text="${workEffortId}"/></default-field></field>
             <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
             <field name="statusId"><default-field title="Status">
                 <display-entity entity-name="StatusItem" text="${description}"/>
