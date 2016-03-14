@@ -308,12 +308,12 @@ along with this software (see the LICENSE.md file). If not, see
         <form-list name="ListTasks" list="taskList" skip-form="true" skip-end="true">
             <field name="rootWorkEffortId">
                 <header-field title="Project" show-order-by="case-insensitive"/>
-                <default-field><link url="projectSummary" text="${rootWorkEffortId?:'--'}">
+                <default-field><link url="projectSummary" text="${rootWorkEffortId?:'--'}" link-type="anchor">
                     <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
             </field>
             <field name="milestoneWorkEffortId">
                 <header-field title="Milestone" show-order-by="case-insensitive"/>
-                <default-field><link text="${milestoneWorkEffortId?:''}" url="milestoneSummary" condition="milestoneWorkEffortId"/></default-field>
+                <default-field><link text="${milestoneWorkEffortId?:''}" url="milestoneSummary" link-type="anchor" condition="milestoneWorkEffortId"/></default-field>
             </field>
             <field name="priority">
                 <header-field show-order-by="true"/>
@@ -321,12 +321,12 @@ along with this software (see the LICENSE.md file). If not, see
             </field>
             <field name="parentWorkEffortId">
                 <header-field title="Parent" show-order-by="case-insensitive"/>
-                <default-field><link url="editTask" text="${parentWorkEffortId?:'--'}" condition="parentWorkEffortId">
+                <default-field><link url="editTask" text="${parentWorkEffortId?:'--'}" link-type="anchor" condition="parentWorkEffortId">
                     <parameter name="workEffortId" from="parentWorkEffortId"/></link></default-field>
             </field>
             <field name="workEffortId">
                 <header-field title="ID" show-order-by="true"/>
-                <default-field><link text="${workEffortId}" url="editTask"/></default-field>
+                <default-field><link text="${workEffortId}" url="editTask" link-type="anchor"/></default-field>
             </field>
             <field name="workEffortName">
                 <header-field title="Name" show-order-by="case-insensitive"/>

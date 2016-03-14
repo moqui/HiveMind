@@ -104,7 +104,7 @@ along with this software (see the LICENSE.md file). If not, see
 
         <form-list name="ListRequests" list="requestList" skip-form="true">
             <field name="requestId">
-                <default-field title="ID"><link url="editRequest" text="${requestId}"/></default-field>
+                <default-field title="ID"><link url="editRequest" text="${requestId}" link-type="anchor"/></default-field>
             </field>
             <field name="requestName">
                 <header-field title="Name" show-order-by="case-insensitive"/>
