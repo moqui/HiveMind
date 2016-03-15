@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This software is in the public domain under CC0 1.0 Universal plus a 
+Grant of Patent License.
+
+To the extent possible under law, the author(s) have dedicated all
+copyright and related and neighboring rights to this software to the
+public domain worldwide. This software is distributed without any
+warranty.
+
+You should have received a copy of the CC0 Public Domain Dedication
+along with this software (see the LICENSE.md file). If not, see
+<http://creativecommons.org/publicdomain/zero/1.0/>.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-1.6.xsd"
+        default-menu-title="Progress" default-menu-index="9">
+
+    <parameter name="workEffortId" required="true"/>
+    <parameter name="rootWorkEffortId"/>
+
+    <transition name="milestoneSummary"><default-response url="../MilestoneSummary"/></transition>
+    <transition name="taskSummary"><default-response url="//hm/Task/TaskSummary"/></transition>
+
+    <pre-actions>
+        <if condition="rootWorkEffortId"><set field="workEffortId" from="rootWorkEffortId"/></if>
+        <set field="rootWorkEffortId" from="workEffortId"/>
+    </pre-actions>
+    <actions>
+        <service-call name="mantle.work.ProjectServices.get#WorkEffortChildStats" in-map="[workEffortId:rootWorkEffortId]" out-map="context"/>
+        <service-call name="mantle.work.ProjectServices.get#ProjectMilestoneSummary" in-map="[workEffortId:rootWorkEffortId]" out-map="context"/>
+    </actions>
+    <widgets>
+        <label text="Top Level Tasks" type="h4"/>
+        <form-list name="ChildStatsList" list="childStatsList">
+            <field name="priority"><default-field><display/></default-field></field>
+            <field name="workEffortId"><default-field title="Task">
+                <link url="taskSummary" text="WorkEffortNameTemplate" link-type="anchor"/></default-field></field>
+
+            <field name="actualWorkTime"><header-field container-style="text-right"/>
+                <default-field title="Actual"><display format="#,##0.00"/></default-field></field>
+            <field name="remainingWorkTime"><header-field container-style="text-right"/>
+                <default-field title="Remaining"><display format="#,##0.00"/></default-field></field>
+            <field name="estimatedWorkTime"><header-field container-style="text-right"/>
+                <default-field title="Estimated"><display format="#,##0.00"/></default-field></field>
+            <field name="workActualPercent"><header-field container-style="text-right"/>
+                <default-field title="Actual %"><display format="00.00"/></default-field></field>
+            <field name="workRemainingPercent"><header-field container-style="text-right"/>
+                <default-field title="Remaining %"><display format="00.00"/></default-field></field>
+            <field name="workTimePercentComplete"><header-field container-style="text-right"/>
+                <default-field title="Complete %"><display format="00.00"/></default-field></field>
+        </form-list>
+
+        <label text="Milestones" type="h4"/>
+        <form-list name="MilestoneStatsList" list="milestoneStatsList">
+            <field name="estimatedStartDate"><default-field><display/></default-field></field>
+            <field name="workEffortId"><default-field title="Milestone">
+                <link url="milestoneSummary" text="WorkEffortNameTemplate" link-type="anchor"/></default-field></field>
+
+            <field name="actualWorkTime"><header-field container-style="text-right"/>
+                <default-field title="Actual"><display format="#,##0.00"/></default-field></field>
+            <field name="remainingWorkTime"><header-field container-style="text-right"/>
+                <default-field title="Remaining"><display format="#,##0.00"/></default-field></field>
+            <field name="estimatedWorkTime"><header-field container-style="text-right"/>
+                <default-field title="Estimated"><display format="#,##0.00"/></default-field></field>
+            <field name="workActualPercent"><header-field container-style="text-right"/>
+                <default-field title="Actual %"><display format="00.00"/></default-field></field>
+            <field name="workRemainingPercent"><header-field container-style="text-right"/>
+                <default-field title="Remaining %"><display format="00.00"/></default-field></field>
+            <field name="workTimePercentComplete"><header-field container-style="text-right"/>
+                <default-field title="Complete %"><display format="00.00"/></default-field></field>
+        </form-list>
+    </widgets>
+</screen>
