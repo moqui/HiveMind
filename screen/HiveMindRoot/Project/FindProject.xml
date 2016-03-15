@@ -24,11 +24,12 @@ along with this software (see the LICENSE.md file). If not, see
     </pre-actions>
     
     <actions>
-        <entity-find entity-name="WorkEffortAndParty" list="projectList">
+        <entity-find entity-name="WorkEffortAndParty" list="projectList" distinct="true">
             <search-form-inputs default-order-by="workEffortId"/>
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+            <select-field field-name="workEffortId,workEffortName,priority,statusId,estimatedCompletionDate,estimatedWorkTime,actualWorkTime"/>
         </entity-find>
     </actions>
     <widgets>
