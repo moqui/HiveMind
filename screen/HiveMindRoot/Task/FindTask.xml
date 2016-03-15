@@ -61,8 +61,7 @@ along with this software (see the LICENSE.md file). If not, see
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
         </entity-find>
-        <set field="myProjectIds" from="[]"/>
-        <iterate list="myProjectList" entry="myProject"><script>myProjectIds.add(myProject.workEffortId)</script></iterate>
+        <set field="myProjectIds" from="myProjectList.workEffortId"/>
 
         <if condition="!queryString"><then>
             <!-- pure DB query -->
@@ -173,8 +172,9 @@ along with this software (see the LICENSE.md file). If not, see
         <!-- for future use with saved task filters: <container><label text="${groovy.json.JsonOutput.toJson(ec.web.requestParameters)}"/></container> -->
         <container>
             <container-dialog id="FindTaskDialog" button-text="Find Options" width="800">
-                <form-single name="FindTasks" transition="findTask">
-                    <field name="queryString" entry-name="ec.web.parameters.queryString"><default-field title="Text Search"><text-line size="40"/></default-field></field>
+                <form-single name="FindTasks" transition=".">
+                    <field name="queryString" entry-name="ec.web.parameters.queryString">
+                        <default-field title="Text Search"><text-line size="80"/></default-field></field>
                     <field name="rootWorkEffortId"><default-field title="Project">
                         <drop-down allow-empty="true" style="chosen-wide">
                             <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
@@ -193,7 +193,7 @@ along with this software (see the LICENSE.md file). If not, see
                         </drop-down>
                     </default-field></field>
                     <field name="partyId"><default-field title="Assigned To">
-                        <drop-down current="selected">
+                        <drop-down current="selected" allow-multiple="true">
                             <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
@@ -204,27 +204,31 @@ along with this software (see the LICENSE.md file). If not, see
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
+                    <!--
                     <field name="teamMemberPartyId"><default-field title="Assigned Team Member">
                         <drop-down current="selected">
                             <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
+                    -->
                     <field name="priority"><default-field><range-find/></default-field></field>
                     <field name="workEffortId"><default-field title="Task ID"><text-find/></default-field></field>
                     <field name="workEffortName"><default-field title="Name"><text-find/></default-field></field>
                     <field name="purposeEnumId"><default-field title="Purpose">
                         <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumWithParentDropDown">
                             <set field="enumTypeId" value="WorkEffortPurpose"/><set field="parentEnumId" value="WetTask"/>
-                            <set field="allowEmpty" value="true"/></widget-template-include>
+                            <set field="allowEmpty" value="true"/><set field="allowMultiple" value="true"/></widget-template-include>
                     </default-field></field>
                     <field name="statusId"><default-field title="Status">
                         <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
-                            <set field="statusTypeId" value="WorkEffort"/><set field="allowEmpty" value="true"/></widget-template-include>
+                            <set field="statusTypeId" value="WorkEffort"/><set field="allowEmpty" value="true"/>
+                            <set field="allowMultiple" value="true"/></widget-template-include>
                     </default-field></field>
                     <field name="resolutionEnumId"><default-field title="Resolution">
                         <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
-                            <set field="enumTypeId" value="WorkEffortResolution"/><set field="allowEmpty" value="true"/></widget-template-include>
+                            <set field="enumTypeId" value="WorkEffortResolution"/><set field="allowEmpty" value="true"/>
+                            <set field="allowMultiple" value="true"/></widget-template-include>
                     </default-field></field>
                     <field name="estimatedCompletionDate"><default-field title="Due Date"><date-find/></default-field></field>
                     <field name="estimatedWorkTime"><default-field title="Estimated Hours">
@@ -293,6 +297,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
                 </form-single>
             </container-dialog>
+            <link url="${sri.getScreenUrlInstance().getUrlWithParams()}" text="Current Search Link" url-type="plain" link-type="anchor"/>
         </container>
         <container>
             <form-single name="SearchOptions" transition="findTask">
