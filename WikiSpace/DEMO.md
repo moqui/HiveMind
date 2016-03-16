@@ -1,18 +1,17 @@
-
 ## Demo Space Root Page
 
 Move along, nothing to see here...
 
-## Link Tests
+## Link Tests 2
 
-[Demo Page 1](DEMO/Demo%20Page%201)
-[Demo Page 1, Section 1](DEMO/Demo%20Page%201#Section1)
-[Demo Page 1, Subsection 1-2](DEMO/Demo%20Page%201#Section12)
+[Demo Page 1](DEMO/Demo+Page+1)
+[Demo Page 1, Section 1](DEMO/Demo+Page+1#Section1)
+[Demo Page 1, Subsection 1-2](DEMO/Demo+Page+1#Section12)
 
-[Demo Page 1/Child Page 1](DEMO/Demo%20Page%201/Child%20Page%201)
-[Child Page 1](DEMO/Child%20Page%201)
+[Demo Page 1/Child Page 1](DEMO/Demo+Page+1/Child+Page+1)
+[Child Page 1](DEMO/Child+Page+1)
 
-[New Page Test](DEMO/New%20Page%20Test)
+[New Page Test](DEMO/New+Page+Test)
 
 [Moqui Website](http://www.moqui.org)
 
