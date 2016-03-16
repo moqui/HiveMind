@@ -31,24 +31,30 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="mantle.work.ProjectServices.get#ProjectMilestoneSummary" in-map="[workEffortId:rootWorkEffortId]" out-map="context"/>
     </actions>
     <widgets>
-        <label text="Top Level Tasks" type="h4"/>
+        <label text="Tasks by Top Level" type="h4"/>
         <form-list name="ChildStatsList" list="childStatsList">
             <field name="priority"><default-field><display/></default-field></field>
             <field name="workEffortId"><default-field title="Task">
                 <link url="taskSummary" text="WorkEffortNameTemplate" link-type="anchor"/></default-field></field>
 
             <field name="actualWorkTime"><header-field container-style="text-right"/>
-                <default-field title="Actual"><display format="#,##0.00"/></default-field></field>
+                <default-field title="Actual (h)"><display format="#,##0.00"/></default-field></field>
+            <field name="actualWorkDays"><header-field container-style="text-right"/>
+                <default-field title="Actual (d)"><display format="#,##0.00"/></default-field></field>
             <field name="remainingWorkTime"><header-field container-style="text-right"/>
-                <default-field title="Remaining"><display format="#,##0.00"/></default-field></field>
+                <default-field title="Remaining (h)"><display format="#,##0.00"/></default-field></field>
+            <field name="remainingWorkDays"><header-field container-style="text-right"/>
+                <default-field title="Remaining (d)"><display format="#,##0.00"/></default-field></field>
             <field name="estimatedWorkTime"><header-field container-style="text-right"/>
-                <default-field title="Estimated"><display format="#,##0.00"/></default-field></field>
+                <default-field title="Estimated (h)"><display format="#,##0.00"/></default-field></field>
+            <field name="estimatedWorkDays"><header-field container-style="text-right"/>
+                <default-field title="Estimated (d)"><display format="#,##0.00"/></default-field></field>
             <field name="workActualPercent"><header-field container-style="text-right"/>
                 <default-field title="Actual %"><display format="00.00"/></default-field></field>
             <field name="workRemainingPercent"><header-field container-style="text-right"/>
                 <default-field title="Remaining %"><display format="00.00"/></default-field></field>
-            <field name="workTimePercentComplete"><header-field container-style="text-right"/>
-                <default-field title="Complete %"><display format="00.00"/></default-field></field>
+            <!-- <field name="workTimePercentComplete"><header-field container-style="text-right"/>
+                <default-field title="Complete %"><display format="00.00"/></default-field></field> -->
         </form-list>
 
         <label text="Milestones" type="h4"/>
@@ -58,17 +64,23 @@ along with this software (see the LICENSE.md file). If not, see
                 <link url="milestoneSummary" text="WorkEffortNameTemplate" link-type="anchor"/></default-field></field>
 
             <field name="actualWorkTime"><header-field container-style="text-right"/>
-                <default-field title="Actual"><display format="#,##0.00"/></default-field></field>
+                <default-field title="Actual (h)"><display format="#,##0.00"/></default-field></field>
+            <field name="actualWorkDays"><header-field container-style="text-right"/>
+                <default-field title="Actual (d)"><display format="#,##0.00"/></default-field></field>
             <field name="remainingWorkTime"><header-field container-style="text-right"/>
-                <default-field title="Remaining"><display format="#,##0.00"/></default-field></field>
+                <default-field title="Remaining (h)"><display format="#,##0.00"/></default-field></field>
+            <field name="remainingWorkDays"><header-field container-style="text-right"/>
+                <default-field title="Remaining (d)"><display format="#,##0.00"/></default-field></field>
             <field name="estimatedWorkTime"><header-field container-style="text-right"/>
-                <default-field title="Estimated"><display format="#,##0.00"/></default-field></field>
+                <default-field title="Estimated (h)"><display format="#,##0.00"/></default-field></field>
+            <field name="estimatedWorkDays"><header-field container-style="text-right"/>
+                <default-field title="Estimated (d)"><display format="#,##0.00"/></default-field></field>
             <field name="workActualPercent"><header-field container-style="text-right"/>
                 <default-field title="Actual %"><display format="00.00"/></default-field></field>
             <field name="workRemainingPercent"><header-field container-style="text-right"/>
                 <default-field title="Remaining %"><display format="00.00"/></default-field></field>
-            <field name="workTimePercentComplete"><header-field container-style="text-right"/>
-                <default-field title="Complete %"><display format="00.00"/></default-field></field>
+            <!-- <field name="workTimePercentComplete"><header-field container-style="text-right"/>
+                <default-field title="Complete %"><display format="00.00"/></default-field></field> -->
         </form-list>
     </widgets>
 </screen>
