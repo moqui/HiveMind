@@ -86,7 +86,7 @@ along with this software (see the LICENSE.md file). If not, see
                 ec.logger.info("Page at ${pageReference} does not exist, forwarding to create")
                 ScreenRenderImpl sri = context.sri
                 // NOTE: have to do a little more work here because of the extra path that messes up the relative screen loc
-                ScreenUrlInfo editWikiUrl = sri.buildUrl(sri.getRootScreenDef(),
+                ScreenUrlInfo.UrlInstance editWikiUrl = sri.buildUrl(sri.getRootScreenDef(),
                         sri.getScreenUrlInfo().getPreTransitionPathNameList(), "../EditWikiPage")
                 editWikiUrl.addParameter("wikiSpaceId", wikiSpaceId)
                 editWikiUrl.addParameter("parentPath", parentPath)
