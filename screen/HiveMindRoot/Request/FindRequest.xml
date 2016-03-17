@@ -76,7 +76,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <widget-template-include location="component://SimpleScreens/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                         <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
                 </default-field></field>
-                <field name="assignToPartyId"><default-field title="Assign To">
+                <field name="assignToPartyId"><default-field title="Assign To" tooltip="If empty will be assigned to current user">
                     <text-line ac-transition="getPersonList" ac-min-length="2" size="50"/>
                 </default-field></field>
                 <field name="requestName"><default-field title="Name"><text-line size="60"/></default-field></field>
