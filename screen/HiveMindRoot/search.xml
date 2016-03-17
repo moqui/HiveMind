@@ -49,7 +49,7 @@ along with this software (see the LICENSE.md file). If not, see
                 // .setHighlighterRequireFieldMatch(true).setHighlighterType("plain")
                 logger.warn("=========== queryString [${queryString}], hits ${hits.totalHits()}")
                 for (SearchHit hit in hits) {
-                    logger.warn("=========== hit ${hit.getId()}; ${hit.getHighlightFields().values()}")
+                    // logger.warn("=========== hit ${hit.getId()}; ${hit.getHighlightFields().values()}")
                     for (HighlightField hlf in hit.getHighlightFields().values()) {
                         optionList.addAll(hlf.fragments())
                     }
