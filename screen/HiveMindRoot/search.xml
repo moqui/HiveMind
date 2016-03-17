@@ -21,7 +21,6 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="searchSuggest">
         <actions>
             <script>
-
                 import org.apache.commons.collections.set.ListOrderedSet
                 import org.elasticsearch.index.query.QueryBuilders
                 import org.elasticsearch.search.SearchHit
@@ -47,7 +46,7 @@ along with this software (see the LICENSE.md file). If not, see
                         .addHighlightedField("*").setHighlighterPreTags("*").setHighlighterPostTags("*")
                         .execute().actionGet().getHits()
                 // .setHighlighterRequireFieldMatch(true).setHighlighterType("plain")
-                logger.warn("=========== queryString [${queryString}], hits ${hits.totalHits()}")
+                // logger.warn("=========== queryString [${queryString}], hits ${hits.totalHits()}")
                 for (SearchHit hit in hits) {
                     // logger.warn("=========== hit ${hit.getId()}; ${hit.getHighlightFields().values()}")
                     for (HighlightField hlf in hit.getHighlightFields().values()) {
