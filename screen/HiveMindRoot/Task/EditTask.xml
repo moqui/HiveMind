@@ -56,20 +56,22 @@ along with this software (see the LICENSE.md file). If not, see
                         </entity-find>
                     </entity-options>
                 </drop-down>
-                <link text="Edit ${project.workEffortName} [${task.rootWorkEffortId}]" url="projectSummary">
-                    <parameter name="workEffortId" from="task.rootWorkEffortId"/></link>
+                <link text="Edit ${project.workEffortId}" url="projectSummary" link-type="anchor" condition="project">
+                    <parameter name="workEffortId" from="project.workEffortId"/></link>
             </default-field></field>
             <field name="milestoneWorkEffortId" entry-name="milestoneAssoc?.workEffortId"><default-field title="Milestone">
                 <drop-down>
                     <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
                         <depends-on field="rootWorkEffortId"/></dynamic-options>
                 </drop-down>
-                <link text="${milestoneAssoc ? 'Edit ' + milestoneAssoc.workEffortId : ''}" url="milestoneSummary">
+                <link text="Edit ${milestoneAssoc.workEffortId}" url="milestoneSummary" link-type="anchor" condition="milestoneAssoc">
                     <parameter name="milestoneWorkEffortId" from="milestoneAssoc?.workEffortId"/></link>
             </default-field></field>
             <field name="parentWorkEffortId"><default-field title="Parent Task">
                 <text-line ac-transition="getTaskList" ac-min-length="2" size="50">
                     <depends-on field="rootWorkEffortId"/></text-line>
+                <link text="Edit ${parentWorkEffortId}" url="projectSummary" link-type="anchor" condition="parentWorkEffortId">
+                    <parameter name="workEffortId" from="parentWorkEffortId"/></link>
             </default-field></field>
             <field name="workEffortName"><default-field title="Task Name"><text-line/></default-field></field>
             <field name="priority"><default-field>
