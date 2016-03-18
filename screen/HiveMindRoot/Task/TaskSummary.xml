@@ -141,9 +141,10 @@ along with this software (see the LICENSE.md file). If not, see
         <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
             <date-filter/><econdition field-name="workEffortId"/></entity-find>
         <!-- Child Tasks -->
-        <entity-find entity-name="mantle.work.effort.WorkEffort" list="childTaskList">
+        <entity-find entity-name="mantle.work.effort.WorkEffortAndStatus" list="childTaskList">
             <econdition field-name="parentWorkEffortId" from="workEffortId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
+            <order-by field-name="statusSequenceNum,priority,workEffortName"/>
         </entity-find>
         <!-- Related Tasks -->
         <entity-find entity-name="mantle.work.effort.WorkEffortAssocAndTo" list="relatedToList">
@@ -162,8 +163,8 @@ along with this software (see the LICENSE.md file). If not, see
             <econdition field-name="workEffortId"/></entity-find>
     </actions>
     <widgets>
-        <container-panel id="task-summary-panel" dynamic="true">
-            <panel-left size="240">
+        <container-row>
+            <row-col lg="3" md="3">
                 <label text="Task ID: ${workEffortId}" type="strong"/>
                 <container><label text="Project: " type="strong"/></container>
                 <link text="${project.workEffortId} - ${project.workEffortName}" url="projectSummary" link-type="anchor">
@@ -245,8 +246,8 @@ along with this software (see the LICENSE.md file). If not, see
                         </section-iterate>
                     </box-body>
                 </container-box>
-            </panel-left>
-            <panel-center>
+            </row-col>
+            <row-col lg="6" md="6">
                 <container>
                     <label text="Task: " type="strong"/>
                     <editable id="TaskName" text="${task.workEffortName?:''}" transition="updateTaskField"
@@ -305,8 +306,8 @@ along with this software (see the LICENSE.md file). If not, see
                         </section-iterate>
                     </box-body>
                 </container-box>
-            </panel-center>
-            <panel-right size="260">
+            </row-col>
+            <row-col lg="3" md="3">
                 <container-box>
                     <box-header><label text="Status History" type="h5"/></box-header>
                     <box-body>
@@ -352,16 +353,17 @@ along with this software (see the LICENSE.md file). If not, see
                     <box-body>
                         <section-iterate name="TaskChildList" list="childTaskList" entry="childTask">
                             <actions>
-                                <entity-find-related-one value-field="childTask" relationship-name="WorkEffortPurpose#moqui.basic.Enumeration" to-value-field="childPurpose" cache="true"/>
-                                <entity-find-related-one value-field="childTask" relationship-name="WorkEffortResolution#moqui.basic.Enumeration" to-value-field="childResolution" cache="true"/>
-                                <entity-find-related-one value-field="childTask" relationship-name="WorkEffort#moqui.basic.StatusItem" to-value-field="childStatus" cache="true"/>
+                                <entity-find-one entity-name="moqui.basic.Enumeration" value-field="childPurpose" cache="true">
+                                    <field-map field-name="enumId" from="childTask.purposeEnumId"/></entity-find-one>
+                                <entity-find-one entity-name="moqui.basic.Enumeration" value-field="childResolution" cache="true">
+                                    <field-map field-name="enumId" from="childTask.resolutionEnumId"/></entity-find-one>
                             </actions>
                             <widgets>
-                                <container style="shaded-area">
+                                <container><!--  style="shaded-area" -->
                                     <link text="${childTask.workEffortId} - ${childTask.workEffortName}" url="taskSummary" link-type="anchor">
                                         <parameter name="workEffortId" from="childTask.workEffortId"/>
                                     </link>
-                                    <label text="${childPurpose.description} - ${childStatus.description} - ${childResolution.description}" type="p"/>
+                                    <label text="${childTask.statusDescription ?: ''} - ${childTask.priority ? 'P ' + childTask.priority + ' - ' : '' }${childResolution.description} - ${childPurpose.description}" type="p"/>
                                 </container>
                             </widgets>
                         </section-iterate>
@@ -433,7 +435,7 @@ along with this software (see the LICENSE.md file). If not, see
                         </section-iterate>
                     </box-body>
                 </container-box>
-            </panel-right>
-        </container-panel>
+            </row-col>
+        </container-row>
     </widgets>
 </screen>
