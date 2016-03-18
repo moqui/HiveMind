@@ -24,6 +24,7 @@ along with this software (see the LICENSE.md file). If not, see
     </transition>
     <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
+    <transition name="taskSummary"><default-response url="../TaskSummary"/></transition>
     <transition name="getProjectMilestones">
         <service-call name="mantle.work.ProjectServices.get#ProjectMilestones" web-send-json-response="resultList"/>
         <default-response type="none"/>
@@ -70,7 +71,7 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="parentWorkEffortId"><default-field title="Parent Task">
                 <text-line ac-transition="getTaskList" ac-min-length="2" size="50">
                     <depends-on field="rootWorkEffortId"/></text-line>
-                <link text="Edit ${parentWorkEffortId}" url="projectSummary" link-type="anchor" condition="parentWorkEffortId">
+                <link text="Edit ${parentWorkEffortId}" url="taskSummary" link-type="anchor" condition="parentWorkEffortId">
                     <parameter name="workEffortId" from="parentWorkEffortId"/></link>
             </default-field></field>
             <field name="workEffortName"><default-field title="Task Name"><text-line/></default-field></field>
