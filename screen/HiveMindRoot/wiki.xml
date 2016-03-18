@@ -306,13 +306,34 @@ along with this software (see the LICENSE.md file). If not, see
                     </section-iterate>
                 </container>
                 <container-box>
-                    <box-header><label text="${pageName?:''}" type="h5"/></box-header>
+                    <box-header><label text="${pageName?:'[No Name]'} (${wikiType})" type="h5"/></box-header>
                     <box-toolbar>
                         <link text="Edit Page" url="editPage" link-type="anchor-button" icon="glyphicon glyphicon-pencil">
                             <parameter name="wikiSpaceId"/><parameter name="pagePath"/></link>
+                        <container-dialog id="AddPageDialog" button-text="Add Page">
+                            <form-single name="AddPageForm" transition="createPage">
+                                <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
+                                <field name="isCreate"><default-field><hidden default-value="true"/></default-field></field>
+                                <field name="parentPath" entry-name="pagePath"><default-field><display/></default-field></field>
+                                <field name="wikiType"><default-field>
+                                    <drop-down>
+                                        <option key="md" text=".md - Markdown"/>
+                                        <option key="html" text=".html - HTML"/>
+                                        <option key="cwiki" text=".cwiki - Confluence"/>
+                                        <option key="mediawiki" text=".mediawiki - MediaWiki"/>
+                                        <option key="textile" text=".textile - Textile"/>
+                                        <option key="tracwiki" text=".tracwiki - TracWiki"/>
+                                        <option key="twiki" text=".twiki - TWiki"/>
+                                    </drop-down>
+                                </default-field></field>
+                                <field name="submitButton"><default-field title="Add Page"><submit/></default-field></field>
+                            </form-single>
+                        </container-dialog>
+                        <!--
                         <link text="Add Page" url="createPage" link-type="anchor-button" icon="glyphicon glyphicon-plus">
                             <parameter name="wikiSpaceId"/><parameter name="parentPath" from="pagePath"/>
                             <parameter name="isCreate" value="true"/></link>
+                        -->
                     </box-toolbar>
                     <box-body>
                         <container id="wiki-page-area">
