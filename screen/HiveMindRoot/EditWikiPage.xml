@@ -20,7 +20,9 @@ along with this software (see the LICENSE.md file). If not, see
     <!-- all other parameters should only be passed explicitly: pagePath, parentPath, pageName, wikiType -->
 
     <transition name="updatePage"><service-call name="org.moqui.impl.WikiServices.update#WikiPage"/>
-        <default-response url="../wiki/${pagePath}"/><error-response url="." parameter-map="[pagePath:pagePath, parentPath:parentPath, pageName:pageName, wikiType:wikiType]"/></transition>
+        <default-response url="/apps/hm/wiki/${wikiSpaceId}/${pagePath}" url-type="plain"/>
+        <error-response url="." parameter-map="[pagePath:pagePath, parentPath:parentPath, pageName:pageName, wikiType:wikiType]"/>
+    </transition>
 
     <pre-actions>
         <script>html_stylesheets.add('/assets/lib/simplemde/simplemde.min.css')</script>
@@ -70,7 +72,8 @@ along with this software (see the LICENSE.md file). If not, see
                 <link text="Syntax Reference" url-type="plain" url="http://daringfireball.net/projects/markdown/syntax" link-type="anchor" condition="wikiType == 'md'" target-window="_blank"/>
             </default-field></field> -->
             <field-layout>
-                <field-row-big><field-ref name="parentPath"/><field-ref name="pageName"/><field-ref name="wikiType"/></field-row-big>
+                <field-ref name="parentPath"/>
+                <field-row><field-ref name="pageName"/><field-ref name="wikiType"/></field-row>
                 <field-row-big><field-ref name="pageText"/></field-row-big>
                 <field-row><field-ref name="submitButton"/><field-ref name="cancelButton"/></field-row>
                 <!-- <field-ref name="syntaxLink"/> -->
