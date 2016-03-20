@@ -20,7 +20,7 @@ along with this software (see the LICENSE.md file). If not, see
     <!-- all other parameters should only be passed explicitly: pagePath, parentPath, pageName, wikiType -->
 
     <transition name="updatePage"><service-call name="org.moqui.impl.WikiServices.update#WikiPage"/>
-        <default-response url="${ec.web.getWebappRootUrl(true, null)}/apps/hm/wiki/${wikiSpaceId}/${pagePath}" url-type="plain"/>
+        <default-response url="${ec.web.getWebappRootUrl(true, null)}/apps/hm/wiki/${wikiSpaceId}/${encodedPagePath}" url-type="plain"/>
         <error-response url="." parameter-map="[pagePath:pagePath, parentPath:parentPath, pageName:pageName, wikiType:wikiType, isCreate:isCreate]"/>
     </transition>
 
