@@ -58,7 +58,9 @@ along with this software (see the LICENSE.md file). If not, see
                 <drop-down><list-options list="allChildFileFlatList" key="${path}" text="${path?:name}"/></drop-down>
             </conditional-field></field>
             <field name="pageName">
-                <conditional-field condition="!isRootPage"><text-line size="40"/></conditional-field></field>
+                <conditional-field condition="isRootPage"><hidden/></conditional-field>
+                <default-field><text-line size="40"/></default-field>
+            </field>
             <field name="wikiType"><default-field><display/></default-field></field>
             <field name="pageText">
                 <default-field title=""><text-area cols="130" rows="30"/></default-field></field>
