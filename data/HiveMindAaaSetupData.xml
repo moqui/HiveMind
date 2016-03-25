@@ -22,7 +22,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot.xml"
             subscreenName="hmstatic" subscreenLocation="component://HiveMind/screen/hmstatic.xml"
-            menuTitle="hmstatic" menuInclude="N"/>
+            menuInclude="N"/>
     <!-- NOTE: make sure this css path matches where the hmstatic root screen is mounted -->
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="50" resourceTypeEnumId="STRT_STYLESHEET"
             resourceValue="/hmstatic/css/HiveMindDefault.css"/>

@@ -24,7 +24,7 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="findInvoice"><default-response url="../Accounting/Invoice/FindInvoice"/></transition>
 
     <pre-actions>
-        <script>html_scripts.add('/assets/lib/sparkline/jquery.sparkline.min.js')</script>
+        <script>html_scripts.add('/hmstatic/lib/sparkline/jquery.sparkline.min.js')</script>
     </pre-actions>
     <actions>
         <entity-find entity-name="mantle.work.effort.WorkEffort" list="projectList">
