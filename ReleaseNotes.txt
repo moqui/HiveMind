@@ -2,16 +2,31 @@
 HiveMind Project Management and Service ERP Release Notes
 
 ===========================================================================
-Release 1.1.5 - TBD
+Release 1.1.5 - 26 Mar 2016
 ===========================================================================
 
 HiveMind Project Management and Service ERP 1.1.5 is a minor new feature
 and bug fix release.
 
-This release is based on Moqui Framework version TODO, mantle-udm TODO,
-mantle-usl TODO, and SimpleScreens TODO.
+This release is based on Moqui Framework version 1.6.2, mantle-udm 1.0.1,
+mantle-usl 1.0.1, and SimpleScreens 1.0.2.
 
-TODO
+This release includes a number of improvements based on real-world use.
+
+New Features
+
+- Various cleanups, additional convenient links/buttons
+- Project Progress Report (in Admin app)
+- More consistent roles, especially using Assignee instead of Worker
+- Added Placeholder task purpose for tasks higher in an hierarchy
+- Various task UI improvements: autocomplete for parent task selection;
+  find by multiple purposes, statuses, assignees
+- HTML Wiki pages now supported, can choose page type on create
+- Now uses SimpleMDE markdown editor, much better UI than Pagedown
+
+Bug Fixes
+
+- Fixed a number of issues with wiki page hierarchies and cleaner URLs
 
 ===========================================================================
 Release 1.1.4 - 24 Jan 2016
