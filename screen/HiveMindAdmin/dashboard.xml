@@ -39,8 +39,8 @@ along with this software (see the LICENSE.md file). If not, see
         </entity-find>
     </actions>
     <widgets>
-        <container-panel id="dashboard-panel" dynamic="true">
-            <panel-left>
+        <container-row>
+            <row-col md="2">
                 <label text="Operate" type="h2"/>
                 <container>
                     <link url="../WikiSpace" link-type="anchor"><image url="/hmstatic/images/wiki-documents7.png" url-type="screen"/></link>
@@ -80,9 +80,9 @@ along with this software (see the LICENSE.md file). If not, see
                     <link url="../EditRateAmounts" link-type="anchor"><image url="/hmstatic/images/rates-internet16.png" url-type="screen"/></link>
                     <link text="Rates" url="../EditRateAmounts" link-type="anchor"/>
                 </container>
-            </panel-left>
+            </row-col>
 
-            <panel-center>
+            <row-col md="10">
                 <form-list name="OrgInternalForm" list="orgInternalList" skip-form="true">
                     <row-actions>
                         <entity-find entity-name="mantle.account.invoice.InvoiceSummary" list="recInvList">
@@ -277,7 +277,7 @@ along with this software (see the LICENSE.md file). If not, see
 
 
                 <!-- TODO: add more useful stuff -->
-            </panel-center>
-        </container-panel>
+            </row-col>
+        </container-row>
     </widgets>
 </screen>

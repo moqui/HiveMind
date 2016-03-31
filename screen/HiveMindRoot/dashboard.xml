@@ -21,8 +21,8 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="myRequests"><default-response url="MyRequests"/></transition>
 
     <widgets>
-        <container-panel id="dashboard-panel" dynamic="true">
-            <panel-left>
+        <container-row>
+            <row-col md="2">
                 <section name="DashboardLeft"><widgets>
                     <dynamic-container id="QuickSearchContainer" transition="quickSearch"/>
 
@@ -41,13 +41,13 @@ along with this software (see the LICENSE.md file). If not, see
 
                     <dynamic-container id="MyWikiSpacesContainer" transition="myWikiSpaces"/>
                 </widgets></section>
-            </panel-left>
-            <panel-center>
+            </row-col>
+            <row-col md="10">
                 <section name="DashboardCenter"><widgets>
                     <dynamic-container id="MyTasksContainer" transition="myTasks"/>
                     <dynamic-container id="MyRequestsContainer" transition="myRequests"/>
                 </widgets></section>
-            </panel-center>
-        </container-panel>
+            </row-col>
+        </container-row>
     </widgets>
 </screen>
