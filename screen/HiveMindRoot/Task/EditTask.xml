@@ -97,6 +97,11 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="estimatedWorkTime"><default-field title="Estimated Hours"><text-line size="5"/></default-field></field>
             <field name="remainingWorkTime"><default-field title="Remaining Hours"><text-line size="5"/></default-field></field>
             <field name="actualWorkTime"><default-field title="Actual Hours"><display format="#.00"/></default-field></field>
+            <field name="totalTimeAllowed">
+                <conditional-field title="Hours Budget" condition="!task.parentWorkEffortId">
+                    <text-line size="5"/></conditional-field>
+                <default-field><ignored/></default-field>
+            </field>
             <field name="description"><default-field title="Description"><text-area rows="20" cols="100"/></default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
             
@@ -105,7 +110,8 @@ along with this software (see the LICENSE.md file). If not, see
                 <field-row><field-ref name="purposeEnumId"/><field-ref name="priority"/></field-row>
                 <field-row><field-ref name="statusId"/><field-ref name="estimatedCompletionDate"/></field-row>
                 <field-row><field-ref name="estimatedWorkTime"/><field-ref name="remainingWorkTime"/></field-row>
-                <field-ref name="actualWorkTime"/><field-ref name="description"/><field-ref name="submitButton"/>
+                <field-row><field-ref name="actualWorkTime"/><field-ref name="totalTimeAllowed"/></field-row>
+                <field-ref name="description"/><field-ref name="submitButton"/>
             </field-layout>
         </form-single>
     </widgets>

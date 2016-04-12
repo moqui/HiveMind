@@ -90,8 +90,10 @@ along with this software (see the LICENSE.md file). If not, see
                 <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
             </field>
 
-            <field name="totalClientCostAllowed"><default-field title="Client Budget">
+            <field name="totalClientCostAllowed"><default-field title="Cost Budget">
                 <text-line size="15"/></default-field></field>
+            <field name="totalTimeAllowed"><default-field title="Hours Budget">
+                <text-line size="10"/></default-field></field>
             <!--
             <field name="clientAverageHourCost"><default-field title="Client Average Hourly">
                 <display format="#.00"/></default-field></field>
@@ -125,8 +127,9 @@ along with this software (see the LICENSE.md file). If not, see
                 <fields-not-referenced/>
                 <field-row><field-ref name="statusId"/><field-ref name="estimatedCompletionDate"/></field-row>
 
-                <field-row><field-ref name="totalClientCostAllowed"/><!-- <field-ref name="clientAverageHourCost"/> --></field-row>
+                <field-row><field-ref name="totalClientCostAllowed"/><field-ref name="totalTimeAllowed"/></field-row>
                 <!--
+                <field-ref name="clientAverageHourCost"/>
                 <field-row><field-ref name="estimatedWorkTime"/><field-ref name="clientEstimatedCost"/></field-row>
                 <field-row><field-ref name="actualWorkTime"/><field-ref name="actualClientCost"/></field-row>
                 <field-row><field-ref name="clientBudgetRemaining"/></field-row>

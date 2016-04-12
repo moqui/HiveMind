@@ -158,71 +158,53 @@ along with this software (see the LICENSE.md file). If not, see
                                                     <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.actualPlusRemainingOverEstimated>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
                                                 </row-col>
                                             </container-row>
+                                            <section name="CostBudgetGraphs" condition="project.totalClientCostAllowed"><widgets>
+                                                <container-row>
+                                                    <row-col lg="2"><label text="Cost Budget" type="strong"/></row-col>
+                                                    <row-col lg="7">
+                                                        <render-mode><text type="html" template="true"><![CDATA[
+    <div class="progress middle"><div class="progress-bar <#if pstats.clientActualOverBudget>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                                        ]]></text></render-mode>
+                                                    </row-col>
+                                                    <row-col lg="3">
+                                                        <label text="${ec.l10n.format(pstats.clientBudgetUsedPercent, '00.00')}%"/>
+                                                        <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.clientActualOverBudget>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                                                    </row-col>
+                                                </container-row>
+                                                <container-row>
+                                                    <row-col lg="2"><label text="P-CB Gap" type="strong"/></row-col>
+                                                    <row-col lg="7">
+                                                        <render-mode><text type="html" template="true"><![CDATA[
+    <div class="progress xs"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+    <div class="progress xs"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                                        ]]></text></render-mode>
+                                                    </row-col>
+                                                    <row-col lg="3">
+                                                        <label text="${ec.l10n.format(pstats.estimatedCompleteBudgetPercentGap, '00.00')}%"/>
+                                                        <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.estimatedCompleteOverBudget>glyphicon-exclamation-sign text-warning<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                                                    </row-col>
+                                                </container-row>
+                                            </widgets></section>
                                             <container-row>
-                                                <row-col lg="2"><label text="Budget" type="strong"/></row-col>
-                                                <row-col lg="7">
-                                                    <render-mode><text type="html" template="true"><![CDATA[
-<div class="progress middle"><div class="progress-bar <#if pstats.clientActualOverBudget>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
-                                                    ]]></text></render-mode>
-                                                </row-col>
-                                                <row-col lg="3">
-                                                    <label text="${ec.l10n.format(pstats.clientBudgetUsedPercent, '00.00')}%"/>
-                                                    <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.clientActualOverBudget>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
-                                                </row-col>
+                                                <row-col lg="4"><label text="Estimate ${ec.l10n.format(project.estimatedWorkTime, '#.#')} hrs" type="strong"/></row-col>
+                                                <row-col lg="4"><label text="Worked ${ec.l10n.format(project.actualWorkTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverEstimated ? 'text-danger' : 'text-success'}"/></row-col>
+                                                <row-col lg="4"><label text="Est Rem ${ec.l10n.format(project.remainingWorkTime, '#.#')} hrs" type="strong" style="text-info"/></row-col>
                                             </container-row>
                                             <container-row>
-                                                <row-col lg="2"><label text="P-B Gap" type="strong"/></row-col>
-                                                <row-col lg="7">
-                                                    <render-mode><text type="html" template="true"><![CDATA[
-<div class="progress xs"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
-<div class="progress xs"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
-                                                    ]]></text></render-mode>
-                                                </row-col>
-                                                <row-col lg="3">
-                                                    <label text="${ec.l10n.format(pstats.estimatedCompleteBudgetPercentGap, '00.00')}%"/>
-                                                    <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.estimatedCompleteOverBudget>glyphicon-exclamation-sign text-warning<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
-                                                </row-col>
+                                                <row-col lg="4"><label text="Avg Rate ${ec.l10n.formatCurrency(pstats.clientAverageHourCost, project.costUomId, 2)}" type="strong"/></row-col>
+                                                <row-col lg="4"><label text="Actual Cost ${ec.l10n.formatCurrency(project.actualClientCost, project.costUomId, 2)}" type="strong" style="${pstats.clientActualOverBudget ? 'text-danger' : 'text-success'}"/></row-col>
+                                                <row-col lg="4"><label text="Est Cost ${ec.l10n.formatCurrency(pstats.clientEstimatedCost, project.costUomId, 2)}" type="strong"/></row-col>
                                             </container-row>
+                                            <section name="CostBudgetStats" condition="project.totalClientCostAllowed"><widgets>
+                                                <container-row>
+                                                    <row-col lg="4"><label text="Budget ${ec.l10n.formatCurrency(project.totalClientCostAllowed, project.costUomId, 2)}" type="strong"/></row-col>
+                                                    <row-col lg="4"><label text="Rem ${ec.l10n.formatCurrency(pstats.clientBudgetRemaining, project.costUomId, 2)}" type="strong"/></row-col>
+                                                    <row-col lg="4"><label text="Est ${ec.l10n.formatCurrency(pstats.clientBudgetEstimateDiff?.abs(), project.costUomId, 2)} ${pstats.clientBudgetEstimateDiff &lt; 0 ? 'over' : 'under'}" type="strong" style="${pstats.clientBudgetEstimateDiff &lt; 0 ? 'text-warning' : 'text-success'}"/></row-col>
+                                                </container-row>
+                                            </widgets></section>
                                             <container-row>
-                                                <row-col lg="4">
-                                                    <label text="Estimate ${ec.l10n.format(project.estimatedWorkTime, '#.#')} hrs" type="strong"/>
-                                                </row-col>
-                                                <row-col lg="4">
-                                                    <label text="Worked ${ec.l10n.format(project.actualWorkTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverEstimated ? 'text-danger' : 'text-success'}"/>
-                                                </row-col>
-                                                <row-col lg="4">
-                                                    <label text="Est. Rem. ${ec.l10n.format(project.remainingWorkTime, '#.#')} hrs" type="strong" style="text-info"/>
-                                                </row-col>
-                                            </container-row>
-                                            <container-row>
-                                                <row-col lg="4">
-                                                    <label text="Budget ${ec.l10n.formatCurrency(project.totalClientCostAllowed, project.costUomId, 2)}" type="strong"/>
-                                                </row-col>
-                                                <row-col lg="4">
-                                                    <label text="Actual ${ec.l10n.formatCurrency(project.actualClientCost, project.costUomId, 2)}" type="strong" style="${pstats.clientActualOverBudget ? 'text-danger' : 'text-success'}"/>
-                                                </row-col>
-                                                <row-col lg="4">
-                                                    <label text="Rem. ${ec.l10n.formatCurrency(pstats.clientBudgetRemaining, project.costUomId, 2)}" type="strong"/>
-                                                </row-col>
-                                            </container-row>
-                                            <container-row>
-                                                <row-col lg="4">
-                                                    <label text="Avg Rate ${ec.l10n.formatCurrency(pstats.clientAverageHourCost, project.costUomId, 2)}" type="strong"/>
-                                                </row-col>
-                                                <row-col lg="4">
-                                                    <label text="Est. Cost ${ec.l10n.formatCurrency(pstats.clientEstimatedCost, project.costUomId, 2)}" type="strong"/>
-                                                </row-col>
-                                                <row-col lg="4">
-                                                    <label text="${ec.l10n.formatCurrency(pstats.clientBudgetEstimateDiff?.abs(), project.costUomId, 2)} ${pstats.clientBudgetEstimateDiff &lt; 0 ? 'over' : 'under'}" type="strong" style="${pstats.clientBudgetEstimateDiff &lt; 0 ? 'text-warning' : 'text-success'}"/>
-                                                </row-col>
-                                            </container-row>
-                                            <container-row>
-                                                <row-col lg="6" style="text-center">
-                                                    <label text="Provider Cost ${ec.l10n.formatCurrency(project.actualCost, project.costUomId, 2)}" type="strong"/>
-                                                </row-col>
-                                                <row-col lg="6" style="text-center">
-                                                    <label text="Profit ${ec.l10n.formatCurrency(pstats.actualProfit, project.costUomId, 2)}" type="strong"/>
-                                                </row-col>
+                                                <row-col lg="6" style="text-center"><label text="Provider Cost ${ec.l10n.formatCurrency(project.actualCost, project.costUomId, 2)}" type="strong"/></row-col>
+                                                <row-col lg="6" style="text-center"><label text="Profit ${ec.l10n.formatCurrency(pstats.actualProfit, project.costUomId, 2)}" type="strong"/></row-col>
                                             </container-row>
                                         </container>
                                     </row-col>

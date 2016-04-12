@@ -23,6 +23,8 @@ New Features
   find by multiple purposes, statuses, assignees
 - HTML Wiki pages now supported, can choose page type on create
 - Now uses SimpleMDE markdown editor, much better UI than Pagedown
+- Added Hours Budget to project and tasks (for top-level tasks)
+- Changed Project Summary and Progress report to use hours budgets
 
 Bug Fixes
 
