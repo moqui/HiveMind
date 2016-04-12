@@ -97,7 +97,7 @@ along with this software (see the LICENSE.md file). If not, see
             </row-actions>
             <field name="partyId"><default-field><hidden/></default-field></field>
 
-            <field name="workEffortId"><default-field title="Task">
+            <field name="workEffortId"><default-field title="Task"><display text=" "/>
                 <link text="${workEffortId} - ${workEffortName}" url="editTask" link-type="anchor"/></default-field></field>
             <field name="roleTypeId"><header-field title="Role" show-order-by="true"/>
                 <default-field><display-entity entity-name="RoleType" text="${description}"/></default-field></field>

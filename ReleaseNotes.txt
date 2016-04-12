@@ -27,6 +27,7 @@ New Features
 Bug Fixes
 
 - Fixed a number of issues with wiki page hierarchies and cleaner URLs
+- Fixed Admin User/EditTasks update (workEffortId parameter was missing)
 
 ===========================================================================
 Release 1.1.4 - 24 Jan 2016
