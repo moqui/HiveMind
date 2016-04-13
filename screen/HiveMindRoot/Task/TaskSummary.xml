@@ -168,27 +168,20 @@ along with this software (see the LICENSE.md file). If not, see
                 <label text="Task ID: ${workEffortId}" type="strong"/>
                 <container><label text="Project: " type="strong"/></container>
                 <link text="${project.workEffortId} - ${project.workEffortName}" url="projectSummary" link-type="anchor">
-                    <parameter name="workEffortId" from="project.workEffortId"/>
-                </link>
+                    <parameter name="workEffortId" from="project.workEffortId"/></link>
 
-                <section name="MilestoneSection"><condition><expression>milestone</expression></condition>
-                    <widgets>
-                        <container><label text="Milestone: " type="strong"/></container>
-                        <link text="${milestone.workEffortId} - ${milestone.workEffortName}" url="milestoneSummary" link-type="anchor">
-                            <parameter name="milestoneWorkEffortId" from="milestone.workEffortId"/>
-                        </link>
-                    </widgets>
-                </section>
-                <section name="ParentTaskSection"><condition><expression>parentTask</expression></condition>
-                    <widgets>
-                        <container><label text="Parent Task: " type="strong"/></container>
-                        <link text="${parentTask.workEffortId} - ${parentTask.workEffortName}" url="taskSummary" link-type="anchor">
-                            <parameter name="workEffortId" from="parentTask.workEffortId"/>
-                        </link>
-                    </widgets>
-                </section>
+                <section name="MilestoneSection" condition="milestone"><widgets>
+                    <container><label text="Milestone: " type="strong"/></container>
+                    <link text="${milestone.workEffortId} - ${milestone.workEffortName}" url="milestoneSummary" link-type="anchor">
+                        <parameter name="milestoneWorkEffortId" from="milestone.workEffortId"/></link>
+                </widgets></section>
+                <section name="ParentTaskSection" condition="parentTask"><widgets>
+                    <container><label text="Parent Task: " type="strong"/></container>
+                    <link text="${parentTask.workEffortId} - ${parentTask.workEffortName}" url="taskSummary" link-type="anchor">
+                        <parameter name="workEffortId" from="parentTask.workEffortId"/></link>
+                </widgets></section>
 
-                <container><label text="Priority: " type="strong"/><label text="${task.priority}"/></container>
+                <container><label text="Priority: " type="strong"/><label text="${task.priority ?: ''}"/></container>
                 <container><label text="Purpose: " type="strong"/><label text="${purposeEnum.description}"/></container>
                 <container><label text="Status: " type="strong"/>
                     <editable id="TaskStatus" text="${currentStatus.description}" transition="updateTaskStatus"
@@ -206,8 +199,12 @@ along with this software (see the LICENSE.md file). If not, see
                 </container>
                 <container><label text="Due Date: " type="strong"/><label text="${ec.l10n.format(task.estimatedCompletionDate, 'yyyy-MM-dd')}"/></container>
                 <container><label text="Estimated Hours: " type="strong"/><label text="${ec.l10n.format(task.estimatedWorkTime, '0.00')}"/></container>
-                <container><label text="Remaining Hours: " type="strong"/><label text="${ec.l10n.format(task.remainingWorkTime, '0.00')}"/></container>
                 <container><label text="Actual Hours: " type="strong"/><label text="${ec.l10n.format(task.actualWorkTime, '0.00')}"/></container>
+                <container><label text="Remaining Hours: " type="strong"/><label text="${ec.l10n.format(task.remainingWorkTime, '0.00')}"/></container>
+                <container><label text="Act/Est: " type="strong"/>
+                    <label text="${ec.l10n.format((task.actualWorkTime / task.estimatedWorkTime) * 100, '0.00')}%" condition="task.estimatedWorkTime"/></container>
+                <container><label text="Act+Rem/Est: " type="strong"/>
+                    <label text="${ec.l10n.format(((task.actualWorkTime + task.remainingWorkTime) / task.estimatedWorkTime) * 100, '0.00')}%" condition="task.estimatedWorkTime"/></container>
 
                 <container-box>
                     <box-header><label text="Assignments" type="h5"/></box-header>
