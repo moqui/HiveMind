@@ -107,8 +107,7 @@ class HiveMindPmScreenTests extends Specification {
         "Task/TaskSummary/TaskCommentReply?workEffortId=HM-004&parentCommEventId=HM-004-01" |
                 ['Re: Remaining hours question']
         "Task/EditTask?workEffortId=HM-004" | ['For each task include a link', 'Dashboard My Tasks']
-        "Task/EditTimeEntries?workEffortId=HM-004" | ['4.25']
-        "Task/EditTimeEntryList?workEffortId=HM-004" | ['8.00', 'Create Task and My Tasks first pass']
+        "Task/EditTimeEntries?workEffortId=HM-004" | ['4.25', '8.00', 'Create Task and My Tasks first pass']
         "Task/EditUsers?workEffortId=HM-004" | ['john.doe', 'Ziziwork Dev Team A']
         "Task/EditRelated?workEffortId=HM-004" | ['HM-010', 'HM-005', 'Dashboard Create Task']
         "Task/EditRequests?workEffortId=HM-004" | ['DEMO_001', 'Add Create Request', 'New Feature']
