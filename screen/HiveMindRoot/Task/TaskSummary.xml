@@ -250,13 +250,8 @@ along with this software (see the LICENSE.md file). If not, see
                     <editable id="TaskName" text="${task.workEffortName?:''}" transition="updateTaskField"
                             parameter-name="workEffortName" type="strong"/>
                 </container>
-                <container-box>
-                    <box-header><label text="Description" type="h5"/></box-header>
-                    <box-body>
-                        <editable id="TaskDescription" text="${task.description?:''}" transition="updateTaskField" type="pre"
-                                parameter-name="description"/>
-                    </box-body>
-                </container-box>
+                <editable id="TaskDescription" text="${task.description?:''}" transition="updateTaskField" type="pre"
+                        parameter-name="description"/>
 
                 <container-box>
                     <box-header><label text="Comments" type="h5"/></box-header>
