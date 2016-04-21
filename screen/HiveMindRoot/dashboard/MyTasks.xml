@@ -96,9 +96,9 @@ along with this software (see the LICENSE.md file). If not, see
                     <default-field title="Status"><display-entity entity-name="StatusItem" text="${description}"/></default-field>
                 </field>
                 <field name="estimatedCompletionDate"><default-field title="Due"><display format="yyyy-MM-dd"/></default-field></field>
-                <field name="estimatedWorkTime"><default-field title="Est"><display format="#.00"/></default-field></field>
-                <field name="remainingWorkTime"><default-field title="Rem"><display format="#.00"/></default-field></field>
-                <field name="actualWorkTime"><default-field title="Act"><display format="#.00"/></default-field></field>
+                <field name="estimatedWorkTime"><default-field title="Est"><display format="0.00"/></default-field></field>
+                <field name="remainingWorkTime"><default-field title="Rem"><display format="0.00"/></default-field></field>
+                <field name="actualWorkTime"><default-field title="Act"><display format="0.00"/></default-field></field>
             </form-list>
         </container>
     </widgets>

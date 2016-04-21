@@ -76,9 +76,9 @@ along with this software (see the LICENSE.md file). If not, see
                 <default-field><display format="yyyy-MM-dd"/></default-field>
             </field>
             <field name="estimatedWorkTime"><default-field title="Estimated Hours">
-                <display format="#.00"/></default-field></field>
+                <display format="0.00"/></default-field></field>
             <field name="actualWorkTime"><default-field title="Actual Hours">
-                <display format="#.00"/></default-field></field>
+                <display format="0.00"/></default-field></field>
         </form-list>
     </widgets>
 </screen>

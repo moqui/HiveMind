@@ -96,12 +96,12 @@ along with this software (see the LICENSE.md file). If not, see
                 <text-line size="10"/></default-field></field>
             <!--
             <field name="clientAverageHourCost"><default-field title="Client Average Hourly">
-                <display format="#.00"/></default-field></field>
+                <display format="0.00"/></default-field></field>
 
             <field name="estimatedWorkTime"><default-field title="Estimated Hours">
-                <display format="#.00"/></default-field></field>
+                <display format="0.00"/></default-field></field>
             <field name="actualWorkTime"><default-field title="Actual Hours">
-                <display format="#.00"/></default-field></field>
+                <display format="0.00"/></default-field></field>
             <field name="actualClientCost"><default-field title="Actual Client Cost">
                 <display currency-unit-field="costUomId"/></default-field></field>
 
@@ -115,9 +115,9 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="clientBudgetRemaining"><default-field title="Client Budget Remaining">
                 <display currency-unit-field="costUomId"/></default-field></field>
             <field name="clientBudgetUsedPercent"><default-field title="Client Budget Used Percent">
-                <display format="#.00"/></default-field></field>
+                <display format="0.00"/></default-field></field>
             <field name="estimatedCompletePercent"><default-field title="Estimated Complete Percent">
-                <display format="#.00"/></default-field></field>
+                <display format="0.00"/></default-field></field>
             -->
 
             <field name="description"><default-field title="Description"><text-area rows="12" cols="100"/></default-field></field>

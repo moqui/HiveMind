@@ -96,7 +96,7 @@ along with this software (see the LICENSE.md file). If not, see
             </field>
             <field name="estimatedWorkTime"><default-field title="Estimated Hours"><text-line size="5"/></default-field></field>
             <field name="remainingWorkTime"><default-field title="Remaining Hours"><text-line size="5"/></default-field></field>
-            <field name="actualWorkTime"><default-field title="Actual Hours"><display format="#.00"/></default-field></field>
+            <field name="actualWorkTime"><default-field title="Actual Hours"><display format="0.00"/></default-field></field>
             <field name="totalTimeAllowed">
                 <conditional-field title="Hours Budget" condition="!task.parentWorkEffortId">
                     <text-line size="5"/></conditional-field>

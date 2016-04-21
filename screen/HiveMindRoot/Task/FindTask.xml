@@ -350,9 +350,9 @@ along with this software (see the LICENSE.md file). If not, see
                 <header-field title="Due Date" show-order-by="true"/>
                 <default-field><display format="yyyy-MM-dd"/></default-field>
             </field>
-            <field name="estimatedWorkTime"><default-field title="Est"><display format="#.00"/></default-field></field>
-            <field name="remainingWorkTime"><default-field title="Rem"><display format="#.00"/></default-field></field>
-            <field name="actualWorkTime"><default-field title="Act"><display format="#.00"/></default-field></field>
+            <field name="estimatedWorkTime"><default-field title="Est"><display format="0.00"/></default-field></field>
+            <field name="remainingWorkTime"><default-field title="Rem"><display format="0.00"/></default-field></field>
+            <field name="actualWorkTime"><default-field title="Act"><display format="0.00"/></default-field></field>
         </form-list>
         <form-list name="ListTasksSummary" list="taskSummaryList" skip-form="true" skip-start="true">
             <field name="rootWorkEffortId"><default-field><display text="${count} tasks"/></default-field></field>
@@ -365,9 +365,9 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="statusId"><default-field><display/></default-field></field>
             <field name="resolutionEnumId"><default-field><display/></default-field></field>
             <field name="estimatedCompletionDate"><default-field><display/></default-field></field>
-            <field name="estimatedWorkTime"><default-field><display format="#.00"/></default-field></field>
-            <field name="remainingWorkTime"><default-field><display format="#.00"/></default-field></field>
-            <field name="actualWorkTime"><default-field><display format="#.00"/></default-field></field>
+            <field name="estimatedWorkTime"><default-field><display format="0.00"/></default-field></field>
+            <field name="remainingWorkTime"><default-field><display format="0.00"/></default-field></field>
+            <field name="actualWorkTime"><default-field><display format="0.00"/></default-field></field>
         </form-list>
     </widgets>
 </screen>
