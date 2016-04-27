@@ -83,7 +83,8 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response type="none"/>
     </transition>
 
-    <transition name="createTask"><service-call name="mantle.work.TaskServices.create#Task" in-map="context"/><default-response url="."/></transition>
+    <transition name="createTask"><service-call name="mantle.work.TaskServices.create#Task" in-map="context"/>
+        <default-response url="."/></transition>
     <transition name="getProjectParties">
         <service-call name="mantle.work.ProjectServices.get#ProjectParties" web-send-json-response="resultList"/>
         <default-response type="none"/>
@@ -165,46 +166,47 @@ along with this software (see the LICENSE.md file). If not, see
     <widgets>
         <container-row>
             <row-col lg="3" md="3">
-                <label text="Task ID: ${workEffortId}" type="strong"/>
-                <container><label text="Project: " type="strong"/></container>
-                <link text="${project.workEffortId} - ${project.workEffortName}" url="projectSummary" link-type="anchor">
-                    <parameter name="workEffortId" from="project.workEffortId"/></link>
+                <container-box><box-header><label text="ID: ${workEffortId}" type="h5"/></box-header><box-body>
+                    <container><label text="Project: " type="strong"/></container>
+                    <link text="${project.workEffortId} - ${project.workEffortName}" url="projectSummary" link-type="anchor">
+                        <parameter name="workEffortId" from="project.workEffortId"/></link>
 
-                <section name="MilestoneSection" condition="milestone"><widgets>
-                    <container><label text="Milestone: " type="strong"/></container>
-                    <link text="${milestone.workEffortId} - ${milestone.workEffortName}" url="milestoneSummary" link-type="anchor">
-                        <parameter name="milestoneWorkEffortId" from="milestone.workEffortId"/></link>
-                </widgets></section>
-                <section name="ParentTaskSection" condition="parentTask"><widgets>
-                    <container><label text="Parent Task: " type="strong"/></container>
-                    <link text="${parentTask.workEffortId} - ${parentTask.workEffortName}" url="taskSummary" link-type="anchor">
-                        <parameter name="workEffortId" from="parentTask.workEffortId"/></link>
-                </widgets></section>
+                    <section name="MilestoneSection" condition="milestone"><widgets>
+                        <container><label text="Milestone: " type="strong"/></container>
+                        <link text="${milestone.workEffortId} - ${milestone.workEffortName}" url="milestoneSummary" link-type="anchor">
+                            <parameter name="milestoneWorkEffortId" from="milestone.workEffortId"/></link>
+                    </widgets></section>
+                    <section name="ParentTaskSection" condition="parentTask"><widgets>
+                        <container><label text="Parent Task: " type="strong"/></container>
+                        <link text="${parentTask.workEffortId} - ${parentTask.workEffortName}" url="taskSummary" link-type="anchor">
+                            <parameter name="workEffortId" from="parentTask.workEffortId"/></link>
+                    </widgets></section>
 
-                <container><label text="Priority: " type="strong"/><label text="${task.priority ?: ''}"/></container>
-                <container><label text="Purpose: " type="strong"/><label text="${purposeEnum.description}"/></container>
-                <container><label text="Status: " type="strong"/>
-                    <editable id="TaskStatus" text="${currentStatus.description}" transition="updateTaskStatus"
-                            parameter-name="statusId" widget-type="select">
-                        <parameter name="workEffortId" from="task.workEffortId"/>
-                        <editable-load transition="getTaskStatuses"/>
-                    </editable>
-                </container>
-                <container><label text="Resolution: " type="strong"/>
-                    <editable id="TaskResolution" text="${resolutionEnum?.description?:''}" transition="updateTaskResolution"
-                            parameter-name="resolutionEnumId" widget-type="select">
-                        <parameter name="workEffortId" from="task.workEffortId"/>
-                        <editable-load transition="getTaskResolutions"/>
-                    </editable>
-                </container>
-                <container><label text="Due Date: " type="strong"/><label text="${ec.l10n.format(task.estimatedCompletionDate, 'yyyy-MM-dd')}"/></container>
-                <container><label text="Estimated Hours: " type="strong"/><label text="${ec.l10n.format(task.estimatedWorkTime, '0.00')}"/></container>
-                <container><label text="Actual Hours: " type="strong"/><label text="${ec.l10n.format(task.actualWorkTime, '0.00')}"/></container>
-                <container><label text="Remaining Hours: " type="strong"/><label text="${ec.l10n.format(task.remainingWorkTime, '0.00')}"/></container>
-                <container><label text="Act/Est: " type="strong"/>
-                    <label text="${ec.l10n.format((task.actualWorkTime / task.estimatedWorkTime) * 100, '0.00')}%" condition="task.estimatedWorkTime"/></container>
-                <container><label text="Act+Rem/Est: " type="strong"/>
-                    <label text="${ec.l10n.format(((task.actualWorkTime + task.remainingWorkTime) / task.estimatedWorkTime) * 100, '0.00')}%" condition="task.estimatedWorkTime"/></container>
+                    <container><label text="Priority: " type="strong"/><label text="${task.priority ?: ''}"/></container>
+                    <container><label text="Purpose: " type="strong"/><label text="${purposeEnum.description}"/></container>
+                    <container><label text="Status: " type="strong"/>
+                        <editable id="TaskStatus" text="${currentStatus.description}" transition="updateTaskStatus"
+                                parameter-name="statusId" widget-type="select">
+                            <parameter name="workEffortId" from="task.workEffortId"/>
+                            <editable-load transition="getTaskStatuses"/>
+                        </editable>
+                    </container>
+                    <container><label text="Resolution: " type="strong"/>
+                        <editable id="TaskResolution" text="${resolutionEnum?.description?:''}" transition="updateTaskResolution"
+                                parameter-name="resolutionEnumId" widget-type="select">
+                            <parameter name="workEffortId" from="task.workEffortId"/>
+                            <editable-load transition="getTaskResolutions"/>
+                        </editable>
+                    </container>
+                    <container><label text="Due Date: " type="strong"/><label text="${ec.l10n.format(task.estimatedCompletionDate, 'yyyy-MM-dd')}"/></container>
+                    <container><label text="Estimated Hours: " type="strong"/><label text="${ec.l10n.format(task.estimatedWorkTime, '0.00')}"/></container>
+                    <container><label text="Actual Hours: " type="strong"/><label text="${ec.l10n.format(task.actualWorkTime, '0.00')}"/></container>
+                    <container><label text="Remaining Hours: " type="strong"/><label text="${ec.l10n.format(task.remainingWorkTime, '0.00')}"/></container>
+                    <container><label text="Act/Est: " type="strong"/>
+                        <label text="${ec.l10n.format((task.actualWorkTime / task.estimatedWorkTime) * 100, '0.00')}%" condition="task.estimatedWorkTime"/></container>
+                    <container><label text="Act+Rem/Est: " type="strong"/>
+                        <label text="${ec.l10n.format(((task.actualWorkTime + task.remainingWorkTime) / task.estimatedWorkTime) * 100, '0.00')}%" condition="task.estimatedWorkTime"/></container>
+                </box-body></container-box>
 
                 <container-box>
                     <box-header><label text="Assignments" type="h5"/></box-header>
@@ -218,11 +220,13 @@ along with this software (see the LICENSE.md file). If not, see
                             </actions>
                             <widgets>
                                 <container style="shaded-area">
-                                    <label text="${(weapd.username ? '[' + weapd.username + ']' : '')} ${weapd.firstName?:''} ${weapd.lastName?:''} ${weapd.organizationName?:''}" type="p"/>
-                                    <label text="${roleType?.description} - ${statusItem?.description}" type="p"/>
+                                    <label text="${(weapd.username ? weapd.username + ': ' : '')} ${weapd.firstName?:''} ${weapd.lastName?:''} ${weapd.organizationName?:''}" type="div"/>
+                                    <label text="${roleType?.description?:'N/A'} - ${statusItem?.description?:'N/A'}" type="div"/>
+                                    <!--
                                     <section name="AssignNotificationSection"><condition><expression>weapd.partyTypeEnumId=="PtyPerson"</expression></condition>
                                         <widgets><label text="Notifications? ${weapd.receiveNotifications?:'N'}" type="p"/></widgets>
                                     </section>
+                                    -->
                                 </container>
                             </widgets>
                         </section-iterate>
@@ -238,7 +242,7 @@ along with this software (see the LICENSE.md file). If not, see
                                     <field-map field-name="partyId" from="timeEntry.partyId"/></entity-find-one>
                             </actions>
                             <widgets>
-                                <label text="- ${ec.l10n.format(timeEntry.hours, '0.00')}h at ${ec.l10n.format(timeEntry.fromDate, '')} by ${paua.firstName} ${paua.lastName} ${paua.username ? '(' + paua.username + ')' :''}" type="p"/>
+                                <label text="&#8226; ${ec.l10n.format(timeEntry.hours, '0.00')}h at ${ec.l10n.format(timeEntry.fromDate, '')} by ${paua.firstName} ${paua.lastName} ${paua.username ? '(' + paua.username + ')' :''}" type="div"/>
                             </widgets>
                         </section-iterate>
                     </box-body>
@@ -246,9 +250,8 @@ along with this software (see the LICENSE.md file). If not, see
             </row-col>
             <row-col lg="6" md="6">
                 <container>
-                    <label text="Task: " type="strong"/>
                     <editable id="TaskName" text="${task.workEffortName?:''}" transition="updateTaskField"
-                            parameter-name="workEffortName" type="strong"/>
+                            parameter-name="workEffortName" type="h4"/>
                 </container>
                 <editable id="TaskDescription" text="${task.description?:''}" transition="updateTaskField" type="pre"
                         parameter-name="description"/>
@@ -313,7 +316,7 @@ along with this software (see the LICENSE.md file). If not, see
                                     <field-map field-name="statusId" from="statusHistory?.newValueText"/></entity-find-one>
                             </actions>
                             <widgets>
-                                <label text="${oldStatusItem ? oldStatusItem.description + ' to ' : ''}${statusItem?.description}${(userAccount?.username ? ' by ' + userAccount.username : '')} at ${ec.l10n.format(statusHistory.changedDate, 'yyyy-MM-dd HH:mm')}" type="p"/>
+                                <label text="${oldStatusItem ? oldStatusItem.description + ' to ' : ''}${statusItem?.description}${(userAccount?.username ? ' by ' + userAccount.username : '')} at ${ec.l10n.format(statusHistory.changedDate, 'yyyy-MM-dd HH:mm')}" type="div"/>
                             </widgets>
                         </section-iterate>
                     </box-body>
@@ -355,7 +358,7 @@ along with this software (see the LICENSE.md file). If not, see
                                     <link text="${childTask.workEffortId} - ${childTask.workEffortName}" url="taskSummary" link-type="anchor">
                                         <parameter name="workEffortId" from="childTask.workEffortId"/>
                                     </link>
-                                    <label text="${childTask.statusDescription ?: ''} - ${childTask.priority ? 'P ' + childTask.priority + ' - ' : '' }${childResolution.description} - ${childPurpose.description}" type="p"/>
+                                    <label text="${childTask.statusDescription ?: ''} - ${childTask.priority ? 'P ' + childTask.priority + ' - ' : '' }${childResolution.description} - ${childPurpose.description}" type="div"/>
                                 </container>
                             </widgets>
                         </section-iterate>
@@ -373,7 +376,7 @@ along with this software (see the LICENSE.md file). If not, see
                             </actions>
                             <widgets>
                                 <container style="shaded-area">
-                                    <label text="This ${assocType.description}" type="p"/>
+                                    <label text="This ${assocType.description}" type="div"/>
                                     <link text="${relatedTo.toWorkEffortId} - ${relatedTo.workEffortName}" url="taskSummary" link-type="anchor">
                                         <parameter name="workEffortId" from="relatedTo.toWorkEffortId"/></link>
                                 </container>
@@ -388,7 +391,7 @@ along with this software (see the LICENSE.md file). If not, see
                                 <container style="shaded-area">
                                     <link text="${relatedFrom.fromWorkEffortId} - ${relatedFrom.workEffortName}" url="taskSummary" link-type="anchor">
                                         <parameter name="workEffortId" from="relatedFrom.fromWorkEffortId"/></link>
-                                    <label text="${assocType.description} This" type="p"/>
+                                    <label text="${assocType.description} This" type="div"/>
                                 </container>
                             </widgets>
                         </section-iterate>
@@ -409,7 +412,7 @@ along with this software (see the LICENSE.md file). If not, see
                                 <container style="">
                                     <link text="${werd.requestId} - ${werd.requestName}" url="editRequest" link-type="anchor">
                                         <parameter name="requestId" from="werd.requestId"/></link>
-                                    <label text="${requestType.description} - ${statusItem.description}" type="p"/>
+                                    <label text="${requestType.description} - ${statusItem.description}" type="div"/>
                                 </container>
                             </widgets>
                         </section-iterate>
