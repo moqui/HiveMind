@@ -22,6 +22,7 @@ along with this software (see the LICENSE.md file). If not, see
         <actions>
             <script>
                 import org.apache.commons.collections.set.ListOrderedSet
+                import org.elasticsearch.client.Client
                 import org.elasticsearch.index.query.QueryBuilders
                 import org.elasticsearch.search.SearchHit
                 import org.elasticsearch.search.SearchHitField
@@ -30,6 +31,7 @@ along with this software (see the LICENSE.md file). If not, see
                 import org.moqui.context.ExecutionContext
 
                 ExecutionContext ec = context.ec
+                Client elasticSearchClient = ec.getToolInstance("ElasticSearch", Client.class)
 
                 org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("search_actions")
 
@@ -39,7 +41,7 @@ along with this software (see the LICENSE.md file). If not, see
                 queryString = "${term}*"
 
                 // not passed through: .setTypes(documentType)
-                SearchHits hits = ec.elasticSearchClient.prepareSearch().setIndices(indexName)
+                SearchHits hits = elasticSearchClient.prepareSearch().setIndices(indexName)
                         .setQuery(QueryBuilders.queryStringQuery(queryString)).setSize(30)
                         .setHighlighterFragmentSize(30).setHighlighterNumOfFragments(3)
                         .setHighlighterForceSource(true).setHighlighterRequireFieldMatch(false)
@@ -64,6 +66,7 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="searchSuggestOld">
         <actions>
             <script>
+                import org.elasticsearch.client.Client
                 import org.elasticsearch.search.suggest.Suggest
                 import org.elasticsearch.search.suggest.Suggest.Suggestion
                 import org.elasticsearch.search.suggest.SuggestBuilder
@@ -78,10 +81,11 @@ along with this software (see the LICENSE.md file). If not, see
                 org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("search_actions")
 
                 ExecutionContext ec = context.ec
+                Client elasticSearchClient = ec.getToolInstance("ElasticSearch", Client.class)
                 indexName = "${ec.tenantId}__hivemind".toLowerCase()
                 // get this working - for whatever reason no suggestions come back in spite of trying dozens of combinations of parameters, maybe wait for next ES release...
                 // see ES suggest docs at: http://www.elasticsearch.org/guide/reference/api/search/suggest/
-                /* Suggest suggest = ec.elasticSearchClient.prepareSuggest(indexName)
+                /* Suggest suggest = elasticSearchClient.prepareSuggest(indexName)
                 .addSuggestion(new PhraseSuggestionBuilder("phraseSb").analyzer("body").maxErrors(1.0F)
                 .addCandidateGenerator(PhraseSuggestionBuilder.candidateGenerator(field).suggestMode("always").minWordLength(2).sort("score").minDocFreq(0F).maxTermFreq(1.0F))
                 .gramSize(2).confidence(0.0F).size(1).text(term))
@@ -105,7 +109,7 @@ along with this software (see the LICENSE.md file). If not, see
 
                 // It may be a better approach to do a normal search and find partially matching strings in the result...
 
-                SuggestResponse suggestResponse = ec.elasticSearchClient.prepareSuggest(indexName)
+                SuggestResponse suggestResponse = elasticSearchClient.prepareSuggest(indexName)
                 .addSuggestion(new CompletionSuggestionFuzzyBuilder("name-suggest").field("name").text(term).size(20))
                 .addSuggestion(new CompletionSuggestionFuzzyBuilder("type-suggest").field("type").text(term).size(20))
                 .addSuggestion(new CompletionSuggestionFuzzyBuilder("status-suggest").field("status").text(term).size(20))
