@@ -31,7 +31,7 @@ along with this software (see the LICENSE.md file). If not, see
                 import org.moqui.context.ExecutionContext
 
                 ExecutionContext ec = context.ec
-                Client elasticSearchClient = ec.getToolInstance("ElasticSearch", Client.class)
+                Client elasticSearchClient = ec.getTool("ElasticSearch", Client.class)
 
                 org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("search_actions")
 
@@ -81,7 +81,7 @@ along with this software (see the LICENSE.md file). If not, see
                 org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("search_actions")
 
                 ExecutionContext ec = context.ec
-                Client elasticSearchClient = ec.getToolInstance("ElasticSearch", Client.class)
+                Client elasticSearchClient = ec.getTool("ElasticSearch", Client.class)
                 indexName = "${ec.tenantId}__hivemind".toLowerCase()
                 // get this working - for whatever reason no suggestions come back in spite of trying dozens of combinations of parameters, maybe wait for next ES release...
                 // see ES suggest docs at: http://www.elasticsearch.org/guide/reference/api/search/suggest/
