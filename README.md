@@ -6,17 +6,18 @@
 [![commits since release](http://img.shields.io/github/commits-since/moqui/HiveMind/v1.1.5.svg)](https://github.com/moqui/HiveMind/commits/master)
 [![downloads](http://img.shields.io/github/downloads/moqui/HiveMind/total.svg)](https://github.com/moqui/HiveMind/releases)
 
-HiveMind is a comprehensive ERP application for service organizations. It
-includes a project management application featuring project/task,
-request, and content (wiki) management. There is support for multiple
-vendors, multiple clients, flexible billing rates, time recording,
-expenses, invoicing (AR/AP), payments, and general ledger.
+[![LinkedIn Group](https://img.shields.io/badge/linked%20in%20group-moqui-blue.svg)](https://www.linkedin.com/groups/4640689)
+[![Google Group](https://img.shields.io/badge/google%20group-moqui--applications-blue.svg)](https://groups.google.com/d/forum/moqui-applications)
+[![Stack Overflow](https://img.shields.io/badge/stack%20overflow-moqui-blue.svg)](http://stackoverflow.com/questions/tagged/moqui)
+
+HiveMind is a comprehensive ERP application for service organizations. It includes a project management application 
+featuring project/task, request, and content (wiki) management. There is support for multiple vendors, multiple clients, 
+flexible billing rates, time recording, expenses, invoicing (AR/AP), payments, and general ledger.
 
 ### Running HiveMind
 
-To run HiveMind you need Moqui Framework, HiveMind itself, and the 
-components it depends on. Moqui supports a few methods for setup and 
-deployment as described in the documentation here:
+To run HiveMind you need Moqui Framework, HiveMind itself, and the components it depends on. Moqui supports a few 
+methods for setup and deployment as described in the documentation here:
 
 <http://www.moqui.org/framework/docs/RunDeploy.html>
 
