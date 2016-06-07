@@ -26,7 +26,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <pre-actions>
         <script>html_stylesheets.add('/hmstatic/lib/simplemde/simplemde.min.css')</script>
-        <script>footer_scripts.add('/hmstatic/lib/simplemde/simplemde.min.js')</script>
+        <script>html_scripts.add('/hmstatic/lib/simplemde/simplemde.min.js')</script>
     </pre-actions>
     <actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
