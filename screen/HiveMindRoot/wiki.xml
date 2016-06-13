@@ -282,7 +282,7 @@ along with this software (see the LICENSE.md file). If not, see
                             <box-body>
                                 <section-iterate name="HistoryIterateSection" list="wphList" entry="wph">
                                     <actions>
-                                        <entity-find-one entity-name="mantle.party.PersonWithUserAccount" value-field="paua">
+                                        <entity-find-one entity-name="mantle.party.PersonAndUserAccount" value-field="paua">
                                             <field-map field-name="userId" from="wph.userId"/></entity-find-one>
                                     </actions>
                                     <widgets>
