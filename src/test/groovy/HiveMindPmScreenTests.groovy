@@ -120,10 +120,9 @@ class HiveMindPmScreenTests extends Specification {
         "Request/EditWikiPages?requestId=DEMO_001" | ['Add Wiki Page']
 
         // wiki
-        "wiki/HmDesign" | ['See child pages for design details.', 'john.doe']
-        "wiki/HmDesign/Actors" | ['HiveMind Design', 'Account Manager - person in Account Services responsible']
-        "EditWikiPage?wikiSpaceId=HmDesign&pagePath=Actors" | ['h2. Actors', '** Account Manager']
         "wiki/DEMO" | ['Move along, nothing to see here', 'john.doe']
+        "wiki/DEMO/Demo+Page+1" | ['Demo Page 1', 'Section 1']
         "EditWikiPage?wikiSpaceId=DEMO" | ['## Demo Space Root Page']
+        "EditWikiPage?wikiSpaceId=DEMO&pagePath=Demo+Page+1" | ['## Demo Page 1']
     }
 }
