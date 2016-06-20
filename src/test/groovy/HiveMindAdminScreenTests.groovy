@@ -121,7 +121,7 @@ class HiveMindAdminScreenTests extends Specification {
         "EditRateAmounts?partyId=EX_JOHN_DOE" | ['Standard', 'Client Billing', 'John Doe']
 
         // WikiSpace
-        "WikiSpace/EditWikiSpace?wikiSpaceId=HmDesign" | ['HiveMind Design', 'HmDesign.cwiki']
+        "WikiSpace/EditWikiSpace?wikiSpaceId=DEMO" | ['Demo Wiki Space', 'DEMO.md']
 
         // Project
         "Project/EditProject?workEffortId=HM" | ['HiveMind PM Build Out', 'In Progress', 'Budget $10,000.00']
