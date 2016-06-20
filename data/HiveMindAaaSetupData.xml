@@ -58,4 +58,33 @@ along with this software (see the LICENSE.md file). If not, see
             rootPageLocation="component://HiveMind/WikiSpace/HmDesign.cwiki" decoratorScreenLocation=""/>
     <moqui.resource.wiki.WikiPage wikiPageId="HmDesign" wikiSpaceId="HmDesign" createdByUserId="EX_JOHN_DOE"/>
     <moqui.resource.wiki.WikiPageHistory wikiPageId="HmDesign" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
+
+    <!-- Work Types and Employment Position Classes -->
+    <moqui.basic.Enumeration description="Programming" enumId="WktpProgramming" enumTypeId="WorkType"/>
+    <moqui.basic.Enumeration description="Requirements Gathering" enumId="WktpRequirements" enumTypeId="WorkType"/>
+    <moqui.basic.Enumeration description="System Design" enumId="WktpSystemDesign" enumTypeId="WorkType"/>
+    <moqui.basic.Enumeration description="Testing" enumId="WktpTesting" enumTypeId="WorkType"/>
+
+    <mantle.humanres.position.EmplPositionClass title="Quality Analyst" emplPositionClassId="QualityAnalyst"/>
+    <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="QualityAnalyst" workTypeEnumId="WktpTesting"/>
+    <mantle.humanres.position.EmplPositionClass title="Quality Lead" emplPositionClassId="QualityLead"/>
+    <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="QualityLead" workTypeEnumId="WktpTesting"/>
+
+    <mantle.humanres.position.EmplPositionClass title="Programmer" emplPositionClassId="Programmer"/>
+    <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="Programmer" workTypeEnumId="WktpProgramming"/>
+    <mantle.humanres.position.EmplPositionClass title="Programmer Lead" emplPositionClassId="ProgrammerLead"/>
+    <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="ProgrammerLead" workTypeEnumId="WktpProgramming"/>
+
+    <mantle.humanres.position.EmplPositionClass title="System Administrator" emplPositionClassId="SysAdmin"/>
+
+    <mantle.humanres.position.EmplPositionClass title="System Architect" emplPositionClassId="SysArchitect"/>
+    <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="SysArchitect" workTypeEnumId="WktpRequirements"/>
+    <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="SysArchitect" workTypeEnumId="WktpSystemDesign"/>
+    <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="SysArchitect" workTypeEnumId="WktpProgramming"/>
+    <mantle.humanres.position.EmplPositionClass title="Business Analyst" emplPositionClassId="BusinessAnalyst"/>
+    <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="BusinessAnalyst" workTypeEnumId="WktpRequirements"/>
+    <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="BusinessAnalyst" workTypeEnumId="WktpSystemDesign"/>
+    <mantle.humanres.position.EmplPositionClass title="Expert User" emplPositionClassId="ExpertUser"/>
+    <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="ExpertUser" workTypeEnumId="WktpRequirements"/>
+
 </entity-facade-xml>
