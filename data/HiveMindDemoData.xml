@@ -309,5 +309,5 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
 
     <!-- Index the loaded demo data -->
     <!-- explicitly index the Data Feed documents since the trigger won't be in place until restart -->
-    <org.moqui.impl.EntityServices.indexDataFeedDocuments dataFeedId="HiveMindSearch"/>
+    <org.moqui.elasticsearch.SearchServices.indexDataFeedDocuments dataFeedId="HiveMindSearch"/>
 </entity-facade-xml>
