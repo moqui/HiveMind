@@ -21,7 +21,7 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="updateSpace"><service-call name="update#moqui.resource.wiki.WikiSpace" in-map="context"/>
         <default-response url="."/></transition>
     <transition name="indexPages">
-        <service-call name="org.moqui.elasticsearch.SearchServices.index#WikiSpacePages"
+        <service-call name="org.moqui.search.SearchServices.index#WikiSpacePages"
                       in-map="context + [dataDocumentId:'HmWikiPage']"/>
         <default-response url="."/>
     </transition>
