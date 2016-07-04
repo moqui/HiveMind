@@ -85,6 +85,10 @@ along with this software (see the LICENSE.md file). If not, see
                             <order-by field-name="title"/></entity-find>
                     </entity-options>
                 </drop-down></default-field></field>
+                <field name="workTypeEnumId"><default-field title="Work Type">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="WorkType"/><set field="allowEmpty" value="true"/></widget-template-include>
+                </default-field></field>
 
                 <field name="fromDate"><default-field><date-time/></default-field></field>
                 <field name="thruDate"><default-field><date-time/></default-field></field>
@@ -139,6 +143,13 @@ along with this software (see the LICENSE.md file). If not, see
                 </drop-down></header-field>
                 <default-field><display-entity entity-name="mantle.humanres.position.EmplPositionClass" text="${title}"/></default-field>
             </field>
+            <field name="workTypeEnumId">
+                <header-field title="Work Type" show-order-by="true">
+                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                        <set field="enumTypeId" value="WorkType"/><set field="allowEmpty" value="true"/></widget-template-include>
+                </header-field>
+                <default-field><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
+            </field>
 
             <field name="fromDate">
                 <header-field show-order-by="true"><!--<date-find/>--></header-field>
@@ -163,7 +174,7 @@ along with this software (see the LICENSE.md file). If not, see
 
             <form-list-column><field-ref name="rateTypeEnumId"/><field-ref name="ratePurposeEnumId"/></form-list-column>
             <form-list-column><field-ref name="workEffortId"/><field-ref name="partyId"/></form-list-column>
-            <form-list-column><field-ref name="emplPositionClassId"/></form-list-column>
+            <form-list-column><field-ref name="emplPositionClassId"/><field-ref name="workTypeEnumId"/></form-list-column>
             <form-list-column><field-ref name="fromDate"/><field-ref name="thruDate"/></form-list-column>
             <form-list-column><field-ref name="rateAmount"/></form-list-column>
             <form-list-column><field-ref name="rateCurrencyUomId"/></form-list-column>
