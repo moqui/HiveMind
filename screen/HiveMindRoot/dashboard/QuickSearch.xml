@@ -20,7 +20,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="getSearchOptions">
         <actions>
-            <service-call name="org.moqui.impl.EntityServices.search#DataDocuments" out-map="context"
+            <service-call name="org.moqui.search.SearchServices.search#DataDocuments" out-map="context"
                     in-map="[queryString:(term + '*'), indexName:'hivemind']"/>
             <set field="outList" from="[]"/>
             <iterate list="documentList" entry="document">

@@ -59,7 +59,7 @@ along with this software (see the LICENSE.md file). If not, see
     </moqui.entity.feed.DataFeed>
 
     <!-- explicitly index the Data Feed documents since the trigger won't be in place until restart -->
-    <org.moqui.impl.EntityServices.indexDataFeedDocuments dataFeedId="HiveMindSearch"/>
+    <org.moqui.search.SearchServices.indexDataFeedDocuments dataFeedId="HiveMindSearch"/>
 
     <!-- EmailTemplates for Feed-driven Update Notifications -->
     <moqui.basic.email.EmailTemplate emailTemplateId="HM_TASK_UPDATE" description="HiveMind Task Update Notification"

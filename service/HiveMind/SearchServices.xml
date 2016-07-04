@@ -37,7 +37,7 @@ along with this software (see the LICENSE.md file). If not, see
                 Logger logger = LoggerFactory.getLogger("HiveMind_receive_DataFeed")
 
                 // call the indexing service
-                Map indexResults = ec.service.sync().name("org.moqui.impl.EntityServices", "index", "DataDocuments")
+                Map indexResults = ec.service.sync().name("org.moqui.search.SearchServices.index#DataDocuments")
                         .parameters((Map) context).parameter("getOriginalDocuments", true).call()
                 if (indexResults == null) return
 
