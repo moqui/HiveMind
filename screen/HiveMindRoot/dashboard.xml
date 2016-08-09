@@ -27,15 +27,15 @@ along with this software (see the LICENSE.md file). If not, see
                     <dynamic-container id="QuickSearchContainer" transition="quickSearch"/>
 
                     <container>
-                        <link url="../Project" link-type="anchor"><image url="/hmstatic/images/project-business120.png" url-type="screen"/></link>
+                        <link url="../Project" link-type="anchor"><image url="/hmstatic/images/project-business120.png" url-type="screen" style="invertible"/></link>
                         <link text="Projects" url="../Project" link-type="anchor"/>
                     </container>
                     <container>
-                        <link url="../Task" link-type="anchor"><image url="/hmstatic/images/task-homework.png" url-type="screen"/></link>
+                        <link url="../Task" link-type="anchor"><image url="/hmstatic/images/task-homework.png" url-type="screen" style="invertible"/></link>
                         <link text="Tasks" url="../Task" link-type="anchor"/>
                     </container>
                     <container>
-                        <link url="../Request" link-type="anchor"><image url="/hmstatic/images/request-inspiration.png" url-type="screen"/></link>
+                        <link url="../Request" link-type="anchor"><image url="/hmstatic/images/request-inspiration.png" url-type="screen" style="invertible"/></link>
                         <link text="Requests" url="../Request" link-type="anchor"/>
                     </container>
 
