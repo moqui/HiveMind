@@ -27,9 +27,7 @@ The easiest way to try HiveMind is with the binary distribution available on Git
 
 If you don't have gradle or ant installed you can use this command line to run Java directly:
 
-    $ java -Xmx512M -XX:MaxPermSize=128m -jar moqui-${version}.war
-
-Note that with JDK 8 you don't need the -XX:MaxPermSize argument.
+    $ java -jar moqui-${version}.war
 
 ### Build and Run Locally
 
