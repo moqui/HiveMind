@@ -37,7 +37,7 @@ along with this software (see the LICENSE.md file). If not, see
 
                 ListOrderedSet optionList = new ListOrderedSet()
 
-                indexName = "${ec.tenantId}__hivemind".toLowerCase()
+                indexName = "hivemind"
                 queryString = "${term}*"
 
                 // not passed through: .setTypes(documentType)
@@ -82,7 +82,7 @@ along with this software (see the LICENSE.md file). If not, see
 
                 ExecutionContext ec = context.ec
                 Client elasticSearchClient = ec.getTool("ElasticSearch", Client.class)
-                indexName = "${ec.tenantId}__hivemind".toLowerCase()
+                indexName = "hivemind"
                 // get this working - for whatever reason no suggestions come back in spite of trying dozens of combinations of parameters, maybe wait for next ES release...
                 // see ES suggest docs at: http://www.elasticsearch.org/guide/reference/api/search/suggest/
                 /* Suggest suggest = elasticSearchClient.prepareSuggest(indexName)
