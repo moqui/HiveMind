@@ -52,7 +52,7 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="comments"><default-field><text-area cols="60" rows="3"/></default-field></field>
             <field name="remainingWorkTime"><default-field title="Remaining Hours">
                 <text-line size="5"/></default-field></field>
-            <field name="curRemainingWorkTime" entry-name="workEffort.remainingWorkTime"><default-field title="Current Rem Hours">
+            <field name="curRemainingWorkTime" from="workEffort.remainingWorkTime"><default-field title="Current Rem Hours">
                 <display/></default-field></field>
 
             <field name="pieceCount"><default-field><text-line size="6"/></default-field></field>

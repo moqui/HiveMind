@@ -53,7 +53,7 @@ along with this software (see the LICENSE.md file). If not, see
             <container-dialog id="AddRelatedToDialog" button-text="Add Related To">
                 <form-single name="AddRelatedToForm" transition="addRelated">
                     <field name="workEffortId"><default-field><hidden/></default-field></field>
-                    <field name="fromWorkEffortId" entry-name="workEffortId"><default-field><hidden/></default-field></field>
+                    <field name="fromWorkEffortId" from="workEffortId"><default-field><hidden/></default-field></field>
 
                     <field name="workEffortAssocTypeEnumId"><default-field title="Type"><drop-down>
                         <entity-options key="${enumId}" text="${description}">
@@ -89,7 +89,7 @@ along with this software (see the LICENSE.md file). If not, see
             <container-dialog id="AddRelatedFromDialog" button-text="Add Related From">
                 <form-single name="AddRelatedFromForm" transition="addRelated">
                     <field name="workEffortId"><default-field><hidden/></default-field></field>
-                    <field name="toWorkEffortId" entry-name="workEffortId"><default-field><hidden/></default-field></field>
+                    <field name="toWorkEffortId" from="workEffortId"><default-field><hidden/></default-field></field>
 
                     <field name="rootWorkEffortId"><default-field title="Project"><drop-down>
                         <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
@@ -126,7 +126,7 @@ along with this software (see the LICENSE.md file). If not, see
 
         <label text="Related From ${workEffortId} - ${task.workEffortName}" type="h2"/>
         <form-list name="DeleteRelatedToForm" list="relatedToList" transition="deleteRelated">
-            <field name="workEffortId" entry-name="mainWorkEffortId"><default-field><hidden/></default-field></field>
+            <field name="workEffortId" from="mainWorkEffortId"><default-field><hidden/></default-field></field>
             <field name="fromWorkEffortId"><default-field><hidden/></default-field></field>
 
             <field name="workEffortAssocTypeEnumId">
@@ -143,7 +143,7 @@ along with this software (see the LICENSE.md file). If not, see
 
         <label text="Related To ${workEffortId} - ${task.workEffortName}" type="h2"/>
         <form-list name="DeleteRelatedFromForm" list="relatedFromList" transition="deleteRelated">
-            <field name="workEffortId" entry-name="mainWorkEffortId"><default-field><hidden/></default-field></field>
+            <field name="workEffortId" from="mainWorkEffortId"><default-field><hidden/></default-field></field>
             <field name="toWorkEffortId"><default-field><hidden/></default-field></field>
 
             <field name="fromWorkEffortId"><default-field title="From ID"><display text=""/>

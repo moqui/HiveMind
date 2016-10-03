@@ -124,8 +124,8 @@ along with this software (see the LICENSE.md file). If not, see
                         </dynamic-options>
                     </drop-down>
                 </default-field></field>
-                <field name="workEffortName" entry-name="request.requestName"><default-field title="Task Name"><text-line size="40"/></default-field></field>
-                <field name="priority" entry-name="request.priority"><default-field>
+                <field name="workEffortName" from="request.requestName"><default-field title="Task Name"><text-line size="40"/></default-field></field>
+                <field name="priority" from="request.priority"><default-field>
                     <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
                 </default-field></field>
                 <field name="purposeEnumId"><default-field title="Purpose">
@@ -143,10 +143,10 @@ along with this software (see the LICENSE.md file). If not, see
                     <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
                         <set field="statusTypeId" value="WorkEffort"/></widget-template-include>
                 </default-field></field>
-                <field name="estimatedCompletionDate" entry-name="request.responseRequiredDate">
+                <field name="estimatedCompletionDate" from="request.responseRequiredDate">
                     <default-field title="Due Date"><date-time/></default-field></field>
                 <field name="estimatedWorkTime"><default-field title="Estimated Hours"><text-line size="5"/></default-field></field>
-                <field name="description" entry-name="request.description">
+                <field name="description" from="request.description">
                     <default-field title="Description"><text-area rows="10" cols="60"/></default-field></field>
                 <field name="submitButton"><default-field title="Create"><submit/></default-field></field>
             </form-single>

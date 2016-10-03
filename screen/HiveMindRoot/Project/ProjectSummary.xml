@@ -97,12 +97,12 @@ along with this software (see the LICENSE.md file). If not, see
                 <field name="workEffortId"><default-field title="Project ID"><display/></default-field></field>
                 <field name="workEffortName"><default-field title="Project Name"><display/></default-field></field>
                 -->
-                <field name="clientPartyId" entry-name="clientWep?.partyId"><default-field title="Client">
+                <field name="clientPartyId" from="clientWep?.partyId"><default-field title="Client">
                     <display-entity entity-name="mantle.party.PartyDetail" key-field-name="partyId"
                             text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
                     <link url="editClient" text="Edit Client" link-type="anchor"><parameter name="partyId" from="clientWep?.partyId"/></link>
                 </default-field></field>
-                <field name="vendorPartyId" entry-name="vendorWep?.partyId"><default-field title="Vendor">
+                <field name="vendorPartyId" from="vendorWep?.partyId"><default-field title="Vendor">
                     <display-entity entity-name="mantle.party.PartyDetail" key-field-name="partyId"
                             text="${organizationName?:''} ${firstName?:''} ${lastName?:''}"/>
                     <link url="editVendor" text="Edit Vendor" link-type="anchor"><parameter name="partyId" from="vendorWep?.partyId"/></link>
@@ -154,7 +154,7 @@ along with this software (see the LICENSE.md file). If not, see
 
             <form-list name="ViewWpweForm" list="wpaweList" skip-form="true">
                 <field name="workEffortId"><default-field><hidden/></default-field></field>
-                <field name="rootWorkEffortId" entry-name="projectWorkEffortId"><default-field><hidden/></default-field></field>
+                <field name="rootWorkEffortId" from="projectWorkEffortId"><default-field><hidden/></default-field></field>
                 <field name="wikiPageId"><default-field><hidden/></default-field></field>
 
                 <field name="wikiSpaceId"><default-field title="Wiki Space"><display text=""/>

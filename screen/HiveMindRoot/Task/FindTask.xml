@@ -173,7 +173,7 @@ along with this software (see the LICENSE.md file). If not, see
         <container>
             <container-dialog id="FindTaskDialog" button-text="Find Options" width="800">
                 <form-single name="FindTasks" transition=".">
-                    <field name="queryString" entry-name="ec.web.parameters.queryString">
+                    <field name="queryString" from="ec.web.parameters.queryString">
                         <default-field title="Text Search"><text-line size="80"/></default-field></field>
                     <field name="rootWorkEffortId"><default-field title="Project">
                         <drop-down allow-empty="true" style="chosen-wide">
@@ -301,7 +301,7 @@ along with this software (see the LICENSE.md file). If not, see
         </container>
         <container>
             <form-single name="SearchOptions" transition="findTask">
-                <field name="queryString" entry-name="ec.web.parameters.queryString"><default-field title=""><text-line size="40"/></default-field></field>
+                <field name="queryString" from="ec.web.parameters.queryString"><default-field title=""><text-line size="40"/></default-field></field>
                 <field name="submitButton"><default-field title="Text Search"><submit/></default-field></field>
                 <field-layout><field-row-big><field-ref name="queryString"/><field-ref name="submitButton"/></field-row-big></field-layout>
             </form-single>

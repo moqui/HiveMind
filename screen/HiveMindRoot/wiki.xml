@@ -314,7 +314,7 @@ along with this software (see the LICENSE.md file). If not, see
                             <form-single name="AddPageForm" transition="createPage">
                                 <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
                                 <field name="isCreate"><default-field><hidden default-value="true"/></default-field></field>
-                                <field name="parentPath" entry-name="pagePath"><default-field><display/></default-field></field>
+                                <field name="parentPath" from="pagePath"><default-field><display/></default-field></field>
                                 <field name="wikiType"><default-field><drop-down>
                                     <list-options list="ec.resource.getTemplateRendererExtensionSet()"/>
                                 </drop-down></default-field></field>

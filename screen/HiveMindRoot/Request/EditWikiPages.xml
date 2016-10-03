@@ -40,7 +40,7 @@ along with this software (see the LICENSE.md file). If not, see
     <widgets>
         <container-dialog id="AddWprDialog" button-text="Add Wiki Page">
             <form-single name="AddWprForm" transition="addWpr">
-                <field name="userId" entry-name="ec.user.userId"><default-field><hidden/></default-field></field>
+                <field name="userId" from="ec.user.userId"><default-field><hidden/></default-field></field>
                 <field name="requestId"><default-field><hidden/></default-field></field>
 
                 <field name="wikiSpaceId"><default-field title="Space"><drop-down>

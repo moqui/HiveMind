@@ -76,7 +76,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <display also-hidden="false" text="Must be in Assignee or Team roles to assign to a task. Parties may be assigned in multiple roles."/>
                 </default-field></field>
 
-                <field name="fromDate" entry-name="ec.user.nowTimestamp"><default-field><date-time/></default-field></field>
+                <field name="fromDate" from="ec.user.nowTimestamp"><default-field><date-time/></default-field></field>
                 <field name="thruDate"><default-field><date-time/></default-field></field>
 
                 <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/>

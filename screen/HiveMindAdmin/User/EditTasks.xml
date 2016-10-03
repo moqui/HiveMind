@@ -67,7 +67,7 @@ along with this software (see the LICENSE.md file). If not, see
                     </drop-down>
                 </default-field></field>
 
-                <field name="fromDate" entry-name="ec.user.nowTimestamp"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
+                <field name="fromDate" from="ec.user.nowTimestamp"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
                 <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
 
                 <field name="expectationEnumId"><default-field title="Expectation">
@@ -114,7 +114,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <entity-find entity-name="EmplPositionClass"/></entity-options></drop-down></default-field>
             </field>
 
-            <field name="statusId" entry-name="partyStatusId"><header-field title="Status" show-order-by="true"/><default-field>
+            <field name="statusId" from="partyStatusId"><header-field title="Status" show-order-by="true"/><default-field>
                 <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionDropDown">
                     <set field="currentDescription" from="currentStatus?.description"/>
                     <set field="statusId" from="partyStatusId"/></widget-template-include>

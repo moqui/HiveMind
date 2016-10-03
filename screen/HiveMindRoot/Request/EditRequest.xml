@@ -36,7 +36,7 @@ along with this software (see the LICENSE.md file). If not, see
     <widgets>
         <form-single name="EditRequest" transition="updateRequest" map="request">
             <field name="requestId"><default-field title="Request ID"><display/></default-field></field>
-            <field name="clientPartyId" entry-name="clientRp?.partyId"><default-field title="Client">
+            <field name="clientPartyId" from="clientRp?.partyId"><default-field title="Client">
                 <widget-template-include location="component://SimpleScreens/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
                     <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
                 <link url="editClient" text="Edit Client" parameter-map="[partyId:clientRp.partyId]" link-type="anchor"

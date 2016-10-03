@@ -58,7 +58,7 @@ along with this software (see the LICENSE.md file). If not, see
         <container-dialog id="AddUserRelationshipDialog" button-text="Add User Agent">
             <form-single name="AddUserRelationshipForm" transition="addRelationship">
                 <field name="partyId"><default-field><hidden/></default-field></field>
-                <field name="toPartyId" entry-name="partyId"><default-field><hidden/></default-field></field>
+                <field name="toPartyId" from="partyId"><default-field><hidden/></default-field></field>
                 <field name="toRoleTypeId"><default-field><hidden default-value="CustomerBillTo"/></default-field></field>
                 <field name="relationshipTypeEnumId"><default-field><hidden default-value="PrtAgent"/></default-field></field>
 
@@ -74,14 +74,14 @@ along with this software (see the LICENSE.md file). If not, see
                     </drop-down>
                 </default-field></field>
 
-                <field name="fromDate" entry-name="ec.user.nowTimestamp"><default-field><date-time/></default-field></field>
+                <field name="fromDate" from="ec.user.nowTimestamp"><default-field><date-time/></default-field></field>
                 <field name="thruDate"><default-field><date-time/></default-field></field>
                 <field name="submitButton"><default-field title="Add Assignment"><submit/></default-field></field>
             </form-single>
         </container-dialog>
 
         <form-list name="UpdateUserRelForm" list="pfarList" transition="updateRelationship">
-            <field name="partyId" entry-name="clientPartyId"><default-field><hidden/></default-field></field>
+            <field name="partyId" from="clientPartyId"><default-field><hidden/></default-field></field>
             <field name="partyRelationshipId"><default-field><hidden/></default-field></field>
             <field name="firstName"><header-field title="First" show-order-by="case-insensitive"/><default-field>
                 <link url="editUser" text="${firstName}" link-type="anchor">

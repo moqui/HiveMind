@@ -43,7 +43,7 @@ along with this software (see the LICENSE.md file). If not, see
     <widgets>
         <container-dialog id="AddWpweDialog" button-text="Add Wiki Page">
             <form-single name="AddWpweForm" transition="addWpwe">
-                <field name="userId" entry-name="ec.user.userId"><default-field><hidden/></default-field></field>
+                <field name="userId" from="ec.user.userId"><default-field><hidden/></default-field></field>
                 <field name="workEffortId"><default-field><hidden/></default-field></field>
                 <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
 
@@ -65,7 +65,7 @@ along with this software (see the LICENSE.md file). If not, see
 
         <form-list name="DeleteWpweForm" list="wpaweList" transition="deleteWpwe">
             <field name="workEffortId"><default-field><hidden/></default-field></field>
-            <field name="rootWorkEffortId" entry-name="projectWorkEffortId"><default-field><hidden/></default-field></field>
+            <field name="rootWorkEffortId" from="projectWorkEffortId"><default-field><hidden/></default-field></field>
             <field name="wikiPageId"><default-field><hidden/></default-field></field>
 
             <field name="wikiSpaceId"><default-field title="Space"><display text=""/>

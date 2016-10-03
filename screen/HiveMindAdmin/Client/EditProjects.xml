@@ -40,7 +40,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <field name="partyId"><default-field><hidden/></default-field></field>
                 <field name="workEffortId"><default-field title="ID"><text-line size="8" maxlength="8"/></default-field></field>
                 <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
-                <field name="clientPartyId" entry-name="partyId"><default-field><hidden/></default-field></field>
+                <field name="clientPartyId" from="partyId"><default-field><hidden/></default-field></field>
                 <field name="vendorPartyId"><default-field title="Vendor">
                     <drop-down allow-empty="true">
                         <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
