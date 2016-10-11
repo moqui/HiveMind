@@ -27,7 +27,6 @@ along with this software (see the LICENSE.md file). If not, see
         <fields fieldPath="histories:changeDateTime"/>
         <fields fieldPath="histories:userId"/>
         <fields fieldPath="histories:user:username"/>
-        <fields fieldPath="histories:changeDateTime"/>
         <links label="Wiki Page" linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
     </dataDocuments>
 
