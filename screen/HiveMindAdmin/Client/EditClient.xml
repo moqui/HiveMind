@@ -70,11 +70,11 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="mantle.party.ContactServices.get#PartyContactInfo" out-map="paymentContactInfo"
                 in-map="[partyId:partyId, postalContactMechPurposeId:'PostalPayment',
                     telecomContactMechPurposeId:'PhonePayment', emailContactMechPurposeId:'EmailPayment']"/>
-        <set field="paymentInfoFlat" from="StupidUtilities.flattenNestedMap(paymentContactInfo)"/>
+        <set field="paymentInfoFlat" from="flattenNestedMap(paymentContactInfo)"/>
         <service-call name="mantle.party.ContactServices.get#PartyContactInfo" out-map="billingContactInfo"
                 in-map="[partyId:partyId, postalContactMechPurposeId:'PostalBilling',
                     telecomContactMechPurposeId:'PhoneBilling', emailContactMechPurposeId:'EmailBilling']"/>
-        <set field="billingInfoFlat" from="StupidUtilities.flattenNestedMap(billingContactInfo)"/>
+        <set field="billingInfoFlat" from="flattenNestedMap(billingContactInfo)"/>
 
         <entity-find entity-name="mantle.party.PartyRole" list="partyRoleList">
             <econdition field-name="partyId"/><order-by field-name="roleTypeId"/>

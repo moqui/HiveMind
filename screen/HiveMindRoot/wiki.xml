@@ -32,7 +32,7 @@ along with this software (see the LICENSE.md file). If not, see
             <set field="filename" from="attachmentFile.getName()"/>
             <service-call name="org.moqui.impl.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
             <script><![CDATA[
-                import org.moqui.context.ResourceReference
+                import org.moqui.resource.ResourceReference
                 org.moqui.context.ExecutionContext ec = context.ec
                 org.apache.commons.fileupload.FileItem attachmentFile = context.attachmentFile
                 ec.logger.info("Uploading file [${filename}] for page [${pagePath}] in space [${wikiSpaceId}]")
@@ -48,13 +48,13 @@ along with this software (see the LICENSE.md file). If not, see
         <actions>
             <service-call name="org.moqui.impl.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
             <script><![CDATA[
-                import org.moqui.context.ResourceReference
+                import org.moqui.resource.ResourceReference
                 org.moqui.context.ExecutionContext ec = context.ec
 
                 ec.web.response.setContentType(attachmentReference.contentType)
                 InputStream is = attachmentReference.openStream()
                 OutputStream os = ec.web.response.outputStream
-                int totalLen = StupidUtilities.copyStream(is, os)
+                int totalLen = copyStream(is, os)
                 is.close()
                 os.close()
 

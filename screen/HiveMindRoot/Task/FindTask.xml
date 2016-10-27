@@ -163,7 +163,7 @@ along with this software (see the LICENSE.md file). If not, see
             </iterate>
             <set field="taskSummaryList" from="[taskSummaryMap]"/>
             <if condition="orderByField">
-                <script>StupidUtilities.orderMapList(taskList, [orderByField])</script>
+                <script>orderMapList(taskList, [orderByField])</script>
             </if>
             -->
         </else></if>
