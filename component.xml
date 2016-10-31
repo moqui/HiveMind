@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/moqui-conf-2.0.xsd"
-        name="HiveMind" version="1.1.6">
-    <depends-on name="moqui-elasticsearch"/>
-    <depends-on name="moqui-fop"/>
-    <depends-on name="mantle-udm"/>
-    <depends-on name="mantle-usl"/>
-    <depends-on name="SimpleScreens"/>
+        name="HiveMind" version="1.2.0">
+    <depends-on name="moqui-elasticsearch" version="1.0.0"/>
+    <depends-on name="moqui-fop" version="1.0.0"/>
+    <depends-on name="mantle-udm" version="1.1.0"/>
+    <depends-on name="mantle-usl" version="1.1.0"/>
+    <depends-on name="SimpleScreens" version="1.1.0"/>
 </component>
