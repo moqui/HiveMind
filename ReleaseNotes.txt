@@ -5,11 +5,12 @@ HiveMind Project Management and Service ERP Release Notes
 Release 1.2.0 - Not Yet Released
 ===========================================================================
 
-HiveMind Project Management and Service ERP 1.1.6 is a minor new feature
+HiveMind Project Management and Service ERP 1.2.0 is a minor new feature
 and bug fix release.
 
 This release is based on Moqui Framework version 2.0.0, mantle-udm 1.1.0,
-mantle-usl 1.1.0, and SimpleScreens 1.1.0.
+mantle-usl 1.1.0, and SimpleScreens 1.1.0. It also uses the
+moqui-elasticsearch (1.0.0) and moqui-fop (1.0.0) tool components.
 
 This release includes various improvements from SimpleScreens and updates
 for the various changes in Moqui Framework 2.0.0.
