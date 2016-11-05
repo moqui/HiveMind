@@ -13,7 +13,7 @@ mantle-usl 1.1.0, and SimpleScreens 1.1.0. It also uses the
 moqui-elasticsearch (1.0.0) and moqui-fop (1.0.0) tool components.
 
 This release includes various improvements from SimpleScreens and updates
-for the various changes in Moqui Framework 2.0.0.
+for the new features and improvements in Moqui Framework 2.0.0.
 
 TODO
 
