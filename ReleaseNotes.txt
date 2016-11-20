@@ -10,12 +10,18 @@ and bug fix release.
 
 This release is based on Moqui Framework version 2.0.0, mantle-udm 1.1.0,
 mantle-usl 1.1.0, and SimpleScreens 1.1.0. It also uses the
-moqui-elasticsearch (1.0.0) and moqui-fop (1.0.0) tool components.
+moqui-elasticsearch 1.0.0 and moqui-fop 1.0.0 tool components.
 
 This release includes various improvements from SimpleScreens and updates
 for the new features and improvements in Moqui Framework 2.0.0.
 
-TODO
+There are various layout improvements and use of new form-list features for
+saved finds, column selection, and CSV export.
+
+Based on Mantle changes there is now support for work types separate from
+position classes for rate calculations, etc. There are a few fixes for
+milestone date filters, searching, remaining hours display, and admin task
+editing.
 
 ===========================================================================
 Release 1.1.5 - 26 Mar 2016
