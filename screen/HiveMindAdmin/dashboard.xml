@@ -212,7 +212,7 @@ along with this software (see the LICENSE.md file). If not, see
                                             <section name="TimeBudgetStats" condition="project.totalTimeAllowed"><widgets>
                                                 <container-row>
                                                     <row-col sm="4"><label text="Budget ${ec.l10n.format(project.totalTimeAllowed, '#.#')} hrs" type="strong"/></row-col>
-                                                    <row-col sm="4"><label text="Act Bgt Rem ${ec.l10n.format(project.totalTimeAllowed - project.actualWorkTime, '#.#')} hrs" type="strong" style="text-info"/></row-col>
+                                                    <row-col sm="4"><label text="Act Bgt Rem ${ec.l10n.format(project.totalTimeAllowed - (project.actualWorkTime?:0), '#.#')} hrs" type="strong" style="text-info"/></row-col>
                                                     <row-col sm="4"><label text="Est Bgt Rem ${ec.l10n.format(project.totalTimeAllowed - pstats.actualPlusRemainingTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverTimeBudget ? 'text-danger' : 'text-success'}"/></row-col>
                                                 </container-row>
                                             </widgets></section>
