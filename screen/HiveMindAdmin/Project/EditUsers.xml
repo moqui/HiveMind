@@ -79,16 +79,18 @@ along with this software (see the LICENSE.md file). If not, see
                 <field name="fromDate" from="ec.user.nowTimestamp"><default-field><date-time/></default-field></field>
                 <field name="thruDate"><default-field><date-time/></default-field></field>
 
-                <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/>
-                    <default-field><drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">
+                <field name="expectationEnumId">
+                    <default-field title="Expectation"><drop-down allow-empty="true"><entity-options key="${enumId}" text="${description}">
                         <entity-find entity-name="Enumeration">
                             <econdition field-name="enumTypeId" value="WorkEffortPartyExpectation"/>
                             <order-by field-name="description"/>
                         </entity-find>
                     </entity-options></drop-down></default-field>
                 </field>
-                <field name="emplPositionClassId"><header-field title="Position Class" show-order-by="true"/>
-                    <default-field><drop-down allow-empty="true"><entity-options key="${emplPositionClassId}" text="${title}">
+                <field name="emplPositionClassId">
+                    <default-field title="Position Class"><drop-down allow-empty="true"><entity-options
+                            key="${emplPositionClassId}"
+                                                                                  text="${title}">
                         <entity-find entity-name="EmplPositionClass"/></entity-options></drop-down></default-field>
                 </field>
                 <field name="statusId"><default-field title="Status">
