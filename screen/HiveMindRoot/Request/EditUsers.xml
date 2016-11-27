@@ -87,9 +87,9 @@ along with this software (see the LICENSE.md file). If not, see
 
             <field name="username"><header-field show-order-by="case-insensitive"/>
                 <default-field><link url="editUser" text="${username}" link-type="anchor" condition="username"/></default-field></field>
-            <field name="firstName"><header-field title="First" show-order-by="case-insensitive"/>
+            <field name="firstName"><header-field title="First##Name" show-order-by="case-insensitive"/>
                 <default-field><display also-hidden="false"/></default-field></field>
-            <field name="lastName"><header-field title="Last" show-order-by="case-insensitive"/>
+            <field name="lastName"><header-field title="Last##Name" show-order-by="case-insensitive"/>
                 <default-field><display also-hidden="false"/></default-field></field>
             <field name="organizationName"><header-field title="Organization" show-order-by="case-insensitive"/><default-field>
                 <display also-hidden="false"/></default-field></field>
