@@ -83,11 +83,11 @@ along with this software (see the LICENSE.md file). If not, see
         <form-list name="UpdateUserRelForm" list="pfarList" transition="updateRelationship">
             <field name="partyId" from="clientPartyId"><default-field><hidden/></default-field></field>
             <field name="partyRelationshipId"><default-field><hidden/></default-field></field>
-            <field name="firstName"><header-field title="First" show-order-by="case-insensitive"/><default-field>
+            <field name="firstName"><header-field title="First##Name" show-order-by="case-insensitive"/><default-field>
                 <link url="editUser" text="${firstName}" link-type="anchor">
                     <parameter name="partyId" from="fromPartyId"/></link>
             </default-field></field>
-            <field name="lastName"><header-field title="Last" show-order-by="case-insensitive"/><default-field>
+            <field name="lastName"><header-field title="Last##Name" show-order-by="case-insensitive"/><default-field>
                 <link url="editUser" text="${lastName}" link-type="anchor">
                     <parameter name="partyId" from="fromPartyId"/></link>
             </default-field></field>
