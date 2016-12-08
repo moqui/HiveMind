@@ -176,7 +176,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <field name="queryString" from="ec.web.parameters.queryString">
                         <default-field title="Text Search"><text-line size="80"/></default-field></field>
                     <field name="rootWorkEffortId"><default-field title="Project">
-                        <drop-down allow-empty="true" style="chosen-wide">
+                        <drop-down allow-empty="true">
                             <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
                                 <entity-find entity-name="WorkEffortAndParty">
                                     <date-filter/>
@@ -187,7 +187,7 @@ along with this software (see the LICENSE.md file). If not, see
                         </drop-down>
                     </default-field></field>
                     <field name="milestoneWorkEffortId"><default-field title="Milestone">
-                        <drop-down style="chosen-wide">
+                        <drop-down>
                             <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
@@ -244,11 +244,11 @@ along with this software (see the LICENSE.md file). If not, see
 
             <container-dialog id="NewTaskContainer" button-text="New Task">
                 <form-single name="NewTaskForm" transition="createTask">
-                    <field name="rootWorkEffortId"><default-field title="Project"><drop-down style="chosen-wide">
+                    <field name="rootWorkEffortId"><default-field title="Project"><drop-down>
                         <list-options list="myProjectList" key="${workEffortId}" text="WorkEffortNameTemplate"/>
                     </drop-down></default-field></field>
                     <field name="milestoneWorkEffortId"><default-field title="Milestone">
-                        <drop-down style="chosen-wide">
+                        <drop-down>
                             <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
@@ -257,14 +257,14 @@ along with this software (see the LICENSE.md file). If not, see
                         <text-line ac-transition="getTaskList" ac-min-length="2" size="50">
                             <depends-on field="rootWorkEffortId"/></text-line>
                         <!--
-                        <drop-down style="chosen-wider">
+                        <drop-down>
                             <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
                         -->
                     </default-field></field>
                     <field name="assignToPartyId"><default-field title="Assign To">
-                        <drop-down no-current-selected-key="${ec.user.userAccount.partyId}" current="selected" allow-empty="true"  style="chosen-wide">
+                        <drop-down no-current-selected-key="${ec.user.userAccount.partyId}" current="selected" allow-empty="true">
                             <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
