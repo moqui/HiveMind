@@ -21,20 +21,11 @@ along with this software (see the LICENSE.md file). If not, see
     </actions>
     <widgets>
         <container id="dashboard-wiki-section">
-            <container id="dashboard-wiki-title"><label text="Wiki Spaces" type="h3"/></container>
-            <section-iterate name="WikiSpaces" list="wikiSpaceAndUserList" entry="wikiSpace">
-                <widgets><container>
+            <container-box><box-header><label text="Wiki Spaces" type="h5"/></box-header><box-body>
+                <section-iterate name="WikiSpaces" list="wikiSpaceAndUserList" entry="wikiSpace"><widgets><container>
                     <link text="${wikiSpace.wikiSpaceId}: ${wikiSpace.description}" url="wiki/${wikiSpace.wikiSpaceId}" url-type="plain" link-type="anchor"/>
-                </container></widgets>
-            </section-iterate>
-            <!--
-            <form-list name="WikiSpaces" list="wikiSpaceAndUserList" skip-start="true" skip-end="true">
-                <field name="viewLink"><default-field title="Space">
-                    <link text="${wikiSpaceId}" url="wiki/${wikiSpaceId}" url-type="plain"/>
-                </default-field></field>
-                <field name="description"><default-field><display/></default-field></field>
-            </form-list>
-            -->
+                </container></widgets></section-iterate>
+            </box-body></container-box>
         </container>
     </widgets>
 </screen>

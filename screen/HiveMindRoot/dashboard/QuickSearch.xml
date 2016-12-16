@@ -47,11 +47,11 @@ along with this software (see the LICENSE.md file). If not, see
 
     <widgets>
         <container id="dashboard-search-section">
-            <label text="Quick Search" type="h3"/>
-            <render-mode>
-                <!-- TODO: for vuejs branch change to m-script and from window.open() to webrootVue.goto() -->
-                <text type="html"><![CDATA[
-    <input type="text" size="20" id="SearchBox" class="form-control typeahead">
+            <container-box><box-header><label text="Quick Search" type="h5"/></box-header><box-body>
+                <render-mode>
+                    <!-- TODO: for vuejs branch change to m-script and from window.open() to webrootVue.goto() -->
+                    <text type="html"><![CDATA[
+    <input type="text" size="19" id="SearchBox" class="form-control typeahead">
     <script>
         $("#SearchBox").typeahead({ minLength:2, highlight:true, hint:false }, { limit:20, display: function(item) { return item.label; },
             source: function(query, syncResults, asyncResults) { $.ajax({
@@ -63,8 +63,9 @@ along with this software (see the LICENSE.md file). If not, see
         $("#SearchBox").focus();
     </script>
                 ]]></text>
-            </render-mode>
-            <container><link url="search" text="Full Search" link-type="anchor"/></container>
+                </render-mode>
+                <container><link url="search" text="Full Search" link-type="anchor"/></container>
+            </box-body></container-box>
         </container>
     </widgets>
 </screen>

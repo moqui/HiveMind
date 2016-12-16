@@ -67,39 +67,40 @@ along with this software (see the LICENSE.md file). If not, see
     </actions>
     <widgets>
         <container id="dashboard-tasks-section">
-            <label text="My Open Tasks" type="h3"/>
-            <dynamic-dialog id="MyProjectsContainer" button-text="My Projects" transition="myProjects"/>
-            <dynamic-dialog id="MyMilestonesContainer" button-text="My Milestones" transition="myMilestones"/>
-            <link url="findTask" text="Find Task"/>
-            <container-dialog id="NewTaskContainer" button-text="New Task">
-                <form-single name="NewTaskForm" transition="createTask"
-                        extends="component://HiveMind/screen/HiveMindRoot/Task/FindTask.xml#NewTaskForm">
-                </form-single>
-            </container-dialog>
-
-            <form-list name="MyTasks" list="myTaskList">
-                <field name="priority"><default-field title="Pri"><display/></default-field></field>
-                <field name="workEffortId"><default-field title="Task">
-                    <link text="WorkEffortNameTemplate" url="editTask" link-type="anchor"/>
-                </default-field></field>
-                <field name="rootWorkEffortId">
-                    <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}" link-type="anchor">
-                        <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
-                </field>
-                <field name="milestoneWorkEffortId"><default-field title="Milestone">
-                    <link text="${milestoneWorkEffortId?:''}" url="milestoneSummary" link-type="anchor"/>
-                </default-field></field>
-                <field name="purposeEnumId">
-                    <default-field title="Purpose"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
-                </field>
-                <field name="statusId">
-                    <default-field title="Status"><display-entity entity-name="StatusItem" text="${description}"/></default-field>
-                </field>
-                <field name="estimatedCompletionDate"><default-field title="Due"><display format="yyyy-MM-dd"/></default-field></field>
-                <field name="estimatedWorkTime"><default-field title="Est"><display format="0.00"/></default-field></field>
-                <field name="remainingWorkTime"><default-field title="Rem"><display format="0.00"/></default-field></field>
-                <field name="actualWorkTime"><default-field title="Act"><display format="0.00"/></default-field></field>
-            </form-list>
+            <container-box><box-header><label text="My Open Tasks" type="h5"/></box-header><box-toolbar>
+                <dynamic-dialog id="MyProjectsContainer" button-text="My Projects" transition="myProjects"/>
+                <dynamic-dialog id="MyMilestonesContainer" button-text="My Milestones" transition="myMilestones"/>
+                <link url="findTask" text="Find Task"/>
+                <container-dialog id="NewTaskContainer" button-text="New Task">
+                    <form-single name="NewTaskForm" transition="createTask"
+                                 extends="component://HiveMind/screen/HiveMindRoot/Task/FindTask.xml#NewTaskForm">
+                    </form-single>
+                </container-dialog>
+            </box-toolbar><box-body>
+                <form-list name="MyTasks" list="myTaskList">
+                    <field name="priority"><default-field title="Pri"><display/></default-field></field>
+                    <field name="workEffortId"><default-field title="Task">
+                        <link text="WorkEffortNameTemplate" url="editTask" link-type="anchor"/>
+                    </default-field></field>
+                    <field name="rootWorkEffortId">
+                        <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}" link-type="anchor">
+                            <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
+                    </field>
+                    <field name="milestoneWorkEffortId"><default-field title="Milestone">
+                        <link text="${milestoneWorkEffortId?:''}" url="milestoneSummary" link-type="anchor"/>
+                    </default-field></field>
+                    <field name="purposeEnumId">
+                        <default-field title="Purpose"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
+                    </field>
+                    <field name="statusId">
+                        <default-field title="Status"><display-entity entity-name="StatusItem" text="${description}"/></default-field>
+                    </field>
+                    <field name="estimatedCompletionDate"><default-field title="Due"><display format="yyyy-MM-dd"/></default-field></field>
+                    <field name="estimatedWorkTime"><default-field title="Est"><display format="0.00"/></default-field></field>
+                    <field name="remainingWorkTime"><default-field title="Rem"><display format="0.00"/></default-field></field>
+                    <field name="actualWorkTime"><default-field title="Act"><display format="0.00"/></default-field></field>
+                </form-list>
+            </box-body></container-box>
         </container>
     </widgets>
 </screen>

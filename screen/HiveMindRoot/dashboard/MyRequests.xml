@@ -41,39 +41,40 @@ along with this software (see the LICENSE.md file). If not, see
     </actions>
     <widgets>
         <container id="dashboard-requests-section">
-            <label text="My Open Requests" type="h3"/>
-            <link url="findRequest" text="Find Request"/>
-            <container-dialog id="NewRequestContainer" button-text="New Request">
-                <form-single name="NewRequest" transition="createRequest"
-                        extends="component://HiveMind/screen/HiveMindRoot/Request/FindRequest.xml#NewRequestForm">
-                </form-single>
-            </container-dialog>
-
-            <form-list name="MyRequests" list="myRequestList">
-                <row-actions>
-                    <entity-find entity-name="mantle.request.RequestParty" list="clientRpList">
-                        <date-filter/><econdition field-name="requestId"/>
-                        <econdition field-name="roleTypeId" value="CustomerBillTo"/>
-                    </entity-find>
-                    <set field="clientRp" from="clientRpList?.getAt(0)"/>
-                </row-actions>
-                <field name="priority"><default-field><display also-hidden="false"/></default-field></field>
-                <field name="requestId">
-                    <default-field title="Request"><link url="editRequest" text="RequestNameTemplate" link-type="anchor"/></default-field>
-                </field>
-                <field name="clientPartyId" from="clientRp?.partyId"><default-field title="Client">
-                    <display-entity entity-name="mantle.party.PartyDetail" text="PartyNameTemplate"/>
-                </default-field></field>
-                <field name="requestTypeEnumId">
-                    <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
-                </field>
-                <field name="statusId">
-                    <default-field title="Status"><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
-                </field>
-                <field name="requestResolutionEnumId">
-                    <default-field title="Resolution"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
-                </field>
-            </form-list>
+            <container-box><box-header><label text="My Open Requests" type="h5"/></box-header><box-toolbar>
+                <link url="findRequest" text="Find Request"/>
+                <container-dialog id="NewRequestContainer" button-text="New Request">
+                    <form-single name="NewRequest" transition="createRequest"
+                                 extends="component://HiveMind/screen/HiveMindRoot/Request/FindRequest.xml#NewRequestForm">
+                    </form-single>
+                </container-dialog>
+            </box-toolbar><box-body>
+                <form-list name="MyRequests" list="myRequestList">
+                    <row-actions>
+                        <entity-find entity-name="mantle.request.RequestParty" list="clientRpList">
+                            <date-filter/><econdition field-name="requestId"/>
+                            <econdition field-name="roleTypeId" value="CustomerBillTo"/>
+                        </entity-find>
+                        <set field="clientRp" from="clientRpList?.getAt(0)"/>
+                    </row-actions>
+                    <field name="priority"><default-field><display also-hidden="false"/></default-field></field>
+                    <field name="requestId">
+                        <default-field title="Request"><link url="editRequest" text="RequestNameTemplate" link-type="anchor"/></default-field>
+                    </field>
+                    <field name="clientPartyId" from="clientRp?.partyId"><default-field title="Client">
+                        <display-entity entity-name="mantle.party.PartyDetail" text="PartyNameTemplate"/>
+                    </default-field></field>
+                    <field name="requestTypeEnumId">
+                        <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
+                    </field>
+                    <field name="statusId">
+                        <default-field title="Status"><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
+                    </field>
+                    <field name="requestResolutionEnumId">
+                        <default-field title="Resolution"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
+                    </field>
+                </form-list>
+            </box-body></container-box>
         </container>
     </widgets>
 </screen>
