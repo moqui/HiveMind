@@ -49,16 +49,17 @@ along with this software (see the LICENSE.md file). If not, see
         <container id="dashboard-search-section">
             <label text="Quick Search" type="h3"/>
             <render-mode>
+                <!-- TODO: for vuejs branch change to m-script and from window.open() to webrootVue.goto() -->
                 <text type="html"><![CDATA[
-    <input type="text" size="20" id="SearchBox">
+    <input type="text" size="20" id="SearchBox" class="form-control typeahead">
     <script>
-        $("#SearchBox").autocomplete({
-            source: function(request, response) { $.ajax({
-                url: "${sri.screenUrlInstance.url}/getSearchOptions", type: "POST", dataType: "json", data: { term: request.term, moquiSessionToken:"${ec.web.sessionToken}" },
-                success: function(data) { response($.map(data, function(item) { return { label: item.label, value: item.value, urlToOpen: item.urlToOpen } })); }
-            }); }, minLength: 3,
-            select: function(event, ui) { if (ui.item) { this.value = ui.item.value; window.open(ui.item.urlToOpen, "_self"); } }
+        $("#SearchBox").typeahead({ minLength:2, highlight:true, hint:false }, { limit:20, display: function(item) { return item.label; },
+            source: function(query, syncResults, asyncResults) { $.ajax({
+                url: "${sri.screenUrlInstance.url}/getSearchOptions", type: "POST", dataType: "json", data: { term:query, moquiSessionToken:"${ec.web.sessionToken}" },
+                success: function(data) { asyncResults($.map(data, function(item) { return { label:item.label, value:item.value, urlToOpen:item.urlToOpen } })); }
+            }); }
         });
+        $("#SearchBox").bind('typeahead:select', function(event, item) { if (item) { window.open(item.urlToOpen, "_self"); } });
         $("#SearchBox").focus();
     </script>
                 ]]></text>
