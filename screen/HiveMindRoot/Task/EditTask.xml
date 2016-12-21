@@ -74,7 +74,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <link text="Edit ${parentWorkEffortId}" url="taskSummary" link-type="anchor" condition="parentWorkEffortId">
                     <parameter name="workEffortId" from="parentWorkEffortId"/></link>
             </default-field></field>
-            <field name="workEffortName"><default-field title="Task Name"><text-line/></default-field></field>
+            <field name="workEffortName"><default-field title="Task Name"><text-line size="60"/></default-field></field>
             <field name="priority"><default-field>
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
             </default-field></field>
