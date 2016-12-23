@@ -24,10 +24,6 @@ along with this software (see the LICENSE.md file). If not, see
         <error-response url="." parameter-map="[pagePath:pagePath, parentPath:parentPath, pageName:pageName, wikiType:wikiType, isCreate:isCreate]"/>
     </transition>
 
-    <pre-actions>
-        <script>html_stylesheets.add('/hmstatic/lib/simplemde/simplemde.min.css')</script>
-        <script>html_scripts.add('/hmstatic/lib/simplemde/simplemde.min.js')</script>
-    </pre-actions>
     <actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
         <if condition="!isCreate || isCreate == 'false'">
@@ -44,7 +40,6 @@ along with this software (see the LICENSE.md file). If not, see
 
         <set field="wikiType" from="wikiType ?: 'md'"/>
 
-        <script>if (wikiType == 'md') sri.appendToScriptWriter("""var simplemde = new SimpleMDE({ element: document.getElementById("EditPageForm_pageText"), indentWithTabs: false, autoDownloadFontAwesome: false, autofocus: true, spellChecker: false });""")</script>
     </actions>
     <widgets>
         <container>
@@ -59,11 +54,11 @@ along with this software (see the LICENSE.md file). If not, see
             </conditional-field></field>
             <field name="pageName">
                 <conditional-field condition="isRootPage"><hidden/></conditional-field>
-                <default-field><text-line size="40"/></default-field>
+                <default-field><text-line size="30"/></default-field>
             </field>
             <field name="wikiType"><default-field><display/></default-field></field>
             <field name="pageText">
-                <default-field title=""><text-area cols="130" rows="30"/></default-field></field>
+                <default-field title=""><text-area cols="120" rows="35"/></default-field></field>
             <field name="submitButton">
                 <conditional-field condition="isCreate" title="Create Page"><submit/></conditional-field>
                 <default-field title="Update Page"><submit/></default-field>
@@ -75,12 +70,18 @@ along with this software (see the LICENSE.md file). If not, see
                 <link text="Syntax Reference" url-type="plain" url="http://daringfireball.net/projects/markdown/syntax" link-type="anchor" condition="wikiType == 'md'" target-window="_blank"/>
             </default-field></field> -->
             <field-layout>
-                <field-ref name="parentPath"/>
-                <field-row><field-ref name="pageName"/><field-ref name="wikiType"/></field-row>
+                <field-row-big><field-ref name="parentPath"/><field-ref name="pageName"/><field-ref name="wikiType"/>
+                    <field-ref name="submitButton"/><field-ref name="cancelButton"/></field-row-big>
                 <field-row-big><field-ref name="pageText"/></field-row-big>
-                <field-row><field-ref name="submitButton"/><field-ref name="cancelButton"/></field-row>
                 <!-- <field-ref name="syntaxLink"/> -->
             </field-layout>
         </form-single>
+        <section name="SimpleMdeSection" condition="wikiType == 'md'"><widgets>
+            <render-mode><text type="html,vuet"><![CDATA[
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css" type="text/css"/>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js" type="text/javascript"></script>
+                <script>new SimpleMDE({ element: document.getElementById("EditPageForm_pageText"), indentWithTabs: false, autoDownloadFontAwesome: false, autofocus: true, spellChecker: false });</script>
+            ]]></text></render-mode>
+        </widgets></section>
     </widgets>
 </screen>

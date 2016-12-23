@@ -27,42 +27,36 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="editTask"><default-response url="../Task/TaskSummary"/></transition>
     <transition name="editRequest"><default-response url="../Request/EditRequest"/></transition>
 
-    <transition name="uploadAttachment">
-        <actions>
-            <set field="filename" from="attachmentFile.getName()"/>
-            <service-call name="org.moqui.impl.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
-            <script><![CDATA[
-                import org.moqui.resource.ResourceReference
-                org.moqui.context.ExecutionContext ec = context.ec
-                org.apache.commons.fileupload.FileItem attachmentFile = context.attachmentFile
-                ec.logger.info("Uploading file [${filename}] for page [${pagePath}] in space [${wikiSpaceId}]")
+    <transition name="uploadAttachment"><actions>
+        <set field="filename" from="attachmentFile.getName()"/>
+        <service-call name="org.moqui.impl.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
+        <script><![CDATA[
+            import org.moqui.resource.ResourceReference
+            org.moqui.context.ExecutionContext ec = context.ec
+            org.apache.commons.fileupload.FileItem attachmentFile = context.attachmentFile
+            ec.logger.info("Uploading file [${filename}] for page [${pagePath}] in space [${wikiSpaceId}]")
 
-                InputStream fileStream = attachmentFile.getInputStream()
-                attachmentReference.putStream(fileStream)
-                fileStream.close()
-            ]]></script>
-        </actions>
-        <default-response url="."/>
-    </transition>
-    <transition name="downloadAttachment">
-        <actions>
-            <service-call name="org.moqui.impl.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
-            <script><![CDATA[
-                import org.moqui.resource.ResourceReference
-                org.moqui.context.ExecutionContext ec = context.ec
+            InputStream fileStream = attachmentFile.getInputStream()
+            attachmentReference.putStream(fileStream)
+            fileStream.close()
+        ]]></script>
+    </actions><default-response url="."/></transition>
+    <transition name="downloadAttachment"><actions>
+        <service-call name="org.moqui.impl.WikiServices.get#WikiPageAttachment" in-map="context" out-map="context"/>
+        <script><![CDATA[
+            import org.moqui.resource.ResourceReference
+            org.moqui.context.ExecutionContext ec = context.ec
 
-                ec.web.response.setContentType(attachmentReference.contentType)
-                InputStream is = attachmentReference.openStream()
-                OutputStream os = ec.web.response.outputStream
-                int totalLen = copyStream(is, os)
-                is.close()
-                os.close()
+            ec.web.response.setContentType(attachmentReference.contentType)
+            InputStream is = attachmentReference.openStream()
+            OutputStream os = ec.web.response.outputStream
+            int totalLen = copyStream(is, os)
+            is.close()
+            os.close()
 
-                ec.logger.info("Streamed ${totalLen} bytes from attachment ${attachmentReference}")
-            ]]></script>
-        </actions>
-        <default-response type="none"/>
-    </transition>
+            ec.logger.info("Streamed ${totalLen} bytes from attachment ${attachmentReference}")
+        ]]></script>
+    </actions><default-response type="none"/></transition>
 
     <transition name="wikiCommentReply"><default-response url="WikiCommentReply"/></transition>
     <transition name="addComment"><service-call name="mantle.party.CommunicationServices.add#WikiPageComment"/>
@@ -99,7 +93,6 @@ along with this software (see the LICENSE.md file). If not, see
     
     <actions>
         <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenPathUrl() + '/' + wikiSpaceId"/>
-
         <!-- this is only used for the WikiPageTree.ftl file, not needed otherwise: -->
         <!-- <service-call name="org.moqui.impl.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/> -->
 
@@ -109,292 +102,225 @@ along with this software (see the LICENSE.md file). If not, see
     </actions>
 
     <widgets>
-        <container-panel id="wiki-view">
-            <panel-left size="280">
-                <link text="${wikiSpace?.description?:'Space Root'}" url="${baseLinkUrl}" url-type="plain" link-type="anchor"/>
-                <!-- using fancy expanding tree instead of flat list:
-                <container id="wiki-page-list">
-                    <section-iterate name="PageList" list="allChildFileFlatList" entry="childFile">
-                        <widgets>
-                            <container>
-                                <link text="${childFile.path ?: childFile.name}" url="${baseLinkUrl}/${childFile.path}" url-type="plain"/>
-                            </container>
-                        </widgets>
-                    </section-iterate>
-                </container>
-                -->
-                <tree name="SpacePageTree" open-path="${pagePath}">
-                    <parameter name="wikiSpaceId"/>
-                    <tree-node name="WikiPageNode">
-                        <actions>
-                            <script>
-                            // In this case the tree-sub-node.list is a List of ResourceReference
-                            // The fileName minus the extension is effectively the ID of a page, with the IDs of the
-                            //     parents separated by a forward slash for the full path ID just in case there is more
-                            //     than one page with that filename
-                            curFileName = nodeList_entry.getFileName()
-                            if (curFileName.contains(".")) curFileName = curFileName.substring(0, curFileName.indexOf('.'))
-                            </script>
-                            <set field="newIdPath" value="${treeNodeId == '#' ? '' : treeNodeId + '/'}${curFileName}"/>
-                        </actions>
-
-                        <link text="${curFileName}" url="/apps/hm/wiki/${wikiSpaceId}/${newIdPath}"
-                                url-noparam="true" id="${newIdPath}"/>
-
-                        <tree-sub-node node-name="WikiPageNode" list="childPageList"><actions>
-                            <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" out-map="curPageInfo"
-                                    in-map="[wikiSpaceId:wikiSpaceId, pagePath:treeNodeId]"/>
-                            <set field="childPageList" from="curPageInfo?.pageReference.getChildren()"/>
-                        </actions></tree-sub-node>
-                    </tree-node>
-                    <tree-sub-node node-name="WikiPageNode" list="topPageList"><actions>
-                        <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" out-map="rootPageInfo"
-                                in-map="[wikiSpaceId:wikiSpaceId]"/>
-                        <set field="topPageList" from="rootPageInfo.pageReference.getChildren()"/>
-                        <!-- <log level="warn" message="============ wikiSpaceId=${wikiSpaceId}; topPageList=${topPageList}"/> -->
-                    </actions></tree-sub-node>
-                </tree>
-                <!-- removedin favor of tree above:
-                <render-mode><text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/></render-mode>
-                -->
-
-                <container-box>
-                    <box-header><label text="Attachments" type="h5"/></box-header>
-                    <box-toolbar>
-                        <container-dialog id="UploadAttachmentDialog" button-text="Upload">
-                            <form-single name="UploadAttachment" transition="uploadAttachment">
-                                <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
-                                <field name="pagePath"><default-field><hidden/></default-field></field>
-                                <field name="attachmentFile"><default-field><file/></default-field></field>
-                                <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
-                            </form-single>
-                        </container-dialog>
-                    </box-toolbar>
-                    <box-body>
-                        <section-iterate name="AttachmentList" list="attachmentList" entry="attachment">
-                            <widgets>
-                                <link url="downloadAttachment" text="${attachment.filename}" link-type="hidden-form-link">
-                                    <parameter name="wikiSpaceId" from="attachment.wikiSpaceId"/>
-                                    <parameter name="pagePath" from="attachment.pagePath"/>
-                                    <parameter name="filename" from="attachment.filename"/>
-                                </link>
-                                <container>
-                                    <label text="${attachment.contentType} - ${ec.l10n.format(new Timestamp(attachment.lastModified), 'yyyy-MM-dd HH:mm')}" type="p"/>
-                                </container>
-                                <!-- TODO: add delete link; maybe just move to a _trash directory? -->
-                            </widgets>
-                        </section-iterate>
-                    </box-body>
-                </container-box>
-
-                <section name="PageRelatedSection">
-                    <condition><expression>wikiPageId</expression></condition>
+        <container-panel id="wiki-view"><panel-left size="280">
+            <link text="${wikiSpace?.description?:'Space Root'}" url="${baseLinkUrl}" url-type="plain" link-type="anchor"/>
+            <!-- using fancy expanding tree instead of flat list:
+            <container id="wiki-page-list">
+                <section-iterate name="PageList" list="allChildFileFlatList" entry="childFile"><widgets>
+                    <container><link text="${childFile.path ?: childFile.name}" url="${baseLinkUrl}/${childFile.path}" url-type="plain"/></container>
+                </widgets></section-iterate>
+            </container>
+            -->
+            <tree name="SpacePageTree" open-path="${pagePath}">
+                <parameter name="wikiSpaceId"/>
+                <tree-node name="WikiPageNode">
                     <actions>
-                        <entity-find entity-name="mantle.request.WikiPageAndRequest" list="wparList">
-                            <econdition field-name="wikiPageId"/></entity-find>
-
-                        <entity-find entity-name="mantle.work.effort.WikiPageAndWorkEffort" list="wpaweList">
-                            <econdition field-name="wikiPageId"/></entity-find>
-                        <filter-map-list list="wpaweList" to-list="projectWpaweList">
-                            <field-map field-name="workEffortTypeEnumId" value="WetProject"/></filter-map-list>
-                        <filter-map-list list="wpaweList" to-list="taskWpaweList">
-                            <field-map field-name="workEffortTypeEnumId" value="WetTask"/></filter-map-list>
-
-                        <entity-find entity-name="mantle.request.WikiPageAndRequest" list="wparList">
-                            <econdition field-name="wikiPageId"/></entity-find>
-
-                        <entity-find entity-name="moqui.resource.wiki.WikiPageHistory" list="wphList">
-                            <econdition field-name="wikiPageId"/><order-by field-name="-changeDateTime"/></entity-find>
+                        <script>
+                        // In this case the tree-sub-node.list is a List of ResourceReference
+                        // The fileName minus the extension is effectively the ID of a page, with the IDs of the
+                        //     parents separated by a forward slash for the full path ID just in case there is more
+                        //     than one page with that filename
+                        curFileName = nodeList_entry.getFileName()
+                        if (curFileName.contains(".")) curFileName = curFileName.substring(0, curFileName.indexOf('.'))
+                        </script>
+                        <set field="newIdPath" value="${treeNodeId == '#' ? '' : treeNodeId + '/'}${curFileName}"/>
                     </actions>
-                    <widgets>
-                        <section name="ProjectSection">
-                            <condition><expression>projectWpaweList</expression></condition>
-                            <widgets>
-                                <container-box>
-                                    <box-header><label text="Page Projects" type="h5"/></box-header>
-                                    <box-body>
-                                        <section-iterate name="ProjectItemSection" list="projectWpaweList" entry="projectWpawe">
-                                            <widgets>
-                                                <link url="projectSummary" text="${projectWpawe.workEffortId} - ${projectWpawe.workEffortName}" link-type="anchor">
-                                                    <parameter name="rootWorkEffortId" from="projectWpawe.workEffortId"/>
-                                                </link>
-                                            </widgets>
-                                        </section-iterate>
-                                    </box-body>
-                                </container-box>
-                            </widgets>
-                        </section>
-                        <section name="TaskSection">
-                            <condition><expression>taskWpaweList</expression></condition>
-                            <widgets>
-                                <container-box>
-                                    <box-header><label text="Page Tasks" type="h5"/></box-header>
-                                    <box-body>
-                                        <section-iterate name="TaskItemSection" list="taskWpaweList" entry="taskWpawe">
-                                            <actions>
-                                                <entity-find-one entity-name="moqui.basic.StatusItem" value-field="taskStatusItem" cache="true">
-                                                    <field-map field-name="statusId" from="taskWpawe.statusId"/>
-                                                </entity-find-one>
-                                                <entity-find-one entity-name="moqui.basic.Enumeration" value-field="taskPurposeEnum" cache="true">
-                                                    <field-map field-name="enumId" from="taskWpawe.purposeEnumId"/>
-                                                </entity-find-one>
-                                            </actions>
-                                            <widgets>
-                                                <link url="editTask" text="${taskWpawe.workEffortId} - ${taskWpawe.workEffortName}" link-type="anchor">
-                                                    <parameter name="workEffortId" from="taskWpawe.workEffortId"/>
-                                                </link>
-                                                <label text="P: ${taskPurposeEnum.description} - S: ${taskStatusItem.description} - P: ${taskWpawe.priority?:''}" type="p"/>
-                                            </widgets>
-                                        </section-iterate>
-                                    </box-body>
-                                </container-box>
-                            </widgets>
-                        </section>
-                        <section name="RequestSection">
-                            <condition><expression>wparList</expression></condition>
-                            <widgets>
-                                <container-box>
-                                    <box-header><label text="Page Requests" type="h5"/></box-header>
-                                    <box-body>
-                                        <section-iterate name="RequestItemSection" list="wparList" entry="wpar">
-                                            <actions>
-                                                <entity-find-one entity-name="moqui.basic.StatusItem" value-field="requestStatusItem" cache="true">
-                                                    <field-map field-name="statusId" from="wpar.statusId"/>
-                                                </entity-find-one>
-                                                <entity-find-one entity-name="moqui.basic.Enumeration" value-field="requestTypeEnum" cache="true">
-                                                    <field-map field-name="enumId" from="wpar.requestTypeEnumId"/>
-                                                </entity-find-one>
-                                            </actions>
-                                            <widgets>
-                                                <link url="editRequest" text="${wpar.requestId} - ${wpar.requestName}" link-type="anchor">
-                                                    <parameter name="requestId" from="wpar.requestId"/>
-                                                </link>
-                                                <label text="T: ${requestTypeEnum.description} - S: ${requestStatusItem.description} - P: ${wpar.priority?:''}" type="p"/>
-                                            </widgets>
-                                        </section-iterate>
-                                    </box-body>
-                                </container-box>
-                            </widgets>
-                        </section>
 
-                        <container-box>
-                            <box-header><label text="Page History" type="h5"/></box-header>
-                            <box-body>
-                                <section-iterate name="HistoryIterateSection" list="wphList" entry="wph">
-                                    <actions>
-                                        <entity-find-one entity-name="mantle.party.PersonAndUserAccount" value-field="paua">
-                                            <field-map field-name="userId" from="wph.userId"/></entity-find-one>
-                                    </actions>
-                                    <widgets>
-                                        <label text="By ${paua?.firstName?:''} ${paua?.lastName?:''} (${paua?.username ?: partyNote.userId}) at ${ec.l10n.format(wph.changeDateTime, 'yyyy-MM-dd HH:mm')}" type="p"/>
-                                    </widgets>
-                                </section-iterate>
-                            </box-body>
-                        </container-box>
+                    <link text="${curFileName}" url="/apps/hm/wiki/${wikiSpaceId}/${newIdPath}"
+                            url-noparam="true" id="${newIdPath}"/>
 
-                    </widgets>
-                </section>
-            </panel-left>
-            <panel-center>
-                <container id="wiki-breadcrumbs">
-                    <link text="${wikiSpace?.description?:'Space Root'}" url="${baseLinkUrl}" url-type="plain" link-type="anchor"/>
-                    <section-iterate name="breadcrumbs" list="breadcrumbMapList" entry="breadcrumbMap">
-                        <widgets>
-                            <label text="/"/>
-                            <link text="${breadcrumbMap.pageName}" url="${baseLinkUrl}/${breadcrumbMap.pagePath}" url-type="plain" link-type="anchor"/>
-                        </widgets>
-                    </section-iterate>
+                    <tree-sub-node node-name="WikiPageNode" list="childPageList"><actions>
+                        <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" out-map="curPageInfo"
+                                in-map="[wikiSpaceId:wikiSpaceId, pagePath:treeNodeId]"/>
+                        <set field="childPageList" from="curPageInfo?.pageReference.getChildren()"/>
+                    </actions></tree-sub-node>
+                </tree-node>
+                <tree-sub-node node-name="WikiPageNode" list="topPageList"><actions>
+                    <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" out-map="rootPageInfo"
+                            in-map="[wikiSpaceId:wikiSpaceId]"/>
+                    <set field="topPageList" from="rootPageInfo.pageReference.getChildren()"/>
+                    <!-- <log level="warn" message="============ wikiSpaceId=${wikiSpaceId}; topPageList=${topPageList}"/> -->
+                </actions></tree-sub-node>
+            </tree>
+            <!-- removedin favor of tree above:
+            <render-mode><text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/></render-mode>
+            -->
+
+            <container-box><box-header><label text="Attachments" type="h5"/></box-header><box-toolbar>
+                <container-dialog id="UploadAttachmentDialog" button-text="Upload">
+                    <form-single name="UploadAttachment" transition="uploadAttachment">
+                        <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
+                        <field name="pagePath"><default-field><hidden/></default-field></field>
+                        <field name="attachmentFile"><default-field><file/></default-field></field>
+                        <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
+                    </form-single>
+                </container-dialog>
+            </box-toolbar><box-body>
+                <section-iterate name="AttachmentList" list="attachmentList" entry="attachment"><widgets>
+                    <link url="downloadAttachment" text="${attachment.filename}" link-type="hidden-form-link">
+                        <parameter name="wikiSpaceId" from="attachment.wikiSpaceId"/>
+                        <parameter name="pagePath" from="attachment.pagePath"/>
+                        <parameter name="filename" from="attachment.filename"/>
+                    </link>
+                    <container>
+                        <label text="${attachment.contentType} - ${ec.l10n.format(new Timestamp(attachment.lastModified), 'yyyy-MM-dd HH:mm')}" type="p"/>
+                    </container>
+                    <!-- TODO: add delete link; maybe just move to a _trash directory? -->
+                </widgets></section-iterate>
+            </box-body></container-box>
+
+            <section name="PageRelatedSection" condition="wikiPageId"><actions>
+                <entity-find entity-name="mantle.request.WikiPageAndRequest" list="wparList">
+                    <econdition field-name="wikiPageId"/></entity-find>
+
+                <entity-find entity-name="mantle.work.effort.WikiPageAndWorkEffort" list="wpaweList">
+                    <econdition field-name="wikiPageId"/></entity-find>
+                <filter-map-list list="wpaweList" to-list="projectWpaweList">
+                    <field-map field-name="workEffortTypeEnumId" value="WetProject"/></filter-map-list>
+                <filter-map-list list="wpaweList" to-list="taskWpaweList">
+                    <field-map field-name="workEffortTypeEnumId" value="WetTask"/></filter-map-list>
+
+                <entity-find entity-name="mantle.request.WikiPageAndRequest" list="wparList">
+                    <econdition field-name="wikiPageId"/></entity-find>
+
+                <entity-find entity-name="moqui.resource.wiki.WikiPageHistory" list="wphList">
+                    <econdition field-name="wikiPageId"/><order-by field-name="-changeDateTime"/></entity-find>
+            </actions><widgets>
+                <section name="ProjectSection" condition="projectWpaweList"><widgets>
+                    <container-box><box-header><label text="Page Projects" type="h5"/></box-header><box-body>
+                        <section-iterate name="ProjectItemSection" list="projectWpaweList" entry="projectWpawe"><widgets>
+                            <link url="projectSummary" text="${projectWpawe.workEffortId} - ${projectWpawe.workEffortName}" link-type="anchor">
+                                <parameter name="rootWorkEffortId" from="projectWpawe.workEffortId"/>
+                            </link>
+                        </widgets></section-iterate>
+                    </box-body></container-box>
+                </widgets></section>
+                <section name="TaskSection" condition="taskWpaweList"><widgets>
+                    <container-box><box-header><label text="Page Tasks" type="h5"/></box-header><box-body>
+                        <section-iterate name="TaskItemSection" list="taskWpaweList" entry="taskWpawe"><actions>
+                            <entity-find-one entity-name="moqui.basic.StatusItem" value-field="taskStatusItem" cache="true">
+                                <field-map field-name="statusId" from="taskWpawe.statusId"/>
+                            </entity-find-one>
+                            <entity-find-one entity-name="moqui.basic.Enumeration" value-field="taskPurposeEnum" cache="true">
+                                <field-map field-name="enumId" from="taskWpawe.purposeEnumId"/>
+                            </entity-find-one>
+                        </actions><widgets>
+                            <link url="editTask" text="${taskWpawe.workEffortId} - ${taskWpawe.workEffortName}" link-type="anchor">
+                                <parameter name="workEffortId" from="taskWpawe.workEffortId"/>
+                            </link>
+                            <label text="P: ${taskPurposeEnum.description} - S: ${taskStatusItem.description} - P: ${taskWpawe.priority?:''}" type="p"/>
+                        </widgets></section-iterate>
+                    </box-body></container-box>
+                </widgets></section>
+                <section name="RequestSection" condition="wparList"><widgets>
+                    <container-box><box-header><label text="Page Requests" type="h5"/></box-header><box-body>
+                        <section-iterate name="RequestItemSection" list="wparList" entry="wpar"><actions>
+                            <entity-find-one entity-name="moqui.basic.StatusItem" value-field="requestStatusItem" cache="true">
+                                <field-map field-name="statusId" from="wpar.statusId"/>
+                            </entity-find-one>
+                            <entity-find-one entity-name="moqui.basic.Enumeration" value-field="requestTypeEnum" cache="true">
+                                <field-map field-name="enumId" from="wpar.requestTypeEnumId"/>
+                            </entity-find-one>
+                        </actions><widgets>
+                            <link url="editRequest" text="${wpar.requestId} - ${wpar.requestName}" link-type="anchor">
+                                <parameter name="requestId" from="wpar.requestId"/>
+                            </link>
+                            <label text="T: ${requestTypeEnum.description} - S: ${requestStatusItem.description} - P: ${wpar.priority?:''}" type="p"/>
+                        </widgets></section-iterate>
+                    </box-body></container-box>
+                </widgets></section>
+
+                <container-box><box-header><label text="Page History" type="h5"/></box-header><box-body>
+                    <section-iterate name="HistoryIterateSection" list="wphList" entry="wph"><actions>
+                        <entity-find-one entity-name="mantle.party.PersonAndUserAccount" value-field="paua">
+                            <field-map field-name="userId" from="wph.userId"/></entity-find-one>
+                    </actions><widgets>
+                        <label text="By ${paua?.firstName?:''} ${paua?.lastName?:''} (${paua?.username ?: partyNote.userId}) at ${ec.l10n.format(wph.changeDateTime, 'yyyy-MM-dd HH:mm')}" type="p"/>
+                    </widgets></section-iterate>
+                </box-body></container-box>
+            </widgets></section>
+        </panel-left><panel-center>
+            <container id="wiki-breadcrumbs">
+                <link text="${wikiSpace?.description?:'Space Root'}" url="${baseLinkUrl}" url-type="plain" link-type="anchor"/>
+                <section-iterate name="breadcrumbs" list="breadcrumbMapList" entry="breadcrumbMap"><widgets>
+                    <label text="/"/>
+                    <link text="${breadcrumbMap.pageName}" url="${baseLinkUrl}/${breadcrumbMap.pagePath}" url-type="plain" link-type="anchor"/>
+                </widgets></section-iterate>
+            </container>
+            <container-box><box-header><label text="${pageName?:'[No Name]'} (${wikiType})" type="h5"/></box-header><box-toolbar>
+                <link text="Edit Page" url="editPage" link-type="anchor-button" icon="glyphicon glyphicon-pencil">
+                    <parameter name="wikiSpaceId"/><parameter name="pagePath"/></link>
+                <container-dialog id="AddPageDialog" button-text="Add Page">
+                    <form-single name="AddPageForm" transition="createPage">
+                        <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
+                        <field name="isCreate"><default-field><hidden default-value="true"/></default-field></field>
+                        <field name="parentPath" from="pagePath"><default-field><display/></default-field></field>
+                        <field name="wikiType"><default-field><drop-down>
+                            <list-options list="ec.resource.getTemplateRendererExtensionSet()"/>
+                        </drop-down></default-field></field>
+                        <field name="submitButton"><default-field title="Add Page"><submit/></default-field></field>
+                    </form-single>
+                </container-dialog>
+                <!--
+                <link text="Add Page" url="createPage" link-type="anchor-button" icon="glyphicon glyphicon-plus">
+                    <parameter name="wikiSpaceId"/><parameter name="parentPath" from="pagePath"/>
+                    <parameter name="isCreate" value="true"/></link>
+                -->
+            </box-toolbar><box-body>
+                <container id="wiki-page-area">
+                    <section name="WikiPageInclude">
+                        <condition><expression>!wikiSpace?.decoratorScreenLocation</expression></condition>
+                        <actions><script>sri.baseLinkUrl(baseLinkUrl)</script></actions>
+                        <widgets><render-mode><text template="true" type="html" location="${pageLocation?:''}"/></render-mode></widgets>
+                        <fail-widgets><include-screen location="${wikiSpace.decoratorScreenLocation}"/></fail-widgets>
+                    </section>
+                    <section name="ResetBaseLink"><actions><script>sri.baseLinkUrl(null)</script></actions><widgets></widgets></section>
                 </container>
-                <container-box>
-                    <box-header><label text="${pageName?:'[No Name]'} (${wikiType})" type="h5"/></box-header>
-                    <box-toolbar>
-                        <link text="Edit Page" url="editPage" link-type="anchor-button" icon="glyphicon glyphicon-pencil">
-                            <parameter name="wikiSpaceId"/><parameter name="pagePath"/></link>
-                        <container-dialog id="AddPageDialog" button-text="Add Page">
-                            <form-single name="AddPageForm" transition="createPage">
-                                <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
-                                <field name="isCreate"><default-field><hidden default-value="true"/></default-field></field>
-                                <field name="parentPath" from="pagePath"><default-field><display/></default-field></field>
-                                <field name="wikiType"><default-field><drop-down>
-                                    <list-options list="ec.resource.getTemplateRendererExtensionSet()"/>
-                                </drop-down></default-field></field>
-                                <field name="submitButton"><default-field title="Add Page"><submit/></default-field></field>
-                            </form-single>
-                        </container-dialog>
-                        <!--
-                        <link text="Add Page" url="createPage" link-type="anchor-button" icon="glyphicon glyphicon-plus">
-                            <parameter name="wikiSpaceId"/><parameter name="parentPath" from="pagePath"/>
-                            <parameter name="isCreate" value="true"/></link>
-                        -->
-                    </box-toolbar>
-                    <box-body>
-                        <container id="wiki-page-area">
-                            <section name="WikiPageInclude">
-                                <condition><expression>!wikiSpace?.decoratorScreenLocation</expression></condition>
-                                <actions><script>sri.baseLinkUrl(baseLinkUrl)</script></actions>
-                                <widgets><render-mode><text template="true" type="html" location="${pageLocation?:''}"/></render-mode></widgets>
-                                <fail-widgets><include-screen location="${wikiSpace.decoratorScreenLocation}"/></fail-widgets>
+                <!-- CONSIDER: figure out a way to make configured space root screen (wikiSpace.decoratorScreenLocation) a subscreen
+                       instead of including it explicitly as above
+                <subscreens-active id="wiki-container"/>
+                -->
+            </box-body></container-box>
+
+            <section name="WikiPageCommentSection" condition="wikiPageId"><widgets>
+                <container-box><box-header><label text="Comments" type="h5"/></box-header><box-toolbar>
+                    <container-dialog id="AddCommentDialog" button-text="Add Comment">
+                        <form-single name="AddCommentForm" transition="addComment">
+                            <field name="wikiPageId"><default-field><hidden/></default-field></field>
+                            <field name="subject"><default-field><text-line/></default-field></field>
+                            <field name="body"><default-field title="Comment"><text-area rows="10"/></default-field></field>
+                            <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
+                        </form-single>
+                    </container-dialog>
+                </box-toolbar><box-body>
+                    <section-iterate name="CommentList" list="commEventDetailList" entry="commEventDetail"><actions>
+                        <set field="uniqueExtension" from="commEventDetail_index"/>
+                        <entity-find-one entity-name="mantle.party.Person" value-field="fromPerson" cache="true">
+                            <field-map field-name="partyId" from="commEventDetail.fromPartyId"/>
+                        </entity-find-one>
+                        <entity-find entity-name="mantle.party.communication.CommunicationEvent" list="childCeList">
+                            <econdition field-name="rootCommEventId" from="commEventDetail.communicationEventId"/>
+                            <order-by field-name="entryDate"/>
+                        </entity-find>
+                    </actions><widgets>
+                        <container style="task-comment">
+                            <label text="${commEventDetail.subject}" type="strong"/>
+                            <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
+                            <label text="at ${commEventDetail.entryDate}" type="span"/>
+                            <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="wikiCommentReply">
+                                <parameter name="parentCommEventId" from="commEventDetail.communicationEventId"/></dynamic-dialog>
+
+                            <label text="${commEventDetail.body}" type="pre" encode="false"/>
+
+                            <section name="ChildNestedComments">
+                                <condition><expression>childCeList</expression></condition>
+                                <actions><set field="currentCe" from="commEventDetail"/></actions>
+                                <widgets><include-screen location="component://HiveMind/screen/HiveMindRoot/wiki/WikiCommentNested.xml"/></widgets>
                             </section>
-                            <section name="ResetBaseLink"><actions><script>sri.baseLinkUrl(null)</script></actions><widgets></widgets></section>
                         </container>
-                        <!-- CONSIDER: figure out a way to make configured space root screen (wikiSpace.decoratorScreenLocation) a subscreen
-                               instead of including it explicitly as above
-                        <subscreens-active id="wiki-container"/>
-                        -->
-                    </box-body>
-                </container-box>
-
-                <section name="WikiPageCommentSection">
-                    <condition><expression>wikiPageId</expression></condition>
-                    <widgets>
-                        <container-box>
-                            <box-header><label text="Comments" type="h5"/></box-header>
-                            <box-toolbar>
-                                <container-dialog id="AddCommentDialog" button-text="Add Comment">
-                                    <form-single name="AddCommentForm" transition="addComment">
-                                        <field name="wikiPageId"><default-field><hidden/></default-field></field>
-                                        <field name="subject"><default-field><text-line/></default-field></field>
-                                        <field name="body"><default-field title="Comment"><text-area rows="10"/></default-field></field>
-                                        <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
-                                    </form-single>
-                                </container-dialog>
-                            </box-toolbar>
-                            <box-body>
-                                <section-iterate name="CommentList" list="commEventDetailList" entry="commEventDetail">
-                                    <actions>
-                                        <set field="uniqueExtension" from="commEventDetail_index"/>
-                                        <entity-find-one entity-name="mantle.party.Person" value-field="fromPerson" cache="true">
-                                            <field-map field-name="partyId" from="commEventDetail.fromPartyId"/>
-                                        </entity-find-one>
-                                        <entity-find entity-name="mantle.party.communication.CommunicationEvent" list="childCeList">
-                                            <econdition field-name="rootCommEventId" from="commEventDetail.communicationEventId"/>
-                                            <order-by field-name="entryDate"/>
-                                        </entity-find>
-                                    </actions>
-                                    <widgets>
-                                        <container style="task-comment">
-                                            <label text="${commEventDetail.subject}" type="strong"/>
-                                            <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
-                                            <label text="at ${commEventDetail.entryDate}" type="span"/>
-                                            <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="wikiCommentReply">
-                                                <parameter name="parentCommEventId" from="commEventDetail.communicationEventId"/>
-                                            </dynamic-dialog>
-
-                                            <label text="${commEventDetail.body}" type="pre" encode="false"/>
-
-                                            <section name="ChildNestedComments">
-                                                <condition><expression>childCeList</expression></condition>
-                                                <actions><set field="currentCe" from="commEventDetail"/></actions>
-                                                <widgets><include-screen location="component://HiveMind/screen/HiveMindRoot/wiki/WikiCommentNested.xml"/></widgets>
-                                            </section>
-                                        </container>
-                                    </widgets>
-                                </section-iterate>
-                            </box-body>
-                        </container-box>
-                    </widgets>
-                </section>
-            </panel-center>
-        </container-panel>
+                    </widgets></section-iterate>
+                </box-body></container-box>
+            </widgets></section>
+        </panel-center></container-panel>
     </widgets>
 </screen>
