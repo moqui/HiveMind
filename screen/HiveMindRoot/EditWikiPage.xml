@@ -20,7 +20,7 @@ along with this software (see the LICENSE.md file). If not, see
     <!-- all other parameters should only be passed explicitly: pagePath, parentPath, pageName, wikiType -->
 
     <transition name="updatePage"><service-call name="org.moqui.impl.WikiServices.update#WikiPage"/>
-        <default-response url="${ec.web.getWebappRootUrl(true, null)}/apps/hm/wiki/${wikiSpaceId}/${encodedPagePath}" url-type="plain"/>
+        <default-response url="../wiki/${wikiSpaceId}/${encodedPagePath}" parameter-map="[wikiSpaceId:'',pagePath:'']"/>
         <error-response url="." parameter-map="[pagePath:pagePath, parentPath:parentPath, pageName:pageName, wikiType:wikiType, isCreate:isCreate]"/>
     </transition>
 
@@ -32,19 +32,10 @@ along with this software (see the LICENSE.md file). If not, see
         </if>
         <service-call name="org.moqui.impl.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/>
         <set field="isRootPage" from="pageReference?.exists &amp;&amp; !pagePath"/>
-        <script>
-            def wikiUrl = sri.buildUrl(sri.getRootScreenDef(),
-                    sri.getScreenUrlInfo().getPreTransitionPathNameList(), "../wiki")
-            baseLinkUrl = wikiUrl.getUrl() + "/" + wikiSpaceId
-        </script>
-
         <set field="wikiType" from="wikiType ?: 'md'"/>
-
     </actions>
     <widgets>
-        <container>
-            <label text="${isCreate ? 'Create Page' : 'Edit Page: ' + pageName}" type="h2"/>
-        </container>
+        <container><label text="${isCreate ? 'Create Page' : 'Edit Page: ' + pageName}" type="h3"/></container>
         <form-single name="EditPageForm" transition="updatePage">
             <field name="isCreate"><default-field><hidden default-value="false"/></default-field></field>
             <field name="wikiSpaceId"><default-field><hidden/></default-field></field>
@@ -64,7 +55,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <default-field title="Update Page"><submit/></default-field>
             </field>
             <field name="cancelButton"><default-field title="">
-                <link text="Cancel" url="${baseLinkUrl}/${pagePath?:parentPath?:''}" url-type="plain" link-type="anchor-button"/>
+                <link text="Cancel" url="../wiki/${wikiSpaceId}/${pagePath?:parentPath?:''}" link-type="anchor-button" url-noparam="true"/>
             </default-field></field>
             <!-- <field name="syntaxLink"><default-field title="">
                 <link text="Syntax Reference" url-type="plain" url="http://daringfireball.net/projects/markdown/syntax" link-type="anchor" condition="wikiType == 'md'" target-window="_blank"/>

@@ -143,7 +143,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </actions></tree-sub-node>
             </tree>
             <!-- removedin favor of tree above:
-            <render-mode><text type="html" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/></render-mode>
+            <render-mode><text type="html,vuet" location="component://HiveMind/template/screen/WikiPageTree.ftl" template="true"/></render-mode>
             -->
 
             <container-box><box-header><label text="Attachments" type="h5"/></box-header><box-toolbar>
@@ -271,7 +271,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <section name="WikiPageInclude">
                         <condition><expression>!wikiSpace?.decoratorScreenLocation</expression></condition>
                         <actions><script>sri.baseLinkUrl(baseLinkUrl)</script></actions>
-                        <widgets><render-mode><text template="true" type="html" location="${pageLocation?:''}"/></render-mode></widgets>
+                        <widgets><render-mode><text template="true" type="html,vuet" location="${pageLocation?:''}"/></render-mode></widgets>
                         <fail-widgets><include-screen location="${wikiSpace.decoratorScreenLocation}"/></fail-widgets>
                     </section>
                     <section name="ResetBaseLink"><actions><script>sri.baseLinkUrl(null)</script></actions><widgets></widgets></section>

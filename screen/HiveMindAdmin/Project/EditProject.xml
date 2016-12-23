@@ -30,8 +30,6 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="findTask"><default-response url="//hm/Task/FindTask"/></transition>
 
     <pre-actions>
-        <script>html_scripts.add('/hmstatic/lib/sparkline/jquery.sparkline.min.js')</script>
-
         <if condition="rootWorkEffortId"><set field="workEffortId" from="rootWorkEffortId"/></if>
         <set field="rootWorkEffortId" from="workEffortId"/>
     </pre-actions>

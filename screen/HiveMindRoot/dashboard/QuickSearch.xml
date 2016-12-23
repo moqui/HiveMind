@@ -48,9 +48,7 @@ along with this software (see the LICENSE.md file). If not, see
     <widgets>
         <container id="dashboard-search-section">
             <container-box><box-header><label text="Quick Search" type="h5"/></box-header><box-body>
-                <render-mode>
-                    <!-- TODO: for vuejs branch change to m-script and from window.open() to webrootVue.goto() -->
-                    <text type="html"><![CDATA[
+                <render-mode><text type="html,vuet"><![CDATA[
     <input type="text" size="19" id="SearchBox" class="form-control typeahead">
     <script>
         $("#SearchBox").typeahead({ minLength:2, highlight:true, hint:false }, { limit:20, display: function(item) { return item.label; },
@@ -59,11 +57,15 @@ along with this software (see the LICENSE.md file). If not, see
                 success: function(data) { asyncResults($.map(data, function(item) { return { label:item.label, value:item.value, urlToOpen:item.urlToOpen } })); }
             }); }
         });
-        $("#SearchBox").bind('typeahead:select', function(event, item) { if (item) { window.open(item.urlToOpen, "_self"); } });
         $("#SearchBox").focus();
     </script>
-                ]]></text>
-                </render-mode>
+                ]]></text></render-mode>
+                <!-- for vuejs branch change to m-script and from window.open() to webrootVue.goto() -->
+                <render-mode><text type="html"><![CDATA[
+    <script>$("#SearchBox").bind('typeahead:select', function(event, item) { if (item) { window.open(item.urlToOpen, "_self"); } });</script>
+                ]]></text><text type="vuet"><![CDATA[
+    <m-script>$("#SearchBox").bind('typeahead:select', function(event, item) { if (item) { webrootVue.setUrl(item.urlToOpen); } });</m-script>
+                ]]></text></render-mode>
                 <container><link url="search" text="Full Search" link-type="anchor"/></container>
             </box-body></container-box>
         </container>

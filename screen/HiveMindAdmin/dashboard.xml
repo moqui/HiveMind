@@ -23,9 +23,6 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="editVendor"><default-response url="../Vendor/EditVendor"/></transition>
     <transition name="findInvoice"><default-response url="../Accounting/Invoice/FindInvoice"/></transition>
 
-    <pre-actions>
-        <script>html_scripts.add('/hmstatic/lib/sparkline/jquery.sparkline.min.js')</script>
-    </pre-actions>
     <actions>
         <entity-find entity-name="mantle.work.effort.WorkEffort" list="projectList">
             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
@@ -39,253 +36,223 @@ along with this software (see the LICENSE.md file). If not, see
         </entity-find>
     </actions>
     <widgets>
-        <container-row>
-            <row-col md="2">
-                <label text="Operate" type="h2"/>
-                <container>
-                    <link url="../WikiSpace" link-type="anchor"><image url="/hmstatic/images/wiki-documents7.png" url-type="screen" style="invertible"/></link>
-                    <link text="Wiki Spaces" url="../WikiSpace" link-type="anchor"/>
-                </container>
-                <container>
-                    <link url="../Project" link-type="anchor"><image url="/hmstatic/images/project-business120.png" url-type="screen" style="invertible"/></link>
-                    <link text="Projects" url="../Project" link-type="anchor"/>
-                </container>
-                <container>
-                    <link url="../Accounting" link-type="anchor"><image url="/hmstatic/images/invoice-pay.png" url-type="screen" style="invertible"/></link>
-                    <link text="Accounting" url="../Accounting" link-type="anchor"/>
-                </container>
-                <container>
-                    <link url="Reports" link-type="anchor"><image url="/hmstatic/images/reports-dollar116.png" url-type="screen" style="invertible"/></link>
-                    <link text="Reports" url="Reports" link-type="anchor"/>
-                </container>
+        <container-row><row-col md="2">
+            <label text="Operate" type="h2"/>
+            <container>
+                <link url="../WikiSpace" link-type="anchor"><image url="/hmstatic/images/wiki-documents7.png" url-type="screen" style="invertible"/></link>
+                <link text="Wiki Spaces" url="../WikiSpace" link-type="anchor"/>
+            </container>
+            <container>
+                <link url="../Project" link-type="anchor"><image url="/hmstatic/images/project-business120.png" url-type="screen" style="invertible"/></link>
+                <link text="Projects" url="../Project" link-type="anchor"/>
+            </container>
+            <container>
+                <link url="../Accounting" link-type="anchor"><image url="/hmstatic/images/invoice-pay.png" url-type="screen" style="invertible"/></link>
+                <link text="Accounting" url="../Accounting" link-type="anchor"/>
+            </container>
+            <container>
+                <link url="Reports" link-type="anchor"><image url="/hmstatic/images/reports-dollar116.png" url-type="screen" style="invertible"/></link>
+                <link text="Reports" url="Reports" link-type="anchor"/>
+            </container>
 
-                <label text="Setup" type="h2"/>
-                <container>
-                    <link url="../Vendor" link-type="anchor"><image url="/hmstatic/images/vendor-person25.png" url-type="screen" style="invertible"/></link>
-                    <link text="Vendor(s)" url="../Vendor" link-type="anchor"/>
-                </container>
-                <container>
-                    <link url="../Client" link-type="anchor"><image url="/hmstatic/images/client-businessmen26.png" url-type="screen" style="invertible"/></link>
-                    <link text="Clients" url="../Client" link-type="anchor"/>
-                </container>
-                <container>
-                    <link url="../User" link-type="anchor"><image url="/hmstatic/images/user-man27.png" url-type="screen" style="invertible"/></link>
-                    <link text="Users" url="../User" link-type="anchor"/>
-                </container>
-                <container>
-                    <link url="../Team" link-type="anchor"><image url="/hmstatic/images/team-businessmen18.png" url-type="screen" style="invertible"/></link>
-                    <link text="Teams" url="../Team" link-type="anchor"/>
-                </container>
-                <container>
-                    <link url="../EditRateAmounts" link-type="anchor"><image url="/hmstatic/images/rates-internet16.png" url-type="screen" style="invertible"/></link>
-                    <link text="Rates" url="../EditRateAmounts" link-type="anchor"/>
-                </container>
-            </row-col>
+            <label text="Setup" type="h2"/>
+            <container>
+                <link url="../Vendor" link-type="anchor"><image url="/hmstatic/images/vendor-person25.png" url-type="screen" style="invertible"/></link>
+                <link text="Vendor(s)" url="../Vendor" link-type="anchor"/>
+            </container>
+            <container>
+                <link url="../Client" link-type="anchor"><image url="/hmstatic/images/client-businessmen26.png" url-type="screen" style="invertible"/></link>
+                <link text="Clients" url="../Client" link-type="anchor"/>
+            </container>
+            <container>
+                <link url="../User" link-type="anchor"><image url="/hmstatic/images/user-man27.png" url-type="screen" style="invertible"/></link>
+                <link text="Users" url="../User" link-type="anchor"/>
+            </container>
+            <container>
+                <link url="../Team" link-type="anchor"><image url="/hmstatic/images/team-businessmen18.png" url-type="screen" style="invertible"/></link>
+                <link text="Teams" url="../Team" link-type="anchor"/>
+            </container>
+            <container>
+                <link url="../EditRateAmounts" link-type="anchor"><image url="/hmstatic/images/rates-internet16.png" url-type="screen" style="invertible"/></link>
+                <link text="Rates" url="../EditRateAmounts" link-type="anchor"/>
+            </container>
+        </row-col><row-col md="10">
+            <form-list name="OrgInternalForm" list="orgInternalList" skip-form="true">
+                <row-actions>
+                    <entity-find entity-name="mantle.account.invoice.InvoiceSummary" list="recInvList">
+                        <econdition field-name="fromPartyId" from="partyId"/>
+                        <econdition field-name="statusId" operator="in" value="InvoiceFinalized,InvoiceSent"/>
+                        <select-field field-name="invoiceCount"/><select-field field-name="grandTotal"/>
+                        <select-field field-name="currencyUomId"/>
+                    </entity-find>
+                    <set field="recDesc" value=""/>
+                    <iterate list="recInvList" entry="recInv">
+                        <if condition="recDesc"><set field="recDesc" from="recDesc + ', '"/></if>
+                        <set field="recDesc" from="recDesc + recInv.invoiceCount + ' Invoice' + (recInv.invoiceCount ? 's ' : ' ') + ec.l10n.formatCurrency(recInv.grandTotal, recInv.currencyUomId, 2)"/>
+                    </iterate>
+                    <entity-find entity-name="mantle.account.invoice.InvoiceSummary" list="pblInvList">
+                        <econdition field-name="toPartyId" from="partyId"/>
+                        <econdition field-name="statusId" operator="in" value="InvoiceReceived,InvoiceApproved"/>
+                        <select-field field-name="invoiceCount"/><select-field field-name="grandTotal"/>
+                        <select-field field-name="currencyUomId"/>
+                    </entity-find>
+                    <set field="pblDesc" value=""/>
+                    <iterate list="pblInvList" entry="pblInv">
+                        <if condition="pblDesc"><set field="pblDesc" from="pblDesc + ', '"/></if>
+                        <set field="pblDesc" from="pblDesc + pblInv.invoiceCount + ' Invoice' + (pblInv.invoiceCount ? 's ' : ' ') + ec.l10n.formatCurrency(pblInv.grandTotal, pblInv.currencyUomId, 2)"/>
+                    </iterate>
+                </row-actions>
+                <field name="name"><default-field title="Internal Organization">
+                    <link url="editVendor" text="${organizationName?:''}${firstName?:''} ${lastName?:''}" link-type="anchor"/>
+                </default-field></field>
+                <field name="recSummary"><default-field title="Receivable">
+                    <link url="findInvoice" text="${recDesc?:'None'}" link-type="anchor"
+                            parameter-map="[fromPartyId:partyId, statusId:'InvoiceFinalized,InvoiceSent', statusId_op:'in']"/>
+                </default-field></field>
+                <field name="pblSummary"><default-field title="Payable">
+                    <link url="findInvoice" text="${pblDesc?:'None'}" link-type="anchor"
+                            parameter-map="[toPartyId:partyId, statusId:'InvoiceReceived,InvoiceApproved', statusId_op:'in']"/>
+                </default-field></field>
+            </form-list>
 
-            <row-col md="10">
-                <form-list name="OrgInternalForm" list="orgInternalList" skip-form="true">
-                    <row-actions>
-                        <entity-find entity-name="mantle.account.invoice.InvoiceSummary" list="recInvList">
-                            <econdition field-name="fromPartyId" from="partyId"/>
-                            <econdition field-name="statusId" operator="in" value="InvoiceFinalized,InvoiceSent"/>
-                            <select-field field-name="invoiceCount"/><select-field field-name="grandTotal"/>
-                            <select-field field-name="currencyUomId"/>
-                        </entity-find>
-                        <set field="recDesc" value=""/>
-                        <iterate list="recInvList" entry="recInv">
-                            <if condition="recDesc"><set field="recDesc" from="recDesc + ', '"/></if>
-                            <set field="recDesc" from="recDesc + recInv.invoiceCount + ' Invoice' + (recInv.invoiceCount ? 's ' : ' ') + ec.l10n.formatCurrency(recInv.grandTotal, recInv.currencyUomId, 2)"/>
-                        </iterate>
-                        <entity-find entity-name="mantle.account.invoice.InvoiceSummary" list="pblInvList">
-                            <econdition field-name="toPartyId" from="partyId"/>
-                            <econdition field-name="statusId" operator="in" value="InvoiceReceived,InvoiceApproved"/>
-                            <select-field field-name="invoiceCount"/><select-field field-name="grandTotal"/>
-                            <select-field field-name="currencyUomId"/>
-                        </entity-find>
-                        <set field="pblDesc" value=""/>
-                        <iterate list="pblInvList" entry="pblInv">
-                            <if condition="pblDesc"><set field="pblDesc" from="pblDesc + ', '"/></if>
-                            <set field="pblDesc" from="pblDesc + pblInv.invoiceCount + ' Invoice' + (pblInv.invoiceCount ? 's ' : ' ') + ec.l10n.formatCurrency(pblInv.grandTotal, pblInv.currencyUomId, 2)"/>
-                        </iterate>
-                    </row-actions>
-                    <field name="name"><default-field title="Internal Organization">
-                        <link url="editVendor" text="${organizationName?:''}${firstName?:''} ${lastName?:''}" link-type="anchor"/>
-                    </default-field></field>
-                    <field name="recSummary"><default-field title="Receivable">
-                        <link url="findInvoice" text="${recDesc?:'None'}" link-type="anchor"
-                                parameter-map="[fromPartyId:partyId, statusId:'InvoiceFinalized,InvoiceSent', statusId_op:'in']"/>
-                    </default-field></field>
-                    <field name="pblSummary"><default-field title="Payable">
-                        <link url="findInvoice" text="${pblDesc?:'None'}" link-type="anchor"
-                                parameter-map="[toPartyId:partyId, statusId:'InvoiceReceived,InvoiceApproved', statusId_op:'in']"/>
-                    </default-field></field>
-                </form-list>
+            <section-iterate name="ActiveProjectSection" list="projectList" entry="project"><actions>
+                <service-call name="mantle.work.ProjectServices.get#ProjectStats" in-map="[workEffort:project]" out-map="pstats"/>
+                <set field="estimatedCompletePercentString" from="ec.l10n.format(pstats.estimatedCompletePercent, '0')"/>
+                <set field="estimatedRemainingPercentString" from="ec.l10n.format(pstats.estimatedRemainingPercent, '0')"/>
+                <set field="clientBudgetUsedPercentString" from="ec.l10n.format(pstats.clientBudgetUsedPercent, '0')"/>
+                <set field="timeBudgetCompletePercentString" from="ec.l10n.format(pstats.timeBudgetCompletePercent, '0')"/>
+                <set field="timeBudgetRemainingPercentString" from="ec.l10n.format(pstats.timeBudgetRemainingPercent, '0')"/>
+            </actions><widgets>
+                <container-box><box-header>
+                    <link url="editProject" text="${project.workEffortId}"
+                            link-type="anchor-button" parameter-map="[workEffortId:project.workEffortId]"/>
+                    <label text="${project.workEffortName}" type="h5"/>
+                </box-header><box-toolbar>
+                    <label text="${pstats.projectDanger ? 'Danger' : (pstats.projectWarning ? 'Warning' : 'On Track')}"
+                            style="label ${pstats.projectDanger ? 'label-danger' : (pstats.projectWarning ? 'label-warning' : 'label-success')}"/>
+                </box-toolbar><box-body>
+                    <container-row><row-col lg="7"><container style="shaded-area">
+                        <container-row><row-col sm="2">
+                            <label text="Hrs Est" type="strong"/>
+                        </row-col><row-col sm="7">
+                            <render-mode><text type="html,vuet" template="true"><![CDATA[
+                            <div class="progress middle">
+                                <div class="progress-bar <#if pstats.actualPlusRemainingOverEstimated>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar progress-bar-info" style="width: ${estimatedRemainingPercentString}%;" aria-valuenow="${estimatedRemainingPercentString}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            ]]></text></render-mode>
+                        </row-col><row-col sm="3">
+                            <label text="${ec.l10n.format(pstats.estimatedCompletePercent, '00.00')}%"/>
+                            <render-mode><text type="html,vuet" template="true"><![CDATA[<i class="glyphicon <#if pstats.actualPlusRemainingOverEstimated>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                        </row-col></container-row>
+                        <section name="TimeBudgetGraphs" condition="project.totalTimeAllowed"><widgets>
+                            <container-row><row-col sm="2">
+                                <label text="Hrs Budget" type="strong"/>
+                            </row-col><row-col sm="7">
+                                <render-mode><text type="html,vuet" template="true"><![CDATA[
+                                <div class="progress middle">
+                                    <div class="progress-bar <#if pstats.actualPlusRemainingOverTimeBudget>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${timeBudgetCompletePercentString}%;" aria-valuenow="${timeBudgetCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar progress-bar-info" style="width: ${timeBudgetRemainingPercentString}%;" aria-valuenow="${timeBudgetRemainingPercentString}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                ]]></text></render-mode>
+                            </row-col><row-col sm="3">
+                                <label text="${ec.l10n.format(pstats.timeBudgetCompletePercent, '00.00')}%"/>
+                                <render-mode><text type="html,vuet" template="true"><![CDATA[<i class="glyphicon <#if pstats.actualPlusRemainingOverEstimated>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                            </row-col></container-row>
+                        </widgets></section>
+                        <section name="CostBudgetGraphs" condition="project.totalClientCostAllowed"><widgets>
+                            <container-row><row-col sm="2"><label text="Cost Budget" type="strong"/>
+                            </row-col><row-col sm="7">
+                                <render-mode><text type="html,vuet" template="true"><![CDATA[
+                                <div class="progress middle"><div class="progress-bar <#if pstats.clientActualOverBudget>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                ]]></text></render-mode>
+                            </row-col><row-col sm="3">
+                                <label text="${ec.l10n.format(pstats.clientBudgetUsedPercent, '00.00')}%"/>
+                                <render-mode><text type="html,vuet" template="true"><![CDATA[<i class="glyphicon <#if pstats.clientActualOverBudget>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                            </row-col></container-row>
+                            <container-row><row-col sm="2">
+                                <label text="P-CB Gap" type="strong"/>
+                            </row-col><row-col sm="7">
+                                <render-mode><text type="html,vuet" template="true"><![CDATA[
+                                <div class="progress xs"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                <div class="progress xs"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                ]]></text></render-mode>
+                            </row-col><row-col sm="3">
+                                <label text="${ec.l10n.format(pstats.estimatedCompleteBudgetPercentGap, '00.00')}%"/>
+                                <render-mode><text type="html,vuet" template="true"><![CDATA[<i class="glyphicon <#if pstats.estimatedCompleteOverBudget>glyphicon-exclamation-sign text-warning<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                            </row-col></container-row>
+                        </widgets></section>
+                        <container-row>
+                            <row-col sm="4"><label text="Estimate ${ec.l10n.format(project.estimatedWorkTime, '#.#')} hrs" type="strong"/></row-col>
+                            <row-col sm="4"><label text="Worked ${ec.l10n.format(project.actualWorkTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverEstimated ? 'text-danger' : 'text-success'}"/></row-col>
+                            <row-col sm="4"><label text="Est Rem ${ec.l10n.format(project.remainingWorkTime, '#.#')} hrs" type="strong" style="text-info"/></row-col>
+                        </container-row>
+                        <section name="TimeBudgetStats" condition="project.totalTimeAllowed"><widgets>
+                            <container-row>
+                                <row-col sm="4"><label text="Budget ${ec.l10n.format(project.totalTimeAllowed, '#.#')} hrs" type="strong"/></row-col>
+                                <row-col sm="4"><label text="Act Bgt Rem ${ec.l10n.format(project.totalTimeAllowed - (project.actualWorkTime?:0), '#.#')} hrs" type="strong" style="text-info"/></row-col>
+                                <row-col sm="4"><label text="Est Bgt Rem ${ec.l10n.format(project.totalTimeAllowed - pstats.actualPlusRemainingTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverTimeBudget ? 'text-danger' : 'text-success'}"/></row-col>
+                            </container-row>
+                        </widgets></section>
+                        <container-row>
+                            <row-col sm="4"><label text="Avg Rate ${ec.l10n.formatCurrency(pstats.clientAverageHourCost, project.costUomId, 2)}" type="strong"/></row-col>
+                            <row-col sm="4"><label text="Actual Cost ${ec.l10n.formatCurrency(project.actualClientCost, project.costUomId, 2)}" type="strong" style="${pstats.clientActualOverBudget ? 'text-danger' : 'text-success'}"/></row-col>
+                            <row-col sm="4"><label text="Est Cost ${ec.l10n.formatCurrency(pstats.clientEstimatedCost, project.costUomId, 2)}" type="strong"/></row-col>
+                        </container-row>
+                        <section name="CostBudgetStats" condition="project.totalClientCostAllowed"><widgets>
+                            <container-row>
+                                <row-col sm="4"><label text="Budget ${ec.l10n.formatCurrency(project.totalClientCostAllowed, project.costUomId, 2)}" type="strong"/></row-col>
+                                <row-col sm="4"><label text="Rem ${ec.l10n.formatCurrency(pstats.clientBudgetRemaining, project.costUomId, 2)}" type="strong"/></row-col>
+                                <row-col sm="4"><label text="Est ${ec.l10n.formatCurrency(pstats.clientBudgetEstimateDiff?.abs(), project.costUomId, 2)} ${pstats.clientBudgetEstimateDiff &lt; 0 ? 'over' : 'under'}" type="strong" style="${pstats.clientBudgetEstimateDiff &lt; 0 ? 'text-warning' : 'text-success'}"/></row-col>
+                            </container-row>
+                        </widgets></section>
+                        <container-row>
+                            <row-col xs="6" style="text-center"><label text="Provider Cost ${ec.l10n.formatCurrency(project.actualCost, project.costUomId, 2)}" type="strong"/></row-col>
+                            <row-col xs="6" style="text-center"><label text="Profit ${ec.l10n.formatCurrency(pstats.actualProfit, project.costUomId, 2)}" type="strong"/></row-col>
+                        </container-row>
+                    </container></row-col><row-col lg="5"><container style="shaded-area">
+                        <container-row><row-col sm="3">
+                            <container id="status-chart"/>
+                            <render-mode><text type="html,vuet" template="true"><![CDATA[
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js" type="text/javascript"></script>
+                                <script>
+                                    $("#status-chart_${project_index}").sparkline([${pstats.taskCountByStatusMap.WeApproved!'0'}, ${pstats.taskCountByStatusMap.WeOnHold!'0'}, ${pstats.taskCountByStatusMap.WeInProgress!'0'}, ${pstats.taskCountByStatusMap.WeClosed!'0' + pstats.taskCountByStatusMap.WeComplete!'0'}], {
+                                        type: 'pie', width: '80', height: '80', sliceColors: ['#8a6d3b', '#a94442', '#3c763d', '#31708f'], offset: 180,
+                                    });
+                                </script>
+                            ]]></text></render-mode>
+                        </row-col><row-col sm="9">
+                            <container-row>
+                                <row-col xs="12"><label text="${pstats.taskCount} Tasks" type="strong"/></row-col>
+                            </container-row>
+                            <container-row>
+                                <row-col sm="5"><link text="Approved - ${pstats.taskCountByStatusMap.WeApproved?:0}"
+                                        style="text-warning" url="findTask" link-type="anchor"
+                                        parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeApproved']"/></row-col>
+                                <row-col sm="7"><link text="On Hold - ${pstats.taskCountByStatusMap.WeOnHold?:0}"
+                                        style="text-danger" url="findTask" link-type="anchor"
+                                        parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeOnHold']"/></row-col>
+                            </container-row>
+                            <container-row>
+                                <row-col sm="5"><link text="In Progress - ${pstats.taskCountByStatusMap.WeInProgress?:0}"
+                                        style="text-success" url="findTask" link-type="anchor"
+                                        parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInProgress']"/></row-col>
+                                <row-col sm="7"><link text="Complete/Closed - ${((pstats.taskCountByStatusMap.WeComplete?:0) as BigDecimal) + ((pstats.taskCountByStatusMap.WeClosed?:0) as BigDecimal)}"
+                                        style="text-info" url="findTask" link-type="anchor"
+                                        parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeComplete,WeClosed', statusId_op:'in']"/></row-col>
+                            </container-row>
+                            <container-row>
+                                <row-col sm="5"><link text="In Planning - ${pstats.taskCountByStatusMap.WeInPlanning?:0}"
+                                        url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInPlanning']"/></row-col>
+                                <row-col sm="7"><link text="Cancelled - ${pstats.taskCountByStatusMap.WeCancelled?:0}"
+                                        url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeCancelled']"/></row-col>
+                            </container-row>
+                        </row-col></container-row>
+                    </container></row-col></container-row>
+                </box-body></container-box>
+            </widgets></section-iterate>
 
-                <section-iterate name="ActiveProjectSection" list="projectList" entry="project">
-                    <actions>
-                        <service-call name="mantle.work.ProjectServices.get#ProjectStats" in-map="[workEffort:project]" out-map="pstats"/>
-                        <set field="estimatedCompletePercentString" from="ec.l10n.format(pstats.estimatedCompletePercent, '0')"/>
-                        <set field="estimatedRemainingPercentString" from="ec.l10n.format(pstats.estimatedRemainingPercent, '0')"/>
-                        <set field="clientBudgetUsedPercentString" from="ec.l10n.format(pstats.clientBudgetUsedPercent, '0')"/>
-                        <set field="timeBudgetCompletePercentString" from="ec.l10n.format(pstats.timeBudgetCompletePercent, '0')"/>
-                        <set field="timeBudgetRemainingPercentString" from="ec.l10n.format(pstats.timeBudgetRemainingPercent, '0')"/>
-                    </actions>
-                    <widgets>
-                        <container-box>
-                            <box-header>
-                                <link url="editProject" text="${project.workEffortId}"
-                                        link-type="anchor-button" parameter-map="[workEffortId:project.workEffortId]"/>
-                                <label text="${project.workEffortName}" type="h5"/>
-                            </box-header>
-                            <box-toolbar>
-                                <label text="${pstats.projectDanger ? 'Danger' : (pstats.projectWarning ? 'Warning' : 'On Track')}"
-                                        style="label ${pstats.projectDanger ? 'label-danger' : (pstats.projectWarning ? 'label-warning' : 'label-success')}"/>
-                            </box-toolbar>
-                            <box-body>
-                                <container-row>
-                                    <row-col lg="7">
-                                        <container style="shaded-area">
-                                            <container-row>
-                                                <row-col sm="2"><label text="Hrs Est" type="strong"/></row-col>
-                                                <row-col sm="7">
-                                                    <render-mode><text type="html" template="true"><![CDATA[
-<div class="progress middle">
-    <div class="progress-bar <#if pstats.actualPlusRemainingOverEstimated>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div>
-    <div class="progress-bar progress-bar-info" style="width: ${estimatedRemainingPercentString}%;" aria-valuenow="${estimatedRemainingPercentString}" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-                                                    ]]></text></render-mode>
-                                                </row-col>
-                                                <row-col sm="3">
-                                                    <label text="${ec.l10n.format(pstats.estimatedCompletePercent, '00.00')}%"/>
-                                                    <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.actualPlusRemainingOverEstimated>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
-                                                </row-col>
-                                            </container-row>
-                                            <section name="TimeBudgetGraphs" condition="project.totalTimeAllowed"><widgets>
-                                                <container-row>
-                                                    <row-col sm="2"><label text="Hrs Budget" type="strong"/></row-col>
-                                                    <row-col sm="7">
-                                                        <render-mode><text type="html" template="true"><![CDATA[
-    <div class="progress middle">
-        <div class="progress-bar <#if pstats.actualPlusRemainingOverTimeBudget>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${timeBudgetCompletePercentString}%;" aria-valuenow="${timeBudgetCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div>
-        <div class="progress-bar progress-bar-info" style="width: ${timeBudgetRemainingPercentString}%;" aria-valuenow="${timeBudgetRemainingPercentString}" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
-                                                        ]]></text></render-mode>
-                                                    </row-col>
-                                                    <row-col sm="3">
-                                                        <label text="${ec.l10n.format(pstats.timeBudgetCompletePercent, '00.00')}%"/>
-                                                        <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.actualPlusRemainingOverEstimated>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
-                                                    </row-col>
-                                                </container-row>
-                                            </widgets></section>
-                                            <section name="CostBudgetGraphs" condition="project.totalClientCostAllowed"><widgets>
-                                                <container-row>
-                                                    <row-col sm="2"><label text="Cost Budget" type="strong"/></row-col>
-                                                    <row-col sm="7">
-                                                        <render-mode><text type="html" template="true"><![CDATA[
-    <div class="progress middle"><div class="progress-bar <#if pstats.clientActualOverBudget>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
-                                                        ]]></text></render-mode>
-                                                    </row-col>
-                                                    <row-col sm="3">
-                                                        <label text="${ec.l10n.format(pstats.clientBudgetUsedPercent, '00.00')}%"/>
-                                                        <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.clientActualOverBudget>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
-                                                    </row-col>
-                                                </container-row>
-                                                <container-row>
-                                                    <row-col sm="2"><label text="P-CB Gap" type="strong"/></row-col>
-                                                    <row-col sm="7">
-                                                        <render-mode><text type="html" template="true"><![CDATA[
-    <div class="progress xs"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
-    <div class="progress xs"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
-                                                        ]]></text></render-mode>
-                                                    </row-col>
-                                                    <row-col sm="3">
-                                                        <label text="${ec.l10n.format(pstats.estimatedCompleteBudgetPercentGap, '00.00')}%"/>
-                                                        <render-mode><text type="html" template="true"><![CDATA[<i class="glyphicon <#if pstats.estimatedCompleteOverBudget>glyphicon-exclamation-sign text-warning<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
-                                                    </row-col>
-                                                </container-row>
-                                            </widgets></section>
-                                            <container-row>
-                                                <row-col sm="4"><label text="Estimate ${ec.l10n.format(project.estimatedWorkTime, '#.#')} hrs" type="strong"/></row-col>
-                                                <row-col sm="4"><label text="Worked ${ec.l10n.format(project.actualWorkTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverEstimated ? 'text-danger' : 'text-success'}"/></row-col>
-                                                <row-col sm="4"><label text="Est Rem ${ec.l10n.format(project.remainingWorkTime, '#.#')} hrs" type="strong" style="text-info"/></row-col>
-                                            </container-row>
-                                            <section name="TimeBudgetStats" condition="project.totalTimeAllowed"><widgets>
-                                                <container-row>
-                                                    <row-col sm="4"><label text="Budget ${ec.l10n.format(project.totalTimeAllowed, '#.#')} hrs" type="strong"/></row-col>
-                                                    <row-col sm="4"><label text="Act Bgt Rem ${ec.l10n.format(project.totalTimeAllowed - (project.actualWorkTime?:0), '#.#')} hrs" type="strong" style="text-info"/></row-col>
-                                                    <row-col sm="4"><label text="Est Bgt Rem ${ec.l10n.format(project.totalTimeAllowed - pstats.actualPlusRemainingTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverTimeBudget ? 'text-danger' : 'text-success'}"/></row-col>
-                                                </container-row>
-                                            </widgets></section>
-                                            <container-row>
-                                                <row-col sm="4"><label text="Avg Rate ${ec.l10n.formatCurrency(pstats.clientAverageHourCost, project.costUomId, 2)}" type="strong"/></row-col>
-                                                <row-col sm="4"><label text="Actual Cost ${ec.l10n.formatCurrency(project.actualClientCost, project.costUomId, 2)}" type="strong" style="${pstats.clientActualOverBudget ? 'text-danger' : 'text-success'}"/></row-col>
-                                                <row-col sm="4"><label text="Est Cost ${ec.l10n.formatCurrency(pstats.clientEstimatedCost, project.costUomId, 2)}" type="strong"/></row-col>
-                                            </container-row>
-                                            <section name="CostBudgetStats" condition="project.totalClientCostAllowed"><widgets>
-                                                <container-row>
-                                                    <row-col sm="4"><label text="Budget ${ec.l10n.formatCurrency(project.totalClientCostAllowed, project.costUomId, 2)}" type="strong"/></row-col>
-                                                    <row-col sm="4"><label text="Rem ${ec.l10n.formatCurrency(pstats.clientBudgetRemaining, project.costUomId, 2)}" type="strong"/></row-col>
-                                                    <row-col sm="4"><label text="Est ${ec.l10n.formatCurrency(pstats.clientBudgetEstimateDiff?.abs(), project.costUomId, 2)} ${pstats.clientBudgetEstimateDiff &lt; 0 ? 'over' : 'under'}" type="strong" style="${pstats.clientBudgetEstimateDiff &lt; 0 ? 'text-warning' : 'text-success'}"/></row-col>
-                                                </container-row>
-                                            </widgets></section>
-                                            <container-row>
-                                                <row-col xs="6" style="text-center"><label text="Provider Cost ${ec.l10n.formatCurrency(project.actualCost, project.costUomId, 2)}" type="strong"/></row-col>
-                                                <row-col xs="6" style="text-center"><label text="Profit ${ec.l10n.formatCurrency(pstats.actualProfit, project.costUomId, 2)}" type="strong"/></row-col>
-                                            </container-row>
-                                        </container>
-                                    </row-col>
-                                    <row-col lg="5">
-                                        <container style="shaded-area">
-                                            <container-row>
-                                                <row-col sm="3">
-                                                    <container id="status-chart"/>
-                                                    <render-mode><text type="html" template="true"><![CDATA[
-                                                        <script>
-                                                            $("#status-chart_${project_index}").sparkline([${pstats.taskCountByStatusMap.WeApproved!'0'}, ${pstats.taskCountByStatusMap.WeOnHold!'0'}, ${pstats.taskCountByStatusMap.WeInProgress!'0'}, ${pstats.taskCountByStatusMap.WeClosed!'0' + pstats.taskCountByStatusMap.WeComplete!'0'}], {
-                                                                type: 'pie', width: '80', height: '80', sliceColors: ['#8a6d3b', '#a94442', '#3c763d', '#31708f'], offset: 180,
-                                                            });
-                                                        </script>
-                                                    ]]></text></render-mode>
-                                                </row-col>
-                                                <row-col sm="9">
-                                                    <container-row>
-                                                        <row-col xs="12"><label text="${pstats.taskCount} Tasks" type="strong"/></row-col>
-                                                    </container-row>
-                                                    <container-row>
-                                                        <row-col sm="5"><link text="Approved - ${pstats.taskCountByStatusMap.WeApproved?:0}"
-                                                                style="text-warning" url="findTask" link-type="anchor"
-                                                                parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeApproved']"/></row-col>
-                                                        <row-col sm="7"><link text="On Hold - ${pstats.taskCountByStatusMap.WeOnHold?:0}"
-                                                                style="text-danger" url="findTask" link-type="anchor"
-                                                                parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeOnHold']"/></row-col>
-                                                    </container-row>
-                                                    <container-row>
-                                                        <row-col sm="5"><link text="In Progress - ${pstats.taskCountByStatusMap.WeInProgress?:0}"
-                                                                style="text-success" url="findTask" link-type="anchor"
-                                                                parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInProgress']"/></row-col>
-                                                        <row-col sm="7"><link text="Complete/Closed - ${((pstats.taskCountByStatusMap.WeComplete?:0) as BigDecimal) + ((pstats.taskCountByStatusMap.WeClosed?:0) as BigDecimal)}"
-                                                                style="text-info" url="findTask" link-type="anchor"
-                                                                parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeComplete,WeClosed', statusId_op:'in']"/></row-col>
-                                                    </container-row>
-                                                    <container-row>
-                                                        <row-col sm="5"><link text="In Planning - ${pstats.taskCountByStatusMap.WeInPlanning?:0}"
-                                                                url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInPlanning']"/></row-col>
-                                                        <row-col sm="7"><link text="Cancelled - ${pstats.taskCountByStatusMap.WeCancelled?:0}"
-                                                                url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeCancelled']"/></row-col>
-                                                    </container-row>
-                                                </row-col>
-                                            </container-row>
-                                        </container>
-                                    </row-col>
-                                </container-row>
-                            </box-body>
-                        </container-box>
-                    </widgets>
-                </section-iterate>
-
-
-                <!-- TODO: add more useful stuff -->
-            </row-col>
-        </container-row>
+            <!-- TODO: add more useful stuff -->
+        </row-col></container-row>
     </widgets>
 </screen>
