@@ -92,7 +92,7 @@ along with this software (see the LICENSE.md file). If not, see
     </pre-actions>
     
     <actions>
-        <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenPathUrl() + '/' + wikiSpaceId"/>
+        <set field="baseLinkUrl" from="sri.getCurrentScreenUrl().getScreenOnlyPath() + '/' + wikiSpaceId"/>
         <!-- this is only used for the WikiPageTree.ftl file, not needed otherwise: -->
         <!-- <service-call name="org.moqui.impl.WikiServices.get#WikiSpacePages" in-map="context" out-map="context"/> -->
 
@@ -103,7 +103,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <widgets>
         <container-panel id="wiki-view"><panel-left size="280">
-            <link text="${wikiSpace?.description?:'Space Root'}" url="${baseLinkUrl}" url-type="plain" link-type="anchor"/>
+            <link text="${wikiSpace?.description?:'Space Root'}" url="${baseLinkUrl}" link-type="anchor" url-noparam="true"/>
             <!-- using fancy expanding tree instead of flat list:
             <container id="wiki-page-list">
                 <section-iterate name="PageList" list="allChildFileFlatList" entry="childFile"><widgets>
