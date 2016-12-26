@@ -24,10 +24,6 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="milestoneSummary"><default-response url="../MilestoneSummary"/></transition>
 
     <transition name="taskSummary"><default-response url="../../Task/TaskSummary"/></transition>
-    <transition name="getTreeSubNodes">
-        <actions><script>sri.getActiveScreenDef().getTree('TaskTree').sendSubNodeJson()</script></actions>
-        <default-response type="none"/>
-    </transition>
 
     <pre-actions>
         <if condition="rootWorkEffortId"><set field="workEffortId" from="rootWorkEffortId"/></if>

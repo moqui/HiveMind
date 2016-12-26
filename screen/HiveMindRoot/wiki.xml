@@ -61,10 +61,6 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="wikiCommentReply"><default-response url="WikiCommentReply"/></transition>
     <transition name="addComment"><service-call name="mantle.party.CommunicationServices.add#WikiPageComment"/>
         <default-response url="."/></transition>
-    <transition name="getTreeSubNodes">
-        <actions><script>sri.getActiveScreenDef().getTree('SpacePageTree').sendSubNodeJson()</script></actions>
-        <default-response type="none"/>
-    </transition>
 
     <pre-actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
