@@ -60,11 +60,10 @@ along with this software (see the LICENSE.md file). If not, see
         $("#SearchBox").focus();
     </script>
                 ]]></text></render-mode>
-                <!-- for vuejs branch change to m-script and from window.open() to webrootVue.goto() -->
                 <render-mode><text type="html"><![CDATA[
     <script>$("#SearchBox").bind('typeahead:select', function(event, item) { if (item) { window.open(item.urlToOpen, "_self"); } });</script>
                 ]]></text><text type="vuet"><![CDATA[
-    <m-script>$("#SearchBox").bind('typeahead:select', function(event, item) { if (item) { webrootVue.setUrl(item.urlToOpen); } });</m-script>
+    <m-script>$("#SearchBox").bind('typeahead:select', function(event, item) { if (item) { moqui.webrootVue.setUrl(item.urlToOpen); } });</m-script>
                 ]]></text></render-mode>
                 <container><link url="search" text="Full Search" link-type="anchor"/></container>
             </box-body></container-box>
