@@ -16,8 +16,8 @@ along with this software (see the LICENSE.md file). If not, see
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.0.xsd"
         default-menu-title="Progress" default-menu-index="9">
 
-    <parameter name="workEffortId" required="true"/>
-    <parameter name="rootWorkEffortId"/>
+    <parameter name="workEffortId"/>
+    <parameter name="rootWorkEffortId" required="true" from="rootWorkEffortId ?: workEffortId"/>
 
     <transition name="milestoneSummary"><default-response url="../MilestoneSummary"/></transition>
     <transition name="taskSummary"><default-response url="//hm/Task/TaskSummary"/></transition>
