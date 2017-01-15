@@ -64,6 +64,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <pre-actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
+        <if condition="extraPathNameList &amp;&amp; extraPathNameList[0] == 'apps'"><return/></if>
         <service-call name="org.moqui.impl.WikiServices.get#WikiPageInfo" in-map="context" out-map="context"/>
 
         <!-- redirect to EditWikiPage to create instead of trying to render a page that doesn't exist -->
