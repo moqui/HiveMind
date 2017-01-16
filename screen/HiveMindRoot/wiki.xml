@@ -231,9 +231,14 @@ along with this software (see the LICENSE.md file). If not, see
                     <section-iterate name="HistoryIterateSection" list="wphList" entry="wph"><actions>
                         <entity-find-one entity-name="mantle.party.PersonAndUserAccount" value-field="paua">
                             <field-map field-name="userId" from="wph.userId"/></entity-find-one>
+                        <if condition="wph_has_next"><set field="nextWph" from="wphList[wph_index+1]"/></if>
                     </actions><widgets><container>
                         <link url="." text="Version ${wph.versionName}" link-type="anchor" condition="wph.versionName"><parameter name="versionName" from="wph.versionName"/></link>
                         <label text=" by ${paua?.firstName?:''} ${paua?.lastName?:''} (${paua?.username ?: partyNote.userId}) at ${ec.l10n.format(wph.changeDateTime, 'yyyy-MM-dd HH:mm')}" type="span"/>
+                        <link url="../WikiCompare" text="diff prev" link-type="anchor" condition="wph.versionName &amp;&amp; nextWph &amp;&amp; nextWph.versionName">
+                            <parameter name="versionNameLhs" from="nextWph.versionName"/><parameter name="versionNameRhs" from="wph.versionName"/></link>
+                        <link url="../WikiCompare" text="diff cur" link-type="anchor" condition="wph.versionName &amp;&amp; currentVersionName &amp;&amp; wph.versionName != currentVersionName">
+                            <parameter name="versionNameLhs" from="wph.versionName"/><parameter name="versionNameRhs" from="currentVersionName"/></link>
                     </container></widgets></section-iterate>
                 </box-body></container-box>
             </widgets></section>
