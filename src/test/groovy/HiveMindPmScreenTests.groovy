@@ -64,7 +64,7 @@ class HiveMindPmScreenTests extends Specification {
         Set<String> screensToSkip = new HashSet(['wiki', 'EditWikiPage', 'WikiCommentNested', 'WikiCommentReply'])
         List<String> screenPaths = screenTest.getNoRequiredParameterPaths(screensToSkip)
         for (String screenPath in screenPaths) {
-            ScreenTestRender str = screenTest.render(screenPath, null, null)
+            ScreenTestRender str = screenTest.render(screenPath, [lastStandalone:"-2"], null)
             logger.info("Rendered ${screenPath} in ${str.getRenderTime()}ms, ${str.output?.length()} characters")
         }
 
@@ -75,7 +75,7 @@ class HiveMindPmScreenTests extends Specification {
     @Unroll
     def "render HiveMind PM screen (#screenPath, #containsTextList)"() {
         setup:
-        ScreenTestRender str = screenTest.render(screenPath, null, null)
+        ScreenTestRender str = screenTest.render(screenPath, [lastStandalone:"-2"], null)
         // logger.info("Rendered ${screenPath} in ${str.getRenderTime()}ms, output:\n${str.output}")
         boolean containsAll = true
         for (String containsText in containsTextList) {
