@@ -18,7 +18,11 @@ along with this software (see the LICENSE.md file). If not, see
         <set field="searchIndexName" value="hivemind"/>
         <set field="searchTaskDocType" value="HmTask"/>
     </always-actions>
-    <subscreens default-item="dashboard" always-use-full-path="true"/>
+    <subscreens default-item="dashboard" always-use-full-path="true">
+        <subscreens-item name="wiki" location="component://SimpleScreens/screen/SimpleScreens/Wiki/wiki.xml" menu-include="false"/>
+        <subscreens-item name="EditWikiPage" location="component://SimpleScreens/screen/SimpleScreens/Wiki/EditWikiPage.xml" menu-include="false"/>
+        <subscreens-item name="WikiCompare" location="component://SimpleScreens/screen/SimpleScreens/Wiki/WikiCompare.xml" menu-include="false"/>
+    </subscreens>
     <widgets>
         <subscreens-panel id="HiveMindPanel" type="popup" title="HiveMind PM"/>
     </widgets>
