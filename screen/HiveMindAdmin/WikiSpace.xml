@@ -13,9 +13,17 @@ along with this software (see the LICENSE.md file). If not, see
 <http://creativecommons.org/publicdomain/zero/1.0/>.
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.0.xsd"
-        default-menu-title="WikiSpace" default-menu-index="11" menu-image="/hmstatic/images/wiki-documents7.png">
+        default-menu-title="Wiki Space" default-menu-index="11" menu-image="/hmstatic/images/wiki-documents7.png">
 
-    <subscreens default-item="FindWikiSpace"/>
+    <subscreens default-item="WikiSpaces">
+        <subscreens-item name="WikiSpaces" menu-include="false"
+                location="component://SimpleScreens/screen/SimpleScreens/Wiki/WikiSpaces.xml"/>
+        <subscreens-item name="EditWikiSpace" menu-title="Wiki Space" menu-index="1"
+                location="component://SimpleScreens/screen/SimpleScreens/Wiki/EditWikiSpace.xml"/>
+        <subscreens-item name="wiki" location="component://SimpleScreens/screen/SimpleScreens/Wiki/wiki.xml" menu-include="false"/>
+        <subscreens-item name="EditWikiPage" location="component://SimpleScreens/screen/SimpleScreens/Wiki/EditWikiPage.xml" menu-include="false"/>
+        <subscreens-item name="WikiCompare" location="component://SimpleScreens/screen/SimpleScreens/Wiki/WikiCompare.xml" menu-include="false"/>
+    </subscreens>
 
     <widgets>
         <!-- <subscreens-panel id="task-panel" type="tab"/> -->
