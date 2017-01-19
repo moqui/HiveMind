@@ -109,6 +109,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <fields-not-referenced/>
                 <field-row><field-ref name="purposeEnumId"/><field-ref name="priority"/></field-row>
                 <field-row><field-ref name="statusId"/><field-ref name="estimatedCompletionDate"/></field-row>
+                <field-ref name="resolutionEnumId"/>
                 <field-row><field-ref name="estimatedWorkTime"/><field-ref name="remainingWorkTime"/></field-row>
                 <field-row><field-ref name="actualWorkTime"/><field-ref name="totalTimeAllowed"/></field-row>
                 <field-ref name="description"/><field-ref name="submitButton"/>
