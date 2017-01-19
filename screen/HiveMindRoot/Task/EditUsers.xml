@@ -85,7 +85,7 @@ along with this software (see the LICENSE.md file). If not, see
                     </field>
                     <field name="statusId"><default-field title="Status">
                         <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">
-                            <set field="statusTypeId" value="WorkEffortParty"/></widget-template-include>
+                            <set field="statusTypeId" value="WorkEffortParty"/><set field="noCurrentSelectedKey" value="WeptAssigned"/></widget-template-include>
                     </default-field></field>
                     <field name="receiveNotifications"><default-field>
                         <drop-down no-current-selected-key="N"><option key="Y"/><option key="N"/></drop-down>
