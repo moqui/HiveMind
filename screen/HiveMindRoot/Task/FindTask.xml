@@ -69,14 +69,9 @@ along with this software (see the LICENSE.md file). If not, see
                 <search-form-inputs default-order-by="priority,rootWorkEffortId,milestoneEstimatedStartDate"/>
                 <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
                 <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds"/><!-- only tasks in allowed projects -->
-                <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
-                <select-field field-name="parentWorkEffortId"/><select-field field-name="workEffortId"/>
-                <select-field field-name="workEffortName"/><select-field field-name="priority"/>
-                <select-field field-name="purposeEnumId"/><select-field field-name="statusId"/>
-                <select-field field-name="resolutionEnumId"/>
-                <select-field field-name="estimatedCompletionDate"/>
-                <select-field field-name="estimatedWorkTime"/>
-                <select-field field-name="remainingWorkTime"/><select-field field-name="actualWorkTime"/>
+                <select-field field-name="rootWorkEffortId,milestoneWorkEffortId,parentWorkEffortId,workEffortId"/>
+                <select-field field-name="workEffortName,priority,purposeEnumId,statusId,resolutionEnumId"/>
+                <select-field field-name="estimatedCompletionDate,estimatedWorkTime,remainingWorkTime,actualWorkTime"/>
             </entity-find>
 
             <set field="taskSummaryMap" from="[count:0, rootWorkEffortId:'', milestoneWorkEffortId:'', priority:'',
@@ -128,14 +123,9 @@ along with this software (see the LICENSE.md file). If not, see
                 <econdition field-name="workEffortId" operator="in" from="workEffortIdList"/>
                 <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds"/><!-- only tasks in allowed projects -->
                 <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
-                <select-field field-name="rootWorkEffortId"/><select-field field-name="milestoneWorkEffortId"/>
-                <select-field field-name="parentWorkEffortId"/><select-field field-name="workEffortId"/>
-                <select-field field-name="workEffortName"/><select-field field-name="priority"/>
-                <select-field field-name="purposeEnumId"/><select-field field-name="statusId"/>
-                <select-field field-name="resolutionEnumId"/>
-                <select-field field-name="estimatedCompletionDate"/>
-                <select-field field-name="estimatedWorkTime"/>
-                <select-field field-name="remainingWorkTime"/><select-field field-name="actualWorkTime"/>
+                <select-field field-name="rootWorkEffortId,milestoneWorkEffortId,parentWorkEffortId,workEffortId"/>
+                <select-field field-name="workEffortName,priority,purposeEnumId,statusId,resolutionEnumId"/>
+                <select-field field-name="estimatedCompletionDate,estimatedWorkTime,remainingWorkTime,actualWorkTime"/>
             </entity-find>
 
             <set field="taskSummaryMap" from="[count:0, rootWorkEffortId:'', milestoneWorkEffortId:'', priority:'',
@@ -174,7 +164,7 @@ along with this software (see the LICENSE.md file). If not, see
             <container-dialog id="FindTaskDialog" button-text="Find Options" width="800">
                 <form-single name="FindTasks" transition=".">
                     <field name="queryString" from="ec.web.parameters.queryString">
-                        <default-field title="Text Search"><text-line size="80"/></default-field></field>
+                        <default-field title="Text Search"><text-line size="70"/></default-field></field>
                     <field name="rootWorkEffortId"><default-field title="Project">
                         <drop-down allow-empty="true">
                             <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
@@ -308,6 +298,14 @@ along with this software (see the LICENSE.md file). If not, see
         </container>
 
         <form-list name="ListTasks" list="taskList" skip-form="true" skip-end="true">
+            <row-actions>
+                <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
+                    <date-filter/><econdition field-name="workEffortId"/>
+                    <select-field field-name="username,firstName,lastName,organizationName"/>
+                    <order-by field-name="username"/>
+                </entity-find>
+            </row-actions>
+
             <field name="priority">
                 <header-field show-order-by="true"/>
                 <default-field title="Pri"><display/></default-field>
@@ -322,12 +320,12 @@ along with this software (see the LICENSE.md file). If not, see
             </field>
             <field name="parentWorkEffortId">
                 <header-field title="Parent" show-order-by="case-insensitive"/>
-                <default-field><link url="editTask" text="${parentWorkEffortId?:'--'}" link-type="anchor" condition="parentWorkEffortId">
+                <default-field><link url="editTask" text="${parentWorkEffortId}" link-type="anchor" condition="parentWorkEffortId">
                     <parameter name="workEffortId" from="parentWorkEffortId"/></link></default-field>
             </field>
             <field name="rootWorkEffortId">
                 <header-field title="Project" show-order-by="case-insensitive"/>
-                <default-field><link url="projectSummary" text="${rootWorkEffortId?:'--'}" link-type="anchor">
+                <default-field><link url="projectSummary" text="${rootWorkEffortId}" link-type="anchor" condition="rootWorkEffortId">
                     <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
             </field>
             <field name="milestoneWorkEffortId">
@@ -346,28 +344,20 @@ along with this software (see the LICENSE.md file). If not, see
                 <header-field title="Resolution" show-order-by="true"/>
                 <default-field><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
             </field>
+            <field name="assigned"><default-field>
+                <section-iterate name="AssignedSection" list="weapdList" entry="weapd"><widgets>
+                    <label text="${weapd.username?:''}: ${weapd.firstName?:''} ${weapd.lastName?:''} ${weapd.organizationName?:''}" type="div"/>
+                </widgets></section-iterate>
+            </default-field>
+
+            </field>
             <field name="estimatedCompletionDate">
                 <header-field title="Due Date" show-order-by="true"/>
                 <default-field><display format="yyyy-MM-dd"/></default-field>
             </field>
-            <field name="estimatedWorkTime"><default-field title="Est"><display format="0.00"/></default-field></field>
-            <field name="remainingWorkTime"><default-field title="Rem"><display format="0.00"/></default-field></field>
-            <field name="actualWorkTime"><default-field title="Act"><display format="0.00"/></default-field></field>
-        </form-list>
-        <form-list name="ListTasksSummary" list="taskSummaryList" skip-form="true" skip-start="true">
-            <field name="rootWorkEffortId"><default-field><display text="${count} tasks"/></default-field></field>
-            <field name="milestoneWorkEffortId"><default-field><display/></default-field></field>
-            <field name="priority"><default-field><display/></default-field></field>
-            <field name="parentWorkEffortId"><default-field><display/></default-field></field>
-            <field name="workEffortId"><default-field><display/></default-field></field>
-            <field name="workEffortName"><default-field><display/></default-field></field>
-            <field name="purposeEnumId"><default-field><display/></default-field></field>
-            <field name="statusId"><default-field><display/></default-field></field>
-            <field name="resolutionEnumId"><default-field><display/></default-field></field>
-            <field name="estimatedCompletionDate"><default-field><display/></default-field></field>
-            <field name="estimatedWorkTime"><default-field><display format="0.00"/></default-field></field>
-            <field name="remainingWorkTime"><default-field><display format="0.00"/></default-field></field>
-            <field name="actualWorkTime"><default-field><display format="0.00"/></default-field></field>
+            <field name="estimatedWorkTime" show-total="true"><default-field title="Est"><display format="0.00"/></default-field></field>
+            <field name="remainingWorkTime" show-total="true"><default-field title="Rem"><display format="0.00"/></default-field></field>
+            <field name="actualWorkTime" show-total="true"><default-field title="Act"><display format="0.00"/></default-field></field>
         </form-list>
     </widgets>
 </screen>
