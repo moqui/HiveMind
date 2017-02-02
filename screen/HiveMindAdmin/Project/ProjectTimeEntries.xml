@@ -25,6 +25,12 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="resetAndGetRates"><service-call name="mantle.work.TimeServices.resetAndGet#ProjectTimeEntryRates"/>
         <default-response url="."/></transition>
 
+    <transition name="createProjectInvoiceItems"><service-call name="mantle.account.InvoiceServices.create#ProjectInvoiceItems"/>
+        <default-response url="."/></transition>
+    <transition-include name="getOpenClientInvoicesByProject" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
+    <transition-include name="getOpenVendorInvoicesByFromParty" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
+    <transition-include name="getProjectParties" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
+
     <actions>
         <set field="workEffortId" from="rootWorkEffortId"/>
         <set field="showInvoicedBool" from="showInvoiced == 'true'"/>
@@ -33,6 +39,8 @@ along with this software (see the LICENSE.md file). If not, see
         <link url="." text="Show Invoiced" parameter-map="[showInvoiced:'true']" condition="!showInvoicedBool"/>
         <link url="." text="Hide Invoiced" parameter-map="[showInvoiced:null]" condition="showInvoicedBool"/>
         <link url="resetAndGetRates" text="Update Rates" parameter-map="[rootWorkEffortId:rootWorkEffortId]"/>
+
+        <section-include name="ProjectInvoiceSection" location="component://SimpleScreens/screen/SimpleScreens/Accounting/Invoice/FindInvoice.xml"/>
 
         <form-list name="TimeEntryListForm" list="teaweList" transition="recordTimeEntry" header-dialog="true" saved-finds="true" show-all-button="true">
             <entity-find entity-name="mantle.work.time.TimeEntryAndWorkEffort" list="teaweList">
