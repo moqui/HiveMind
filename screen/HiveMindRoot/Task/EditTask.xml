@@ -61,7 +61,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <parameter name="workEffortId" from="project.workEffortId"/></link>
             </default-field></field>
             <field name="milestoneWorkEffortId" from="milestoneAssoc?.workEffortId"><default-field title="Milestone">
-                <drop-down>
+                <drop-down allow-empty="true">
                     <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
                         <depends-on field="rootWorkEffortId"/></dynamic-options>
                 </drop-down>

@@ -22,10 +22,8 @@ along with this software (see the LICENSE.md file). If not, see
     </transition>
     <transition name="findTask"><default-response url="."/></transition>
 
-    <transition name="createTask">
-        <service-call name="mantle.work.TaskServices.create#Task" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="createTask"><service-call name="mantle.work.TaskServices.create#Task" in-map="context"/>
+        <default-response url="."/></transition>
     <transition name="editTask"><default-response url="../TaskSummary"/></transition>
     <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
@@ -51,9 +49,7 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response type="none"/>
     </transition>
 
-    <pre-actions>
-        <set field="html_title" value="Find Task"/>
-    </pre-actions>
+    <pre-actions><set field="html_title" value="Find Task"/></pre-actions>
     
     <actions>
         <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
@@ -177,7 +173,7 @@ along with this software (see the LICENSE.md file). If not, see
                         </drop-down>
                     </default-field></field>
                     <field name="milestoneWorkEffortId"><default-field title="Milestone">
-                        <drop-down>
+                        <drop-down allow-empty="true">
                             <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
@@ -189,7 +185,7 @@ along with this software (see the LICENSE.md file). If not, see
                         </drop-down>
                     </default-field></field>
                     <field name="teamPartyId"><default-field title="Assigned To Team">
-                        <drop-down current="selected">
+                        <drop-down allow-empty="true" current="selected">
                             <dynamic-options transition="getProjectTeams" value-field="partyId" label-field="name">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
@@ -238,7 +234,7 @@ along with this software (see the LICENSE.md file). If not, see
                         <list-options list="myProjectList" key="${workEffortId}" text="WorkEffortNameTemplate"/>
                     </drop-down></default-field></field>
                     <field name="milestoneWorkEffortId"><default-field title="Milestone">
-                        <drop-down>
+                        <drop-down allow-empty="true">
                             <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
