@@ -49,7 +49,7 @@ along with this software (see the LICENSE.md file). If not, see
         <container id="dashboard-search-section">
             <container-box><box-header><label text="Quick Search" type="h5"/></box-header><box-body>
                 <render-mode><text type="html,vuet"><![CDATA[
-    <input type="text" size="19" id="SearchBox" class="form-control typeahead">
+    <input type="text" id="SearchBox" class="form-control typeahead" style="width:100%;">
     <script>
         $("#SearchBox").typeahead({ minLength:2, highlight:true, hint:false }, { limit:20, display: function(item) { return item.label; },
             source: function(query, syncResults, asyncResults) { $.ajax({
