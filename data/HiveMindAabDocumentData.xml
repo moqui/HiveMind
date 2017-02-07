@@ -26,7 +26,7 @@ along with this software (see the LICENSE.md file). If not, see
         <fields fieldPath="histories:historySeqId"/>
         <fields fieldPath="histories:changeDateTime"/>
         <fields fieldPath="histories:userId"/>
-        <fields fieldPath="histories:user:username"/>
+        <!-- causing issues with false update notice for other fields on UserAccount like during login: <fields fieldPath="histories:user:username"/> -->
         <links label="Wiki Page" linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
     </dataDocuments>
 
