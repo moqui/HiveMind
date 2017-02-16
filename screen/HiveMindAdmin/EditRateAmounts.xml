@@ -46,7 +46,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <actions>
         <entity-find entity-name="mantle.humanres.rate.RateAmount" list="rateAmountList">
-            <search-form-inputs default-order-by="rateTypeEnumId,ratePurposeEnumId"/><date-filter/></entity-find>
+            <search-form-inputs default-order-by="rateTypeEnumId,ratePurposeEnumId"/></entity-find>
         
         <entity-find entity-name="mantle.ledger.config.PartyAcctgPreference" list="partyAcctgPreferenceList"/>
         <set field="currencyUomIdList" from="[]"/>
