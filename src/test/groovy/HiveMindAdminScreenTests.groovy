@@ -108,7 +108,7 @@ class HiveMindAdminScreenTests extends Specification {
         "Client/EditUsers?partyId=ORG_ACME" | ['Acme', 'Client Manager']
 
         // User
-        "User/EditUser?partyId=EX_JOHN_DOE" | ['john.doe@test.com', 'John']
+        "User/EditUser?partyId=EX_JOHN_DOE" | ['john.doe@moqui.org', 'John']
         "User/EditProjects?partyId=EX_JOHN_DOE" | ['Manager', 'Programmer Lead', 'Assigned']
         "User/EditTasks?partyId=EX_JOHN_DOE" | ['HM-004', 'Dashboard My Tasks', 'Assigned']
         "User/EditRequests?partyId=EX_JOHN_DOE" | ['DEMO_001', 'Add Create Request on dashboard', 'Assignee']
