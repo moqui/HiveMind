@@ -56,8 +56,8 @@ along with this software (see the LICENSE.md file). If not, see
                 <link text="Clients" url="../Client" link-type="anchor"/>
             </container>
             <container>
-                <link url="../User" link-type="anchor"><image url="/hmstatic/images/user-man27.png" url-type="screen" style="invertible"/></link>
-                <link text="Users" url="../User" link-type="anchor"/>
+                <link url="../Party" link-type="anchor"><image url="/hmstatic/images/user-man27.png" url-type="screen" style="invertible"/></link>
+                <link text="Parties" url="../Party" link-type="anchor"/>
             </container>
             <container>
                 <link url="../Team" link-type="anchor"><image url="/hmstatic/images/team-businessmen18.png" url-type="screen" style="invertible"/></link>
