@@ -157,12 +157,13 @@ class HiveMindAdminScreenTests extends Specification {
         "Accounting/GlAccount/EditGlAccount?glAccountId=110000000" | ['Cash and Equivalent Asset', 'Ziziwork Industries']
 
         // Accounting/Reports
+        // NOTE: these are designed to handle account masks of ###-###-### or the 6 digit ###-###
         "Accounting/Reports/BalanceSheet?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100&detail=true" |
-                ["121000000: Accounts Receivable", "210000000: Accounts Payable"]
+                ["121-000", "Accounts Payable"]
         "Accounting/Reports/IncomeStatement?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100&detail=true" |
-                ["411000000: Product Sales", "614200000: Network Charges"]
+                ["411-000", "Network Charges"]
         "Accounting/Reports/CashFlowStatement?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100&detail=true" |
-                ["111100000: General Checking Account", "182000000: Accumulated Depreciation - Equipment"]
+                ["111-100", "Accumulated Depreciation - Equipment"]
         "Accounting/Reports/RetainedEarningsStatement?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100" |
                 ["Net Earnings", "Ziziwork Retail Fiscal"]
         "Accounting/Reports/FinancialRatios?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100" |
