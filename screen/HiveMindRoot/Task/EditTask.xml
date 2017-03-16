@@ -79,7 +79,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
             </default-field></field>
             <field name="purposeEnumId"><default-field title="Purpose">
-                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumWithParentDropDown">
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
                     <set field="enumTypeId" value="WorkEffortPurpose"/><set field="parentEnumId" value="WetTask"/></widget-template-include>
             </default-field></field>
             <field name="statusId"><default-field title="Status">
