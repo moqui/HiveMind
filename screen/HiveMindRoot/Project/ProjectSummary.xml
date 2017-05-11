@@ -34,12 +34,12 @@ along with this software (see the LICENSE.md file). If not, see
 
         <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="clientWepList">
             <date-filter/><econdition field-name="workEffortId"/>
-            <econdition field-name="roleTypeId" operator="in" value="CustomerBillTo"/>
+            <econdition field-name="roleTypeId" operator="in" value="Customer,CustomerBillTo"/>
         </entity-find>
         <set field="clientWep" from="clientWepList?.getAt(0)"/>
         <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="vendorWepList">
             <date-filter/><econdition field-name="workEffortId"/>
-            <econdition field-name="roleTypeId" operator="in" value="VendorBillFrom"/>
+            <econdition field-name="roleTypeId" operator="in" value="Vendor,VendorBillFrom"/>
         </entity-find>
         <set field="vendorWep" from="vendorWepList?.getAt(0)"/>
 

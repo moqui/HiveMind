@@ -15,16 +15,11 @@ along with this software (see the LICENSE.md file). If not, see
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd"
         default-menu-title="Dashboard" default-menu-index="1" menu-image="glyphicon glyphicon-dashboard" menu-image-type="icon">
 
-    <transition name="quickSearch"><default-response url="QuickSearch"/></transition>
-    <transition name="myWikiSpaces"><default-response url="MyWikiSpaces"/></transition>
-    <transition name="myTasks"><default-response url="MyTasks"/></transition>
-    <transition name="myRequests"><default-response url="MyRequests"/></transition>
-
     <widgets>
         <container-row>
             <row-col md="2">
                 <section name="DashboardLeft"><widgets>
-                    <dynamic-container id="QuickSearchContainer" transition="quickSearch"/>
+                    <dynamic-container id="QuickSearchContainer" transition="QuickSearch"/>
 
                     <container>
                         <link url="../Project" link-type="anchor"><image url="/hmstatic/images/project-business120.png" url-type="screen" style="invertible"/></link>
@@ -40,13 +35,13 @@ along with this software (see the LICENSE.md file). If not, see
                     </container>
                     <label text="&amp;nbsp;" type="p" encode="false"/>
 
-                    <dynamic-container id="MyWikiSpacesContainer" transition="myWikiSpaces"/>
+                    <dynamic-container id="MyWikiSpacesContainer" transition="MyWikiSpaces"/>
                 </widgets></section>
             </row-col>
             <row-col md="10">
                 <section name="DashboardCenter"><widgets>
-                    <dynamic-container id="MyTasksContainer" transition="myTasks"/>
-                    <dynamic-container id="MyRequestsContainer" transition="myRequests"/>
+                    <dynamic-container id="MyTasksContainer" transition="MyTasks"/>
+                    <dynamic-container id="MyRequestsContainer" transition="MyRequests"/>
                 </widgets></section>
             </row-col>
         </container-row>

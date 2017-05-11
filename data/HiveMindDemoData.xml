@@ -67,7 +67,7 @@ along with this software (see the LICENSE.md file). If not, see
     <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="HiveMind PM Build Out"
             workEffortTypeEnumId="WetProject" statusId="WeInProgress" statusFlowId="HmTaskSimple"
             totalClientCostAllowed="10000" costUomId="USD"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_SERVICES" roleTypeId="VendorBillFrom" fromDate="1265184000000"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_SERVICES" roleTypeId="Vendor" fromDate="1265184000000"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="EX_JOHN_DOE" roleTypeId="Manager"
             emplPositionClassId="ProgrammerLead" fromDate="1265184000000" statusId="WeptAssigned"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_JD" roleTypeId="Assignee"
@@ -78,7 +78,7 @@ along with this software (see the LICENSE.md file). If not, see
             fromDate="1265184000000" statusId="WeptAssigned"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_DEVB" roleTypeId="OrgTeam"
             fromDate="1265184000000" statusId="WeptAssigned"/>
-    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME" roleTypeId="CustomerBillTo" fromDate="1265184000000"/>
+    <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME" roleTypeId="Customer" fromDate="1265184000000"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME_SA" roleTypeId="ClientManager"
             fromDate="1265184000000" statusId="WeptAssigned"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME_BA" roleTypeId="Assignee"
@@ -126,7 +126,7 @@ along with this software (see the LICENSE.md file). If not, see
     <!-- Project Expense (Purchase) Invoice - Hosting paid by Ziziwork company-->
     <mantle.party.Party partyId="HM_AWS" partyTypeEnumId="PtyOrganization"/>
     <mantle.party.Organization partyId="HM_AWS" organizationName="Amazon Web Services"/>
-    <mantle.party.PartyRole partyId="HM_AWS" roleTypeId="VendorBillFrom"/>
+    <mantle.party.PartyRole partyId="HM_AWS" roleTypeId="Supplier"/>
     <mantle.account.invoice.Invoice invoiceId="HM-002" invoiceTypeEnumId="InvoiceSales" fromPartyId="HM_AWS"
             toPartyId="ORG_ZIZI_SERVICES" statusId="InvoiceReceived" invoiceDate="2013-03-01 12:00:00" currencyUomId="USD"
             description="Amazon web hosting March 2013"/>
@@ -295,7 +295,7 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
             description="Please add Create Request popup on dashboard screen for convenient request creation."
             filedByPartyId="" priority="2" requestDate="1265184000000" responseRequiredDate="2013-07-31 12:00:00"/>
     <mantle.request.RequestParty requestId="DEMO_001" partyId="EX_JOHN_DOE" roleTypeId="Assignee" fromDate="1265184000000" thruDate=""/>
-    <mantle.request.RequestParty requestId="DEMO_001" partyId="ORG_ACME" roleTypeId="CustomerBillTo" fromDate="1265184000000" thruDate=""/>
+    <mantle.request.RequestParty requestId="DEMO_001" partyId="ORG_ACME" roleTypeId="Customer" fromDate="1265184000000" thruDate=""/>
     <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-007"/>
 
     <mantle.request.Request requestId="DEMO_002" requestTypeEnumId="RqtInformation" requestCategoryId=""

@@ -12,22 +12,20 @@ You should have received a copy of the CC0 Public Domain Dedication
 along with this software (see the LICENSE.md file). If not, see
 <http://creativecommons.org/publicdomain/zero/1.0/>.
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd"
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd"
         default-menu-title="Project" default-menu-index="1">
 
     <parameter name="workEffortId"/>
     <parameter name="rootWorkEffortId" required="true" from="rootWorkEffortId ?: workEffortId"/>
 
-    <transition name="updateProject">
-        <service-call name="mantle.work.ProjectServices.update#Project" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="updateProject"><service-call name="mantle.work.ProjectServices.update#Project" in-map="context"/>
+        <default-response url="."/></transition>
     <transition name="editClient"><default-response url="../../Client/EditClient"/></transition>
     <transition name="editVendor"><default-response url="../../Vendor/EditVendor"/></transition>
 
     <transition name="editProject"><default-response url="."/></transition>
     <transition name="findTask"><default-response url="//hm/Task/FindTask"/></transition>
+    <transition-include name="searchPartyList" location="component://SimpleScreens/template/party/PartyForms.xml"/>
 
     <pre-actions>
         <if condition="rootWorkEffortId"><set field="workEffortId" from="rootWorkEffortId"/></if>
@@ -40,12 +38,12 @@ along with this software (see the LICENSE.md file). If not, see
 
         <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="clientWepList">
             <date-filter/><econdition field-name="workEffortId"/>
-            <econdition field-name="roleTypeId" operator="in" value="CustomerBillTo"/>
+            <econdition field-name="roleTypeId" operator="in" value="Customer,CustomerBillTo"/>
         </entity-find>
         <set field="clientWep" from="clientWepList?.getAt(0)"/>
         <entity-find entity-name="mantle.work.effort.WorkEffortParty" list="vendorWepList">
             <date-filter/><econdition field-name="workEffortId"/>
-            <econdition field-name="roleTypeId" operator="in" value="VendorBillFrom"/>
+            <econdition field-name="roleTypeId" operator="in" value="Vendor,VendorBillFrom"/>
         </entity-find>
         <set field="vendorWep" from="vendorWepList?.getAt(0)"/>
     </actions>
@@ -56,13 +54,13 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="workEffortId"><default-field title="Project ID"><hidden/></default-field></field>
             <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
             <field name="clientPartyId" from="clientWep?.partyId"><default-field title="Client">
-                <widget-template-include location="component://SimpleScreens/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
-                    <set field="roleTypeId" value="CustomerBillTo"/><set field="allowEmpty" value="true"/></widget-template-include>
+                <drop-down allow-empty="true"><dynamic-options transition="searchPartyList" server-search="true" min-length="0"
+                        parameter-map="[roleTypeId:'Customer,CustomerBillTo,OrgInternal']"/></drop-down>
                 <link url="editClient" text="Edit Client"><parameter name="partyId" from="clientWep?.partyId"/></link>
             </default-field></field>
             <field name="vendorPartyId" from="vendorWep?.partyId"><default-field title="Vendor">
-                <widget-template-include location="component://SimpleScreens/template/party/PartyWidgetTemplates.xml#partyDropDownByRole">
-                    <set field="roleTypeId" value="VendorBillFrom"/><set field="allowEmpty" value="true"/></widget-template-include>
+                <drop-down allow-empty="true"><dynamic-options transition="searchPartyList" server-search="true" min-length="0"
+                        parameter-map="[roleTypeId:'Vendor,VendorBillFrom,OrgInternal']"/></drop-down>
                 <link url="editVendor" text="Edit Vendor"><parameter name="partyId" from="vendorWep?.partyId"/></link>
             </default-field></field>
             <field name="priority"><default-field>

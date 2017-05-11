@@ -45,7 +45,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <drop-down allow-empty="true">
                         <entity-options key="${partyId}" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}">
                             <entity-find entity-name="mantle.party.PartyDetailAndRole">
-                                <econdition field-name="roleTypeId" value="VendorBillFrom"/>
+                                <econdition field-name="roleTypeId" operator="in" value="Vendor,VendorBillFrom,OrgInternal"/>
                                 <econdition field-name="disabled" value="N" or-null="true"/>
                                 <order-by field-name="organizationName"/>
                                 <order-by field-name="firstName"/><order-by field-name="lastName"/>

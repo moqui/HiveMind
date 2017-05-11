@@ -12,24 +12,15 @@ You should have received a copy of the CC0 Public Domain Dedication
 along with this software (see the LICENSE.md file). If not, see
 <http://creativecommons.org/publicdomain/zero/1.0/>.
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd"
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd"
         default-menu-include="false" standalone="true">
 
-    <transition name="createRequest">
-        <service-call name="mantle.request.RequestServices.create#Request" in-map="context"/>
-        <default-response url=".."/>
-    </transition>
+    <transition name="createRequest"><service-call name="mantle.request.RequestServices.create#Request" in-map="context"/>
+        <default-response url=".."/></transition>
     <transition name="findRequest"><default-response url="../../Request/FindRequest"/></transition>
     <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
 
-    <transition name="getPersonList">
-        <actions>
-            <service-call name="mantle.party.PartyServices.search#Person" in-map="context" out-map="context"/>
-            <script>ec.web.sendJsonResponse(outList)</script>
-        </actions>
-        <default-response type="none"/>
-    </transition>
+    <transition-include name="searchPartyList" location="component://SimpleScreens/template/party/PartyForms.xml"/>
 
     <actions>
         <entity-find entity-name="mantle.request.RequestAndParty" list="myRequestList">
@@ -45,7 +36,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <link url="findRequest" text="Find Request"/>
                 <container-dialog id="NewRequestContainer" button-text="New Request">
                     <form-single name="NewRequest" transition="createRequest"
-                                 extends="component://HiveMind/screen/HiveMindRoot/Request/FindRequest.xml#NewRequestForm">
+                                 extends="component://SimpleScreens/screen/SimpleScreens/Request/FindRequest.xml#NewRequestForm">
                     </form-single>
                 </container-dialog>
             </box-toolbar><box-body>
@@ -53,7 +44,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <row-actions>
                         <entity-find entity-name="mantle.request.RequestParty" list="clientRpList">
                             <date-filter/><econdition field-name="requestId"/>
-                            <econdition field-name="roleTypeId" value="CustomerBillTo"/>
+                            <econdition field-name="roleTypeId" operator="in" value="Customer,CustomerBillTo"/>
                         </entity-find>
                         <set field="clientRp" from="clientRpList?.getAt(0)"/>
                     </row-actions>

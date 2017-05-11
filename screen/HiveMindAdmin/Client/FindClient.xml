@@ -33,14 +33,14 @@ along with this software (see the LICENSE.md file). If not, see
     <actions>
         <entity-find entity-name="mantle.party.PartyDetailAndRole" list="clientList">
             <search-form-inputs default-order-by="organizationName,firstName,lastName"/>
-            <econdition field-name="roleTypeId" value="CustomerBillTo"/>
+            <econdition field-name="roleTypeId" operator="in" value="Customer,CustomerBillTo"/>
         </entity-find>
     </actions>
     <widgets>
         <container>
             <container-dialog id="AddClientDialog" button-text="Add Client">
                 <form-single name="CreateClient" transition="createClient">
-                    <field name="roleTypeId"><default-field><hidden default-value="CustomerBillTo"/></default-field></field>
+                    <field name="roleTypeId"><default-field><hidden default-value="Customer"/></default-field></field>
                     <field name="organizationName"><default-field title="Name"><text-line/></default-field></field>
                     <field name="submitButton"><default-field title="Create Client"><submit/></default-field></field>
                 </form-single>

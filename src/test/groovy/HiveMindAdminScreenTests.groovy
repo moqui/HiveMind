@@ -96,7 +96,7 @@ class HiveMindAdminScreenTests extends Specification {
         // Vendor
         "Vendor/EditVendor?partyId=ORG_ZIZI_SERVICES" |
                 ['Ziziwork Services', 'Internal', 'payment.biziwork.services@test.com']
-        "Vendor/EditProjects?partyId=ORG_ZIZI_SERVICES" | ['HM - HiveMind PM Build Out', 'Vendor - Bill From']
+        "Vendor/EditProjects?partyId=ORG_ZIZI_SERVICES" | ['HM - HiveMind PM Build Out', 'Vendor']
         "Vendor/EditUsers?partyId=ORG_ZIZI_SERVICES" | ['Developer', 'Manager']
         "Vendor/Accounting/AcctgPreference?partyId=ORG_ZIZI_SERVICES" |
                 ['Ziziwork Industries', 'Clone Accounting Settings']
@@ -104,7 +104,7 @@ class HiveMindAdminScreenTests extends Specification {
         // Client
         "Client/EditClient?partyId=ORG_ACME" |
                 ['Another Company Making Everything', 'Accounts Payable', 'billing.acme@test.com']
-        "Client/EditProjects?partyId=ORG_ACME" | ['HM - HiveMind PM Build Out', 'Customer - Bill To']
+        "Client/EditProjects?partyId=ORG_ACME" | ['HM - HiveMind PM Build Out', 'Customer']
         "Client/EditUsers?partyId=ORG_ACME" | ['Acme', 'Client Manager']
 
         // Party
