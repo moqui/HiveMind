@@ -293,7 +293,7 @@ along with this software (see the LICENSE.md file). If not, see
             </form-single>
         </container>
 
-        <form-list name="ListTasks" list="taskList" skip-form="true" skip-end="true">
+        <form-list name="ListTasks" list="taskList" skip-form="true">
             <row-actions>
                 <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
                     <date-filter/><econdition field-name="workEffortId"/>
