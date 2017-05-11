@@ -5,8 +5,15 @@ HiveMind Project Management and Service ERP Release Notes
 Release 1.2.1 - Not Yet Released
 ===========================================================================
 
-HiveMind Project Management and Service ERP 1.2.1 is a patch new feature
-and bug fix release.
+HiveMind Project Management and Service ERP 1.2.1 is a patch level new
+feature and bug fix release.
+
+There are significant improvements in accounting, wiki, requests, and more
+with updated screens from SimpleScreens.
+
+New features in HiveMind itself (on top of what comes from SimpleScreens)
+are small in this release, but the updates from mantle-usl and
+SimpleScreens still make this a significant release.
 
 ===========================================================================
 Release 1.2.0 - 24 Nov 2016
