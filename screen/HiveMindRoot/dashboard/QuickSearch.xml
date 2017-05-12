@@ -16,21 +16,25 @@ along with this software (see the LICENSE.md file). If not, see
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd"
         default-menu-include="false" standalone="true">
 
-    <transition name="search"><default-response url="../../search"/></transition>
+    <transition name="search"><default-response url="../../Search"/></transition>
 
     <transition name="getSearchOptions">
         <actions>
+            <script>queryString = (term.split(' ') as List).collect({ it.matches(/\w*/) ? (it + '*') : it }).join(' ')</script>
             <service-call name="org.moqui.search.SearchServices.search#DataDocuments" out-map="context"
-                    in-map="[queryString:(term + '*'), indexName:'hivemind']"/>
+                    in-map="[queryString:queryString, indexName:'hivemind']"/>
             <set field="outList" from="[]"/>
             <iterate list="documentList" entry="document">
                 <entity-find-one entity-name="moqui.entity.document.DataDocument" value-field="dataDocument" cache="true">
                     <field-map field-name="dataDocumentId" from="document._type"/>
                 </entity-find-one>
                 <if condition="!dataDocument"><log message="DataDocument not found for document:\n${document}"/><continue/></if>
+                <entity-find entity-name="moqui.entity.document.DataDocumentLink" list="ddLinkList" cache="true">
+                    <econdition field-name="dataDocumentId" from="_type"/>
+                    <econdition field-name="condition" operator="is-null"/>
+                </entity-find>
                 <!-- this is a type=many relationship, but we just want one here: -->
-                <entity-find-related-one value-field="dataDocument" cache="true"
-                        relationship-name="moqui.entity.document.DataDocumentLink" to-value-field="dataDocumentLink"/>
+                <set field="dataDocumentLink" from="ddLinkList ? ddLinkList[0] : null"/>
                 <set field="linkUrl" from="ec.web.getWebappRootUrl(false, null) + ec.resource.expand(dataDocumentLink?.linkUrl, '', document)"/>
                 <if condition="dataDocumentLink?.urlType == 'transition' || dataDocumentLink?.urlType == 'screen'">
                     <set field="linkUrlInstance" from="new org.moqui.impl.screen.ScreenUrlInfo(sri, null, null, linkUrl, null, null).url"/>
@@ -52,10 +56,13 @@ along with this software (see the LICENSE.md file). If not, see
     <input type="text" id="SearchBox" class="form-control typeahead" style="width:100%;">
     <script>
         $("#SearchBox").typeahead({ minLength:2, highlight:true, hint:false }, { limit:20, display: function(item) { return item.label; },
-            source: function(query, syncResults, asyncResults) { $.ajax({
-                url: "${sri.screenUrlInstance.url}/getSearchOptions", type: "POST", dataType: "json", data: { term:query, moquiSessionToken:"${ec.web.sessionToken}" },
-                success: function(data) { asyncResults($.map(data, function(item) { return { label:item.label, value:item.value, urlToOpen:item.urlToOpen } })); }
-            }); }
+            source: function(query, syncResults, asyncResults) {
+                if (window.qsDelayTimeout) { clearTimeout(window.qsDelayTimeout); }
+                window.qsDelayTimeout = setTimeout(function() { $.ajax({
+                    url: "${sri.screenUrlInstance.url}/getSearchOptions", type: "POST", dataType: "json", data: { term:query, moquiSessionToken:"${ec.web.sessionToken}" },
+                    success: function(data) { asyncResults($.map(data, function(item) { return { label:item.label, value:item.value, urlToOpen:item.urlToOpen } })); }
+                }); }, 300);
+            }
         });
         $("#SearchBox").focus();
     </script>
