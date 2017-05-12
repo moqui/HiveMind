@@ -31,9 +31,10 @@ along with this software (see the LICENSE.md file). If not, see
     </pre-actions>
     
     <actions>
-        <entity-find entity-name="mantle.party.PartyDetailAndRole" list="clientList">
+        <entity-find entity-name="mantle.party.PartyDetailAndRole" list="clientList" distinct="true">
             <search-form-inputs default-order-by="organizationName,firstName,lastName"/>
             <econdition field-name="roleTypeId" operator="in" value="Customer,CustomerBillTo"/>
+            <select-field field-name="partyId,pseudoId,organizationName,firstName,lastName,disabled"/>
         </entity-find>
     </actions>
     <widgets>
@@ -48,18 +49,12 @@ along with this software (see the LICENSE.md file). If not, see
         </container>
 
         <form-list name="ClientList" list="clientList">
-            <field name="organizationName">
-                <header-field show-order-by="case-insensitive" title="Name"><text-find/></header-field>
-                <default-field><link url="editClient" text="${organizationName?:''} ${firstName?:''} ${lastName?:''}" link-type="anchor"/></default-field>
-            </field>
-            <field name="disabled">
-                <header-field title="Disabled?" show-order-by="case-insensitive"/>
-                <default-field><display text="${disabled?:'N'}"/></default-field>
-            </field>
-            <field name="searchButton">
-                <header-field title="Find"><submit/></header-field>
-                <default-field><display text=""/></default-field>
-            </field>
+            <field name="organizationName"><header-field show-order-by="true" title="Name"><text-find hide-options="true"/></header-field>
+                <default-field><link url="editClient" text="PartyNameTemplate" link-type="anchor"/></default-field></field>
+            <field name="disabled"><header-field title="Disabled?" show-order-by="true"/>
+                <default-field><display text="${disabled?:'N'}"/></default-field></field>
+            <field name="searchButton"><header-field title="Find"><submit/></header-field>
+                <default-field><display text=""/></default-field></field>
         </form-list>
     </widgets>
 </screen>
