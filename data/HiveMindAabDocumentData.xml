@@ -18,38 +18,38 @@ along with this software (see the LICENSE.md file). If not, see
             primaryEntityName="moqui.resource.wiki.WikiPage" documentTitle="${wikiSpaceId}/${pagePath?:''}"
             manualDataServiceName="org.moqui.impl.WikiServices.get#WikiPageManualDocumentData">
         <!-- NOTE: service purpose is to get wiki page contents from the file (resource) -->
-        <fields fieldPath="wikiPageId"/>
-        <fields fieldPath="wikiSpaceId"/>
-        <fields fieldPath="pagePath"/>
-        <fields fieldPath="space:description" fieldNameAlias="space"/>
+        <fields fieldSeqId="01" fieldPath="wikiPageId"/>
+        <fields fieldSeqId="02" fieldPath="wikiSpaceId"/>
+        <fields fieldSeqId="03" fieldPath="pagePath"/>
+        <fields fieldSeqId="04" fieldPath="space:description" fieldNameAlias="space"/>
         <!-- the history fields are useful for update history and search by users who have updated a page, but also trigger indexing on page update -->
-        <fields fieldPath="histories:historySeqId"/>
-        <fields fieldPath="histories:changeDateTime"/>
-        <fields fieldPath="histories:userId"/>
-        <!-- causing issues with false update notice for other fields on UserAccount like during login: <fields fieldPath="histories:user:username"/> -->
-        <links label="Wiki Page" linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
+        <fields fieldSeqId="10" fieldPath="histories:historySeqId"/>
+        <fields fieldSeqId="11" fieldPath="histories:changeDateTime"/>
+        <fields fieldSeqId="12" fieldPath="histories:userId"/>
+        <!-- causing issues with false update notice for other fields on UserAccount like during login: <fields fieldSeqId="01" fieldPath="histories:user:username"/> -->
+        <links linkSeqId="01" label="Wiki Page" linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
     </dataDocuments>
 
     <!-- Project -->
     <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleProject" newDataDocumentId="HmProject"
             newIndexName="hivemind" copyConditions="true"/>
-    <moqui.entity.document.DataDocumentLink dataDocumentId="HmProject" label="Edit Project"
+    <moqui.entity.document.DataDocumentLink dataDocumentId="HmProject" linkSeqId="01" label="Edit Project"
             linkUrl="/apps/hm/Project/ProjectSummary?workEffortId=${workEffortId}"/>
 
     <!-- Task -->
     <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleTask" newDataDocumentId="HmTask"
             newIndexName="hivemind" copyConditions="true"/>
-    <moqui.entity.document.DataDocumentLink dataDocumentId="HmTask" label="Task Summary"
+    <moqui.entity.document.DataDocumentLink dataDocumentId="HmTask" linkSeqId="01" label="Task Summary"
             linkUrl="/apps/hm/Task/TaskSummary?workEffortId=${workEffortId}"/>
 
     <!-- Request -->
     <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleRequest" newDataDocumentId="HmRequest" newIndexName="hivemind"/>
-    <moqui.entity.document.DataDocumentLink dataDocumentId="HmRequest" label="Edit Request"
+    <moqui.entity.document.DataDocumentLink dataDocumentId="HmRequest" linkSeqId="01" label="Edit Request"
             linkUrl="/apps/hm/Request/EditRequest?requestId=${requestId}"/>
 
     <!-- Party -->
     <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleParty" newDataDocumentId="HmParty" newIndexName="hivemind"/>
-    <moqui.entity.document.DataDocumentLink dataDocumentId="HmParty" label="Edit Party" urlType="screen"
+    <moqui.entity.document.DataDocumentLink dataDocumentId="HmParty" linkSeqId="01" label="Edit Party" urlType="screen"
             linkUrl="//apps/hmadmin/Party/EditParty?partyId=${partyId}"/>
 
     <!-- ================ -->
