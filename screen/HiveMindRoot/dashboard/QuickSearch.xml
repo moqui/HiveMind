@@ -31,7 +31,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <if condition="!dataDocument"><log message="DataDocument not found for document:\n${document}"/><continue/></if>
                 <entity-find entity-name="moqui.entity.document.DataDocumentLink" list="ddLinkList" cache="true">
                     <econdition field-name="dataDocumentId" from="_type"/>
-                    <econdition field-name="condition" operator="is-null"/>
+                    <econdition field-name="linkCondition" operator="is-null"/>
                 </entity-find>
                 <!-- this is a type=many relationship, but we just want one here: -->
                 <set field="dataDocumentLink" from="ddLinkList ? ddLinkList[0] : null"/>
