@@ -102,7 +102,10 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
 
     <transition name="taskCommentReply"><default-response url="TaskCommentReply"/></transition>
+    <transition name="taskCommentUpdate"><default-response url="TaskCommentUpdate"/></transition>
     <transition name="addComment"><service-call name="mantle.work.TaskServices.add#TaskComment"/>
+        <default-response url="."/></transition>
+    <transition name="deleteComment"><service-call name="mantle.work.TaskServices.delete#TaskComment"/>
         <default-response url="."/></transition>
 
     <actions>
@@ -288,6 +291,12 @@ along with this software (see the LICENSE.md file). If not, see
                                     <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="taskCommentReply">
                                         <parameter name="parentCommEventId" from="commEventDetail.communicationEventId"/>
                                     </dynamic-dialog>
+                                    <dynamic-dialog id="EditCommentContainer${uniqueExtension}" button-text="Edit" transition="taskCommentUpdate">
+                                        <parameter name="communicationEventId" from="commEventDetail.communicationEventId"/>
+                                    </dynamic-dialog>
+                                    <link text="Delete" url="deleteComment" parameter-map="[workEffortId:workEffortId,
+                                        communicationEventId:commEventDetail.communicationEventId]"
+                                          confirmation="Delete comment ${commEventDetail.subject}?"/>
 
                                     <label text="${commEventDetail.body}" type="pre" encode="false"/>
 
