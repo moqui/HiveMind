@@ -30,18 +30,20 @@ along with this software (see the LICENSE.md file). If not, see
                 </entity-find-one>
                 <if condition="!dataDocument"><log message="DataDocument not found for document:\n${document}"/><continue/></if>
                 <entity-find entity-name="moqui.entity.document.DataDocumentLink" list="ddLinkList" cache="true">
-                    <econdition field-name="dataDocumentId" from="_type"/>
+                    <econdition field-name="dataDocumentId" from="document._type"/>
                     <econdition field-name="linkCondition" operator="is-null"/>
                 </entity-find>
                 <!-- this is a type=many relationship, but we just want one here: -->
                 <set field="dataDocumentLink" from="ddLinkList ? ddLinkList[0] : null"/>
-                <set field="linkUrl" from="ec.web.getWebappRootUrl(false, null) + ec.resource.expand(dataDocumentLink?.linkUrl, '', document)"/>
-                <if condition="dataDocumentLink?.urlType == 'transition' || dataDocumentLink?.urlType == 'screen'">
-                    <set field="linkUrlInstance" from="new org.moqui.impl.screen.ScreenUrlInfo(sri, null, null, linkUrl, null, null).url"/>
-                    <set field="linkUrl" from="linkUrlInstance.urlWithParams"/>
-                </if>
+                <set field="linkUrl" from="ec.resource.expand(dataDocumentLink?.linkUrl, '', document)"/>
+                <if condition="dataDocumentLink?.urlType == 'transition' || dataDocumentLink?.urlType == 'screen'"><then>
+                    <set field="linkUrlInstance" from="org.moqui.impl.screen.ScreenUrlInfo.getScreenUrlInfo(sri, null, null, linkUrl, 0).getInstance(sri, true)"/>
+                    <set field="urlToOpen" from="linkUrlInstance.pathWithParams"/>
+                </then><else>
+                    <set field="urlToOpen" from="ec.web.getWebappRootUrl(false, null) + ec.resource.expand(dataDocumentLink?.linkUrl, '', document)"/>
+                </else></if>
                 <set field="documentTitle" from="ec.resource.expand(dataDocument.documentTitle, '', document)"/>
-                <script>outList.add([value:document._id, urlToOpen:linkUrl, label:"${dataDocument.documentName} - ${document._id}: ${documentTitle}".toString()])</script>
+                <script>outList.add([value:document._id, urlToOpen:urlToOpen, label:"${dataDocument.documentName} - ${document._id}: ${documentTitle}".toString()])</script>
             </iterate>
             <!-- <log level="warn" message="======= outList: ${outList}"/> -->
             <script>ec.web.sendJsonResponse(outList)</script>

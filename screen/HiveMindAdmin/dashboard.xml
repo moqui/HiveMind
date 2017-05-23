@@ -27,51 +27,60 @@ along with this software (see the LICENSE.md file). If not, see
         </entity-find>
     </actions>
     <widgets>
-        <container-row><row-col md="2">
-            <label text="Operate" type="h2"/>
+        <container-row><row-col sm="2">
+            <label text="Operate" type="h4"/>
             <container>
-                <link url="../WikiSpace" link-type="anchor"><image url="/hmstatic/images/wiki-documents7.png" url-type="screen" style="invertible"/></link>
+                <link url="../WikiSpace" link-type="anchor">
+                    <image url="/hmstatic/images/wiki-documents7.png" url-type="screen" style="invertible" width="40"/></link>
                 <link text="Wiki Spaces" url="../WikiSpace" link-type="anchor"/>
             </container>
             <container>
-                <link url="../Project" link-type="anchor"><image url="/hmstatic/images/project-business120.png" url-type="screen" style="invertible"/></link>
+                <link url="../Project" link-type="anchor">
+                    <image url="/hmstatic/images/project-business120.png" url-type="screen" style="invertible" width="40"/></link>
                 <link text="Projects" url="../Project" link-type="anchor"/>
             </container>
             <container>
-                <link url="../Accounting" link-type="anchor"><image url="/hmstatic/images/invoice-pay.png" url-type="screen" style="invertible"/></link>
+                <link url="../Accounting" link-type="anchor">
+                    <image url="/hmstatic/images/invoice-pay.png" url-type="screen" style="invertible" width="40"/></link>
                 <link text="Accounting" url="../Accounting" link-type="anchor"/>
             </container>
             <container>
-                <link url="Reports" link-type="anchor"><image url="/hmstatic/images/reports-dollar116.png" url-type="screen" style="invertible"/></link>
+                <link url="Reports" link-type="anchor">
+                    <image url="/hmstatic/images/reports-dollar116.png" url-type="screen" style="invertible" width="40"/></link>
                 <link text="Reports" url="Reports" link-type="anchor"/>
             </container>
 
-            <label text="Setup" type="h2"/>
+            <label text="Setup" type="h4"/>
             <container>
-                <link url="../Vendor" link-type="anchor"><image url="/hmstatic/images/vendor-person25.png" url-type="screen" style="invertible"/></link>
-                <link text="Vendor(s)" url="../Vendor" link-type="anchor"/>
+                <link url="../Vendor" link-type="anchor">
+                    <image url="/hmstatic/images/vendor-person25.png" url-type="screen" style="invertible" width="40"/></link>
+                <link text="Vendors" url="../Vendor" link-type="anchor"/>
             </container>
             <container>
-                <link url="../Client" link-type="anchor"><image url="/hmstatic/images/client-businessmen26.png" url-type="screen" style="invertible"/></link>
+                <link url="../Client" link-type="anchor">
+                    <image url="/hmstatic/images/client-businessmen26.png" url-type="screen" style="invertible" width="40"/></link>
                 <link text="Clients" url="../Client" link-type="anchor"/>
             </container>
             <container>
-                <link url="../Party" link-type="anchor"><image url="/hmstatic/images/user-man27.png" url-type="screen" style="invertible"/></link>
+                <link url="../Party" link-type="anchor">
+                    <image url="/hmstatic/images/user-man27.png" url-type="screen" style="invertible" width="40"/></link>
                 <link text="Parties" url="../Party" link-type="anchor"/>
             </container>
             <container>
-                <link url="../Team" link-type="anchor"><image url="/hmstatic/images/team-businessmen18.png" url-type="screen" style="invertible"/></link>
+                <link url="../Team" link-type="anchor">
+                    <image url="/hmstatic/images/team-businessmen18.png" url-type="screen" style="invertible" width="40"/></link>
                 <link text="Teams" url="../Team" link-type="anchor"/>
             </container>
             <container>
-                <link url="../EditRateAmounts" link-type="anchor"><image url="/hmstatic/images/rates-internet16.png" url-type="screen" style="invertible"/></link>
+                <link url="../EditRateAmounts" link-type="anchor">
+                    <image url="/hmstatic/images/rates-internet16.png" url-type="screen" style="invertible" width="40"/></link>
                 <link text="Rates" url="../EditRateAmounts" link-type="anchor"/>
             </container>
             <label text="&amp;nbsp;" type="p" encode="false"/>
             <container style="text-center">
                 <link text="Report Builder" url="../SimpleReport" link-type="anchor"/>
             </container>
-        </row-col><row-col md="10">
+        </row-col><row-col sm="10">
             <section-iterate name="ActiveProjectSection" list="projectList" entry="project"><actions>
                 <service-call name="mantle.work.ProjectServices.get#ProjectStats" in-map="[workEffort:project]" out-map="pstats"/>
                 <set field="estimatedCompletePercentString" from="ec.l10n.format(pstats.estimatedCompletePercent, '0')"/>
