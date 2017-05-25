@@ -20,6 +20,9 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="updateProject"><service-call name="mantle.work.ProjectServices.update#Project" in-map="context"/>
         <default-response url="."/></transition>
+    <transition name="cloneProject"><service-call name="mantle.work.ProjectServices.clone#Project" in-map="context"/>
+        <default-response url="."/></transition>
+
     <transition name="editClient"><default-response url="../../Client/EditClient"/></transition>
     <transition name="editVendor"><default-response url="../../Vendor/EditVendor"/></transition>
 
@@ -50,6 +53,23 @@ along with this software (see the LICENSE.md file). If not, see
     <widgets>
         <section-include name="ActiveProjectSection" location="component://HiveMind/screen/HiveMindAdmin/dashboard.xml"/>
 
+        <container-dialog id="CloneProjectDialog" button-text="Clone Project">
+            <form-single name="CloneProject" transition="cloneProject">
+                <field name="baseWorkEffortId" from="rootWorkEffortId"><default-field><hidden/></default-field></field>
+                <field name="workEffortId" from="null"><default-field title="New ID"><text-line size="8"/></default-field></field>
+                <field name="workEffortName"><default-field title="New Name"><text-line size="40"/></default-field></field>
+                <field name="priority"><default-field>
+                    <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
+                </default-field></field>
+                <field name="estimatedStartDate"><default-field title="Start Date">
+                    <date-time type="date" format="yyyy-MM-dd"/></default-field></field>
+                <field name="estimatedCompletionDate"><default-field title="Due Date">
+                    <date-time type="date" format="yyyy-MM-dd"/></default-field></field>
+                <field name="submitButton"><default-field title="Deep Clone Project">
+                    <submit confirmation="Really clone the project?"/></default-field></field>
+            </form-single>
+        </container-dialog>
+
         <form-single name="EditProject" transition="updateProject" map="workEffort">
             <field name="workEffortId"><default-field title="Project ID"><hidden/></default-field></field>
             <field name="workEffortName"><default-field title="Project Name"><text-line/></default-field></field>
@@ -75,16 +95,13 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="statusFlowId"><default-field title="Status Flow">
                 <drop-down allow-empty="true"><entity-options key="${statusFlowId}" text="${description} [${statusFlowId}]">
                     <entity-find entity-name="moqui.basic.StatusFlow">
-                        <econditions combine="or">
-                            <econdition field-name="statusTypeId" value="WorkEffort"/>
-                            <econdition field-name="statusTypeId" from="null"/>
-                        </econditions>
-                    </entity-find>
+                        <econdition field-name="statusTypeId" value="WorkEffort" or-null="true"/></entity-find>
                 </entity-options></drop-down>
             </default-field></field>
-            <field name="estimatedCompletionDate">
-                <default-field title="Due Date"><date-time type="date" format="yyyy-MM-dd"/></default-field>
-            </field>
+            <field name="estimatedStartDate"><default-field title="Start Date">
+                <date-time type="date" format="yyyy-MM-dd"/></default-field></field>
+            <field name="estimatedCompletionDate"><default-field title="Due Date">
+                <date-time type="date" format="yyyy-MM-dd"/></default-field></field>
 
             <field name="totalClientCostAllowed"><default-field title="Cost Budget">
                 <text-line size="15"/></default-field></field>
@@ -121,7 +138,8 @@ along with this software (see the LICENSE.md file). If not, see
             
             <field-layout>
                 <fields-not-referenced/>
-                <field-row><field-ref name="statusId"/><field-ref name="estimatedCompletionDate"/></field-row>
+                <field-row><field-ref name="statusId"/><field-ref name="statusFlowId"/></field-row>
+                <field-row><field-ref name="estimatedStartDate"/><field-ref name="estimatedCompletionDate"/></field-row>
 
                 <field-row><field-ref name="totalClientCostAllowed"/><field-ref name="totalTimeAllowed"/></field-row>
                 <!--
