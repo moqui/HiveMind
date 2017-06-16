@@ -159,7 +159,7 @@ class HiveMindAdminScreenTests extends Specification {
         // Accounting/Reports
         // NOTE: these are designed to handle account masks of ###-###-### or even down to the 5 digit ###-##
         "Accounting/Reports/BalanceSheet?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100&detail=true" |
-                ["210-00", "Accounts Payable"]
+                ["212-00", "Accounts Payable"]
         "Accounting/Reports/IncomeStatement?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100&detail=true" |
                 ["411-00", "Network Charges"]
         "Accounting/Reports/CashFlowStatement?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100&detail=true" |
