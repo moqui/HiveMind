@@ -23,13 +23,16 @@ along with this software (see the LICENSE.md file). If not, see
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
-            <select-field field-name="workEffortId,workEffortName,statusId"/>
+            <select-field field-name="workEffortId,workEffortName,estimatedStartDate,statusId"/>
+            <order-by field-name="workEffortId"/>
         </entity-find>
     </actions>
     <widgets>
         <form-list name="MyProjectList" list="myProjectList">
             <field name="workEffortId"><default-field title="ID"><link url="projectSummary" text="${workEffortId}"/></default-field></field>
             <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
+            <field name="estimatedStartDate"><default-field title="Start"><display format="yyyy-MM-dd"/></default-field></field>
+            <field name="estimatedCompletionDate"><default-field title="Due"><display format="yyyy-MM-dd"/></default-field></field>
             <field name="statusId"><default-field title="Status">
                 <display-entity entity-name="StatusItem" text="${description}"/>
             </default-field></field>

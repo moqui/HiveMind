@@ -27,9 +27,8 @@ along with this software (see the LICENSE.md file). If not, see
             <econdition field-name="rootStatusId" operator="not-in" value="WeClosed,WeCancelled"/>
             <econdition field-name="workEffortTypeEnumId" value="WetMilestone"/>
             <econdition field-name="statusId" operator="not-in" value="WeClosed,WeCancelled"/>
-            <select-field field-name="rootWorkEffortId"/><select-field field-name="workEffortId"/>
-            <select-field field-name="workEffortName"/><select-field field-name="statusId"/>
-            <order-by field-name="estimatedStartDate"/><order-by field-name="workEffortId"/>
+            <select-field field-name="rootWorkEffortId,workEffortId,workEffortName,estimatedStartDate,statusId"/>
+            <order-by field-name="estimatedStartDate,workEffortId"/>
         </entity-find>
     </actions>
     <widgets>
@@ -39,13 +38,13 @@ along with this software (see the LICENSE.md file). If not, see
                     <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
             </field>
             <field name="workEffortId"><default-field title="Milestone">
-                <link url="milestoneSummary" text="${workEffortId}">
-                    <parameter name="milestoneWorkEffortId" from="workEffortId"/></link>
+                <link url="milestoneSummary" text="${workEffortId}"><parameter name="milestoneWorkEffortId" from="workEffortId"/></link>
             </default-field></field>
             <field name="workEffortName"><default-field title="Name"><display/></default-field></field>
+            <field name="estimatedStartDate"><default-field title="Start"><display format="yyyy-MM-dd"/></default-field></field>
+            <field name="estimatedCompletionDate"><default-field title="Due"><display format="yyyy-MM-dd"/></default-field></field>
             <field name="statusId"><default-field title="Status">
-                <display-entity entity-name="StatusItem" text="${description}"/>
-            </default-field></field>
+                <display-entity entity-name="StatusItem" text="${description}"/></default-field></field>
             <!-- TODO: add stats (# tasks by status, percent complete, etc) -->
         </form-list>
     </widgets>
