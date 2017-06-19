@@ -20,7 +20,7 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
 
     <actions>
-        <entity-find entity-name="WorkEffortAndRootByParty" list="myMilestoneList">
+        <entity-find entity-name="WorkEffortAndRootByParty" list="myMilestoneList" distinct="true">
             <date-filter/>
             <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="rootWorkEffortTypeEnumId" value="WetProject"/>
