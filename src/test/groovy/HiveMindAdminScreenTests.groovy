@@ -98,7 +98,7 @@ class HiveMindAdminScreenTests extends Specification {
                 ['Ziziwork Services', 'Internal', 'payment.biziwork.services@test.com']
         "Vendor/EditProjects?partyId=ORG_ZIZI_SERVICES" | ['HM - HiveMind PM Build Out', 'Vendor']
         "Vendor/EditUsers?partyId=ORG_ZIZI_SERVICES" | ['Developer', 'Manager']
-        "Vendor/Accounting/AcctgPreference?partyId=ORG_ZIZI_SERVICES" |
+        "Party/Accounting/AcctgPreference?partyId=ORG_ZIZI_SERVICES" |
                 ['Ziziwork Industries', 'Clone Accounting Settings']
 
         // Client
