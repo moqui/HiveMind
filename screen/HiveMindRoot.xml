@@ -17,9 +17,10 @@ along with this software (see the LICENSE.md file). If not, see
     <always-actions>
         <set field="appRoot" value="hm"/>
 
-        <set field="searchIndexName" value="hivemind"/>
-        <set field="searchTaskDocType" value="HmTask"/>
-        <set field="searchPartyDocType" value="HmParty"/>
+        <set field="searchIndexName" value="mantle"/>
+        <set field="searchLinkSets" value="hm"/>
+        <set field="searchTaskDocType" value="MantleTask"/>
+        <set field="searchPartyDocType" value="MantleParty"/>
     </always-actions>
     <subscreens default-item="dashboard" always-use-full-path="true">
         <subscreens-item name="Search" location="component://SimpleScreens/screen/SimpleScreens/Search.xml" menu-index="2"/>

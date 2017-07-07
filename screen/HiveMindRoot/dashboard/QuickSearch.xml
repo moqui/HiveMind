@@ -22,7 +22,7 @@ along with this software (see the LICENSE.md file). If not, see
         <actions>
             <script>queryString = (term.split(' ') as List).collect({ it.matches(/\w*/) ? (it + '*') : it }).join(' ')</script>
             <service-call name="org.moqui.search.SearchServices.search#DataDocuments" out-map="context"
-                    in-map="[queryString:queryString, indexName:'hivemind']"/>
+                    in-map="[queryString:queryString, indexName:'mantle', documentType:'MantleWikiPage,MantleProject,MantleTask,MantleRequest']"/>
             <set field="outList" from="[]"/>
             <iterate list="documentList" entry="document">
                 <entity-find-one entity-name="moqui.entity.document.DataDocument" value-field="dataDocument" cache="true">
@@ -31,6 +31,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <if condition="!dataDocument"><log message="DataDocument not found for document:\n${document}"/><continue/></if>
                 <entity-find entity-name="moqui.entity.document.DataDocumentLink" list="ddLinkList" cache="true">
                     <econdition field-name="dataDocumentId" from="document._type"/>
+                    <econdition field-name="linkSet" value="hm"/>
                     <econdition field-name="linkCondition" operator="is-null"/>
                 </entity-find>
                 <!-- this is a type=many relationship, but we just want one here: -->
@@ -70,9 +71,9 @@ along with this software (see the LICENSE.md file). If not, see
     </script>
                 ]]></text></render-mode>
                 <render-mode><text type="html"><![CDATA[
-    <script>$("#SearchBox").bind('typeahead:select', function(event, item) { if (item) { window.open(item.urlToOpen, "_self"); } });</script>
+    <script>$("#SearchBox").bind('typeahead:select', function(event, item) { if (item && item.urlToOpen) { window.open(item.urlToOpen, "_self"); } });</script>
                 ]]></text><text type="vuet"><![CDATA[
-    <m-script>$("#SearchBox").bind('typeahead:select', function(event, item) { if (item) { moqui.webrootVue.setUrl(item.urlToOpen); } });</m-script>
+    <m-script>$("#SearchBox").bind('typeahead:select', function(event, item) { if (item && item.urlToOpen) { moqui.webrootVue.setUrl(item.urlToOpen); } });</m-script>
                 ]]></text></render-mode>
                 <container><link url="search" text="Full Search" link-type="anchor"/></container>
             </box-body></container-box>

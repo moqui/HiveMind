@@ -15,6 +15,7 @@ along with this software (see the LICENSE.md file). If not, see
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd"
         default-menu-title="Dashboard" default-menu-index="1" menu-image="glyphicon glyphicon-dashboard" menu-image-type="icon">
 
+    <transition name="search"><default-response url="../Search"/></transition>
     <transition name="Reports"><default-response url="../Accounting/Reports"/></transition>
 
     <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
@@ -52,6 +53,11 @@ along with this software (see the LICENSE.md file). If not, see
 
             <label text="Setup" type="h4"/>
             <container>
+                <link url="../Party" link-type="anchor">
+                    <image url="/hmstatic/images/user-man27.png" url-type="screen" style="invertible" width="40"/></link>
+                <link text="Parties" url="../Party" link-type="anchor"/>
+            </container>
+            <container>
                 <link url="../Vendor" link-type="anchor">
                     <image url="/hmstatic/images/vendor-person25.png" url-type="screen" style="invertible" width="40"/></link>
                 <link text="Vendors" url="../Vendor" link-type="anchor"/>
@@ -60,11 +66,6 @@ along with this software (see the LICENSE.md file). If not, see
                 <link url="../Client" link-type="anchor">
                     <image url="/hmstatic/images/client-businessmen26.png" url-type="screen" style="invertible" width="40"/></link>
                 <link text="Clients" url="../Client" link-type="anchor"/>
-            </container>
-            <container>
-                <link url="../Party" link-type="anchor">
-                    <image url="/hmstatic/images/user-man27.png" url-type="screen" style="invertible" width="40"/></link>
-                <link text="Parties" url="../Party" link-type="anchor"/>
             </container>
             <container>
                 <link url="../Team" link-type="anchor">
@@ -81,6 +82,10 @@ along with this software (see the LICENSE.md file). If not, see
                 <link text="Report Builder" url="../SimpleReport" link-type="anchor"/>
             </container>
         </row-col><row-col sm="10">
+            <form-single name="SearchOptions" transition="search" extends="component://SimpleScreens/screen/SimpleScreens/Search.xml#SearchOptions">
+                <field name="queryString"><default-field tooltip=""><text-line size="40"/></default-field></field>
+            </form-single>
+
             <section-iterate name="ActiveProjectSection" list="projectList" entry="project"><actions>
                 <service-call name="mantle.work.ProjectServices.get#ProjectStats" in-map="[workEffort:project]" out-map="pstats"/>
                 <set field="estimatedCompletePercentString" from="ec.l10n.format(pstats.estimatedCompletePercent, '0')"/>

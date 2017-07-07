@@ -41,7 +41,7 @@ along with this software (see the LICENSE.md file). If not, see
                     if (!originalDocument || document != originalDocument) {
                         // send document updated notification
 
-                        if (document._type == "HmWikiPage") {
+                        if (document._type == "MantleWikiPage") {
                             // TODO: also check to see if fields shown in email are actually changed, otherwise don't send email
 
                             // send WikiPage updated notification
@@ -71,7 +71,7 @@ along with this software (see the LICENSE.md file). If not, see
                             }
                         }
 
-                        if (document._type == "HmTask") {
+                        if (document._type == "MantleTask") {
                             // TODO: also check to see if fields shown in email are actually changed, otherwise don't send email
 
                             // send task updated notification

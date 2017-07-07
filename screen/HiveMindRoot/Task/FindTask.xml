@@ -110,7 +110,7 @@ along with this software (see the LICENSE.md file). If not, see
             </if>
 
             <service-call name="org.moqui.search.SearchServices.search#DataDocuments" out-map="context"
-                    in-map="context + [indexName:'hivemind', documentType:'HmTask']"/>
+                    in-map="context + [indexName:'mantle', documentType:'MantleTask']"/>
 
             <set field="workEffortIdList" from="documentList._id"/>
             <entity-find entity-name="mantle.work.effort.PartyTaskSummary" list="taskList">

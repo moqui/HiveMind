@@ -95,7 +95,7 @@ class HiveMindPmScreenTests extends Specification {
         screenPath | containsTextList
 
         // Search
-        "Search?documentType=HmTask&queryString=dash*" | ['HM-004', 'Dashboard My Tasks', 'Task Summary']
+        "Search?documentType=MantleTask&queryString=dash*" | ['HM-004', 'Dashboard My Tasks', 'Task Summary']
 
         // Project
         "Project/ProjectSummary?workEffortId=HM" | ['HiveMind PM Build Out', 'HM Milestone 1', 'john.doe']

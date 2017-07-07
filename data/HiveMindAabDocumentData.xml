@@ -13,58 +13,33 @@ along with this software (see the LICENSE.md file). If not, see
 <http://creativecommons.org/publicdomain/zero/1.0/>.
 -->
 <entity-facade-xml type="seed">
-    <!-- Wiki Page -->
-    <dataDocuments dataDocumentId="HmWikiPage" indexName="hivemind" documentName="Wiki Page"
-            primaryEntityName="moqui.resource.wiki.WikiPage" documentTitle="${wikiSpaceId}/${pagePath?:''}"
-            manualDataServiceName="org.moqui.impl.WikiServices.get#WikiPageManualDocumentData">
-        <!-- NOTE: service purpose is to get wiki page contents from the file (resource) -->
-        <fields fieldSeqId="01" fieldPath="wikiPageId"/>
-        <fields fieldSeqId="02" fieldPath="wikiSpaceId"/>
-        <fields fieldSeqId="03" fieldPath="pagePath"/>
-        <fields fieldSeqId="04" fieldPath="space:description" fieldNameAlias="space"/>
-        <!-- the history fields are useful for update history and search by users who have updated a page, but also trigger indexing on page update -->
-        <fields fieldSeqId="10" fieldPath="histories:historySeqId"/>
-        <fields fieldSeqId="11" fieldPath="histories:changeDateTime"/>
-        <fields fieldSeqId="12" fieldPath="histories:userId"/>
-        <!-- causing issues with false update notice for other fields on UserAccount like during login: <fields fieldSeqId="01" fieldPath="histories:user:username"/> -->
-        <links linkSeqId="01" label="Wiki Page" linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
-    </dataDocuments>
-
-    <!-- Project -->
-    <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleProject" newDataDocumentId="HmProject"
-            newIndexName="hivemind" copyConditions="true"/>
-    <moqui.entity.document.DataDocumentLink dataDocumentId="HmProject" linkSeqId="01" label="Edit Project"
+    <!-- HiveMind PM (/hm) DataDocument Links -->
+    <moqui.entity.document.DataDocumentLink dataDocumentId="MantleWikiPage" linkSeqId="21" linkSet="hm" label="Wiki Page" urlType="screen"
+            linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
+    <moqui.entity.document.DataDocumentLink dataDocumentId="MantleProject" linkSeqId="21" linkSet="hm" label="Project Summary" urlType="screen"
             linkUrl="/apps/hm/Project/ProjectSummary?workEffortId=${workEffortId}"/>
-
-    <!-- Task -->
-    <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleTask" newDataDocumentId="HmTask"
-            newIndexName="hivemind" copyConditions="true"/>
-    <moqui.entity.document.DataDocumentLink dataDocumentId="HmTask" linkSeqId="01" label="Task Summary"
+    <moqui.entity.document.DataDocumentLink dataDocumentId="MantleTask" linkSeqId="21" linkSet="hm" label="Task Summary" urlType="screen"
             linkUrl="/apps/hm/Task/TaskSummary?workEffortId=${workEffortId}"/>
-
-    <!-- Request -->
-    <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleRequest" newDataDocumentId="HmRequest" newIndexName="hivemind"/>
-    <moqui.entity.document.DataDocumentLink dataDocumentId="HmRequest" linkSeqId="01" label="Edit Request"
+    <moqui.entity.document.DataDocumentLink dataDocumentId="MantleRequest" linkSeqId="21" linkSet="hm" label="Edit Request" urlType="screen"
             linkUrl="/apps/hm/Request/EditRequest?requestId=${requestId}"/>
 
-    <!-- Party -->
-    <org.moqui.impl.EntityServices.cloneDataDocument dataDocumentId="MantleParty" newDataDocumentId="HmParty" newIndexName="hivemind"/>
-    <moqui.entity.document.DataDocumentLink dataDocumentId="HmParty" linkSeqId="01" label="Edit Party" urlType="screen"
-            linkUrl="//apps/hmadmin/Party/EditParty?partyId=${partyId}"/>
+    <!-- HiveMind Admin (/hmadmin) DataDocument Links -->
+    <moqui.entity.document.DataDocumentLink dataDocumentId="MantleWikiPage" linkSeqId="25" linkSet="hmadmin" label="Wiki Page" urlType="screen"
+            linkUrl="/apps/hmadmin/Wiki/wiki/${wikiSpaceId}/${pagePath?:''}"/>
+    <moqui.entity.document.DataDocumentLink dataDocumentId="MantleProject" linkSeqId="25" linkSet="hmadmin" label="Edit Project" urlType="screen"
+            linkUrl="/apps/hmadmin/Project/EditProject?rootWorkEffortId=${workEffortId}"/>
+    <moqui.entity.document.DataDocumentLink dataDocumentId="MantleParty" linkSeqId="25" linkSet="hmadmin" label="Edit Party" urlType="screen"
+            linkUrl="/apps/hmadmin/Party/EditParty?partyId=${partyId}"/>
 
-    <!-- ================ -->
-    <!-- Search Data Feed -->
-    <moqui.entity.feed.DataFeed dataFeedId="HiveMindSearch" dataFeedTypeEnumId="DTFDTP_RT_PUSH"
-            feedName="HiveMind Search" feedReceiveServiceName="HiveMind.SearchServices.indexAndNotify#HiveMindDocuments">
-        <documents dataDocumentId="HmWikiPage"/>
-        <documents dataDocumentId="HmProject"/>
-        <documents dataDocumentId="HmTask"/>
-        <documents dataDocumentId="HmRequest"/>
-        <documents dataDocumentId="HmParty"/>
+    <!-- TODO: change to notify only, index now done elsewhere; this isn't generally used yet (20170707)
+    <moqui.entity.feed.DataFeed dataFeedId="MantleSearch" dataFeedTypeEnumId="DTFDTP_RT_PUSH"
+            feedName="Mantle General Search" feedReceiveServiceName="HiveMind.SearchServices.indexAndNotify#HiveMindDocuments">
+        <documents dataDocumentId="MantleWikiPage"/>
+        <documents dataDocumentId="MantleProject"/>
+        <documents dataDocumentId="MantleTask"/>
+        <documents dataDocumentId="MantleRequest"/>
     </moqui.entity.feed.DataFeed>
-
-    <!-- explicitly index the Data Feed documents since the trigger won't be in place until restart -->
-    <org.moqui.search.SearchServices.indexDataFeedDocuments dataFeedId="HiveMindSearch"/>
+    -->
 
     <!-- EmailTemplates for Feed-driven Update Notifications -->
     <moqui.basic.email.EmailTemplate emailTemplateId="HM_TASK_UPDATE" description="HiveMind Task Update Notification"
