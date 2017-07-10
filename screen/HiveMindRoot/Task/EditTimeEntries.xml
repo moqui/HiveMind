@@ -21,7 +21,7 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="editUser"><default-response url="//hmadmin/User/EditUser"/></transition>
     <transition name="addTaskTime"><service-call name="mantle.work.TaskServices.add#TaskTime"/>
         <default-response url="."/></transition>
-    <transition name="deleteTimeEntry"><service-call name="delete#mantle.work.time.TimeEntry"/>
+    <transition name="deleteTimeEntry"><service-call name="mantle.work.TimeServices.delete#TimeEntry"/>
         <default-response url="."/></transition>
 
     <actions>
