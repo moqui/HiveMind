@@ -55,7 +55,7 @@ along with this software (see the LICENSE.md file). If not, see
             <econdition field-name="workEffortId" from="rootWorkEffortId"/></entity-find>
     </actions>
     <widgets>
-        <container-row><row-col lg="5" md="5">
+        <container-row><row-col md="6">
             <label text="${workEffort.workEffortId}: ${workEffort.workEffortName}" type="strong"/>
             <tree name="TaskTree">
                 <tree-node name="TaskNode">
@@ -87,7 +87,7 @@ along with this software (see the LICENSE.md file). If not, see
                     </actions>
                 </tree-sub-node>
             </tree>
-        </row-col><row-col lg="7" md="7">
+        </row-col><row-col md="6">
             <form-single name="ViewProject" map="workEffort">
                 <!--
                 <field name="workEffortId"><default-field title="Project ID"><display/></default-field></field>
@@ -173,8 +173,8 @@ along with this software (see the LICENSE.md file). If not, see
                 <field name="roleTypeId"><header-field title="Role" show-order-by="true"/>
                     <default-field><display-entity entity-name="mantle.party.RoleType"/></default-field>
                 </field>
-                <field name="fromDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
-                <field name="thruDate"><header-field show-order-by="true"/><default-field><display/></default-field></field>
+                <field name="fromDate"><header-field show-order-by="true"/><default-field><display format="yyyy-MM-dd"/></default-field></field>
+                <field name="thruDate"><header-field show-order-by="true"/><default-field><display format="yyyy-MM-dd"/></default-field></field>
                 <field name="expectationEnumId"><header-field title="Expectation" show-order-by="true"/><default-field>
                     <display-entity entity-name="moqui.basic.Enumeration" key-field-name="enumId"/>
                 </default-field></field>
