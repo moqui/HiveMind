@@ -15,6 +15,11 @@ New features in HiveMind itself (on top of what comes from SimpleScreens)
 are small in this release, but the updates from mantle-usl and
 SimpleScreens still make this a significant release.
 
+Some basic stats to show just how much new there is:
+
+- Admin Screens: 106 (last release 58)
+- Admin Forms: 275 (last release 126)
+
 ===========================================================================
 Release 1.2.0 - 24 Nov 2016
 ===========================================================================
