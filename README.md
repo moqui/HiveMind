@@ -3,7 +3,7 @@
 [![license](http://img.shields.io/badge/license-CC0%201.0%20Universal-blue.svg)](https://github.com/moqui/HiveMind/blob/master/LICENSE.md)
 [![build](https://travis-ci.org/moqui/HiveMind.svg)](https://travis-ci.org/moqui/HiveMind)
 [![release](http://img.shields.io/github/release/moqui/HiveMind.svg)](https://github.com/moqui/HiveMind/releases)
-[![commits since release](http://img.shields.io/github/commits-since/moqui/HiveMind/v1.2.0.svg)](https://github.com/moqui/HiveMind/commits/master)
+[![commits since release](http://img.shields.io/github/commits-since/moqui/HiveMind/v1.3.0.svg)](https://github.com/moqui/HiveMind/commits/master)
 [![downloads](http://img.shields.io/github/downloads/moqui/HiveMind/total.svg)](https://github.com/moqui/HiveMind/releases)
 
 [![LinkedIn Group](https://img.shields.io/badge/linked%20in%20group-moqui-blue.svg)](https://www.linkedin.com/groups/4640689)
@@ -31,8 +31,8 @@ If you don't have gradle or ant installed you can use this command line to run J
 
 ### Build and Run Locally
 
-To get and locally run the latest HiveMind you'll need JDK 8 or later, and either a git 
-client or you can use the binary download link on GitHub.
+To get and locally run the latest HiveMind you'll need JDK 8 or later (OpenJDK or Oracle), and either a git client or you can 
+use the binary download link on GitHub.
 
 Java can be downloaded here (make sure to use the Download button under the **JDK** column, NOT the under the JRE column):
 
@@ -92,7 +92,7 @@ Use the button in the lower-left corner of the screen login as John Doe.
 
 ### Setup Commands Quick Reference
 
-Java 8 is recommended: <http://www.oracle.com/technetwork/java/javase/downloads/index.html>
+Java 8 JDK is required (OpenJDK or Oracle): <http://www.oracle.com/technetwork/java/javase/downloads/index.html>
 
 Here are command line steps for initial checkout, setup, and run:
 
