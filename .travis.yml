@@ -20,7 +20,7 @@ env:
 script:
   - ./gradlew --no-daemon getGit -Pcomponent=HiveMind
   - ./gradlew --no-daemon load
-  - ./gradlew --no-daemon runtime/component/HiveMind:test
+  - ./gradlew --no-daemon runtime:component:HiveMind:test
 
 cache:
   directories:
