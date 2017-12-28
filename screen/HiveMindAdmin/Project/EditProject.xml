@@ -76,15 +76,21 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="clientPartyId" from="clientWep?.partyId"><default-field title="Client">
                 <drop-down allow-empty="true"><dynamic-options transition="searchPartyList" server-search="true" min-length="0"
                         parameter-map="[roleTypeId:'Customer,CustomerBillTo,OrgInternal']"/></drop-down>
-                <link url="editClient" text="Edit Client"><parameter name="partyId" from="clientWep?.partyId"/></link>
+                <link url="editClient" text="Edit Client" link-type="anchor" condition="clientWep">
+                    <parameter name="partyId" from="clientWep?.partyId"/></link>
             </default-field></field>
             <field name="vendorPartyId" from="vendorWep?.partyId"><default-field title="Vendor">
                 <drop-down allow-empty="true"><dynamic-options transition="searchPartyList" server-search="true" min-length="0"
                         parameter-map="[roleTypeId:'Vendor,VendorBillFrom,OrgInternal']"/></drop-down>
-                <link url="editVendor" text="Edit Vendor"><parameter name="partyId" from="vendorWep?.partyId"/></link>
+                <link url="editVendor" text="Edit Vendor" link-type="anchor" condition="vendorWep">
+                    <parameter name="partyId" from="vendorWep?.partyId"/></link>
             </default-field></field>
             <field name="priority"><default-field>
                 <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
+            </default-field></field>
+            <field name="visibilityEnumId"><default-field title="Visibility">
+                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                    <set field="enumTypeId" value="WorkEffortVisibility"/><set field="allowEmpty" value="true"/></widget-template-include>
             </default-field></field>
             <field name="statusId"><default-field title="Status">
                 <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusTransitionWithFlowDropDown">
@@ -138,6 +144,7 @@ along with this software (see the LICENSE.md file). If not, see
             
             <field-layout>
                 <fields-not-referenced/>
+                <field-row><field-ref name="priority"/><field-ref name="visibilityEnumId"/></field-row>
                 <field-row><field-ref name="statusId"/><field-ref name="statusFlowId"/></field-row>
                 <field-row><field-ref name="estimatedStartDate"/><field-ref name="estimatedCompletionDate"/></field-row>
 

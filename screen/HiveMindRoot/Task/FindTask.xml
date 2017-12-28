@@ -53,7 +53,11 @@ along with this software (see the LICENSE.md file). If not, see
     
     <actions>
         <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
-            <date-filter/><econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+            <date-filter/>
+            <econditions combine="or">
+                <econdition field-name="visibilityEnumId" operator="in" value="WevGeneral,WevAllUsers"/>
+                <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+            </econditions>
             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
         </entity-find>
         <set field="myProjectIds" from="myProjectList.workEffortId"/>

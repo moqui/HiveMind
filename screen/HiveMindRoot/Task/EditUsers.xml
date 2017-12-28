@@ -72,8 +72,8 @@ along with this software (see the LICENSE.md file). If not, see
                         </drop-down>
                     </default-field></field>
 
-                    <field name="fromDate" from="ec.user.nowTimestamp"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
-                    <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
+                    <field name="fromDate" from="ec.user.nowTimestamp"><default-field><date-time/></default-field></field>
+                    <field name="thruDate"><default-field><date-time/></default-field></field>
 
                     <field name="expectationEnumId"><default-field title="Expectation">
                         <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
@@ -108,8 +108,8 @@ along with this software (see the LICENSE.md file). If not, see
                     </default-field></field>
                     <field name="roleTypeId"><default-field><hidden default-value="OrgTeam"/></default-field></field>
 
-                    <field name="fromDate" from="ec.user.nowTimestamp"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
-                    <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
+                    <field name="fromDate" from="ec.user.nowTimestamp"><default-field><date-time/></default-field></field>
+                    <field name="thruDate"><default-field><date-time/></default-field></field>
 
                     <field name="statusId"><default-field title="Status">
                         <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#statusDropDown">

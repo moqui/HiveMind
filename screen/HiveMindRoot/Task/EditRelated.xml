@@ -70,16 +70,18 @@ along with this software (see the LICENSE.md file). If not, see
                         <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
                             <entity-find entity-name="WorkEffortAndParty">
                                 <date-filter/>
-                                <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                                <econditions combine="or">
+                                    <econdition field-name="visibilityEnumId" operator="in" value="WevGeneral,WevAllUsers"/>
+                                    <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                                </econditions>
                                 <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
                             </entity-find>
                         </entity-options>
                     </drop-down></default-field></field>
                     <field name="toWorkEffortId"><default-field title="To Task">
-                        <drop-down combo-box="true">
+                        <drop-down>
                             <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
-                                <depends-on field="rootWorkEffortId"/>
-                            </dynamic-options>
+                                <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
 
@@ -95,16 +97,18 @@ along with this software (see the LICENSE.md file). If not, see
                         <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
                             <entity-find entity-name="WorkEffortAndParty">
                                 <date-filter/>
-                                <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                                <econditions combine="or">
+                                    <econdition field-name="visibilityEnumId" operator="in" value="WevGeneral,WevAllUsers"/>
+                                    <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                                </econditions>
                                 <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
                             </entity-find>
                         </entity-options>
                     </drop-down></default-field></field>
                     <field name="fromWorkEffortId"><default-field title="From Task">
-                        <drop-down combo-box="true">
+                        <drop-down>
                             <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
-                                <depends-on field="rootWorkEffortId"/>
-                            </dynamic-options>
+                                <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
                     <field name="workEffortAssocTypeEnumId"><default-field title="Type"><drop-down>
