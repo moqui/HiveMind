@@ -86,7 +86,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <drop-down><list-options list="myProjectList" key="${workEffortId}" text="${workEffortId}: ${workEffortName}"/></drop-down>
                 </default-field></field>
                 <field name="workEffortId"><default-field title="Task">
-                    <drop-down combo-box="true">
+                    <drop-down>
                         <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
                             <depends-on field="rootWorkEffortId"/>
                         </dynamic-options>

@@ -19,17 +19,10 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response url=".."/></transition>
     <transition name="findRequest"><default-response url="../../Request/FindRequest"/></transition>
     <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
+    <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
 
     <transition-include name="searchPartyList" location="component://SimpleScreens/template/party/PartyForms.xml"/>
 
-    <actions>
-        <entity-find entity-name="mantle.request.RequestAndParty" list="myRequestList">
-            <date-filter/>
-            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-            <econdition field-name="statusId" operator="not-in" value="ReqCompleted,ReqCancelled"/>
-            <order-by field-name="priority"/>
-        </entity-find>
-    </actions>
     <widgets>
         <container id="dashboard-requests-section">
             <container-box><box-header><label text="My Open Requests" type="h5"/></box-header><box-toolbar>
@@ -41,6 +34,12 @@ along with this software (see the LICENSE.md file). If not, see
                 </container-dialog>
             </box-toolbar><box-body>
                 <form-list name="MyRequests" list="myRequestList">
+                    <entity-find entity-name="mantle.request.RequestAndParty" list="myRequestList" distinct="true">
+                        <date-filter/>
+                        <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                        <econdition field-name="statusId" operator="not-in" value="ReqCompleted,ReqCancelled"/>
+                        <select-field field-name="requestName"/><order-by field-name="priority"/>
+                    </entity-find>
                     <row-actions>
                         <entity-find entity-name="mantle.request.RequestParty" list="clientRpList">
                             <date-filter/><econdition field-name="requestId"/>
@@ -48,22 +47,20 @@ along with this software (see the LICENSE.md file). If not, see
                         </entity-find>
                         <set field="clientRp" from="clientRpList?.getAt(0)"/>
                     </row-actions>
+
                     <field name="priority"><default-field><display also-hidden="false"/></default-field></field>
-                    <field name="requestId">
-                        <default-field title="Request"><link url="editRequest" text="RequestNameTemplate" link-type="anchor"/></default-field>
-                    </field>
+                    <field name="requestId"><default-field title="Request">
+                        <link url="editRequest" text="RequestNameTemplate" link-type="anchor"/></default-field></field>
+                    <field name="rootWorkEffortId"><default-field title="Project">
+                        <link url="projectSummary" text="${rootWorkEffortId}" link-type="anchor" condition="rootWorkEffortId"/></default-field></field>
                     <field name="clientPartyId" from="clientRp?.partyId"><default-field title="Client">
-                        <display-entity entity-name="mantle.party.PartyDetail" text="PartyNameTemplate"/>
-                    </default-field></field>
-                    <field name="requestTypeEnumId">
-                        <default-field title="Type"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
-                    </field>
-                    <field name="statusId">
-                        <default-field title="Status"><display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field>
-                    </field>
-                    <field name="requestResolutionEnumId">
-                        <default-field title="Resolution"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
-                    </field>
+                        <display-entity entity-name="mantle.party.PartyDetail" text="PartyNameTemplate"/></default-field></field>
+                    <field name="requestTypeEnumId"><default-field title="Type">
+                        <display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field></field>
+                    <field name="statusId"><default-field title="Status">
+                        <display-entity entity-name="moqui.basic.StatusItem" also-hidden="false"/></default-field></field>
+                    <field name="requestResolutionEnumId"><default-field title="Resolution">
+                        <display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field></field>
                 </form-list>
             </box-body></container-box>
         </container>

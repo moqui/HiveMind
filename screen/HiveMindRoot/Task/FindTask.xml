@@ -53,8 +53,7 @@ along with this software (see the LICENSE.md file). If not, see
     
     <actions>
         <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList">
-            <date-filter/>
-            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+            <date-filter/><econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
         </entity-find>
         <set field="myProjectIds" from="myProjectList.workEffortId"/>
@@ -161,17 +160,9 @@ along with this software (see the LICENSE.md file). If not, see
                 <form-single name="FindTasks" transition=".">
                     <field name="queryString" from="ec.web.parameters.queryString">
                         <default-field title="Text Search"><text-line size="70"/></default-field></field>
-                    <field name="rootWorkEffortId"><default-field title="Project">
-                        <drop-down allow-empty="true">
-                            <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
-                                <entity-find entity-name="WorkEffortAndParty">
-                                    <date-filter/>
-                                    <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
-                                    <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
-                                </entity-find>
-                            </entity-options>
-                        </drop-down>
-                    </default-field></field>
+                    <field name="rootWorkEffortId"><default-field title="Project"><drop-down allow-empty="true">
+                        <list-options list="myProjectList" key="${workEffortId}" text="WorkEffortNameTemplate"/>
+                    </drop-down></default-field></field>
                     <field name="milestoneWorkEffortId"><default-field title="Milestone">
                         <drop-down allow-empty="true">
                             <dynamic-options transition="getProjectMilestones" value-field="workEffortId" label-field="milestoneLabel">
@@ -230,7 +221,7 @@ along with this software (see the LICENSE.md file). If not, see
 
             <container-dialog id="NewTaskContainer" button-text="New Task">
                 <form-single name="NewTaskForm" transition="createTask">
-                    <field name="rootWorkEffortId"><default-field title="Project"><drop-down>
+                    <field name="rootWorkEffortId"><default-field title="Project"><drop-down allow-empty="true">
                         <list-options list="myProjectList" key="${workEffortId}" text="WorkEffortNameTemplate"/>
                     </drop-down></default-field></field>
                     <field name="milestoneWorkEffortId"><default-field title="Milestone">

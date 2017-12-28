@@ -48,11 +48,10 @@ along with this software (see the LICENSE.md file). If not, see
         <form-single name="EditTask" transition="updateTask" map="task">
             <field name="workEffortId"><default-field title="Task ID"><display/></default-field></field>
             <field name="rootWorkEffortId"><default-field title="Project">
-                <drop-down>
+                <drop-down allow-empty="true">
                     <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
                         <entity-find entity-name="WorkEffortAndParty">
-                            <date-filter/>
-                            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                            <date-filter/><econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
                             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
                         </entity-find>
                     </entity-options>

@@ -78,19 +78,14 @@ along with this software (see the LICENSE.md file). If not, see
                     <field name="workEffortId"><default-field title="Task">
                         <link text="WorkEffortNameTemplate" url="editTask" link-type="anchor"/>
                     </default-field></field>
-                    <field name="rootWorkEffortId">
-                        <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}" link-type="anchor">
-                            <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
-                    </field>
+                    <field name="rootWorkEffortId"><default-field title="Project">
+                        <link url="projectSummary" text="${rootWorkEffortId}" link-type="anchor" condition="rootWorkEffortId"/></default-field></field>
                     <field name="milestoneWorkEffortId"><default-field title="Milestone">
-                        <link text="${milestoneWorkEffortId?:''}" url="milestoneSummary" link-type="anchor"/>
-                    </default-field></field>
-                    <field name="purposeEnumId">
-                        <default-field title="Purpose"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
-                    </field>
-                    <field name="statusId">
-                        <default-field title="Status"><display-entity entity-name="StatusItem" text="${description}"/></default-field>
-                    </field>
+                        <link text="${milestoneWorkEffortId?:''}" url="milestoneSummary" link-type="anchor"/></default-field></field>
+                    <field name="purposeEnumId"><default-field title="Purpose">
+                        <display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field></field>
+                    <field name="statusId"><default-field title="Status">
+                        <display-entity entity-name="moqui.basic.StatusItem"/></default-field></field>
                     <field name="estimatedCompletionDate"><default-field title="Due"><display format="yyyy-MM-dd"/></default-field></field>
                     <field name="estimatedWorkTime"><default-field title="Est"><display format="0.00"/></default-field></field>
                     <field name="remainingWorkTime"><default-field title="Rem"><display format="0.00"/></default-field></field>

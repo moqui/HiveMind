@@ -15,8 +15,8 @@ along with this software (see the LICENSE.md file). If not, see
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd">
 
-    <parameter name="workEffortId" required="true"/>
-    <parameter name="rootWorkEffortId"/>
+    <parameter name="workEffortId" from="rootWorkEffortId ?: workEffortId" required="true"/>
+    <parameter name="rootWorkEffortId" from="rootWorkEffortId ?: workEffortId"/>
 
     <transition name="editClient"><default-response url="//hmadmin/Client/EditClient"/></transition>
     <transition name="editVendor"><default-response url="//hmadmin/Vendor/EditVendor"/></transition>
@@ -25,10 +25,6 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="taskSummary"><default-response url="../../Task/TaskSummary"/></transition>
 
-    <pre-actions>
-        <if condition="rootWorkEffortId"><set field="workEffortId" from="rootWorkEffortId"/></if>
-        <set field="rootWorkEffortId" from="workEffortId"/>
-    </pre-actions>
     <actions>
         <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="workEffort"/>
 
