@@ -12,14 +12,11 @@ You should have received a copy of the CC0 Public Domain Dedication
 along with this software (see the LICENSE.md file). If not, see
 <http://creativecommons.org/publicdomain/zero/1.0/>.
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd"
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd"
         default-menu-include="false">
 
     <parameter name="workEffortId"/>
     <parameter name="currentCe"/>
-
-    <transition name="taskCommentReply"><default-response url="../TaskCommentReply"/></transition>
 
     <actions>
         <filter-map-list list="childCeList" to-list="filteredCeList">
@@ -43,9 +40,10 @@ along with this software (see the LICENSE.md file). If not, see
                     <label text="${childCe.subject}" type="strong"/>
                     <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
                     <label text="at ${ec.l10n.format(childCe.entryDate, 'yyyy-MM-dd HH:mm')}" type="span"/>
-                    <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="taskCommentReply">
-                        <parameter name="parentCommEventId" from="childCe.communicationEventId"/>
-                    </dynamic-dialog>
+                    <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="TaskCommentReply">
+                        <parameter name="parentCommEventId" from="childCe.communicationEventId"/></dynamic-dialog>
+                    <dynamic-dialog id="EditCommentContainer${uniqueExtension}" button-text="Edit" transition="TaskCommentUpdate">
+                        <parameter name="communicationEventId" from="childCe.communicationEventId"/></dynamic-dialog>
 
                     <label text="${childCe.body}" type="pre" encode="false"/>
 

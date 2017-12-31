@@ -27,11 +27,11 @@ along with this software (see the LICENSE.md file). If not, see
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="50" resourceTypeEnumId="STRT_STYLESHEET"
             resourceValue="/hmstatic/css/HiveMindDefault.css"/>
 
-    <!-- entire HiveMind App -->
-    <moqui.security.ArtifactGroup artifactGroupId="HIVE_MIND" description="HiveMind App (via root screen)"/>
+    <!-- HiveMind PM App -->
+    <moqui.security.ArtifactGroup artifactGroupId="HIVE_MIND" description="HiveMind PM App (via root screen)"/>
     <moqui.security.ArtifactGroupMember artifactGroupId="HIVE_MIND" artifactName="component://HiveMind/screen/HiveMindRoot.xml"
             artifactTypeEnumId="AT_XML_SCREEN" inheritAuthz="Y"/>
-    <!-- HiveMind Admin screens -->
+    <!-- HiveMind Admin App -->
     <moqui.security.ArtifactGroup artifactGroupId="HIVE_MIND_ADMIN" description="HiveMind Admin (via root screen)"/>
     <moqui.security.ArtifactGroupMember artifactGroupId="HIVE_MIND_ADMIN" artifactName="component://HiveMind/screen/HiveMindAdmin.xml"
             artifactTypeEnumId="AT_XML_SCREEN" inheritAuthz="Y"/>

@@ -101,8 +101,6 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
 
-    <transition name="taskCommentReply"><default-response url="TaskCommentReply"/></transition>
-    <transition name="taskCommentUpdate"><default-response url="TaskCommentUpdate"/></transition>
     <transition name="addComment"><service-call name="mantle.work.TaskServices.add#TaskComment"/>
         <default-response url="."/></transition>
     <transition name="deleteComment"><service-call name="mantle.work.TaskServices.delete#TaskComment"/>
@@ -259,57 +257,48 @@ along with this software (see the LICENSE.md file). If not, see
                 <editable id="TaskDescription" text="${task.description?:''}" transition="updateTaskField" type="pre"
                         parameter-name="description"/>
 
-                <container-box>
-                    <box-header><label text="Comments" type="h5"/></box-header>
-                    <box-toolbar>
-                        <container-dialog id="AddCommentDialog" button-text="Add Comment">
-                            <form-single name="AddCommentForm" transition="addComment">
-                                <field name="workEffortId"><default-field><hidden/></default-field></field>
-                                <field name="subject"><default-field><text-line/></default-field></field>
-                                <field name="body"><default-field title="Comment"><text-area rows="10"/></default-field></field>
-                                <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
-                            </form-single>
-                        </container-dialog>
-                    </box-toolbar>
-                    <box-body>
-                        <section-iterate name="CommentList" list="commEventDetailList" entry="commEventDetail">
-                            <actions>
-                                <set field="uniqueExtension" from="commEventDetail_index"/>
-                                <entity-find-one entity-name="mantle.party.Person" value-field="fromPerson" cache="true">
-                                    <field-map field-name="partyId" from="commEventDetail.fromPartyId"/>
-                                </entity-find-one>
-                                <entity-find entity-name="mantle.party.communication.CommunicationEvent" list="childCeList">
-                                    <econdition field-name="rootCommEventId" from="commEventDetail.communicationEventId"/>
-                                    <order-by field-name="entryDate"/>
-                                </entity-find>
-                            </actions>
-                            <widgets>
-                                <container style="task-comment">
-                                    <label text="${commEventDetail.subject}" type="strong"/>
-                                    <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
-                                    <label text="at ${ec.l10n.format(commEventDetail.entryDate, 'yyyy-MM-dd HH:mm')}" type="span"/>
-                                    <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="taskCommentReply">
-                                        <parameter name="parentCommEventId" from="commEventDetail.communicationEventId"/>
-                                    </dynamic-dialog>
-                                    <dynamic-dialog id="EditCommentContainer${uniqueExtension}" button-text="Edit" transition="taskCommentUpdate">
-                                        <parameter name="communicationEventId" from="commEventDetail.communicationEventId"/>
-                                    </dynamic-dialog>
-                                    <link text="Delete" url="deleteComment" parameter-map="[workEffortId:workEffortId,
+                <container-box><box-header><label text="Comments" type="h5"/></box-header><box-toolbar>
+                    <container-dialog id="AddCommentDialog" button-text="Add Comment">
+                        <form-single name="AddCommentForm" transition="addComment">
+                            <field name="workEffortId"><default-field><hidden/></default-field></field>
+                            <field name="subject"><default-field><text-line/></default-field></field>
+                            <field name="body"><default-field title="Comment"><text-area rows="10"/></default-field></field>
+                            <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
+                        </form-single>
+                    </container-dialog>
+                </box-toolbar><box-body>
+                    <section-iterate name="CommentList" list="commEventDetailList" entry="commEventDetail"><actions>
+                        <set field="uniqueExtension" from="commEventDetail_index"/>
+                        <entity-find-one entity-name="mantle.party.Person" value-field="fromPerson" cache="true">
+                            <field-map field-name="partyId" from="commEventDetail.fromPartyId"/>
+                        </entity-find-one>
+                        <entity-find entity-name="mantle.party.communication.CommunicationEvent" list="childCeList">
+                            <econdition field-name="rootCommEventId" from="commEventDetail.communicationEventId"/>
+                            <order-by field-name="entryDate"/>
+                        </entity-find>
+                    </actions><widgets>
+                        <container style="task-comment">
+                            <label text="${commEventDetail.subject}" type="strong"/>
+                            <label text="from ${fromPerson ? fromPerson.firstName + ' ' + fromPerson?.lastName : 'Unknown'}" type="span"/>
+                            <label text="at ${ec.l10n.format(commEventDetail.entryDate, 'yyyy-MM-dd HH:mm')}" type="span"/>
+                            <dynamic-dialog id="ReplyCommentContainer${uniqueExtension}" button-text="Reply" transition="TaskCommentReply">
+                                <parameter name="parentCommEventId" from="commEventDetail.communicationEventId"/></dynamic-dialog>
+                            <dynamic-dialog id="EditCommentContainer${uniqueExtension}" button-text="Edit" transition="TaskCommentUpdate">
+                                <parameter name="communicationEventId" from="commEventDetail.communicationEventId"/></dynamic-dialog>
+                            <link text="Delete" url="deleteComment" parameter-map="[workEffortId:workEffortId,
                                         communicationEventId:commEventDetail.communicationEventId]"
-                                          confirmation="Delete comment ${commEventDetail.subject}?"/>
+                                    confirmation="Delete comment ${commEventDetail.subject}?"/>
 
-                                    <label text="${commEventDetail.body}" type="pre" encode="false"/>
+                            <label text="${commEventDetail.body}" type="pre" encode="false"/>
 
-                                    <section name="ChildNestedComments">
-                                        <condition><expression>childCeList</expression></condition>
-                                        <actions><set field="currentCe" from="commEventDetail"/></actions>
-                                        <widgets><include-screen location="component://HiveMind/screen/HiveMindRoot/Task/TaskSummary/TaskCommentNested.xml"/></widgets>
-                                    </section>
-                                </container>
-                            </widgets>
-                        </section-iterate>
-                    </box-body>
-                </container-box>
+                            <section name="ChildNestedComments">
+                                <condition><expression>childCeList</expression></condition>
+                                <actions><set field="currentCe" from="commEventDetail"/></actions>
+                                <widgets><include-screen location="component://HiveMind/screen/HiveMindRoot/Task/TaskSummary/TaskCommentNested.xml"/></widgets>
+                            </section>
+                        </container>
+                    </widgets></section-iterate>
+                </box-body></container-box>
             </row-col>
             <row-col lg="3" md="3">
                 <container-box>
