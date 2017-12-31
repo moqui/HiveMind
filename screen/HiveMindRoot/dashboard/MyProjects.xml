@@ -21,10 +21,9 @@ along with this software (see the LICENSE.md file). If not, see
     <widgets>
         <form-list name="MyProjectList" list="myProjectList">
             <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList" distinct="true">
-                <date-filter/>
                 <econditions combine="or">
                     <econdition field-name="visibilityEnumId" operator="in" value="WevGeneral,WevAllUsers"/>
-                    <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                    <econditions><date-filter/><econdition field-name="partyId" from="ec.user.userAccount.partyId"/></econditions>
                 </econditions>
                 <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
                 <select-field field-name="workEffortId,workEffortName,estimatedStartDate,statusId"/>

@@ -69,12 +69,12 @@ along with this software (see the LICENSE.md file). If not, see
                     <field name="rootWorkEffortId"><default-field title="Project"><drop-down>
                         <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
                             <entity-find entity-name="WorkEffortAndParty">
-                                <date-filter/>
                                 <econditions combine="or">
                                     <econdition field-name="visibilityEnumId" operator="in" value="WevGeneral,WevAllUsers"/>
-                                    <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                                    <econditions><date-filter/><econdition field-name="partyId" from="ec.user.userAccount.partyId"/></econditions>
                                 </econditions>
                                 <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+                                <order-by field-name="workEffortId"/>
                             </entity-find>
                         </entity-options>
                     </drop-down></default-field></field>
@@ -96,12 +96,12 @@ along with this software (see the LICENSE.md file). If not, see
                     <field name="rootWorkEffortId"><default-field title="Project"><drop-down>
                         <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
                             <entity-find entity-name="WorkEffortAndParty">
-                                <date-filter/>
                                 <econditions combine="or">
                                     <econdition field-name="visibilityEnumId" operator="in" value="WevGeneral,WevAllUsers"/>
-                                    <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                                    <econditions><date-filter/><econdition field-name="partyId" from="ec.user.userAccount.partyId"/></econditions>
                                 </econditions>
                                 <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
+                                <order-by field-name="workEffortId"/>
                             </entity-find>
                         </entity-options>
                     </drop-down></default-field></field>
