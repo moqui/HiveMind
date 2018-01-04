@@ -20,22 +20,37 @@ along with this software (see the LICENSE.md file). If not, see
             <section name="DashboardLeft"><widgets>
                 <dynamic-container id="QuickSearchContainer" transition="QuickSearch"/>
 
-                <container>
-                    <link url="../Project" link-type="anchor">
-                        <image url="/hmstatic/images/project-business120.png" url-type="screen" style="invertible" width="40"/></link>
-                    <link text="Projects" url="../Project" link-type="anchor"/>
+                <container style="text-center">
+                    <container>
+                        <link url="../Project" link-type="anchor">
+                            <image url="/hmstatic/images/project-business120.png" url-type="screen" style="invertible" width="40"/></link>
+                        <link text="Projects" url="../Project" link-type="anchor"/>
+                    </container>
+                    <container>
+                        <link url="../Task" link-type="anchor">
+                            <image url="/hmstatic/images/task-homework.png" url-type="screen" style="invertible" width="40"/></link>
+                        <link text="Tasks" url="../Task" link-type="anchor"/>
+                    </container>
+                    <container>
+                        <link url="../Request" link-type="anchor">
+                            <image url="/hmstatic/images/request-inspiration.png" url-type="screen" style="invertible" width="40"/></link>
+                        <link text="Requests" url="../Request" link-type="anchor"/>
+                    </container>
+
+                    <section name="QuickInfoSection"><actions>
+                        <entity-find-count entity-name="mantle.request.Request" count-field="requestSubmittedCount">
+                            <econdition field-name="statusId" value="ReqSubmitted"/></entity-find-count>
+                        <entity-find-count entity-name="mantle.request.Request" count-field="requestInProgressCount">
+                            <econdition field-name="statusId" operator="in" from="['ReqSubmitted', 'ReqReviewed', 'ReqInProgress']"/></entity-find-count>
+                    </actions><widgets>
+                        <container type="ul" style="list-inline">
+                            <container type="li"><link url="../Request" parameter-map="[statusId:'ReqSubmitted']"
+                                    text="New" badge="${requestSubmittedCount}" btn-type="default"/></container>
+                            <container type="li"><link url="../Request" parameter-map="[statusId:'ReqSubmitted,ReqReviewed,ReqInProgress', statusId_op:'in']"
+                                    text="Open" badge="${requestInProgressCount}" btn-type="default"/></container>
+                        </container>
+                    </widgets></section>
                 </container>
-                <container>
-                    <link url="../Task" link-type="anchor">
-                        <image url="/hmstatic/images/task-homework.png" url-type="screen" style="invertible" width="40"/></link>
-                    <link text="Tasks" url="../Task" link-type="anchor"/>
-                </container>
-                <container>
-                    <link url="../Request" link-type="anchor">
-                        <image url="/hmstatic/images/request-inspiration.png" url-type="screen" style="invertible" width="40"/></link>
-                    <link text="Requests" url="../Request" link-type="anchor"/>
-                </container>
-                <label text="&amp;nbsp;" type="p" encode="false"/>
 
                 <dynamic-container id="MyWikiSpacesContainer" transition="MyWikiSpaces"/>
             </widgets></section>
