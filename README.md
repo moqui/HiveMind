@@ -19,7 +19,7 @@ flexible billing rates, time recording, expenses, invoicing (AR/AP), payments, a
 To run HiveMind you need Moqui Framework, HiveMind itself, and the components it depends on. Moqui supports a few 
 methods for setup and deployment as described in the documentation here:
 
-<http://www.moqui.org/framework/docs/RunDeploy.html>
+<http://www.moqui.org/docs/framework/Run+and+Deploy>
 
 The easiest way to try HiveMind is with the binary distribution available on GitHub:
 
