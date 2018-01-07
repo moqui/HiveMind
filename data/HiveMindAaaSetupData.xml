@@ -13,16 +13,15 @@ along with this software (see the LICENSE.md file). If not, see
 <http://creativecommons.org/publicdomain/zero/1.0/>.
 -->
 <entity-facade-xml type="seed-initial">
-    <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot/apps.xml"
-            subscreenName="hm" subscreenLocation="component://HiveMind/screen/HiveMindRoot.xml"
-            menuTitle="HiveMind PM" menuIndex="8" menuInclude="Y"/>
-    <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot/apps.xml"
-            subscreenName="hmadmin" subscreenLocation="component://HiveMind/screen/HiveMindAdmin.xml"
-            menuTitle="HiveMind Admin" menuIndex="9" menuInclude="Y"/>
+    <!-- NOTE: webroot subscreen configuation for popc and PopcAdmin are now in the MoquiConf.xml file instead of DB records
+    <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot/apps.xml" subscreenName="hm" menuTitle="HiveMind PM"
+            menuIndex="7" menuInclude="Y" subscreenLocation="component://HiveMind/screen/HiveMindRoot.xml"/>
+    <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot/apps.xml" subscreenName="hmadmin" menuTitle="HiveMind Admin"
+            menuIndex="8" menuInclude="Y" subscreenLocation="component://HiveMind/screen/HiveMindAdmin.xml"/>
+    <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot.xml" subscreenName="hmstatic"
+            menuInclude="N" subscreenLocation="component://HiveMind/screen/hmstatic.xml"/>
+    -->
 
-    <moqui.screen.SubscreensItem screenLocation="component://webroot/screen/webroot.xml"
-            subscreenName="hmstatic" subscreenLocation="component://HiveMind/screen/hmstatic.xml"
-            menuInclude="N"/>
     <!-- NOTE: make sure this css path matches where the hmstatic root screen is mounted -->
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="50" resourceTypeEnumId="STRT_STYLESHEET"
             resourceValue="/hmstatic/css/HiveMindDefault.css"/>
