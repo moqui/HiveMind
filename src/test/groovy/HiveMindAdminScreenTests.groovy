@@ -165,7 +165,7 @@ class HiveMindAdminScreenTests extends Specification {
         "Accounting/Reports/CashFlowStatement?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100&detail=true" |
                 ["111-10", "Finished Good Inventory"]
         "Accounting/Reports/RetainedEarningsStatement?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100" |
-                ["Net Earnings", "ZIRET Fiscal"]
+                ["Net Earnings", "ZIRET F"]
         "Accounting/Reports/FinancialRatios?organizationPartyId=ORG_ZIZI_RETAIL&timePeriodIdList=55100" |
                 ["Total Assets", "Accounts Receivable"]
 
