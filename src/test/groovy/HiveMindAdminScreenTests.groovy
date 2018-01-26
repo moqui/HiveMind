@@ -98,8 +98,6 @@ class HiveMindAdminScreenTests extends Specification {
                 ['Ziziwork Services', 'Internal', 'payment.biziwork.services@test.com']
         "Vendor/EditProjects?partyId=ORG_ZIZI_SERVICES" | ['HM - HiveMind PM Build Out', 'Vendor']
         "Vendor/EditUsers?partyId=ORG_ZIZI_SERVICES" | ['Developer', 'Manager']
-        "Party/Accounting/AcctgPreference?partyId=ORG_ZIZI_SERVICES" |
-                ['Ziziwork Industries', 'Clone Accounting Settings']
 
         // Client
         "Client/EditClient?partyId=ORG_ACME" |
@@ -155,6 +153,8 @@ class HiveMindAdminScreenTests extends Specification {
         "Accounting/Transaction/EditTransaction?acctgTransId=55700" |
                 ['Joe Public', '430000000', 'Customer Service Credits']
         "Accounting/GlAccount/EditGlAccount?glAccountId=110000000" | ['Cash and Equivalent Asset', 'Ziziwork Industries']
+        "Accounting/OrgSettings/AcctgPreference?partyId=ORG_ZIZI_SERVICES" |
+                ['Ziziwork Industries', 'Clone Accounting Settings']
 
         // Accounting/Reports
         // NOTE: these are designed to handle account masks of ###-###-### or even down to the 5 digit ###-##
