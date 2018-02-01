@@ -5,8 +5,8 @@ Move along, nothing to see here...
 ## Link Tests 2
 
 [Demo Page 1](DEMO/Demo+Page+1)
-[Demo Page 1, Section 1](DEMO/Demo+Page+1#Section1)
-[Demo Page 1, Subsection 1-2](DEMO/Demo+Page+1#Section12)
+[Demo Page 1, Section 1](DEMO/Demo+Page+1#section-1)
+[Demo Page 1, Subsection 1-2](DEMO/Demo+Page+1#subsection-1-2)
 
 [Demo Page 1/Child Page 1](DEMO/Demo+Page+1/Child+Page+1)
 [Child Page 1](DEMO/Child+Page+1)
