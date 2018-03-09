@@ -106,6 +106,17 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="deleteComment"><service-call name="mantle.work.TaskServices.delete#TaskComment"/>
         <default-response url="."/></transition>
 
+    <transition name="createContent"><service-call name="mantle.work.WorkEffortServices.create#WorkEffortContent"/>
+        <default-response url="."/></transition>
+    <transition name="updateContent"><service-call name="mantle.work.WorkEffortServices.update#WorkEffortContent"/>
+        <default-response url="."/></transition>
+    <transition name="downloadContent" read-only="true">
+        <parameter name="workEffortContentId"/>
+        <actions><entity-find-one entity-name="mantle.work.effort.WorkEffortContent" value-field="workEffortContent"/>
+            <script>ec.web.sendResourceResponse(workEffortContent?.contentLocation)</script></actions>
+        <default-response type="none"/>
+    </transition>
+
     <actions>
         <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="task"/>
         <entity-find-related-one value-field="task" relationship-name="Root#mantle.work.effort.WorkEffort" to-value-field="project"/>
@@ -163,6 +174,9 @@ along with this software (see the LICENSE.md file). If not, see
         <!-- Wiki Pages -->
         <entity-find entity-name="mantle.work.effort.WikiPageAndWorkEffort" list="wpaweList">
             <econdition field-name="workEffortId"/></entity-find>
+        <!-- Content -->
+        <entity-find entity-name="mantle.work.effort.WorkEffortContent" list="contentList">
+            <econdition field-name="workEffortId"/><order-by field-name="-contentDate"/></entity-find>
     </actions>
     <widgets>
         <container-row>
@@ -431,6 +445,51 @@ along with this software (see the LICENSE.md file). If not, see
                         </section-iterate>
                     </box-body>
                 </container-box>
+
+                <container-box><box-header title="Content"/><box-toolbar>
+                    <container-dialog id="NewContentDialog" button-text="Add Content">
+                        <form-single name="NewContentForm" transition="createContent">
+                            <field name="workEffortId"><default-field><hidden/></default-field></field>
+                            <field name="contentTypeEnumId"><default-field title="Content Type">
+                                <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                                    <set field="enumTypeId" value="WorkEffortContentType"/><set field="allowEmpty" value="true"/></widget-template-include>
+                            </default-field></field>
+                            <field name="contentFile"><default-field><file/></default-field></field>
+                            <field name="description"><default-field><text-line size="60"/></default-field></field>
+                            <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
+                        </form-single>
+                    </container-dialog>
+                </box-toolbar><box-body>
+                    <section-iterate name="ContentIterateSection" list="contentList" entry="content"><actions>
+                        <entity-find-one entity-name="mantle.party.PersonWithUserAccount" value-field="paua">
+                            <field-map field-name="userId" from="content.userId"/></entity-find-one>
+                        <entity-find-one entity-name="moqui.basic.Enumeration" value-field="contentTypeEnum">
+                            <field-map field-name="enumId" from="content.contentTypeEnumId"/></entity-find-one>
+                    </actions><widgets>
+                        <container>
+                            <container><label text="${contentTypeEnum?.description?:'No Type'}" type="strong"/></container>
+                            <link url="downloadContent" condition="content.contentLocation"
+                                  parameter-map="[workEffortContentId:content.workEffortContentId]"
+                                  text="Download ${content.contentLocation.substring(content.contentLocation.lastIndexOf('/')+1)}"/>
+                            <container-dialog id="UpdateContentContainer" button-text="Edit Content">
+                                <form-single name="UpdateContentForm" transition="updateContent" map="content">
+                                    <field name="workEffortContentId"><default-field><hidden/></default-field></field>
+                                    <field name="workEffortId"><default-field><hidden/></default-field></field>
+                                    <field name="contentTypeEnumId"><default-field title="Content Type">
+                                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                                            <set field="enumTypeId" value="WorkEffortContentType"/><set field="allowEmpty" value="true"/></widget-template-include>
+                                    </default-field></field>
+                                    <field name="contentFile"><default-field><file/></default-field></field>
+                                    <field name="description"><default-field><text-line size="60"/></default-field></field>
+                                    <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+                                </form-single>
+                            </container-dialog>
+                            <container><label condition="paua" text="By ${ec.resource.expand('UsernameTemplate','',paua+[userId:content.userId])} at ${ec.l10n.format(content.contentDate, 'yyyy-MM-dd HH:mm')}"/></container>
+                            <label text="${content.description ?: 'No Description'}" type="p"/>
+                        </container>
+                    </widgets></section-iterate>
+                </box-body></container-box>
+
             </row-col>
         </container-row>
     </widgets>
