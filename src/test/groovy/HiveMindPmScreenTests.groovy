@@ -121,7 +121,7 @@ class HiveMindPmScreenTests extends Specification {
 
         // wiki
         "wiki/DEMO" | ['Move along, nothing to see here', 'john.doe']
-        "wiki/DEMO/Demo+Page+1" | ['Demo Page 1', 'Section 1']
+        "wiki/DEMO/Demo Page 1" | ['Demo Page 1', 'Section 1']
         "EditWikiPage?wikiSpaceId=DEMO" | ['## Demo Space Root Page']
         "EditWikiPage?wikiSpaceId=DEMO&pagePath=Demo+Page+1" | ['## Demo Page 1']
     }
