@@ -82,11 +82,11 @@ From the **moqui** directory run:
 
 For the HiveMind Project Management application, in your browser go to:
 
-<http://localhost:8080/apps/hm>
+<http://localhost:8080/vapps/hm>
 
 Or for the admin application go to:
 
-<http://localhost:8080/apps/hmadmin>
+<http://localhost:8080/vapps/hmadmin>
 
 Use the button in the lower-left corner of the screen login as John Doe.
 
@@ -105,8 +105,9 @@ Here are command line steps for initial checkout, setup, and run:
 Here are steps for a basic update (for development with clean out and rebuild of database):
 
     $ cd moqui
-    $ ./gradlew cleanAll gitPullAll load
+    $ ./gradlew cleanAll gitPullAll
+    $ ./gradlew load
     $ java -jar moqui.war
 
-To access the project management app go to something like <http://localhost:8080/apps/hm> in a
-web browser. To access the admin app go to <http://localhost:8080/apps/hmadmin>.
+To access the project management app go to something like <http://localhost:8080/vapps/hm> in a
+web browser. To access the admin app go to <http://localhost:8080/vapps/hmadmin>.
