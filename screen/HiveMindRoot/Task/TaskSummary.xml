@@ -41,11 +41,29 @@ along with this software (see the LICENSE.md file). If not, see
             <set field="statusFlowId" from="(task.statusFlowId ?: project.statusFlowId) ?: 'Default'"/>
 
             <!-- get current status from description in currentValue parameter -->
-            <!-- TODO: this probably won't work when localized... -->
             <entity-find-one entity-name="StatusItem" value-field="currentStatus">
                 <field-map field-name="description" from="currentValue?.trim()"/>
                 <field-map field-name="statusTypeId" value="WorkEffort"/>
             </entity-find-one>
+            <if condition="currentStatus == null">
+                <entity-find entity-name="moqui.basic.LocalizedEntityField" list="currentStatusList">
+                    <econdition field-name="localized" from="currentValue?.trim()"/>
+                    <econdition field-name="entityName" value="moqui.basic.StatusItem"/>
+                </entity-find>
+                <iterate list="currentStatusList" entry="statusCandidate">
+                    <entity-find-one value-field="statusItem" entity-name="moqui.basic.StatusItem">
+                        <field-map field-name="statusId" from="statusCandidate.pkValue"/>
+                        <field-map field-name="statusTypeId" value="WorkEffort"/>
+                    </entity-find-one>
+                    <if condition="!statusItem.statusId?.startsWith('We')">
+                        <continue/>
+                    </if>
+                    <if condition="statusItem">
+                        <set field="currentStatus" from="statusItem"/>
+                        <break/>
+                    </if>
+                </iterate>
+            </if>
             <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail" list="svctdList" cache="true">
                 <econdition field-name="statusFlowId" from="statusFlowId"/>
                 <econdition field-name="statusId" from="currentStatus?.statusId"/>
