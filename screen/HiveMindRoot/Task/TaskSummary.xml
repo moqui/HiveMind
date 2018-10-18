@@ -50,19 +50,12 @@ along with this software (see the LICENSE.md file). If not, see
                     <econdition field-name="localized" from="currentValue?.trim()"/>
                     <econdition field-name="entityName" value="moqui.basic.StatusItem"/>
                 </entity-find>
-                <iterate list="currentStatusList" entry="statusCandidate">
-                    <entity-find-one value-field="statusItem" entity-name="moqui.basic.StatusItem">
-                        <field-map field-name="statusId" from="statusCandidate.pkValue"/>
-                        <field-map field-name="statusTypeId" value="WorkEffort"/>
-                    </entity-find-one>
-                    <if condition="!statusItem.statusId?.startsWith('We')">
-                        <continue/>
-                    </if>
-                    <if condition="statusItem">
-                        <set field="currentStatus" from="statusItem"/>
-                        <break/>
-                    </if>
-                </iterate>
+                <entity-find list="statusItemList" entity-name="moqui.basic.StatusItem">
+                    <econdition field-name="statusId" operator="in" from="currentStatusList.pkValue"/>
+                    <econdition field-name="statusTypeId" value="WorkEffort"/>
+                </entity-find>
+                <if condition="statusItemList">
+                    <set field="currentStatus" from="statusItemList.first"/></if>
             </if>
             <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail" list="svctdList" cache="true">
                 <econdition field-name="statusFlowId" from="statusFlowId"/>
