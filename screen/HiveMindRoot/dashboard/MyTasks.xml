@@ -57,7 +57,7 @@ along with this software (see the LICENSE.md file). If not, see
     </actions>
     <widgets>
         <container id="dashboard-tasks-section">
-            <container-box><box-header><label text="My Open Tasks" type="h5"/></box-header><box-toolbar>
+            <container-box><box-header title="My Open Tasks"/><box-toolbar>
                 <dynamic-dialog id="MyProjectsContainer" button-text="My Projects" transition="myProjects"/>
                 <dynamic-dialog id="MyMilestonesContainer" button-text="My Milestones" transition="myMilestones"/>
                 <link url="findTask" text="Find Task"/>

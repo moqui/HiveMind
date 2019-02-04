@@ -192,7 +192,7 @@ along with this software (see the LICENSE.md file). If not, see
     <widgets>
         <container-row>
             <row-col lg="3" md="3">
-                <container-box><box-header><label text="ID: ${workEffortId}" type="h5"/></box-header><box-body>
+                <container-box><box-header title="ID: ${workEffortId}"/><box-body>
                     <container><label text="Project: " type="strong"/></container>
                     <link text="${project.workEffortId} - ${project.workEffortName}" url="projectSummary" link-type="anchor">
                         <parameter name="workEffortId" from="project.workEffortId"/><parameter name="rootWorkEffortId" from="project.workEffortId"/></link>
@@ -235,7 +235,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </box-body></container-box>
 
                 <container-box>
-                    <box-header><label text="Assignments" type="h5"/></box-header>
+                    <box-header title="Assignments"/>
                     <box-body>
                         <section-iterate name="TaskAssignList" list="weapdList" entry="weapd">
                             <actions>
@@ -260,7 +260,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </container-box>
 
                 <container-box>
-                    <box-header><label text="Time Entries" type="h5"/></box-header>
+                    <box-header title="Time Entries"/>
                     <box-body>
                         <section-iterate name="TimeEntryList" list="timeEntryList" entry="timeEntry">
                             <actions>
@@ -282,7 +282,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <editable id="TaskDescription" text="${task.description?:''}" transition="updateTaskField" type="pre"
                         parameter-name="description"/>
 
-                <container-box><box-header><label text="Comments" type="h5"/></box-header><box-toolbar>
+                <container-box><box-header title="Comments"/><box-toolbar>
                     <container-dialog id="AddCommentDialog" button-text="Add Comment">
                         <form-single name="AddCommentForm" transition="addComment">
                             <field name="workEffortId"><default-field><hidden/></default-field></field>
@@ -327,7 +327,7 @@ along with this software (see the LICENSE.md file). If not, see
             </row-col>
             <row-col lg="3" md="3">
                 <container-box>
-                    <box-header><label text="Status History" type="h5"/></box-header>
+                    <box-header title="Status History"/>
                     <box-body>
                         <section-iterate name="StatusHistoryList" list="statusHistoryList" entry="statusHistory">
                             <actions>
@@ -346,7 +346,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </container-box>
 
                 <container-box>
-                    <box-header><label text="Child Tasks" type="h5"/></box-header>
+                    <box-header title="Child Tasks"/>
                     <box-toolbar>
                         <section name="NewChildTaskSection">
                             <actions>
@@ -393,7 +393,7 @@ along with this software (see the LICENSE.md file). If not, see
 
 
                 <container-box>
-                    <box-header><label text="Related" type="h5"/></box-header>
+                    <box-header title="Related"/>
                     <box-body>
                         <section-iterate name="TaskRelatedToList" list="relatedToList" entry="relatedTo">
                             <actions>
@@ -425,7 +425,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </container-box>
 
                 <container-box>
-                    <box-header><label text="Requests" type="h5"/></box-header>
+                    <box-header title="Requests"/>
                     <box-body>
                         <section-iterate name="TaskRequestList" list="werdList" entry="werd">
                             <actions>
@@ -446,7 +446,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </container-box>
 
                 <container-box>
-                    <box-header><label text="Wiki Pages" type="h5"/></box-header>
+                    <box-header title="Wiki Pages"/>
                     <box-body>
                         <section-iterate name="TaskWikiPageList" list="wpaweList" entry="wpawe">
                             <widgets><container>

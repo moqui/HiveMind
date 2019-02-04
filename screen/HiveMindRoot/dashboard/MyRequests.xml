@@ -25,7 +25,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <widgets>
         <container id="dashboard-requests-section">
-            <container-box><box-header><label text="My Open Requests" type="h5"/></box-header><box-toolbar>
+            <container-box><box-header title="My Open Requests"/><box-toolbar>
                 <link url="findRequest" text="Find Request"/>
                 <container-dialog id="NewRequestContainer" button-text="New Request">
                     <form-single name="NewRequest" transition="createRequest"
