@@ -21,7 +21,7 @@ along with this software (see the LICENSE.md file). If not, see
     </actions>
     <widgets>
         <container id="dashboard-wiki-section">
-            <container-box><box-header><label text="Wiki Spaces" type="h5"/></box-header><box-body>
+            <container-box><box-header title="Wiki Spaces"/><box-body>
                 <section-iterate name="WikiSpaces" list="wikiSpaceAndUserList" entry="wikiSpace"><widgets><container>
                     <link text="${wikiSpace.wikiSpaceId}: ${wikiSpace.description}" url="/apps/hm/wiki/${wikiSpace.wikiSpaceId}" link-type="anchor"/>
                 </container></widgets></section-iterate>
