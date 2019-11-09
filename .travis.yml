@@ -19,6 +19,8 @@ env:
 
 script:
   - ./gradlew --no-daemon getGit -Pcomponent=HiveMind
+  - ./gradlew --no-daemon downloadElasticSearchLinux
+  - ./gradlew --no-daemon startElasticSearch
   - ./gradlew --no-daemon load
   - ./gradlew --no-daemon runtime:component:HiveMind:test
 
