@@ -2,6 +2,20 @@
 HiveMind Project Management and Service ERP Release Notes
 
 ===========================================================================
+Release 1.4.2 - Not Yet Released
+===========================================================================
+
+HiveMind Project Management and Service ERP 1.4.2 is a patch level new
+feature and bug fix release.
+
+There are only minor changes and fixes in this release. For a complete
+list of changes see:
+
+https://github.com/moqui/HiveMind/compare/v1.4.1...v1.4.2
+
+Most changes come from screens reused from SimpleScreens.
+
+===========================================================================
 Release 1.4.1 - 23 July 2019
 ===========================================================================
 
