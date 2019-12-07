@@ -2,7 +2,7 @@
 HiveMind Project Management and Service ERP Release Notes
 
 ===========================================================================
-Release 1.4.2 - Not Yet Released
+Release 1.4.2 - 07 Dec 2019
 ===========================================================================
 
 HiveMind Project Management and Service ERP 1.4.2 is a patch level new
