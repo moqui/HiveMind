@@ -174,20 +174,21 @@ along with this software (see the LICENSE.md file). If not, see
                         </drop-down>
                     </default-field></field>
                     <field name="partyId"><default-field title="Assigned To">
-                        <drop-down current="selected" allow-multiple="true">
-                            <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name">
+                        <drop-down allow-multiple="true">
+                            <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name"
+                                    depends-optional="true" server-search="true" min-length="0" parameter-map="[addOptional:'false']">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
                     <field name="teamPartyId"><default-field title="Assigned To Team">
-                        <drop-down allow-empty="true" current="selected">
+                        <drop-down allow-empty="true">
                             <dynamic-options transition="getProjectTeams" value-field="partyId" label-field="name">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
                     <!--
                     <field name="teamMemberPartyId"><default-field title="Assigned Team Member">
-                        <drop-down current="selected">
+                        <drop-down>
                             <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
@@ -245,8 +246,9 @@ along with this software (see the LICENSE.md file). If not, see
                         -->
                     </default-field></field>
                     <field name="assignToPartyId"><default-field title="Assign To">
-                        <drop-down no-current-selected-key="${ec.user.userAccount.partyId}" current="selected" allow-empty="true">
-                            <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name">
+                        <drop-down no-current-selected-key="${ec.user.userAccount.partyId}" allow-empty="true">
+                            <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name"
+                                    depends-optional="true" server-search="true" min-length="0" parameter-map="[addOptional:'false']">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
                         </drop-down>
                     </default-field></field>
@@ -255,7 +257,7 @@ along with this software (see the LICENSE.md file). If not, see
                         <widget-template-include location="component://HiveMind/template/screen/ProjectWidgetTemplates.xml#priority"/>
                     </default-field></field>
                     <field name="purposeEnumId"><default-field title="Purpose">
-                        <drop-down no-current-selected-key="WepTask" current="selected">
+                        <drop-down no-current-selected-key="WepTask">
                             <entity-options key="${enumId}" text="${description}">
                                 <entity-find entity-name="moqui.basic.Enumeration">
                                     <econdition field-name="enumTypeId" value="WorkEffortPurpose"/>

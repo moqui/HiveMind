@@ -194,7 +194,7 @@ along with this software (see the LICENSE.md file). If not, see
             <row-col lg="3" md="3">
                 <container-box><box-header title="ID: ${workEffortId}"/><box-body>
                     <container><label text="Project: " type="strong"/></container>
-                    <link text="${project.workEffortId} - ${project.workEffortName}" url="projectSummary" link-type="anchor">
+                    <link text="${project.workEffortId} - ${project.workEffortName}" url="projectSummary" link-type="anchor" condition="project != null">
                         <parameter name="workEffortId" from="project.workEffortId"/><parameter name="rootWorkEffortId" from="project.workEffortId"/></link>
 
                     <section name="MilestoneSection" condition="milestone"><widgets>
