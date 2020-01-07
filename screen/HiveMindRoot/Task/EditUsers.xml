@@ -26,8 +26,13 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="update#mantle.work.effort.WorkEffortParty" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editUser"><default-response url="//hmadmin/User/EditUser"/></transition>
+    <transition name="editParty"><default-response url="//hmadmin/Party/EditParty"/></transition>
 
+    <transition name="getProjectParties">
+        <service-call name="mantle.work.ProjectServices.get#ProjectParties" web-send-json-response="resultList"/>
+        <default-response type="none"/>
+    </transition>
+    <!--
     <transition name="getPersonList">
         <actions>
             <entity-find entity-name="mantle.party.PersonAndUserAccount" list="pauList" limit="20">
@@ -47,21 +52,24 @@ along with this software (see the LICENSE.md file). If not, see
         </actions>
         <default-response type="none"/>
     </transition>
+    -->
 
     <actions>
-        <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
-            <search-form-inputs default-order-by="firstName,lastName,organizationName"/>
-            <econdition field-name="workEffortId"/>
-        </entity-find>
+        <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="task"/>
     </actions>
     <widgets>
         <container>
-            <container-dialog id="AddUserAssignDialog" button-text="Add User">
+            <container-dialog id="AddUserAssignDialog" button-text="Add Person">
                 <form-single name="AddUserAssignForm" transition="addAssignment">
                     <field name="workEffortId"><default-field><hidden/></default-field></field>
 
                     <field name="partyId"><default-field title="Person">
-                        <text-line ac-transition="getPersonList" ac-min-length="2" size="30"/>
+                        <drop-down>
+                            <dynamic-options transition="getProjectParties" value-field="partyId" label-field="name"
+                                    depends-optional="true" server-search="true" min-length="0"
+                                    parameter-map="[addOptional:'false', rootWorkEffortId:task?.rootWorkEffortId, workEffortId:null]">
+                                <depends-on field="rootWorkEffortId"/></dynamic-options>
+                        </drop-down>
                     </default-field></field>
                     <field name="roleTypeId"><default-field title="Role">
                         <drop-down no-current-selected-key="Assignee">
@@ -121,14 +129,20 @@ along with this software (see the LICENSE.md file). If not, see
         </container>
 
         <form-list name="UpdateAssignForm" list="weapdList" transition="updateAssignment">
+            <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
+                <search-form-inputs default-order-by="firstName,lastName,organizationName"/>
+                <econdition field-name="workEffortId"/>
+            </entity-find>
             <row-actions>
                 <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus"/>
             </row-actions>
             <field name="workEffortId"><default-field><hidden/></default-field></field>
             <field name="partyId"><default-field><hidden/></default-field></field>
 
+            <field name="pseudoId"><header-field title="ID" show-order-by="case-insensitive"/>
+                <default-field><link url="editParty" text="${pseudoId}" link-type="anchor"/></default-field></field>
             <field name="username"><header-field show-order-by="case-insensitive"/>
-                <default-field><link url="editUser" text="${username}" link-type="anchor" condition="username"/></default-field></field>
+                <default-field><link url="editParty" text="${username}" link-type="anchor" condition="username"/></default-field></field>
             <field name="firstName"><header-field title="First##Name" show-order-by="case-insensitive"/>
                 <default-field><display also-hidden="false"/></default-field></field>
             <field name="lastName"><header-field title="Last##Name" show-order-by="case-insensitive"/>
@@ -163,7 +177,7 @@ along with this software (see the LICENSE.md file). If not, see
             </default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
 
-            <form-list-column><field-ref name="username"/><field-ref name="roleTypeId"/></form-list-column>
+            <form-list-column><field-ref name="pseudoId"/><field-ref name="username"/><field-ref name="roleTypeId"/></form-list-column>
             <form-list-column><field-ref name="firstName"/><field-ref name="lastName"/><field-ref name="organizationName"/></form-list-column>
             <form-list-column><field-ref name="fromDate"/><field-ref name="thruDate"/></form-list-column>
             <form-list-column><field-ref name="expectationEnumId"/><field-ref name="emplPositionClassId"/></form-list-column>
