@@ -53,9 +53,9 @@ along with this software (see the LICENSE.md file). If not, see
 
     <!-- NotificationTopic linkTemplate overrides for records from MyAccountDocumentData.xml in SimpleScreens -->
     <moqui.security.user.NotificationTopic topic="MantleTask"
-            linkTemplate="/apps/hm/Task/TaskSummary?workEffortId=${workEffortId}"/>
+            linkTemplate="/vapps/hm/Task/TaskSummary?workEffortId=${workEffortId}"/>
     <moqui.security.user.NotificationTopic topic="MantleRequest"
-            linkTemplate="/apps/hm/Request/EditRequest?requestId=${requestId}"/>
+            linkTemplate="/vapps/hm/Request/EditRequest?requestId=${requestId}"/>
     <!-- TODO: anything special for these?
     <moqui.security.user.NotificationTopic topic="MantleEvent"
             linkTemplate="/apps/my/User/Calendar/EventDetail?workEffortId=${workEffortId}"/>
