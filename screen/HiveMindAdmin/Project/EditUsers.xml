@@ -12,8 +12,7 @@ You should have received a copy of the CC0 Public Domain Dedication
 along with this software (see the LICENSE.md file). If not, see
 <http://creativecommons.org/publicdomain/zero/1.0/>.
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd"
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd"
         default-menu-title="Parties" default-menu-index="3">
 
     <parameter name="workEffortId"/>
@@ -27,7 +26,7 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="update#mantle.work.effort.WorkEffortParty" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editUser"><default-response url="../../User/EditUser"/></transition>
+    <transition name="editParty"><default-response url="//${appRoot}/Party/EditParty"/></transition>
 
     <transition name="getPersonList">
         <actions>
@@ -51,10 +50,6 @@ along with this software (see the LICENSE.md file). If not, see
 
     <actions>
         <set field="workEffortId" from="rootWorkEffortId"/>
-        <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="wepapList">
-            <search-form-inputs/>
-            <econdition field-name="workEffortId" from="rootWorkEffortId"/>
-        </entity-find>
     </actions>
     <widgets>
         <container-dialog id="AddUserAssignDialog" button-text="Add User Assignment">
@@ -101,21 +96,29 @@ along with this software (see the LICENSE.md file). If not, see
         </container-dialog>
 
         <form-list name="UpdateUserAssignForm" list="wepapList" transition="updateUserAssign">
+            <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="wepapList">
+                <search-form-inputs default-order-by="firstName,lastName,organizationName"/>
+                <econdition field-name="workEffortId" from="rootWorkEffortId"/>
+            </entity-find>
             <row-actions>
                 <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus"/>
+                <entity-find entity-name="moqui.security.UserAccount" list="uaList">
+                    <econdition field-name="partyId"/></entity-find>
+                <set field="usernames" from="uaList*.username.join(', ')"/>
             </row-actions>
-            <field name="rootWorkEffortId"><default-field><hidden/></default-field></field>
-            <field name="workEffortId"><default-field><hidden/></default-field></field>
+            <hidden-parameters><parameter name="rootWorkEffortId"/><parameter name="workEffortId"/></hidden-parameters>
+
             <field name="partyId"><default-field><hidden/></default-field></field>
-            <field name="username"><header-field show-order-by="case-insensitive"/>
-                <default-field><link url="editUser" text="${username}" link-type="anchor" condition="username"/></default-field>
-            </field>
+            <field name="pseudoId"><header-field title="ID" show-order-by="case-insensitive"/>
+                <default-field><link url="editParty" text="${pseudoId}" link-type="anchor"/></default-field></field>
+            <field name="usernames"><default-field>
+                <link url="editParty" text="${usernames}" link-type="anchor" condition="usernames"/></default-field></field>
             <field name="firstName"><header-field title="First##Name" show-order-by="case-insensitive"/><default-field>
-                <display also-hidden="false"/></default-field></field>
+                <link url="editParty" text="${firstName}" link-type="anchor" condition="firstName"/></default-field></field>
             <field name="lastName"><header-field title="Last##Name" show-order-by="case-insensitive"/><default-field>
                 <display also-hidden="false"/></default-field></field>
             <field name="organizationName"><header-field title="Org" show-order-by="case-insensitive"/><default-field>
-                <display also-hidden="false"/></default-field></field>
+                <link url="editParty" text="${organizationName}" link-type="anchor" condition="organizationName"/></default-field></field>
 
             <field name="roleTypeId"><header-field title="Role" show-order-by="true"/>
                 <default-field><display-entity entity-name="RoleType" text="${description}"/></default-field>
@@ -136,7 +139,7 @@ along with this software (see the LICENSE.md file). If not, see
             </default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
 
-            <form-list-column><field-ref name="username"/><field-ref name="roleTypeId"/></form-list-column>
+            <form-list-column><field-ref name="pseudoId"/><field-ref name="usernames"/><field-ref name="roleTypeId"/></form-list-column>
             <form-list-column><field-ref name="firstName"/><field-ref name="lastName"/><field-ref name="organizationName"/></form-list-column>
             <form-list-column><field-ref name="fromDate"/><field-ref name="thruDate"/></form-list-column>
             <form-list-column><field-ref name="expectationEnumId"/><field-ref name="emplPositionClassId"/></form-list-column>

@@ -135,14 +135,18 @@ along with this software (see the LICENSE.md file). If not, see
             </entity-find>
             <row-actions>
                 <entity-find-one entity-name="moqui.basic.StatusItem" value-field="currentStatus"/>
+                <entity-find entity-name="moqui.security.UserAccount" list="uaList">
+                    <econdition field-name="partyId"/></entity-find>
+                <set field="usernames" from="uaList*.username.join(', ')"/>
             </row-actions>
+
             <field name="workEffortId"><default-field><hidden/></default-field></field>
             <field name="partyId"><default-field><hidden/></default-field></field>
 
             <field name="pseudoId"><header-field title="ID" show-order-by="case-insensitive"/>
                 <default-field><link url="editParty" text="${pseudoId}" link-type="anchor"/></default-field></field>
-            <field name="username"><header-field show-order-by="case-insensitive"/>
-                <default-field><link url="editParty" text="${username}" link-type="anchor" condition="username"/></default-field></field>
+            <field name="usernames"><default-field>
+                <link url="editParty" text="${usernames}" link-type="anchor" condition="usernames"/></default-field></field>
             <field name="firstName"><header-field title="First##Name" show-order-by="case-insensitive"/>
                 <default-field><display also-hidden="false"/></default-field></field>
             <field name="lastName"><header-field title="Last##Name" show-order-by="case-insensitive"/>
@@ -177,7 +181,7 @@ along with this software (see the LICENSE.md file). If not, see
             </default-field></field>
             <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
 
-            <form-list-column><field-ref name="pseudoId"/><field-ref name="username"/><field-ref name="roleTypeId"/></form-list-column>
+            <form-list-column><field-ref name="pseudoId"/><field-ref name="usernames"/><field-ref name="roleTypeId"/></form-list-column>
             <form-list-column><field-ref name="firstName"/><field-ref name="lastName"/><field-ref name="organizationName"/></form-list-column>
             <form-list-column><field-ref name="fromDate"/><field-ref name="thruDate"/></form-list-column>
             <form-list-column><field-ref name="expectationEnumId"/><field-ref name="emplPositionClassId"/></form-list-column>
