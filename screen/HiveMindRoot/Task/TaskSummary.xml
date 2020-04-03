@@ -17,6 +17,13 @@ along with this software (see the LICENSE.md file). If not, see
 
     <parameter name="workEffortId" required="true"/>
 
+    <transition name="taskSummary"><default-response url="."/></transition>
+    <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
+    <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
+
+    <transition name="editParty"><default-response url="//hmadmin/Party/EditParty"/></transition>
+    <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
+
     <transition name="updateTaskField">
         <actions>
             <service-call name="update#mantle.work.effort.WorkEffort" in-map="context"/>
@@ -106,12 +113,6 @@ along with this software (see the LICENSE.md file). If not, see
     </transition>
     <transition-include name="getTaskList" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
 
-    <transition name="taskSummary"><default-response url="."/></transition>
-    <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
-    <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
-
-    <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
-
     <transition name="addComment"><service-call name="mantle.work.TaskServices.add#TaskComment"/>
         <default-response url="."/></transition>
     <transition name="deleteComment"><service-call name="mantle.work.TaskServices.delete#TaskComment"/>
@@ -163,7 +164,9 @@ along with this software (see the LICENSE.md file). If not, see
         </entity-find>
         <!-- Assignments -->
         <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
-            <date-filter/><econdition field-name="workEffortId"/></entity-find>
+            <date-filter/><econdition field-name="workEffortId"/>
+            <select-field field-name="partyId,firstName,lastName,organizationName,roleTypeId,statusId"/>
+        </entity-find>
         <!-- Child Tasks -->
         <entity-find entity-name="mantle.work.effort.WorkEffortAndStatus" list="childTaskList">
             <econdition field-name="parentWorkEffortId" from="workEffortId"/>
@@ -246,7 +249,8 @@ along with this software (see the LICENSE.md file). If not, see
                             </actions>
                             <widgets>
                                 <container style="shaded-area">
-                                    <label text="${(weapd.username ? weapd.username + ': ' : '')} ${weapd.firstName?:''} ${weapd.lastName?:''} ${weapd.organizationName?:''}" type="div"/>
+                                    <container><link url="editParty" link-type="anchor" parameter-map="[partyId:weapd.partyId]"
+                                            text="${weapd.firstName?:''} ${weapd.lastName?:''} ${weapd.organizationName?:''}"/></container>
                                     <label text="${roleType?.description?:'N/A'} - ${statusItem?.description?:'N/A'}" type="div"/>
                                     <!--
                                     <section name="AssignNotificationSection"><condition><expression>weapd.partyTypeEnumId=="PtyPerson"</expression></condition>

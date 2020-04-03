@@ -18,6 +18,8 @@ along with this software (see the LICENSE.md file). If not, see
 
     <parameter name="workEffortId" required="true"/>
 
+    <transition name="editParty"><default-response url="//hmadmin/Party/EditParty"/></transition>
+
     <transition name="addAssignment">
         <service-call name="create#mantle.work.effort.WorkEffortParty" in-map="context"/>
         <default-response url="."/>
@@ -26,7 +28,6 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="update#mantle.work.effort.WorkEffortParty" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editParty"><default-response url="//hmadmin/Party/EditParty"/></transition>
 
     <transition name="getProjectParties">
         <service-call name="mantle.work.ProjectServices.get#ProjectParties" web-send-json-response="resultList"/>
