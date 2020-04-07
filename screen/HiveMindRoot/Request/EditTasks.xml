@@ -29,7 +29,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
-    <transition name="editTask"><default-response url="../../Task/TaskSummary"/></transition>
+    <transition name="taskSummary"><default-response url="../../Task/TaskSummary"/></transition>
 
     <transition name="createTask">
         <service-call name="mantle.work.TaskServices.create#Task" in-map="context"/>
@@ -156,11 +156,9 @@ along with this software (see the LICENSE.md file). If not, see
         </container-dialog>
 
         <form-list name="UpdateRweForm" list="rwedList" skip-form="true">
-            <field name="requestId"><default-field><hidden/></default-field></field>
-
             <field name="priority"><default-field title="Pri"><display/></default-field></field>
-            <field name="workEffortId"><default-field title="Task"><display text=""/>
-                <link text="${workEffortId}: ${workEffortName}" url="editTask" link-type="anchor"/>
+            <field name="workEffortId"><default-field title="Task">
+                <link text="${workEffortId}: ${workEffortName}" url="taskSummary" link-type="anchor"/>
             </default-field></field>
             <!-- <field name="workEffortName"><default-field title="Name"><display/></default-field></field> -->
             <field name="rootWorkEffortId">
@@ -168,10 +166,10 @@ along with this software (see the LICENSE.md file). If not, see
                     <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
             </field>
             <field name="purposeEnumId">
-                <default-field title="Purpose"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
+                <default-field title="Purpose"><display-entity entity-name="moqui.basic.Enumeration"/></default-field>
             </field>
             <field name="statusId">
-                <default-field title="Status"><display-entity entity-name="StatusItem" text="${description}"/></default-field>
+                <default-field title="Status"><display-entity entity-name="StatusItem"/></default-field>
             </field>
             <field name="estimatedCompletionDate"><default-field title="Due"><display format="yyyy-MM-dd"/></default-field></field>
             <field name="estimatedWorkTime"><default-field title="Est"><display format="0.00"/></default-field></field>
