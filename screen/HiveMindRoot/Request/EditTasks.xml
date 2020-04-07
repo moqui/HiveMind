@@ -155,18 +155,18 @@ along with this software (see the LICENSE.md file). If not, see
             </form-single>
         </container-dialog>
 
-        <form-list name="UpdateRweForm" list="rwedList" transition="deleteRwe">
+        <form-list name="UpdateRweForm" list="rwedList" skip-form="true">
             <field name="requestId"><default-field><hidden/></default-field></field>
 
-            <field name="rootWorkEffortId">
-                <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId?:'--'}" link-type="anchor">
-                    <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
-            </field>
+            <field name="priority"><default-field title="Pri"><display/></default-field></field>
             <field name="workEffortId"><default-field title="Task"><display text=""/>
                 <link text="${workEffortId}: ${workEffortName}" url="editTask" link-type="anchor"/>
             </default-field></field>
             <!-- <field name="workEffortName"><default-field title="Name"><display/></default-field></field> -->
-            <field name="priority"><default-field title="Pri"><display/></default-field></field>
+            <field name="rootWorkEffortId">
+                <default-field title="Project"><link url="projectSummary" text="${rootWorkEffortId}" link-type="anchor" condition="rootWorkEffortId">
+                    <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
+            </field>
             <field name="purposeEnumId">
                 <default-field title="Purpose"><display-entity entity-name="moqui.basic.Enumeration" also-hidden="false"/></default-field>
             </field>
@@ -177,7 +177,9 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="estimatedWorkTime"><default-field title="Est"><display format="0.00"/></default-field></field>
             <field name="actualWorkTime"><default-field title="Act"><display format="0.00"/></default-field></field>
 
-            <field name="submitButton"><default-field title="Delete"><submit/></default-field></field>
+            <field name="links"><default-field title=" ">
+                <link url="deleteRwe" text="" icon="glyphicon glyphicon-trash" confirmation="Remove task association from request?"/>
+            </default-field></field>
         </form-list>
     </widgets>
 </screen>
