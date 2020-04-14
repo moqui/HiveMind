@@ -27,6 +27,8 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="createProjectInvoiceItems"><service-call name="mantle.account.InvoiceServices.create#ProjectInvoiceItems"/>
         <default-response url="."/></transition>
+
+    <transition-include name="getProjectList" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
     <transition-include name="getOpenClientInvoicesByProject" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
     <transition-include name="getOpenVendorInvoicesByFromParty" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
     <transition-include name="getProjectParties" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
