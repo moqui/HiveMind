@@ -18,35 +18,13 @@ along with this software (see the LICENSE.md file). If not, see
     <parameter name="workEffortId"/>
     <parameter name="rootWorkEffortId" required="true" from="rootWorkEffortId ?: workEffortId"/>
 
-    <transition name="addUserAssign">
-        <service-call name="create#mantle.work.effort.WorkEffortParty" in-map="context"/>
-        <default-response url="."/>
-    </transition>
-    <transition name="updateUserAssign">
-        <service-call name="update#mantle.work.effort.WorkEffortParty" in-map="context"/>
-        <default-response url="."/>
-    </transition>
+    <transition name="addUserAssign"><service-call name="create#mantle.work.effort.WorkEffortParty" in-map="context"/>
+        <default-response url="."/></transition>
+    <transition name="updateUserAssign"><service-call name="update#mantle.work.effort.WorkEffortParty" in-map="context"/>
+        <default-response url="."/></transition>
     <transition name="editParty"><default-response url="//${appRoot}/Party/EditParty"/></transition>
 
-    <transition name="getPersonList">
-        <actions>
-            <entity-find entity-name="mantle.party.PersonAndUserAccount" list="pauList" limit="20">
-                <econditions combine="or">
-                    <econdition field-name="firstName" operator="like" value="%${term}%" ignore-case="true"/>
-                    <econdition field-name="lastName" operator="like" value="%${term}%" ignore-case="true"/>
-                    <econdition field-name="username" operator="like" value="%${term}%" ignore-case="true"/>
-                </econditions>
-                <order-by field-name="^firstName"/><order-by field-name="^lastName"/><order-by field-name="^username"/>
-            </entity-find>
-            <script>
-                def outList = []
-                for (def pau in pauList)
-                    outList.add([value:pau.partyId, label:"${pau.firstName} ${pau.lastName} (${pau.username})".toString()])
-                ec.web.sendJsonResponse(outList)
-            </script>
-        </actions>
-        <default-response type="none"/>
-    </transition>
+    <transition-include name="searchPartyList" location="component://SimpleScreens/template/party/PartyForms.xml"/>
 
     <actions>
         <set field="workEffortId" from="rootWorkEffortId"/>
@@ -58,7 +36,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <field name="workEffortId"><default-field><hidden/></default-field></field>
 
                 <field name="partyId"><default-field title="Person">
-                    <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
+                    <drop-down><dynamic-options transition="searchPartyList" server-search="true" min-length="2"/></drop-down>
                 </default-field></field>
                 <field name="roleTypeId"><default-field title="Role">
                     <drop-down no-current-selected-key="Assignee">
