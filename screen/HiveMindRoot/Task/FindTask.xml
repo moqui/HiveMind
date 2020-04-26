@@ -132,9 +132,13 @@ along with this software (see the LICENSE.md file). If not, see
                         </drop-down>
                     </default-field></field>
                     <field name="parentWorkEffortId"><default-field title="Parent Task">
+                        <drop-down allow-empty="true">
+                            <dynamic-options transition="getTaskList" min-length="2" server-search="true" depends-optional="true">
+                                <depends-on field="rootWorkEffortId"/></dynamic-options>
+                        </drop-down>
+                        <!--
                         <text-line ac-transition="getTaskList" ac-min-length="2" size="50">
                             <depends-on field="rootWorkEffortId"/></text-line>
-                        <!--
                         <drop-down>
                             <dynamic-options transition="getProjectTasks" value-field="workEffortId" label-field="taskLabel">
                                 <depends-on field="rootWorkEffortId"/></dynamic-options>
@@ -210,17 +214,22 @@ along with this software (see the LICENSE.md file). If not, see
                 <header-field title="Name" show-order-by="true"><text-find/></header-field>
                 <default-field><link text="${workEffortName}" url="editTask" link-type="anchor"/></default-field>
             </field>
-            <field name="parentWorkEffortId">
-                <header-field title="Parent" show-order-by="true"><text-find/></header-field>
-                <default-field><link url="editTask" text="${parentWorkEffortId}" link-type="anchor" condition="parentWorkEffortId">
-                    <parameter name="workEffortId" from="parentWorkEffortId"/></link></default-field>
-            </field>
             <field name="rootWorkEffortId">
                 <header-field title="Project" show-order-by="true"><drop-down allow-empty="true">
                     <list-options list="myProjectList" key="${workEffortId}" text="WorkEffortNameTemplate"/>
                 </drop-down></header-field>
                 <default-field><link url="projectSummary" text="${rootWorkEffortId}" link-type="anchor" condition="rootWorkEffortId">
                     <parameter name="workEffortId" from="rootWorkEffortId"/></link></default-field>
+            </field>
+            <field name="parentWorkEffortId">
+                <header-field title="Parent" show-order-by="true">
+                    <drop-down allow-empty="true">
+                        <dynamic-options transition="getTaskList" min-length="2" server-search="true" depends-optional="true">
+                            <depends-on field="rootWorkEffortId"/></dynamic-options>
+                    </drop-down>
+                </header-field>
+                <default-field><link url="editTask" text="${parentWorkEffortId}" link-type="anchor" condition="parentWorkEffortId">
+                    <parameter name="workEffortId" from="parentWorkEffortId"/></link></default-field>
             </field>
             <field name="milestoneWorkEffortId">
                 <header-field title="Milestone" show-order-by="true"><drop-down allow-empty="true">
