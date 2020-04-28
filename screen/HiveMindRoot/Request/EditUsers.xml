@@ -18,6 +18,8 @@ along with this software (see the LICENSE.md file). If not, see
 
     <parameter name="requestId" required="true"/>
 
+    <transition name="editParty"><default-response url="//${appRoot}/Party/EditParty"/></transition>
+
     <transition name="addUser">
         <service-call name="create#mantle.request.RequestParty" in-map="context"/>
         <default-response url="."/>
@@ -26,42 +28,17 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="update#mantle.request.RequestParty" in-map="context"/>
         <default-response url="."/>
     </transition>
-    <transition name="editUser"><default-response url="//hmadmin/User/EditUser"/></transition>
 
-    <transition name="getPersonList">
-        <actions>
-            <entity-find entity-name="mantle.party.PersonAndUserAccount" list="pauList" limit="20">
-                <econditions combine="or">
-                    <econdition field-name="firstName" operator="like" value="%${term}%" ignore-case="true"/>
-                    <econdition field-name="lastName" operator="like" value="%${term}%" ignore-case="true"/>
-                    <econdition field-name="username" operator="like" value="%${term}%" ignore-case="true"/>
-                </econditions>
-                <order-by field-name="^firstName"/><order-by field-name="^lastName"/><order-by field-name="^username"/>
-            </entity-find>
-            <script>
-                def outList = []
-                for (def pau in pauList)
-                    outList.add([value:pau.partyId, label:"${pau.firstName} ${pau.lastName} (${pau.username})".toString()])
-                ec.web.sendJsonResponse(outList)
-            </script>
-        </actions>
-        <default-response type="none"/>
-    </transition>
+    <transition-include name="searchPartyList" location="component://SimpleScreens/template/party/PartyForms.xml"/>
 
-    <actions>
-        <entity-find entity-name="mantle.request.RequestAndPartyDetail" list="rpapList">
-            <search-form-inputs default-order-by="firstName,lastName,organizationName"/>
-            <econdition field-name="requestId"/>
-        </entity-find>
-    </actions>
     <widgets>
-        <container-dialog id="AddUserDialog" button-text="Add User">
+        <container-dialog id="AddUserDialog" button-text="Add Party">
             <form-single name="AddUserForm" transition="addUser">
                 <field name="requestId"><default-field><hidden/></default-field></field>
 
-                <field name="partyId"><default-field title="Person">
-                    <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
-                </default-field></field>
+                <field name="partyId"><default-field title="Party"><drop-down allow-empty="true">
+                    <dynamic-options transition="searchPartyList" server-search="true" min-length="2"/>
+                </drop-down></default-field></field>
                 <field name="roleTypeId"><default-field title="Role">
                     <drop-down>
                         <entity-options key="${roleTypeId}" text="${description}">
@@ -71,8 +48,8 @@ along with this software (see the LICENSE.md file). If not, see
                     </drop-down>
                 </default-field></field>
 
-                <field name="fromDate" from="ec.user.nowTimestamp"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
-                <field name="thruDate"><header-field show-order-by="true"/><default-field><date-time/></default-field></field>
+                <field name="fromDate" from="ec.user.nowTimestamp"><default-field><date-time/></default-field></field>
+                <field name="thruDate"><default-field><date-time/></default-field></field>
 
                 <field name="receiveNotifications"><default-field>
                     <drop-down no-current-selected-key="N"><option key="Y"/><option key="N"/></drop-down>
@@ -82,11 +59,23 @@ along with this software (see the LICENSE.md file). If not, see
         </container-dialog>
 
         <form-list name="UpdateUserForm" list="rpapList" transition="updateUser">
+            <entity-find entity-name="mantle.request.RequestAndPartyDetail" list="rpapList">
+                <search-form-inputs default-order-by="firstName,lastName,organizationName"/>
+                <econdition field-name="requestId"/>
+            </entity-find>
+            <row-actions>
+                <entity-find entity-name="moqui.security.UserAccount" list="uaList">
+                    <econdition field-name="partyId"/></entity-find>
+                <set field="usernames" from="uaList*.username.join(', ')"/>
+            </row-actions>
+
             <field name="requestId"><default-field><hidden/></default-field></field>
             <field name="partyId"><default-field><hidden/></default-field></field>
 
-            <field name="username"><header-field show-order-by="case-insensitive"/>
-                <default-field><link url="editUser" text="${username}" link-type="anchor" condition="username"/></default-field></field>
+            <field name="pseudoId"><header-field title="ID" show-order-by="case-insensitive"/>
+                <default-field><link url="editParty" text="${pseudoId}" link-type="anchor"/></default-field></field>
+            <field name="usernames"><default-field>
+                <link url="editParty" text="${usernames}" link-type="anchor" condition="usernames"/></default-field></field>
             <field name="firstName"><header-field title="First##Name" show-order-by="case-insensitive"/>
                 <default-field><display also-hidden="false"/></default-field></field>
             <field name="lastName"><header-field title="Last##Name" show-order-by="case-insensitive"/>
