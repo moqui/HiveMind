@@ -320,6 +320,10 @@ along with this software (see the LICENSE.md file). If not, see
 
                             <label text="${commEventDetail.body}" type="pre" encode="false"/>
 
+                            <dynamic-container id="CommentContent${uniqueExtension}" transition="CommentContent">
+                                <parameter name="communicationEventId" from="commEventDetail.communicationEventId"/>
+                            </dynamic-container>
+                            
                             <section name="ChildNestedComments">
                                 <condition><expression>childCeList</expression></condition>
                                 <actions><set field="currentCe" from="commEventDetail"/></actions>
