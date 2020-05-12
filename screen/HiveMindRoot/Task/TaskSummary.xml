@@ -17,6 +17,13 @@ along with this software (see the LICENSE.md file). If not, see
 
     <parameter name="workEffortId" required="true"/>
 
+    <transition name="taskSummary"><default-response url="."/></transition>
+    <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
+    <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
+
+    <transition name="editParty"><default-response url="//hmadmin/Party/EditParty"/></transition>
+    <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
+
     <transition name="updateTaskField">
         <actions>
             <service-call name="update#mantle.work.effort.WorkEffort" in-map="context"/>
@@ -38,14 +45,25 @@ along with this software (see the LICENSE.md file). If not, see
             <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="project">
                 <field-map field-name="workEffortId" from="task.rootWorkEffortId"/>
             </entity-find-one>
-            <set field="statusFlowId" from="(task.statusFlowId ?: project.statusFlowId) ?: 'Default'"/>
+            <set field="statusFlowId" from="(task.statusFlowId ?: project?.statusFlowId) ?: 'Default'"/>
 
             <!-- get current status from description in currentValue parameter -->
-            <!-- TODO: this probably won't work when localized... -->
             <entity-find-one entity-name="StatusItem" value-field="currentStatus">
                 <field-map field-name="description" from="currentValue?.trim()"/>
                 <field-map field-name="statusTypeId" value="WorkEffort"/>
             </entity-find-one>
+            <if condition="currentStatus == null">
+                <entity-find entity-name="moqui.basic.LocalizedEntityField" list="currentStatusList">
+                    <econdition field-name="localized" from="currentValue?.trim()"/>
+                    <econdition field-name="entityName" value="moqui.basic.StatusItem"/>
+                </entity-find>
+                <entity-find list="statusItemList" entity-name="moqui.basic.StatusItem">
+                    <econdition field-name="statusId" operator="in" from="currentStatusList.pkValue"/>
+                    <econdition field-name="statusTypeId" value="WorkEffort"/>
+                </entity-find>
+                <if condition="statusItemList">
+                    <set field="currentStatus" from="statusItemList.first"/></if>
+            </if>
             <entity-find entity-name="moqui.basic.StatusFlowTransitionToDetail" list="svctdList" cache="true">
                 <econdition field-name="statusFlowId" from="statusFlowId"/>
                 <econdition field-name="statusId" from="currentStatus?.statusId"/>
@@ -94,12 +112,6 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response type="none"/>
     </transition>
     <transition-include name="getTaskList" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
-
-    <transition name="taskSummary"><default-response url="."/></transition>
-    <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
-    <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
-
-    <transition name="editRequest"><default-response url="../../Request/EditRequest"/></transition>
 
     <transition name="addComment"><service-call name="mantle.work.TaskServices.add#TaskComment"/>
         <default-response url="."/></transition>
@@ -152,7 +164,9 @@ along with this software (see the LICENSE.md file). If not, see
         </entity-find>
         <!-- Assignments -->
         <entity-find entity-name="mantle.work.effort.WorkEffortAndPartyDetail" list="weapdList">
-            <date-filter/><econdition field-name="workEffortId"/></entity-find>
+            <date-filter/><econdition field-name="workEffortId"/>
+            <select-field field-name="partyId,firstName,lastName,organizationName,roleTypeId,statusId"/>
+        </entity-find>
         <!-- Child Tasks -->
         <entity-find entity-name="mantle.work.effort.WorkEffortAndStatus" list="childTaskList">
             <econdition field-name="parentWorkEffortId" from="workEffortId"/>
@@ -181,10 +195,10 @@ along with this software (see the LICENSE.md file). If not, see
     <widgets>
         <container-row>
             <row-col lg="3" md="3">
-                <container-box><box-header><label text="ID: ${workEffortId}" type="h5"/></box-header><box-body>
+                <container-box><box-header title="ID: ${workEffortId}"/><box-body>
                     <container><label text="Project: " type="strong"/></container>
-                    <link text="${project.workEffortId} - ${project.workEffortName}" url="projectSummary" link-type="anchor">
-                        <parameter name="workEffortId" from="project.workEffortId"/></link>
+                    <link text="${project.workEffortId} - ${project.workEffortName}" url="projectSummary" link-type="anchor" condition="project != null">
+                        <parameter name="workEffortId" from="project.workEffortId"/><parameter name="rootWorkEffortId" from="project.workEffortId"/></link>
 
                     <section name="MilestoneSection" condition="milestone"><widgets>
                         <container><label text="Milestone: " type="strong"/></container>
@@ -224,7 +238,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </box-body></container-box>
 
                 <container-box>
-                    <box-header><label text="Assignments" type="h5"/></box-header>
+                    <box-header title="Assignments"/>
                     <box-body>
                         <section-iterate name="TaskAssignList" list="weapdList" entry="weapd">
                             <actions>
@@ -235,7 +249,8 @@ along with this software (see the LICENSE.md file). If not, see
                             </actions>
                             <widgets>
                                 <container style="shaded-area">
-                                    <label text="${(weapd.username ? weapd.username + ': ' : '')} ${weapd.firstName?:''} ${weapd.lastName?:''} ${weapd.organizationName?:''}" type="div"/>
+                                    <container><link url="editParty" link-type="anchor" parameter-map="[partyId:weapd.partyId]"
+                                            text="${weapd.firstName?:''} ${weapd.lastName?:''} ${weapd.organizationName?:''}"/></container>
                                     <label text="${roleType?.description?:'N/A'} - ${statusItem?.description?:'N/A'}" type="div"/>
                                     <!--
                                     <section name="AssignNotificationSection"><condition><expression>weapd.partyTypeEnumId=="PtyPerson"</expression></condition>
@@ -249,7 +264,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </container-box>
 
                 <container-box>
-                    <box-header><label text="Time Entries" type="h5"/></box-header>
+                    <box-header title="Time Entries"/>
                     <box-body>
                         <section-iterate name="TimeEntryList" list="timeEntryList" entry="timeEntry">
                             <actions>
@@ -271,7 +286,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <editable id="TaskDescription" text="${task.description?:''}" transition="updateTaskField" type="pre"
                         parameter-name="description"/>
 
-                <container-box><box-header><label text="Comments" type="h5"/></box-header><box-toolbar>
+                <container-box><box-header title="Comments"/><box-toolbar>
                     <container-dialog id="AddCommentDialog" button-text="Add Comment">
                         <form-single name="AddCommentForm" transition="addComment">
                             <field name="workEffortId"><default-field><hidden/></default-field></field>
@@ -316,7 +331,7 @@ along with this software (see the LICENSE.md file). If not, see
             </row-col>
             <row-col lg="3" md="3">
                 <container-box>
-                    <box-header><label text="Status History" type="h5"/></box-header>
+                    <box-header title="Status History"/>
                     <box-body>
                         <section-iterate name="StatusHistoryList" list="statusHistoryList" entry="statusHistory">
                             <actions>
@@ -335,7 +350,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </container-box>
 
                 <container-box>
-                    <box-header><label text="Child Tasks" type="h5"/></box-header>
+                    <box-header title="Child Tasks"/>
                     <box-toolbar>
                         <section name="NewChildTaskSection">
                             <actions>
@@ -382,7 +397,7 @@ along with this software (see the LICENSE.md file). If not, see
 
 
                 <container-box>
-                    <box-header><label text="Related" type="h5"/></box-header>
+                    <box-header title="Related"/>
                     <box-body>
                         <section-iterate name="TaskRelatedToList" list="relatedToList" entry="relatedTo">
                             <actions>
@@ -414,7 +429,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </container-box>
 
                 <container-box>
-                    <box-header><label text="Requests" type="h5"/></box-header>
+                    <box-header title="Requests"/>
                     <box-body>
                         <section-iterate name="TaskRequestList" list="werdList" entry="werd">
                             <actions>
@@ -435,7 +450,7 @@ along with this software (see the LICENSE.md file). If not, see
                 </container-box>
 
                 <container-box>
-                    <box-header><label text="Wiki Pages" type="h5"/></box-header>
+                    <box-header title="Wiki Pages"/>
                     <box-body>
                         <section-iterate name="TaskWikiPageList" list="wpaweList" entry="wpawe">
                             <widgets><container>

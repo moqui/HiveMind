@@ -12,7 +12,7 @@ You should have received a copy of the CC0 Public Domain Dedication
 along with this software (see the LICENSE.md file). If not, see
 <http://creativecommons.org/publicdomain/zero/1.0/>.
 -->
-<entity-facade-xml type="seed">
+<entity-facade-xml type="seed-initial">
     <!-- HiveMind PM (/hm) DataDocument Links -->
     <moqui.entity.document.DataDocumentLink dataDocumentId="MantleWikiPage" linkSeqId="21" linkSet="hm" label="Wiki Page" urlType="screen"
             linkUrl="/apps/hm/wiki/${wikiSpaceId}/${pagePath?:''}"/>
@@ -50,4 +50,16 @@ along with this software (see the LICENSE.md file). If not, see
             emailServerId="SYSTEM" bodyScreenLocation="component://HiveMind/screen/WikiPageUpdateNotification.xml"
             webappName="webroot" fromAddress="" ccAddresses="" bccAddresses=""
             subject="Wiki Page Updated: ${document.wikiSpaceId}/${document.pagePath}" sendPartial="Y"/>
+
+    <!-- NotificationTopic linkTemplate overrides for records from MyAccountDocumentData.xml in SimpleScreens -->
+    <moqui.security.user.NotificationTopic topic="MantleTask"
+            linkTemplate="/vapps/hm/Task/TaskSummary?workEffortId=${workEffortId}"/>
+    <moqui.security.user.NotificationTopic topic="MantleRequest"
+            linkTemplate="/vapps/hm/Request/EditRequest?requestId=${requestId}"/>
+    <!-- TODO: anything special for these?
+    <moqui.security.user.NotificationTopic topic="MantleEvent"
+            linkTemplate="/apps/my/User/Calendar/EventDetail?workEffortId=${workEffortId}"/>
+    <moqui.security.user.NotificationTopic topic="MantleCommunicationEvent"
+            linkTemplate="/apps/my/User/Messages/MessageThread?communicationEventId=${communicationEventId}"/>
+    -->
 </entity-facade-xml>

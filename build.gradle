@@ -24,13 +24,18 @@ repositories {
     jcenter()
 }
 
+// Log4J has annotation processors, disable to avoid warning
+tasks.withType(JavaCompile) { options.compilerArgs << "-proc:none" }
+tasks.withType(GroovyCompile) { options.compilerArgs << "-proc:none" }
+
 dependencies {
     compile project(':framework')
     testCompile project(':framework').configurations.testCompile.allDependencies
 }
 
 // by default the Java plugin runs test on build, change to not do that (only run test if explicit task)
-check.dependsOn.remove(test)
+// no longer workds as of gradle 4.8 or possibly earlier, use clear() instead: check.dependsOn.remove(test)
+check.dependsOn.clear()
 
 test {
     dependsOn cleanTest

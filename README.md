@@ -3,7 +3,7 @@
 [![license](http://img.shields.io/badge/license-CC0%201.0%20Universal-blue.svg)](https://github.com/moqui/HiveMind/blob/master/LICENSE.md)
 [![build](https://travis-ci.org/moqui/HiveMind.svg)](https://travis-ci.org/moqui/HiveMind)
 [![release](http://img.shields.io/github/release/moqui/HiveMind.svg)](https://github.com/moqui/HiveMind/releases)
-[![commits since release](http://img.shields.io/github/commits-since/moqui/HiveMind/v1.3.0.svg)](https://github.com/moqui/HiveMind/commits/master)
+[![commits since release](http://img.shields.io/github/commits-since/moqui/HiveMind/v1.4.2.svg)](https://github.com/moqui/HiveMind/commits/master)
 [![downloads](http://img.shields.io/github/downloads/moqui/HiveMind/total.svg)](https://github.com/moqui/HiveMind/releases)
 
 [![LinkedIn Group](https://img.shields.io/badge/linked%20in%20group-moqui-blue.svg)](https://www.linkedin.com/groups/4640689)
@@ -82,11 +82,11 @@ From the **moqui** directory run:
 
 For the HiveMind Project Management application, in your browser go to:
 
-<http://localhost:8080/apps/hm>
+<http://localhost:8080/vapps/hm>
 
 Or for the admin application go to:
 
-<http://localhost:8080/apps/hmadmin>
+<http://localhost:8080/vapps/hmadmin>
 
 Use the button in the lower-left corner of the screen login as John Doe.
 
@@ -105,8 +105,9 @@ Here are command line steps for initial checkout, setup, and run:
 Here are steps for a basic update (for development with clean out and rebuild of database):
 
     $ cd moqui
-    $ ./gradlew cleanAll gitPullAll load
+    $ ./gradlew cleanAll gitPullAll
+    $ ./gradlew load
     $ java -jar moqui.war
 
-To access the project management app go to something like <http://localhost:8080/apps/hm> in a
-web browser. To access the admin app go to <http://localhost:8080/apps/hmadmin>.
+To access the project management app go to something like <http://localhost:8080/vapps/hm> in a
+web browser. To access the admin app go to <http://localhost:8080/vapps/hmadmin>.

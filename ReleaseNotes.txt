@@ -2,6 +2,52 @@
 HiveMind Project Management and Service ERP Release Notes
 
 ===========================================================================
+Release 1.4.2 - 07 Dec 2019
+===========================================================================
+
+HiveMind Project Management and Service ERP 1.4.2 is a patch level new
+feature and bug fix release.
+
+There are only minor changes and fixes in this release. For a complete
+list of changes see:
+
+https://github.com/moqui/HiveMind/compare/v1.4.1...v1.4.2
+
+Most changes come from screens reused from SimpleScreens.
+
+===========================================================================
+Release 1.4.1 - 23 July 2019
+===========================================================================
+
+HiveMind Project Management and Service ERP 1.4.1 is a patch level new
+feature and bug fix release.
+
+There are only minor changes and fixes in this release. For a complete
+list of changes see:
+
+https://github.com/moqui/HiveMind/compare/v1.4.0...v1.4.1
+
+===========================================================================
+Release 1.4.0 - 29 Nov 2018
+===========================================================================
+
+HiveMind Project Management and Service ERP 1.4.0 is a minor new feature
+and bug fix release.
+
+This release is based on Moqui Framework version 2.1.1, mantle-udm 2.1.0,
+mantle-usl 2.1.0, and SimpleScreens 2.1.0. It also uses the
+moqui-elasticsearch 1.1.1 and moqui-fop 1.1.1 tool components.
+
+Most of the new functionality in this release is in the areas of the app
+from SimpleScreens and shared with POPC ERP (Party, Accounting, etc). See
+the ReleaseNotes.txt file in SimpleScreens for more details.
+
+Some basic stats to show app growth (for PM and Admin apps):
+
+- Screens: 154 (last release 106)
+- Forms: 387 (last release 275)
+
+===========================================================================
 Release 1.3.0 - 22 Oct 2017
 ===========================================================================
 

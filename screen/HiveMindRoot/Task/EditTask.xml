@@ -25,10 +25,9 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="projectSummary"><default-response url="../../Project/ProjectSummary"/></transition>
     <transition name="milestoneSummary"><default-response url="../../Project/MilestoneSummary"/></transition>
     <transition name="taskSummary"><default-response url="../TaskSummary"/></transition>
-    <transition name="getProjectMilestones">
-        <service-call name="mantle.work.ProjectServices.get#ProjectMilestones" web-send-json-response="resultList"/>
-        <default-response type="none"/>
-    </transition>
+
+    <transition-include name="getUserProjectList" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
+    <transition-include name="getProjectMilestones" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
     <transition-include name="getTaskList" location="component://SimpleScreens/template/work/WorkTransitions.xml"/>
 
     <actions>
@@ -42,24 +41,14 @@ along with this software (see the LICENSE.md file). If not, see
             <econdition field-name="workEffortAssocTypeEnumId" value="WeatMilestone"/>
         </entity-find>
         <set field="milestoneAssoc" from="milestoneAssocList?.getAt(0)"/>
-        <set field="statusFlowId" from="(task.statusFlowId ?: project.statusFlowId) ?: 'Default'"/>
+        <set field="statusFlowId" from="(task.statusFlowId ?: project?.statusFlowId) ?: 'Default'"/>
     </actions>
     <widgets>
         <form-single name="EditTask" transition="updateTask" map="task">
             <field name="workEffortId"><default-field title="Task ID"><display/></default-field></field>
             <field name="rootWorkEffortId"><default-field title="Project">
                 <drop-down allow-empty="true">
-                    <entity-options key="${workEffortId}" text="${workEffortId}: ${workEffortName}">
-                        <entity-find entity-name="WorkEffortAndParty">
-                            <econditions combine="or">
-                                <econdition field-name="visibilityEnumId" operator="in" value="WevGeneral,WevAllUsers"/>
-                                <econditions><date-filter/><econdition field-name="partyId" from="ec.user.userAccount.partyId"/></econditions>
-                            </econditions>
-                            <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
-                            <order-by field-name="workEffortId"/>
-                        </entity-find>
-                    </entity-options>
-                </drop-down>
+                    <dynamic-options transition="getUserProjectList" server-search="true" min-length="0"/></drop-down>
                 <link text="Edit ${project.workEffortId}" url="projectSummary" link-type="anchor" condition="project">
                     <parameter name="workEffortId" from="project.workEffortId"/></link>
             </default-field></field>
@@ -72,8 +61,10 @@ along with this software (see the LICENSE.md file). If not, see
                     <parameter name="milestoneWorkEffortId" from="milestoneAssoc?.workEffortId"/></link>
             </default-field></field>
             <field name="parentWorkEffortId"><default-field title="Parent Task">
-                <text-line ac-transition="getTaskList" ac-min-length="2" size="50">
-                    <depends-on field="rootWorkEffortId"/></text-line>
+                <drop-down allow-empty="true">
+                    <dynamic-options transition="getTaskList" min-length="2" server-search="true" depends-optional="true">
+                        <depends-on field="rootWorkEffortId"/></dynamic-options>
+                </drop-down>
                 <link text="Edit ${parentWorkEffortId}" url="taskSummary" link-type="anchor" condition="parentWorkEffortId">
                     <parameter name="workEffortId" from="parentWorkEffortId"/></link>
             </default-field></field>

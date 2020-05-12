@@ -61,8 +61,8 @@ along with this software (see the LICENSE.md file). If not, see
                 <display text="Enter values for 2 of the 3 below, or just Hours and Thru will be set to now"/>
             </default-field></field>
             <field name="hours"><default-field><text-line size="5"/></default-field></field>
-            <field name="fromDate"><default-field title="From"><date-time/></default-field></field>
-            <field name="thruDate"><default-field title="Thru"><date-time/></default-field></field>
+            <field name="fromDate"><default-field title="From"><date-time minute-stepping="1"/></default-field></field>
+            <field name="thruDate"><default-field title="Thru"><date-time minute-stepping="1"/></default-field></field>
 
             <field name="submitButton"><default-field title="Add Time"><submit/></default-field></field>
 
