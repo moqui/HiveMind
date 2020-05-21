@@ -68,7 +68,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <search-form-inputs default-order-by="priority,workEffortId">
                     <default-parameters statusId="WeInPlanning,WeApproved,WeInProgress,WeOnHold,WeComplete" statusId_op="in"/></search-form-inputs>
                 <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
-                <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds"/><!-- only tasks in allowed projects -->
+                <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds" or-null="true"/><!-- only tasks in allowed projects -->
                 <select-field field-name="rootWorkEffortId,milestoneWorkEffortId,parentWorkEffortId,workEffortId"/>
                 <select-field field-name="workEffortName,priority,purposeEnumId,statusId,resolutionEnumId"/>
                 <select-field field-name="estimatedCompletionDate,estimatedWorkTime,remainingWorkTime,actualWorkTime"/>
@@ -109,7 +109,7 @@ along with this software (see the LICENSE.md file). If not, see
             <entity-find entity-name="mantle.work.effort.PartyTaskSummary" list="taskList">
                 <search-form-inputs default-order-by="priority,workEffortId" input-fields-map="searchInputs"/>
                 <econdition field-name="workEffortId" operator="in" from="workEffortIdList"/>
-                <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds"/><!-- only tasks in allowed projects -->
+                <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds" or-null="true"/><!-- only tasks in allowed projects -->
                 <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
                 <select-field field-name="rootWorkEffortId,milestoneWorkEffortId,parentWorkEffortId,workEffortId"/>
                 <select-field field-name="workEffortName,priority,purposeEnumId,statusId,resolutionEnumId"/>
