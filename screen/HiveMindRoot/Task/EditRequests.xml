@@ -64,7 +64,7 @@ along with this software (see the LICENSE.md file). If not, see
             </field>
 
             <field name="links"><default-field title=" ">
-                <link url="deleteRwe" text="" icon="glyphicon glyphicon-trash" confirmation="Remove request association from task?"/>
+                <link url="deleteRwe" text="" icon="fa fa-trash" confirmation="Remove request association from task?"/>
             </default-field></field>
         </form-list>
     </widgets>

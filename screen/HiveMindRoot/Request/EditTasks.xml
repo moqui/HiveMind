@@ -176,7 +176,7 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="actualWorkTime"><default-field title="Act"><display format="0.00"/></default-field></field>
 
             <field name="links"><default-field title=" ">
-                <link url="deleteRwe" text="" icon="glyphicon glyphicon-trash" confirmation="Remove task association from request?"/>
+                <link url="deleteRwe" text="" icon="fa fa-trash" confirmation="Remove task association from request?"/>
             </default-field></field>
         </form-list>
     </widgets>
