@@ -235,6 +235,7 @@ along with this software (see the LICENSE.md file). If not, see
                         <label text="${ec.l10n.format((task.actualWorkTime / task.estimatedWorkTime) * 100, '0.00')}%" condition="task.estimatedWorkTime"/></container>
                     <container><label text="Act+Rem/Est: " type="strong"/>
                         <label text="${ec.l10n.format(((task.actualWorkTime + task.remainingWorkTime) / task.estimatedWorkTime) * 100, '0.00')}%" condition="task.estimatedWorkTime"/></container>
+                    <container><label text="Last Updated: " type="strong"/><label text="${ec.l10n.format(task.lastUpdatedStamp, null)}"/></container>
                 </box-body></container-box>
 
                 <container-box>

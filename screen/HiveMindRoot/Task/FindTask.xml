@@ -71,7 +71,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <econdition field-name="rootWorkEffortId" operator="in" from="myProjectIds" or-null="true"/><!-- only tasks in allowed projects -->
                 <select-field field-name="rootWorkEffortId,milestoneWorkEffortId,parentWorkEffortId,workEffortId"/>
                 <select-field field-name="workEffortName,priority,purposeEnumId,statusId,resolutionEnumId"/>
-                <select-field field-name="estimatedCompletionDate,estimatedWorkTime,remainingWorkTime,actualWorkTime"/>
+                <select-field field-name="estimatedCompletionDate,estimatedWorkTime,remainingWorkTime,actualWorkTime,lastUpdatedStamp"/>
             </entity-find>
         </then><else>
             <!-- DataDocument (ElasticSearch) search plus DB query -->
@@ -113,7 +113,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <econdition field-name="workEffortTypeEnumId" value="WetTask"/>
                 <select-field field-name="rootWorkEffortId,milestoneWorkEffortId,parentWorkEffortId,workEffortId"/>
                 <select-field field-name="workEffortName,priority,purposeEnumId,statusId,resolutionEnumId"/>
-                <select-field field-name="estimatedCompletionDate,estimatedWorkTime,remainingWorkTime,actualWorkTime"/>
+                <select-field field-name="estimatedCompletionDate,estimatedWorkTime,remainingWorkTime,actualWorkTime,lastUpdatedStamp"/>
             </entity-find>
         </else></if>
     </actions>
@@ -285,6 +285,11 @@ along with this software (see the LICENSE.md file). If not, see
                 <header-field title="Due Date" show-order-by="true"><date-period/></header-field>
                 <default-field><display format="yyyy-MM-dd"/></default-field>
             </field>
+            <field name="lastUpdatedStamp">
+                <header-field title="Last Updated"><date-period/></header-field>
+                <default-field><display/></default-field>
+            </field>
+
             <field name="estimatedWorkTime" show-total="true" align="right">
                 <header-field title="Est"><range-find/></header-field>
                 <default-field><display format="0.00"/></default-field></field>
@@ -294,6 +299,7 @@ along with this software (see the LICENSE.md file). If not, see
             <field name="actualWorkTime" show-total="true" align="right">
                 <header-field title="Actual"><range-find/></header-field>
                 <default-field><display format="0.00"/></default-field></field>
+
 
             <field name="searchButton"><header-field title="Find Tasks"><submit/></header-field></field>
         </form-list>
