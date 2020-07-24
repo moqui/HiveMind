@@ -111,10 +111,13 @@ along with this software (see the LICENSE.md file). If not, see
                                 <div class="progress-bar <#if pstats.actualPlusRemainingOverEstimated>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div>
                                 <div class="progress-bar progress-bar-info" style="width: ${estimatedRemainingPercentString}%;" aria-valuenow="${estimatedRemainingPercentString}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
+                            ]]></text><text type="qvt" template="true"><![CDATA[
+                                <q-linear-progress size="xl" class="q-mt-xs" :value="${pstats.estimatedCompletePercent/100}" :buffer="${pstats.estimatedRemainingPercent/100}"
+                                    color="<#if pstats.actualPlusRemainingOverEstimated>negative<#else>positive</#if>" track-color="info"/>
                             ]]></text></render-mode>
                         </row-col><row-col sm="3">
                             <label text="${ec.l10n.format(pstats.estimatedCompletePercent, '00.00')}%"/>
-                            <render-mode><text type="html,vuet" template="true"><![CDATA[<i class="glyphicon <#if pstats.actualPlusRemainingOverEstimated>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                            <render-mode><text type="html,vuet,qvt" template="true"><![CDATA[<i class="fa <#if pstats.actualPlusRemainingOverEstimated>fa-exclamation-circle text-danger<#else>fa-check-circle text-success</#if>"></i>]]></text></render-mode>
                         </row-col></container-row>
                         <section name="TimeBudgetGraphs" condition="project.totalTimeAllowed"><widgets>
                             <container-row><row-col sm="2">
@@ -125,10 +128,13 @@ along with this software (see the LICENSE.md file). If not, see
                                     <div class="progress-bar <#if pstats.actualPlusRemainingOverTimeBudget>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${timeBudgetCompletePercentString}%;" aria-valuenow="${timeBudgetCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div>
                                     <div class="progress-bar progress-bar-info" style="width: ${timeBudgetRemainingPercentString}%;" aria-valuenow="${timeBudgetRemainingPercentString}" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
+                                ]]></text><text type="qvt" template="true"><![CDATA[
+                                    <q-linear-progress size="xl" class="q-mt-xs" :value="${pstats.timeBudgetCompletePercent/100}" :buffer="${pstats.timeBudgetRemainingPercent/100}"
+                                        color="<#if pstats.actualPlusRemainingOverTimeBudget>negative<#else>positive</#if>" track-color="info"/>
                                 ]]></text></render-mode>
                             </row-col><row-col sm="3">
                                 <label text="${ec.l10n.format(pstats.timeBudgetCompletePercent, '00.00')}%"/>
-                                <render-mode><text type="html,vuet" template="true"><![CDATA[<i class="glyphicon <#if pstats.actualPlusRemainingOverEstimated>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                                <render-mode><text type="html,vuet,qvt" template="true"><![CDATA[<i class="fa <#if pstats.actualPlusRemainingOverEstimated>fa-exclamation-circle text-danger<#else>fa-check-circle text-success</#if>"></i>]]></text></render-mode>
                             </row-col></container-row>
                         </widgets></section>
                         <section name="CostBudgetGraphs" condition="project.totalClientCostAllowed"><widgets>
@@ -136,21 +142,29 @@ along with this software (see the LICENSE.md file). If not, see
                             </row-col><row-col sm="7">
                                 <render-mode><text type="html,vuet" template="true"><![CDATA[
                                 <div class="progress middle"><div class="progress-bar <#if pstats.clientActualOverBudget>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                ]]></text><text type="qvt" template="true"><![CDATA[
+                                    <q-linear-progress size="xl" class="q-mt-xs" :value="${pstats.clientBudgetUsedPercent/100}"
+                                        color="<#if pstats.clientActualOverBudget>negative<#else>positive</#if>"/>
                                 ]]></text></render-mode>
                             </row-col><row-col sm="3">
                                 <label text="${ec.l10n.format(pstats.clientBudgetUsedPercent, '00.00')}%"/>
-                                <render-mode><text type="html,vuet" template="true"><![CDATA[<i class="glyphicon <#if pstats.clientActualOverBudget>glyphicon-exclamation-sign text-danger<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                                <render-mode><text type="html,vuet,qvt" template="true"><![CDATA[<i class="fa <#if pstats.clientActualOverBudget>fa-exclamation-circle text-danger<#else>fa-check-circle text-success</#if>"></i>]]></text></render-mode>
                             </row-col></container-row>
                             <container-row><row-col sm="2">
                                 <label text="P-CB Gap" type="strong"/>
                             </row-col><row-col sm="7">
                                 <render-mode><text type="html,vuet" template="true"><![CDATA[
-                                <div class="progress xs"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
-                                <div class="progress xs"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                <div class="progress xs" style="height:6px;"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                <div class="progress xs" style="height:6px;"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                ]]></text><text type="qvt" template="true"><![CDATA[
+                                    <q-linear-progress size="sm" class="q-mt-xs" :value="${pstats.estimatedCompletePercent/100}"
+                                        color="<#if pstats.estimatedCompleteOverBudget>negative<#else>positive</#if>"/>
+                                    <q-linear-progress size="sm" class="q-mt-xs" :value="${pstats.clientBudgetUsedPercent/100}"
+                                        color="<#if pstats.estimatedCompleteOverBudget>negative<#else>positive</#if>"/>
                                 ]]></text></render-mode>
                             </row-col><row-col sm="3">
                                 <label text="${ec.l10n.format(pstats.estimatedCompleteBudgetPercentGap, '00.00')}%"/>
-                                <render-mode><text type="html,vuet" template="true"><![CDATA[<i class="glyphicon <#if pstats.estimatedCompleteOverBudget>glyphicon-exclamation-sign text-warning<#else>glyphicon-ok-circle text-success</#if>"></i>]]></text></render-mode>
+                                <render-mode><text type="html,vuet,qvt" template="true"><![CDATA[<i class="fa <#if pstats.estimatedCompleteOverBudget>fa-exclamation-circle text-warning<#else>fa-check-circle text-success</#if>"></i>]]></text></render-mode>
                             </row-col></container-row>
                         </widgets></section>
                         <container-row>
@@ -184,7 +198,7 @@ along with this software (see the LICENSE.md file). If not, see
                     </container></row-col><row-col lg="5"><container style="shaded-area">
                         <container-row><row-col sm="3">
                             <container id="status-chart"/>
-                            <render-mode><text type="html,vuet" template="true"><![CDATA[
+                            <render-mode><text type="html,vuet,qvt" template="true"><![CDATA[
                                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js" type="text/javascript"></script>
                                 <script>
                                     $("#status-chart_${project_index}").sparkline([${pstats.taskCountByStatusMap.WeApproved!'0'}, ${pstats.taskCountByStatusMap.WeOnHold!'0'}, ${pstats.taskCountByStatusMap.WeInProgress!'0'}, ${pstats.taskCountByStatusMap.WeClosed!'0' + pstats.taskCountByStatusMap.WeComplete!'0'}], {
