@@ -55,7 +55,7 @@ along with this software (see the LICENSE.md file). If not, see
     <widgets>
         <container id="dashboard-search-section">
             <container-box><box-header title="Quick Search"/><box-body>
-                <!-- TODO: support qvt using alternative to typeahead -->
+                <!-- TODO qvt: support using q-select instead of typeahead -->
                 <render-mode><text type="html,vuet"><![CDATA[
     <input type="text" id="SearchBox" class="form-control typeahead" style="width:100%;">
     <script>
@@ -71,6 +71,7 @@ along with this software (see the LICENSE.md file). If not, see
         $("#SearchBox").focus();
     </script>
                 ]]></text></render-mode>
+                <!-- TODO qvt -->
                 <render-mode><text type="html"><![CDATA[
     <script>$("#SearchBox").bind('typeahead:select', function(event, item) { if (item && item.urlToOpen) { window.open(item.urlToOpen, "_self"); } });</script>
                 ]]></text><text type="vuet"><![CDATA[
