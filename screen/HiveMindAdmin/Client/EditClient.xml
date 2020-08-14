@@ -115,7 +115,7 @@ along with this software (see the LICENSE.md file). If not, see
                                 parameter-map="[partyId:repPerson?.partyId]"/>
                     </default-field></field>
                     <field name="repPartyId"><default-field title="New Rep User">
-                        <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
+                        <drop-down><dynamic-options transition="getPersonList" server-search="true" min-length="2"/></drop-down>
                     </default-field></field>
                     <field name="submitButton"><default-field title="Set Client (AP) Representative"><submit/></default-field></field>
                 </form-single>

@@ -58,7 +58,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <field name="relationshipTypeEnumId"><default-field><hidden default-value="PrtMember"/></default-field></field>
 
                 <field name="fromPartyId"><default-field title="Person">
-                    <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
+                    <drop-down><dynamic-options transition="getPersonList" server-search="true" min-length="2"/></drop-down>
                 </default-field></field>
                 <field name="fromRoleTypeId"><default-field title="Role">
                     <drop-down><entity-options key="${roleTypeId}" text="${description}">

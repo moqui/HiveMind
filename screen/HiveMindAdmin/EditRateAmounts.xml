@@ -77,7 +77,7 @@ along with this software (see the LICENSE.md file). If not, see
                     </entity-options>
                 </drop-down></default-field></field>
                 <field name="partyId"><default-field title="Person">
-                    <text-line ac-transition="getPersonList" ac-min-length="2" size="15"/>
+                    <drop-down><dynamic-options transition="getPersonList" server-search="true" min-length="2"/></drop-down>
                 </default-field></field>
                 <field name="emplPositionClassId"><default-field title="Position Class"><drop-down allow-empty="true">
                     <entity-options key="${emplPositionClassId}" text="${title}">
@@ -130,7 +130,9 @@ along with this software (see the LICENSE.md file). If not, see
                 </drop-down></header-field>
                 <default-field><display-entity entity-name="mantle.work.effort.WorkEffort" text="${workEffortId} - ${workEffortName}"/></default-field></field>
             <field name="partyId">
-                <header-field title="Party"><text-line ac-transition="getPersonList" ac-min-length="2" size="15"/></header-field>
+                <header-field title="Party">
+                    <drop-down><dynamic-options transition="getPersonList" server-search="true" min-length="2"/></drop-down>
+                </header-field>
                 <default-field><display-entity entity-name="mantle.party.PartyDetail" text="${organizationName?:''} ${firstName?:''} ${lastName?:''} [${partyId}]"/></default-field>
             </field>
 
