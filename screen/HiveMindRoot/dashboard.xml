@@ -43,12 +43,10 @@ along with this software (see the LICENSE.md file). If not, see
                         <entity-find-count entity-name="mantle.request.Request" count-field="requestInProgressCount">
                             <econdition field-name="statusId" operator="in" from="['ReqSubmitted', 'ReqReviewed', 'ReqInProgress']"/></entity-find-count>
                     </actions><widgets>
-                        <container type="ul" style="list-inline">
-                            <container type="li"><link url="../Request" parameter-map="[statusId:'ReqSubmitted']"
-                                    text="New##Requests" badge="${requestSubmittedCount}" btn-type="default"/></container>
-                            <container type="li"><link url="../Request" parameter-map="[statusId:'ReqSubmitted,ReqReviewed,ReqInProgress', statusId_op:'in']"
-                                    text="Open##Requests" badge="${requestInProgressCount}" btn-type="default"/></container>
-                        </container>
+                        <link url="../Request" parameter-map="[statusId:'ReqSubmitted']"
+                                text="New##Requests" badge="${requestSubmittedCount}" btn-type="default"/>
+                        <link url="../Request" parameter-map="[statusId:'ReqSubmitted,ReqReviewed,ReqInProgress', statusId_op:'in']"
+                                text="Open##Requests" badge="${requestInProgressCount}" btn-type="default"/>
                     </widgets></section>
                 </container>
 
