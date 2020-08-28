@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This software is in the public domain under CC0 1.0 Universal plus a
+Grant of Patent License.
+
+To the extent possible under law, the author(s) have dedicated all
+copyright and related and neighboring rights to this software to the
+public domain worldwide. This software is distributed without any
+warranty.
+
+You should have received a copy of the CC0 Public Domain Dedication
+along with this software (see the LICENSE.md file). If not, see
+<http://creativecommons.org/publicdomain/zero/1.0/>.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd"
+        default-menu-include="false" standalone="true">
+
+    <parameter name="workEffortId"/>
+    <parameter name="communicationEventId"/>
+
+    <transition name="updateCommentContent"><service-call name="mantle.party.CommunicationServices.update#CommunicationEventContent"/>
+        <default-response url=".."/></transition>
+    <transition name="createCommentContent"><service-call name="mantle.party.CommunicationServices.create#CommunicationEventContent"/>
+        <default-response url=".."/></transition>
+    <transition name="downloadCommentContent" read-only="true">
+        <parameter name="communicationEventContentId"/>
+        <actions><entity-find-one entity-name="mantle.party.communication.CommunicationEventContent" value-field="commentContent"/>
+            <script>ec.web.sendResourceResponse(commentContent?.contentLocation)</script></actions>
+        <default-response type="none"/>
+    </transition>
+    <actions>
+        <entity-find entity-name="mantle.party.communication.CommunicationEventContent" list="commentContentList">
+            <econdition field-name="communicationEventId"/></entity-find>
+    </actions>
+
+    <widgets>
+        <container-box><box-header title="Comment Content"/>
+            <box-toolbar><container-dialog id="NewCommentContentDialog${communicationEventId}" button-text="Add Comment Content">
+                <form-single name="NewCommentContentForm" transition="createCommentContent">
+                    <field name="workEffortId"><default-field><hidden/></default-field></field>
+                    <field name="communicationEventId"><default-field><hidden/></default-field></field>
+                    <field name="contentTypeEnumId"><default-field title="Content Type">
+                        <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                            <set field="enumTypeId" value="CommunicationContentType"/><set field="allowEmpty" value="true"/></widget-template-include>
+                    </default-field></field>
+                    <field name="contentFile"><default-field><file/></default-field></field>
+                    <field name="description"><default-field><text-line size="60"/></default-field></field>
+                    <field name="submitButton"><default-field title="Add"><submit/></default-field></field>
+                </form-single>
+            </container-dialog></box-toolbar>
+            <box-body>
+                <section-iterate name="CommentContentIterateSection" list="commentContentList" entry="commentContent"><actions>
+                    <entity-find-one entity-name="mantle.party.PersonWithUserAccount" value-field="paua">
+                        <field-map field-name="userId" from="commentContent.userId"/></entity-find-one>
+                    <entity-find-one entity-name="moqui.basic.Enumeration" value-field="contentTypeEnum">
+                        <field-map field-name="enumId" from="commentContent.contentTypeEnumId"/></entity-find-one>
+                </actions><widgets>
+                    <container>
+                        <container><label text="${contentTypeEnum?.description?:'No Type'}" type="strong"/></container>
+                        <link url="downloadCommentContent" condition="commentContent.contentLocation"
+                              parameter-map="[communicationEventContentId:commentContent.communicationEventContentId]"
+                              text="Download ${commentContent.contentLocation.substring(commentContent.contentLocation.lastIndexOf('/')+1)}"/>
+                        <container-dialog id="UpdateCommentContentContainer${communicationEventId}" button-text="Edit Comment Content">
+                            <form-single name="UpdateCommentContentForm" transition="updateCommentContent" map="commentContent">
+                                <field name="communicationEventContentId"><default-field><hidden/></default-field></field>
+                                <field name="workEffortId"><default-field><hidden/></default-field></field>
+                                <field name="contentTypeEnumId"><default-field title="Content Type">
+                                    <widget-template-include location="component://webroot/template/screen/BasicWidgetTemplates.xml#enumDropDown">
+                                        <set field="enumTypeId" value="CommunicationContentType"/><set field="allowEmpty" value="true"/></widget-template-include>
+                                </default-field></field>
+                                <field name="contentFile"><default-field><file/></default-field></field>
+                                <field name="description"><default-field><text-line size="60"/></default-field></field>
+                                <field name="submitButton"><default-field title="Update"><submit/></default-field></field>
+                            </form-single>
+                        </container-dialog>
+                        <container><label condition="paua" text="By ${ec.resource.expand('UsernameTemplate','',paua+[userId:commentContent.userId])} at ${ec.l10n.format(commentContent.contentDate, 'yyyy-MM-dd HH:mm')}"/></container>
+                        <label text="${commentContent.description ?: 'No Description'}" type="p"/>
+                    </container>
+                </widgets></section-iterate>
+            </box-body>
+        </container-box>
+
+    </widgets>
+</screen>
