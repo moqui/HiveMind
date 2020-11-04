@@ -17,7 +17,14 @@ along with this software (see the LICENSE.md file). If not, see
 
     <subscreens default-item="FindTask"/>
 
+    <actions>
+        <if condition="workEffortId">
+            <entity-find-one entity-name="mantle.work.effort.WorkEffort" value-field="task"/>
+            <if condition="task == null"><return error="true" message="Task not found for ID ${workEffortId}"/></if>
+        </if>
+    </actions>
     <widgets>
+        <label text="Task ${task.workEffortId} - ${task.workEffortName}" type="strong" condition="task != null"/>
         <subscreens-panel id="task-panel" type="tab"/>
     </widgets>
 </screen>
