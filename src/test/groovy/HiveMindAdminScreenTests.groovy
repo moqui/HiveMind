@@ -107,9 +107,9 @@ class HiveMindAdminScreenTests extends Specification {
 
         // Party
         "Party/EditParty?partyId=EX_JOHN_DOE" | ['john.doe@moqui.org', 'John']
-        "Party/EditProjects?partyId=EX_JOHN_DOE" | ['Manager', 'Programmer Lead', 'Assigned']
-        "Party/EditTasks?partyId=EX_JOHN_DOE" | ['HM-004', 'Dashboard My Tasks', 'Assigned']
-        "Party/EditRequests?partyId=EX_JOHN_DOE" | ['DEMO_001', 'Add Create Request on dashboard', 'Assignee']
+        "Party/PartyProjects?partyId=EX_JOHN_DOE" | ['Manager', 'Programmer Lead', 'Assigned']
+        "Party/PartyTasks?partyId=EX_JOHN_DOE" | ['HM-004', 'Dashboard My Tasks', 'Assigned']
+        "Party/PartyRequests?partyId=EX_JOHN_DOE" | ['DEMO_001', 'Add Create Request on dashboard', 'Assignee']
 
         // Team
         "Team/EditTeam?partyId=ORG_ZIZI_DEVA" | ['Ziziwork Dev Team A']

@@ -18,6 +18,7 @@ along with this software (see the LICENSE.md file). If not, see
     <transition name="search"><default-response url="../Search"/></transition>
     <transition name="Reports"><default-response url="../Accounting/Reports"/></transition>
 
+    <transition name="projectSummary"><default-response url="../Project/ProjectSummary"/></transition>
     <transition name="editProject"><default-response url="../Project/EditProject"/></transition>
     <transition name="findTask"><default-response url="//hm/Task/FindTask"/></transition>
 
@@ -37,7 +38,7 @@ along with this software (see the LICENSE.md file). If not, see
             </container>
             <container>
                 <link url="../Project" link-type="anchor">
-                    <image url="/hmstatic/images/project-business120.png" url-type="screen" style="invertible" width="40"/></link>
+                    <image url="/ssstatic/images/project-business120.png" url-type="screen" style="invertible" width="40"/></link>
                 <link text="Projects" url="../Project" link-type="anchor"/>
             </container>
             <container>
@@ -86,156 +87,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <field name="queryString"><default-field tooltip=""><text-line size="40"/></default-field></field>
             </form-single>
 
-            <section-iterate name="ActiveProjectSection" list="projectList" entry="project"><actions>
-                <service-call name="mantle.work.ProjectServices.get#ProjectStats" in-map="[workEffort:project]" out-map="pstats"/>
-                <set field="estimatedCompletePercentString" from="ec.l10n.format(pstats.estimatedCompletePercent, '0')"/>
-                <set field="estimatedRemainingPercentString" from="ec.l10n.format(pstats.estimatedRemainingPercent, '0')"/>
-                <set field="clientBudgetUsedPercentString" from="ec.l10n.format(pstats.clientBudgetUsedPercent, '0')"/>
-                <set field="timeBudgetCompletePercentString" from="ec.l10n.format(pstats.timeBudgetCompletePercent, '0')"/>
-                <set field="timeBudgetRemainingPercentString" from="ec.l10n.format(pstats.timeBudgetRemainingPercent, '0')"/>
-            </actions><widgets>
-                <container-box><box-header>
-                    <link url="editProject" text="${project.workEffortId}"
-                            link-type="anchor-button" parameter-map="[workEffortId:project.workEffortId]"/>
-                    <label text="${project.workEffortName}" type="h5"/>
-                </box-header><box-toolbar>
-                    <label text="${pstats.projectDanger ? 'Danger' : (pstats.projectWarning ? 'Warning' : 'On Track')}"
-                            style="label ${pstats.projectDanger ? 'label-danger' : (pstats.projectWarning ? 'label-warning' : 'label-success')}"/>
-                </box-toolbar><box-body>
-                    <container-row><row-col lg="7"><container style="shaded-area">
-                        <container-row><row-col sm="2">
-                            <label text="Hrs Est" type="strong"/>
-                        </row-col><row-col sm="7">
-                            <render-mode><text type="html,vuet" template="true"><![CDATA[
-                            <div class="progress middle">
-                                <div class="progress-bar <#if pstats.actualPlusRemainingOverEstimated>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div>
-                                <div class="progress-bar progress-bar-info" style="width: ${estimatedRemainingPercentString}%;" aria-valuenow="${estimatedRemainingPercentString}" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            ]]></text><text type="qvt" template="true"><![CDATA[
-                                <q-linear-progress size="xl" class="q-mt-xs" :value="${pstats.estimatedCompletePercent/100}" :buffer="${pstats.estimatedRemainingPercent/100}"
-                                    color="<#if pstats.actualPlusRemainingOverEstimated>negative<#else>positive</#if>" track-color="info"/>
-                            ]]></text></render-mode>
-                        </row-col><row-col sm="3">
-                            <label text="${ec.l10n.format(pstats.estimatedCompletePercent, '00.00')}%"/>
-                            <render-mode><text type="html,vuet,qvt" template="true"><![CDATA[<i class="fa <#if pstats.actualPlusRemainingOverEstimated>fa-exclamation-circle text-danger<#else>fa-check-circle text-success</#if>"></i>]]></text></render-mode>
-                        </row-col></container-row>
-                        <section name="TimeBudgetGraphs" condition="project.totalTimeAllowed"><widgets>
-                            <container-row><row-col sm="2">
-                                <label text="Hrs Budget" type="strong"/>
-                            </row-col><row-col sm="7">
-                                <render-mode><text type="html,vuet" template="true"><![CDATA[
-                                <div class="progress middle">
-                                    <div class="progress-bar <#if pstats.actualPlusRemainingOverTimeBudget>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${timeBudgetCompletePercentString}%;" aria-valuenow="${timeBudgetCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div>
-                                    <div class="progress-bar progress-bar-info" style="width: ${timeBudgetRemainingPercentString}%;" aria-valuenow="${timeBudgetRemainingPercentString}" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                ]]></text><text type="qvt" template="true"><![CDATA[
-                                    <q-linear-progress size="xl" class="q-mt-xs" :value="${pstats.timeBudgetCompletePercent/100}" :buffer="${pstats.timeBudgetRemainingPercent/100}"
-                                        color="<#if pstats.actualPlusRemainingOverTimeBudget>negative<#else>positive</#if>" track-color="info"/>
-                                ]]></text></render-mode>
-                            </row-col><row-col sm="3">
-                                <label text="${ec.l10n.format(pstats.timeBudgetCompletePercent, '00.00')}%"/>
-                                <render-mode><text type="html,vuet,qvt" template="true"><![CDATA[<i class="fa <#if pstats.actualPlusRemainingOverEstimated>fa-exclamation-circle text-danger<#else>fa-check-circle text-success</#if>"></i>]]></text></render-mode>
-                            </row-col></container-row>
-                        </widgets></section>
-                        <section name="CostBudgetGraphs" condition="project.totalClientCostAllowed"><widgets>
-                            <container-row><row-col sm="2"><label text="Cost Budget" type="strong"/>
-                            </row-col><row-col sm="7">
-                                <render-mode><text type="html,vuet" template="true"><![CDATA[
-                                <div class="progress middle"><div class="progress-bar <#if pstats.clientActualOverBudget>progress-bar-danger<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
-                                ]]></text><text type="qvt" template="true"><![CDATA[
-                                    <q-linear-progress size="xl" class="q-mt-xs" :value="${pstats.clientBudgetUsedPercent/100}"
-                                        color="<#if pstats.clientActualOverBudget>negative<#else>positive</#if>"/>
-                                ]]></text></render-mode>
-                            </row-col><row-col sm="3">
-                                <label text="${ec.l10n.format(pstats.clientBudgetUsedPercent, '00.00')}%"/>
-                                <render-mode><text type="html,vuet,qvt" template="true"><![CDATA[<i class="fa <#if pstats.clientActualOverBudget>fa-exclamation-circle text-danger<#else>fa-check-circle text-success</#if>"></i>]]></text></render-mode>
-                            </row-col></container-row>
-                            <container-row><row-col sm="2">
-                                <label text="P-CB Gap" type="strong"/>
-                            </row-col><row-col sm="7">
-                                <render-mode><text type="html,vuet" template="true"><![CDATA[
-                                <div class="progress xs" style="height:6px;"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${estimatedCompletePercentString}%;" aria-valuenow="${estimatedCompletePercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
-                                <div class="progress xs" style="height:6px;"><div class="progress-bar <#if pstats.estimatedCompleteOverBudget>progress-bar-warning<#else>progress-bar-success</#if>" style="width: ${clientBudgetUsedPercentString}%;" aria-valuenow="${clientBudgetUsedPercentString}" aria-valuemin="0" aria-valuemax="100"></div></div>
-                                ]]></text><text type="qvt" template="true"><![CDATA[
-                                    <q-linear-progress size="sm" class="q-mt-xs" :value="${pstats.estimatedCompletePercent/100}"
-                                        color="<#if pstats.estimatedCompleteOverBudget>negative<#else>positive</#if>"/>
-                                    <q-linear-progress size="sm" class="q-mt-xs" :value="${pstats.clientBudgetUsedPercent/100}"
-                                        color="<#if pstats.estimatedCompleteOverBudget>negative<#else>positive</#if>"/>
-                                ]]></text></render-mode>
-                            </row-col><row-col sm="3">
-                                <label text="${ec.l10n.format(pstats.estimatedCompleteBudgetPercentGap, '00.00')}%"/>
-                                <render-mode><text type="html,vuet,qvt" template="true"><![CDATA[<i class="fa <#if pstats.estimatedCompleteOverBudget>fa-exclamation-circle text-warning<#else>fa-check-circle text-success</#if>"></i>]]></text></render-mode>
-                            </row-col></container-row>
-                        </widgets></section>
-                        <container-row>
-                            <row-col sm="4"><label text="Estimate ${ec.l10n.format(project.estimatedWorkTime, '#.#')} hrs" type="strong"/></row-col>
-                            <row-col sm="4"><label text="Worked ${ec.l10n.format(project.actualWorkTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverEstimated ? 'text-danger' : 'text-success'}"/></row-col>
-                            <row-col sm="4"><label text="Est Rem ${ec.l10n.format(project.remainingWorkTime, '#.#')} hrs" type="strong" style="text-info"/></row-col>
-                        </container-row>
-                        <section name="TimeBudgetStats" condition="project.totalTimeAllowed"><widgets>
-                            <container-row>
-                                <row-col sm="4"><label text="Budget ${ec.l10n.format(project.totalTimeAllowed, '#.#')} hrs" type="strong"/></row-col>
-                                <row-col sm="4"><label text="Act Bgt Rem ${ec.l10n.format(project.totalTimeAllowed - (project.actualWorkTime?:0), '#.#')} hrs" type="strong" style="text-info"/></row-col>
-                                <row-col sm="4"><label text="Est Bgt Rem ${ec.l10n.format(project.totalTimeAllowed - pstats.actualPlusRemainingTime, '#.#')} hrs" type="strong" style="${pstats.actualPlusRemainingOverTimeBudget ? 'text-danger' : 'text-success'}"/></row-col>
-                            </container-row>
-                        </widgets></section>
-                        <container-row>
-                            <row-col sm="4"><label text="Avg Rate ${ec.l10n.formatCurrency(pstats.clientAverageHourCost, project.costUomId, 2)}" type="strong"/></row-col>
-                            <row-col sm="4"><label text="Actual Cost ${ec.l10n.formatCurrency(project.actualClientCost, project.costUomId, 2)}" type="strong" style="${pstats.clientActualOverBudget ? 'text-danger' : 'text-success'}"/></row-col>
-                            <row-col sm="4"><label text="Est Cost ${ec.l10n.formatCurrency(pstats.clientEstimatedCost, project.costUomId, 2)}" type="strong"/></row-col>
-                        </container-row>
-                        <section name="CostBudgetStats" condition="project.totalClientCostAllowed"><widgets>
-                            <container-row>
-                                <row-col sm="4"><label text="Budget ${ec.l10n.formatCurrency(project.totalClientCostAllowed, project.costUomId, 2)}" type="strong"/></row-col>
-                                <row-col sm="4"><label text="Rem ${ec.l10n.formatCurrency(pstats.clientBudgetRemaining, project.costUomId, 2)}" type="strong"/></row-col>
-                                <row-col sm="4"><label text="Est ${ec.l10n.formatCurrency(pstats.clientBudgetEstimateDiff?.abs(), project.costUomId, 2)} ${pstats.clientBudgetEstimateDiff &lt; 0 ? 'over' : 'under'}" type="strong" style="${pstats.clientBudgetEstimateDiff &lt; 0 ? 'text-warning' : 'text-success'}"/></row-col>
-                            </container-row>
-                        </widgets></section>
-                        <container-row>
-                            <row-col xs="6" style="text-center"><label text="Provider Cost ${ec.l10n.formatCurrency(project.actualCost, project.costUomId, 2)}" type="strong"/></row-col>
-                            <row-col xs="6" style="text-center"><label text="Profit ${ec.l10n.formatCurrency(pstats.actualProfit, project.costUomId, 2)}" type="strong"/></row-col>
-                        </container-row>
-                    </container></row-col><row-col lg="5"><container style="shaded-area">
-                        <container-row><row-col sm="3">
-                            <container id="status-chart"/>
-                            <render-mode><text type="html,vuet,qvt" template="true"><![CDATA[
-                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js" type="text/javascript"></script>
-                                <script>
-                                    $("#status-chart_${project_index}").sparkline([${pstats.taskCountByStatusMap.WeApproved!'0'}, ${pstats.taskCountByStatusMap.WeOnHold!'0'}, ${pstats.taskCountByStatusMap.WeInProgress!'0'}, ${pstats.taskCountByStatusMap.WeClosed!'0' + pstats.taskCountByStatusMap.WeComplete!'0'}], {
-                                        type: 'pie', width: '80', height: '80', sliceColors: ['#8a6d3b', '#a94442', '#3c763d', '#31708f'], offset: 180,
-                                    });
-                                </script>
-                            ]]></text></render-mode>
-                        </row-col><row-col sm="9">
-                            <container-row>
-                                <row-col xs="12"><label text="${pstats.taskCount} Tasks" type="strong"/></row-col>
-                            </container-row>
-                            <container-row>
-                                <row-col sm="5"><link text="Approved - ${pstats.taskCountByStatusMap.WeApproved?:0}"
-                                        style="text-warning" url="findTask" link-type="anchor"
-                                        parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeApproved']"/></row-col>
-                                <row-col sm="7"><link text="On Hold - ${pstats.taskCountByStatusMap.WeOnHold?:0}"
-                                        style="text-danger" url="findTask" link-type="anchor"
-                                        parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeOnHold']"/></row-col>
-                            </container-row>
-                            <container-row>
-                                <row-col sm="5"><link text="In Progress - ${pstats.taskCountByStatusMap.WeInProgress?:0}"
-                                        style="text-success" url="findTask" link-type="anchor"
-                                        parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInProgress']"/></row-col>
-                                <row-col sm="7"><link text="Complete/Closed - ${((pstats.taskCountByStatusMap.WeComplete?:0) as BigDecimal) + ((pstats.taskCountByStatusMap.WeClosed?:0) as BigDecimal)}"
-                                        style="text-info" url="findTask" link-type="anchor"
-                                        parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeComplete,WeClosed', statusId_op:'in']"/></row-col>
-                            </container-row>
-                            <container-row>
-                                <row-col sm="5"><link text="In Planning - ${pstats.taskCountByStatusMap.WeInPlanning?:0}"
-                                        url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeInPlanning']"/></row-col>
-                                <row-col sm="7"><link text="Cancelled - ${pstats.taskCountByStatusMap.WeCancelled?:0}"
-                                        url="findTask" link-type="anchor" parameter-map="[rootWorkEffortId:project.workEffortId, statusId:'WeCancelled']"/></row-col>
-                            </container-row>
-                        </row-col></container-row>
-                    </container></row-col></container-row>
-                </box-body></container-box>
-            </widgets></section-iterate>
+            <section-include name="ActiveProjectSection" location="component://SimpleScreens/screen/SimpleScreens/Project/ProjectSummary.xml"/>
 
             <!-- TODO: add more useful stuff -->
         </row-col></container-row>

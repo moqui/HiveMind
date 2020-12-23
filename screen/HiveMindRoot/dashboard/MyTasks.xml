@@ -63,7 +63,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <link url="findTask" text="Find Task"/>
                 <container-dialog id="NewTaskContainer" button-text="New Task">
                     <form-single name="NewTaskForm" transition="createTask"
-                                 extends="component://HiveMind/screen/HiveMindRoot/Task/FindTask.xml#NewTaskForm">
+                                 extends="component://SimpleScreens/screen/SimpleScreens/Task/FindTask.xml#NewTaskForm">
                     </form-single>
                 </container-dialog>
             </box-toolbar><box-body>

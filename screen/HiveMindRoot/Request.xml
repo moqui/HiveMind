@@ -19,6 +19,10 @@ along with this software (see the LICENSE.md file). If not, see
                 location="component://SimpleScreens/screen/SimpleScreens/Request/FindRequest.xml"/>
         <subscreens-item name="EditRequest" menu-index="1"
                 location="component://SimpleScreens/screen/SimpleScreens/Request/EditRequest.xml"/>
+        <subscreens-item name="EditUsers" menu-index="2"
+                location="component://SimpleScreens/screen/SimpleScreens/Request/EditUsers.xml"/>
+        <subscreens-item name="EditTasks" menu-index="3"
+                location="component://SimpleScreens/screen/SimpleScreens/Request/EditTasks.xml"/>
     </subscreens>
     <widgets><subscreens-panel id="task-panel" type="tab"/></widgets>
 </screen>

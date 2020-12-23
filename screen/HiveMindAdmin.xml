@@ -16,6 +16,7 @@ along with this software (see the LICENSE.md file). If not, see
         menu-image="fa fa-tasks" menu-image-type="icon">
     <always-actions>
         <set field="appRoot" value="hmadmin"/>
+        <set field="taskRoot" value="hm"/>
 
         <set field="searchIndexName" value="mantle"/>
         <set field="searchLinkSets" value="hmadmin,hm"/>
@@ -24,6 +25,9 @@ along with this software (see the LICENSE.md file). If not, see
     </always-actions>
     <subscreens default-item="dashboard" always-use-full-path="true">
         <subscreens-item name="Search" location="component://SimpleScreens/screen/SimpleScreens/Search.xml" menu-index="1"/>
+
+        <subscreens-item name="Project" menu-index="12" location="component://SimpleScreens/screen/SimpleScreens/Project.xml"/>
+        <subscreens-item name="Accounting" menu-index="13" location="component://SimpleScreens/screen/SimpleScreens/Accounting.xml"/>
 
         <subscreens-item name="QuickViewReport" menu-title="Custom Reports" menu-index="30"
                 location="component://SimpleScreens/screen/SimpleScreens/SimpleReport/QuickViewReport.xml"/>

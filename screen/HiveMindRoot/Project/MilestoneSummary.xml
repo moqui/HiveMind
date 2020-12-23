@@ -59,19 +59,19 @@ along with this software (see the LICENSE.md file). If not, see
         </entity-find>
     </actions>
     <widgets>
-        <label text="Summary for Milestone &quot;${milestoneWorkEffort.workEffortName}&quot; - ${milestoneWorkEffortId}" type="h1"/>
+        <label text="Summary for Milestone &quot;${milestoneWorkEffort.workEffortName}&quot; - ${milestoneWorkEffortId}" type="h3"/>
         <link text="Project Summary" url="projectSummary" link-type="anchor-button">
             <parameter name="rootWorkEffortId" from="milestoneWorkEffort.rootWorkEffortId"/></link>
-        <label text="Inactive Tasks" type="h2"/>
+        <label text="Inactive Tasks" type="h4"/>
         <form-list name="InactiveTaskList" list="inactiveTaskList" transition="updateTask" multi="true"
-                extends="component://HiveMind/screen/HiveMindAdmin/Project/MilestoneSummary.xml#InactiveTaskList">
+                extends="component://SimpleScreens/screen/SimpleScreens/Project/MilestoneSummary.xml#InactiveTaskList">
         </form-list>
 
-        <label text="Active Tasks" type="h2"/>
+        <label text="Active Tasks" type="h4"/>
         <form-list name="ActiveTaskList" list="activeTaskList" transition="updateTask" extends="InactiveTaskList">
         </form-list>
 
-        <label text="Completed Tasks" type="h2"/>
+        <label text="Completed Tasks" type="h4"/>
         <form-list name="DoneTaskList" list="doneTaskList" transition="updateTask" extends="InactiveTaskList">
         </form-list>
     </widgets>
