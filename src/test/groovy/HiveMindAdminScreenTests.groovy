@@ -60,7 +60,7 @@ class HiveMindAdminScreenTests extends Specification {
 
     def "render HiveMind Admin screens with no required parameters"() {
         when:
-        Set<String> screensToSkip = new HashSet(['wiki', 'EditWikiPage', 'WikiCommentNested', 'WikiCommentReply'])
+        Set<String> screensToSkip = new HashSet(['wiki', 'EditWikiPage', 'WikiCommentNested', 'WikiCommentReply', 'SalesSummary'])
         List<String> screenPaths = screenTest.getNoRequiredParameterPaths(screensToSkip)
         for (String screenPath in screenPaths) {
             ScreenTestRender str = screenTest.render(screenPath, [lastStandalone:"-2"], null)
