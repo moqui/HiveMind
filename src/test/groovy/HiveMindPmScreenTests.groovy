@@ -61,7 +61,7 @@ class HiveMindPmScreenTests extends Specification {
 
     def "render HiveMind PM screens with no required parameters"() {
         when:
-        Set<String> screensToSkip = new HashSet(['wiki', 'EditWikiPage', 'WikiCommentNested', 'WikiCommentReply'])
+        Set<String> screensToSkip = new HashSet(['wiki', 'ViewWikiPage', 'EditWikiPage', 'WikiCommentNested', 'WikiCommentReply'])
         List<String> screenPaths = screenTest.getNoRequiredParameterPaths(screensToSkip)
         for (String screenPath in screenPaths) {
             ScreenTestRender str = screenTest.render(screenPath, [lastStandalone:"-2"], null)
