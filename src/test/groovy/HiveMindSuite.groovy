@@ -13,16 +13,16 @@
  */
 
 
-import org.junit.AfterClass
-import org.junit.runner.RunWith
-import org.junit.runners.Suite
+import org.junit.jupiter.api.AfterAll
+import org.junit.platform.suite.api.SelectClasses
+import org.junit.platform.suite.api.Suite
 import org.moqui.Moqui
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses([ HiveMindAdminScreenTests.class, HiveMindPmScreenTests.class ])
+@Suite
+@SelectClasses([ HiveMindAdminScreenTests.class, HiveMindPmScreenTests.class ])
 class HiveMindSuite {
-    @AfterClass
-    public static void destroyMoqui() {
+    @AfterAll
+    static void destroyMoqui() {
         Moqui.destroyActiveExecutionContextFactory();
     }
 }
