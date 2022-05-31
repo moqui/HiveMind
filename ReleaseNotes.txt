@@ -2,6 +2,26 @@
 HiveMind Project Management and Service ERP Release Notes
 
 ===========================================================================
+Release 1.5.0 - 31 May 2022
+===========================================================================
+
+HiveMind Project Management and Service ERP 1.5.0 is a minor new
+feature and bug fix release.
+
+There are only minor changes and fixes in this release. For a complete
+list of changes see:
+
+https://github.com/moqui/HiveMind/compare/v1.4.2...v1.5.0
+
+Most changes come from screens reused from SimpleScreens.
+
+NOTE: the HiveMind PM application remains as a good option to act as a
+worker portal for people who do not need administrative access; for
+administrative purposes, or for those who will have access to other more
+general functionality, the new Marble ERP with project functionality along
+with general ERP functionality may be a better option.
+
+===========================================================================
 Release 1.4.2 - 07 Dec 2019
 ===========================================================================
 
