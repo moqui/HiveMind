@@ -3,11 +3,12 @@
 [![license](http://img.shields.io/badge/license-CC0%201.0%20Universal-blue.svg)](https://github.com/moqui/HiveMind/blob/master/LICENSE.md)
 [![build](https://travis-ci.org/moqui/HiveMind.svg)](https://travis-ci.org/moqui/HiveMind)
 [![release](http://img.shields.io/github/release/moqui/HiveMind.svg)](https://github.com/moqui/HiveMind/releases)
-[![commits since release](http://img.shields.io/github/commits-since/moqui/HiveMind/v1.4.2.svg)](https://github.com/moqui/HiveMind/commits/master)
+[![commits since release](http://img.shields.io/github/commits-since/moqui/HiveMind/v1.5.0.svg)](https://github.com/moqui/HiveMind/commits/master)
 [![downloads](http://img.shields.io/github/downloads/moqui/HiveMind/total.svg)](https://github.com/moqui/HiveMind/releases)
 
+[![Discourse Forum](https://img.shields.io/badge/moqui%20forum-discourse-blue.svg)](https://forum.moqui.org)
+[![Google Group](https://img.shields.io/badge/google%20group-moqui-blue.svg)](https://groups.google.com/d/forum/moqui)
 [![LinkedIn Group](https://img.shields.io/badge/linked%20in%20group-moqui-blue.svg)](https://www.linkedin.com/groups/4640689)
-[![Google Group](https://img.shields.io/badge/google%20group-moqui--applications-blue.svg)](https://groups.google.com/d/forum/moqui-applications)
 [![Stack Overflow](https://img.shields.io/badge/stack%20overflow-moqui-blue.svg)](http://stackoverflow.com/questions/tagged/moqui)
 
 HiveMind is a comprehensive ERP application for service organizations. It includes a project management application 
