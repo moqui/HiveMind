@@ -24,6 +24,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <actions>
         <entity-find entity-name="mantle.work.effort.WorkEffort" list="projectList">
+            <search-form-inputs default-order-by="workEffortId"/>
             <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
             <econdition field-name="statusId" value="WeInProgress"/>
         </entity-find>
