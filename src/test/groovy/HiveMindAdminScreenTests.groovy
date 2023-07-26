@@ -103,7 +103,7 @@ class HiveMindAdminScreenTests extends Specification {
         "Client/EditClient?partyId=ORG_ACME" |
                 ['Another Company Making Everything', 'Accounts Payable', 'billing.acme@test.com']
         "Client/EditProjects?partyId=ORG_ACME" | ['HM - HiveMind PM Build Out', 'Customer']
-        "Client/EditUsers?partyId=ORG_ACME" | ['Acme', 'Client Manager']
+        "Client/EditUsers?partyId=ORG_ACME" | ['Acme', 'Client Billing Rep']
 
         // Party
         "Party/EditParty?partyId=EX_JOHN_DOE" | ['john.doe@moqui.org', 'John']
