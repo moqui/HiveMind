@@ -42,19 +42,19 @@ along with this software (see the LICENSE.md file). If not, see
             authzTypeEnumId="AUTHZT_ALWAYS" authzActionEnumId="AUTHZA_ALL"/>
 
     <!-- authz/permission for HIVE_MIND_ADMIN users -->
-    <moqui.security.UserGroup userGroupId="HIVE_MIND_ADMIN" description="HiveMind Administrators"/>
+    <moqui.security.UserGroup userGroupId="HIVE_MIND_ADMIN" description="项目管理员权限"/>
     <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_PM_HMAD" userGroupId="HIVE_MIND_ADMIN" artifactGroupId="HIVE_MIND"
             authzTypeEnumId="AUTHZT_ALWAYS" authzActionEnumId="AUTHZA_ALL"/>
     <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_ADM_HMAD" userGroupId="HIVE_MIND_ADMIN" artifactGroupId="HIVE_MIND_ADMIN"
             authzTypeEnumId="AUTHZT_ALWAYS" authzActionEnumId="AUTHZA_ALL"/>
 
     <!-- authz for HM app user group (HIVE_MIND_USERS) -->
-    <moqui.security.UserGroup userGroupId="HIVE_MIND_USERS" description="HiveMind PM Users"/>
+    <moqui.security.UserGroup userGroupId="HIVE_MIND_USERS" description="项目执行权限"/>
     <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_USERS_HM" userGroupId="HIVE_MIND_USERS" artifactGroupId="HIVE_MIND"
             authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_ALL"/>
 
     <!-- authz for HM app view only user group (HIVE_MIND_VIEW) -->
-    <moqui.security.UserGroup userGroupId="HIVE_MIND_VIEW" description="HiveMind PM Viewers"/>
+    <moqui.security.UserGroup userGroupId="HIVE_MIND_VIEW" description="项目查看权限"/>
     <moqui.security.ArtifactAuthz artifactAuthzId="HIVE_MIND_VIEW_HM" userGroupId="HIVE_MIND_VIEW" artifactGroupId="HIVE_MIND"
             authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_VIEW"/>
 
@@ -71,25 +71,25 @@ along with this software (see the LICENSE.md file). If not, see
     <moqui.basic.Enumeration description="Programming" enumId="WktpProgramming" enumTypeId="WorkType"/>
     <moqui.basic.Enumeration description="Testing" enumId="WktpTesting" enumTypeId="WorkType"/>
 
-    <mantle.humanres.position.EmplPositionClass title="Quality Analyst" emplPositionClassId="QualityAnalyst"/>
+    <mantle.humanres.position.EmplPositionClass title="质量分析师" emplPositionClassId="QualityAnalyst"/>
     <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="QualityAnalyst" workTypeEnumId="WktpTesting"/>
-    <mantle.humanres.position.EmplPositionClass title="Quality Lead" emplPositionClassId="QualityLead"/>
+    <mantle.humanres.position.EmplPositionClass title="质量主管" emplPositionClassId="QualityLead"/>
     <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="QualityLead" workTypeEnumId="WktpTesting"/>
 
-    <mantle.humanres.position.EmplPositionClass title="Programmer" emplPositionClassId="Programmer"/>
+    <mantle.humanres.position.EmplPositionClass title="程序员" emplPositionClassId="Programmer"/>
     <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="Programmer" workTypeEnumId="WktpProgramming"/>
-    <mantle.humanres.position.EmplPositionClass title="Programmer Lead" emplPositionClassId="ProgrammerLead"/>
+    <mantle.humanres.position.EmplPositionClass title="程序员主管" emplPositionClassId="ProgrammerLead"/>
     <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="ProgrammerLead" workTypeEnumId="WktpProgramming"/>
 
-    <mantle.humanres.position.EmplPositionClass title="System Administrator" emplPositionClassId="SysAdmin"/>
+    <mantle.humanres.position.EmplPositionClass title="系统管理员" emplPositionClassId="SysAdmin"/>
 
-    <mantle.humanres.position.EmplPositionClass title="System Architect" emplPositionClassId="SysArchitect"/>
+    <mantle.humanres.position.EmplPositionClass title="系统架构师" emplPositionClassId="SysArchitect"/>
     <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="SysArchitect" workTypeEnumId="WktpRequirements"/>
     <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="SysArchitect" workTypeEnumId="WktpSystemDesign"/>
     <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="SysArchitect" workTypeEnumId="WktpProgramming"/>
-    <mantle.humanres.position.EmplPositionClass title="Business Analyst" emplPositionClassId="BusinessAnalyst"/>
+    <mantle.humanres.position.EmplPositionClass title="业务分析师" emplPositionClassId="BusinessAnalyst"/>
     <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="BusinessAnalyst" workTypeEnumId="WktpRequirements"/>
     <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="BusinessAnalyst" workTypeEnumId="WktpSystemDesign"/>
-    <mantle.humanres.position.EmplPositionClass title="Expert User" emplPositionClassId="ExpertUser"/>
+    <mantle.humanres.position.EmplPositionClass title="专家用户" emplPositionClassId="ExpertUser"/>
     <mantle.humanres.position.EmplPositionClassWorkType emplPositionClassId="ExpertUser" workTypeEnumId="WktpRequirements"/>
 </entity-facade-xml>

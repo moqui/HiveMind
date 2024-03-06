@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-facade-xml type="seed">
+    <moqui.basic.LocalizedMessage original="Offered" locale="zh" localized="已提供"/>
+    <moqui.basic.LocalizedMessage original="Departed" locale="zh" localized="已离去"/>
+    <moqui.basic.LocalizedMessage original="Assigned" locale="zh" localized="已分配"/>
+    <moqui.basic.LocalizedMessage original="Declined" locale="zh" localized="已拒绝"/>
+    <moqui.basic.LocalizedMessage original="Arrive" locale="zh" localized="到达"/>
+    <moqui.basic.LocalizedMessage original="Arrived" locale="zh" localized="已到达"/>
+    <moqui.basic.LocalizedMessage original="Unassign" locale="zh" localized="未分配"/>
+    <moqui.basic.LocalizedMessage original="Unassigned" locale="zh" localized="未分配"/>
+    <moqui.basic.LocalizedMessage original="Accept Assignment" locale="zh" localized="接收分配"/>
+    <moqui.basic.LocalizedMessage original="Decline Assignment" locale="zh" localized="拒绝分配"/>
+
+    <moqui.basic.LocalizedMessage original="Requirements Gathering" locale="zh" localized="需求收集"/>
+    <moqui.basic.LocalizedMessage original="System Design" locale="zh" localized="系统设计"/>
+    <moqui.basic.LocalizedMessage original="Programming" locale="zh" localized="编程"/>
+    <moqui.basic.LocalizedMessage original="Testing" locale="zh" localized="测试"/>
+    <moqui.basic.LocalizedMessage original="Create Rate Amount" locale="zh" localized="创建费率金额"/>
+
+    <moqui.basic.LocalizedMessage original="New##Requests" locale="zh" localized="新增"/>
+    <moqui.basic.LocalizedMessage original="Open##Requests" locale="zh" localized="打开"/>
+    <moqui.basic.LocalizedMessage original="Create Project" locale="zh" localized="创建项目"/>
+    <moqui.basic.LocalizedMessage original="Add User Agent" locale="zh" localized="添加用户代理"/>
+    <moqui.basic.LocalizedMessage original="Person" locale="zh" localized="人员"/>
+    <moqui.basic.LocalizedMessage original="Add Assignment" locale="zh" localized="添加分配"/>
+    <moqui.basic.LocalizedMessage original="Accounting" locale="zh" localized="会计"/>
+    <moqui.basic.LocalizedMessage original="Setup" locale="zh" localized="设置"/>
+    <moqui.basic.LocalizedMessage original="Parties" locale="zh" localized="当事人"/>
+    <moqui.basic.LocalizedMessage original="In Progress" locale="zh" localized="进行中"/>
+    <moqui.basic.LocalizedMessage original="Survey" locale="zh" localized="调查"/>
+    <moqui.basic.LocalizedMessage original="New Survey" locale="zh" localized="新增调查"/>
+    <moqui.basic.LocalizedMessage original="Content" locale="zh" localized="内容"/>
+</entity-facade-xml>
