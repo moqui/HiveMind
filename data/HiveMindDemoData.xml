@@ -96,7 +96,7 @@ along with this software (see the LICENSE.md file). If not, see
             estimatedStartDate="2013-04-01 00:00:00" estimatedCompletionDate="2013-04-14 00:00:00"/>
 
     <!-- Project StatusFlow -->
-    <moqui.basic.StatusFlow statusFlowId="HmTaskSimple" statusTypeId="WorkEffort" description="HiveMind Task Simple Status Flow"/>
+    <moqui.basic.StatusFlow statusFlowId="HmTaskSimple" statusTypeId="WorkEffort" description="项目任务简单状态流"/>
     <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeApproved" isInitial="Y"/>
     <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeInProgress" isInitial="Y"/>
     <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeClosed" isInitial="N"/>
