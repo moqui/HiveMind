@@ -22,7 +22,7 @@ along with this software (see the LICENSE.md file). If not, see
     <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_BLUTH_GOB" fromDate="1265184000000"/>
 
     <!-- ========== DEMO WIKI DATA ========== -->
-    <moqui.resource.wiki.WikiSpace wikiSpaceId="DEMO" description="Demo Wiki Space" restrictView="N"
+    <moqui.resource.wiki.WikiSpace wikiSpaceId="DEMO" description="示例维基空间" restrictView="N"
             rootPageLocation="component://HiveMind/WikiSpace/DEMO.md" decoratorScreenLocation=""/>
     <moqui.resource.wiki.WikiSpaceUser wikiSpaceId="DEMO" userId="EX_JOHN_DOE"
             receiveNotifications="Y" allowAdmin="Y" allowView="Y" allowUpdate="Y"/>
@@ -40,7 +40,7 @@ along with this software (see the LICENSE.md file). If not, see
     <moqui.resource.wiki.WikiPage wikiPageId="DEMO_DP2_CP1" wikiSpaceId="DEMO" pagePath="Demo Page 2/Child Page 1" createdByUserId="EX_JOHN_DOE"/>
     <moqui.resource.wiki.WikiPageHistory wikiPageId="DEMO_DP2_CP1" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
 
-    <moqui.resource.wiki.WikiSpace wikiSpaceId="DBDEMO" description="DB Demo Wiki Space" restrictView="N"
+    <moqui.resource.wiki.WikiSpace wikiSpaceId="DBDEMO" description="数据库示例维基空间" restrictView="N"
             rootPageLocation="dbresource://WikiSpace/DBDEMO.md" decoratorScreenLocation=""/>
     <moqui.resource.wiki.WikiPage wikiPageId="DBDEMO" wikiSpaceId="DBDEMO" pagePath="" createdByUserId="EX_JOHN_DOE"/>
     <moqui.resource.wiki.WikiPageHistory wikiPageId="DBDEMO" historySeqId="01" userId="EX_JOHN_DOE" changeDateTime="1265184000000"/>
@@ -96,7 +96,7 @@ along with this software (see the LICENSE.md file). If not, see
             estimatedStartDate="2013-04-01 00:00:00" estimatedCompletionDate="2013-04-14 00:00:00"/>
 
     <!-- Project StatusFlow -->
-    <moqui.basic.StatusFlow statusFlowId="HmTaskSimple" statusTypeId="WorkEffort" description="HiveMind Task Simple Status Flow"/>
+    <moqui.basic.StatusFlow statusFlowId="HmTaskSimple" statusTypeId="WorkEffort" description="项目任务简单状态流"/>
     <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeApproved" isInitial="Y"/>
     <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeInProgress" isInitial="Y"/>
     <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeClosed" isInitial="N"/>

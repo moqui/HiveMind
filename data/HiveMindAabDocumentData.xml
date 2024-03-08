@@ -42,11 +42,11 @@ along with this software (see the LICENSE.md file). If not, see
     -->
 
     <!-- EmailTemplates for Feed-driven Update Notifications -->
-    <moqui.basic.email.EmailTemplate emailTemplateId="HM_TASK_UPDATE" description="HiveMind Task Update Notification"
+    <moqui.basic.email.EmailTemplate emailTemplateId="HM_TASK_UPDATE" description="蜂巢任务更新通知"
             emailServerId="SYSTEM" bodyScreenLocation="component://HiveMind/screen/TaskUpdateNotification.xml"
             webappName="webroot" fromAddress="" ccAddresses="" bccAddresses=""
             subject="Task Updated: ${document._id} - ${document.name}" sendPartial="Y"/>
-    <moqui.basic.email.EmailTemplate emailTemplateId="HM_WIKI_PAGE_UPDATE" description="HiveMind WikiPage Update Notification"
+    <moqui.basic.email.EmailTemplate emailTemplateId="HM_WIKI_PAGE_UPDATE" description="蜂巢维基页面更新通知"
             emailServerId="SYSTEM" bodyScreenLocation="component://HiveMind/screen/WikiPageUpdateNotification.xml"
             webappName="webroot" fromAddress="" ccAddresses="" bccAddresses=""
             subject="Wiki Page Updated: ${document.wikiSpaceId}/${document.pagePath}" sendPartial="Y"/>
