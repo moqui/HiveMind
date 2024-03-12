@@ -62,7 +62,7 @@ along with this software (see the LICENSE.md file). If not, see
             fromDate="1265184000000" thruDate="" rateAmount="40.00" rateCurrencyUomId="USD"/>
 
     <!-- ========== 示例 项目数据 ========== -->
-    <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="项目管理工作量补充"
+    <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="编程项目管理"
             workEffortTypeEnumId="WetProject" statusId="WeInProgress" statusFlowId="HmTaskSimple"
             totalClientCostAllowed="10000" costUomId="USD"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_SERVICES" roleTypeId="Vendor" fromDate="1265184000000"/>
