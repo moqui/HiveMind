@@ -15,13 +15,13 @@ along with this software (see the LICENSE.md file). If not, see
 <entity-facade-xml type="demo">
     <!-- NOTE 1265184000000 = 2010-02-03 00:00:00 US/Pacific -->
 
-    <!-- Security group memberships for Mantle demo parties -->
+    <!--  地幔安全组的示例当事人 -->
     <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_ZIZI_JD" fromDate="1265184000000"/>
     <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_ZIZI_BD" fromDate="1265184000000"/>
     <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_ACME_SA" fromDate="1265184000000"/>
     <moqui.security.UserGroupMember userGroupId="HIVE_MIND_USERS" userId="ORG_BLUTH_GOB" fromDate="1265184000000"/>
 
-    <!-- ========== DEMO WIKI DATA ========== -->
+    <!-- ========== 示例 维基数据 ========== -->
     <moqui.resource.wiki.WikiSpace wikiSpaceId="DEMO" description="示例维基空间" restrictView="N"
             rootPageLocation="component://HiveMind/WikiSpace/DEMO.md" decoratorScreenLocation=""/>
     <moqui.resource.wiki.WikiSpaceUser wikiSpaceId="DEMO" userId="EX_JOHN_DOE"
@@ -47,7 +47,7 @@ along with this software (see the LICENSE.md file). If not, see
     <moqui.resource.DbResource resourceId="DBDEMO_CWIKI" parentResourceId="WIKI_SPACE_ROOT" filename="DBDEMO.md" isFile="Y"/>
     <moqui.resource.DbResourceFile resourceId="DBDEMO_CWIKI" mimeType="text/plain" fileData="# The DB Demo Root Page"/>
 
-    <!-- Standard hourly rates in USD (not restricted to any particular Party or WorkEffort (project or task)) -->
+    <!-- 以美元计算的标准时薪（不限于任何特定方或工作（项目或任务）） -->
     <mantle.humanres.rate.RateAmount rateAmountId="Default-StClSrPg" rateTypeEnumId="RatpStandard" ratePurposeEnumId="RaprClient"
             timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="ProgrammerLead"
             fromDate="1265184000000" thruDate="" rateAmount="100.00" rateCurrencyUomId="USD"/>
@@ -61,8 +61,8 @@ along with this software (see the LICENSE.md file). If not, see
             timePeriodUomId="TF_hr" workEffortId="" partyId="" emplPositionClassId="Programmer"
             fromDate="1265184000000" thruDate="" rateAmount="40.00" rateCurrencyUomId="USD"/>
 
-    <!-- ========== DEMO PROJECT DATA ========== -->
-    <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="HiveMind PM Build Out"
+    <!-- ========== 示例 项目数据 ========== -->
+    <mantle.work.effort.WorkEffort workEffortId="HM" workEffortName="项目管理工作量补充"
             workEffortTypeEnumId="WetProject" statusId="WeInProgress" statusFlowId="HmTaskSimple"
             totalClientCostAllowed="10000" costUomId="USD"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ZIZI_SERVICES" roleTypeId="Vendor" fromDate="1265184000000"/>
@@ -84,18 +84,18 @@ along with this software (see the LICENSE.md file). If not, see
     <mantle.work.effort.WorkEffortParty workEffortId="HM" partyId="ORG_ACME_TM" roleTypeId="OrgTeam"
             fromDate="1265184000000" statusId="WeptAssigned"/>
 
-    <!-- Milestones -->
-    <mantle.work.effort.WorkEffort workEffortId="HM-MS-001" workEffortName="HM Milestone 1"
+    <!-- 里程碑 -->
+    <mantle.work.effort.WorkEffort workEffortId="HM-MS-001" workEffortName="第一阶段"
             rootWorkEffortId="HM" workEffortTypeEnumId="WetMilestone" statusId="WeInProgress"
             estimatedStartDate="2013-03-04 00:00:00" estimatedCompletionDate="2013-03-17 00:00:00"/>
-    <mantle.work.effort.WorkEffort workEffortId="HM-MS-002" workEffortName="HM Milestone 2"
+    <mantle.work.effort.WorkEffort workEffortId="HM-MS-002" workEffortName="第二阶段"
             rootWorkEffortId="HM" workEffortTypeEnumId="WetMilestone" statusId="WeInPlanning"
             estimatedStartDate="2013-03-18 00:00:00" estimatedCompletionDate="2013-03-31 00:00:00"/>
-    <mantle.work.effort.WorkEffort workEffortId="HM-MS-003" workEffortName="HM Milestone 3"
+    <mantle.work.effort.WorkEffort workEffortId="HM-MS-003" workEffortName="第三阶段"
             rootWorkEffortId="HM" workEffortTypeEnumId="WetMilestone" statusId="WeInPlanning"
             estimatedStartDate="2013-04-01 00:00:00" estimatedCompletionDate="2013-04-14 00:00:00"/>
 
-    <!-- Project StatusFlow -->
+    <!-- 项目状态流 -->
     <moqui.basic.StatusFlow statusFlowId="HmTaskSimple" statusTypeId="WorkEffort" description="项目任务简单状态流"/>
     <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeApproved" isInitial="Y"/>
     <moqui.basic.StatusFlowItem statusFlowId="HmTaskSimple" statusId="WeInProgress" isInitial="Y"/>
@@ -106,46 +106,46 @@ along with this software (see the LICENSE.md file). If not, see
     <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeApproved" toStatusId="WeCancelled" transitionName="Cancel"/>
     <moqui.basic.StatusFlowTransition statusFlowId="HmTaskSimple" statusId="WeInProgress" toStatusId="WeCancelled" transitionName="Cancel"/>
 
-    <!-- Project Expense (Purchase) Invoice - Travel paid by individual -->
+    <!-- 项目费用（购买）发票-个人支付的差旅费 -->
     <mantle.account.invoice.Invoice invoiceId="HM-001" invoiceTypeEnumId="InvoiceSales" fromPartyId="EX_JOHN_DOE"
             toPartyId="ORG_ZIZI_SERVICES" statusId="InvoiceReceived" invoiceDate="2013-03-17 12:00:00" currencyUomId="USD"
-            description="March visit travel expenses"/>
+            description="三月访问差旅费"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="01" itemTypeEnumId="ItemExpTravAir"
-            quantity="1" amount="299.75" description="United Airfare"/>
+            quantity="1" amount="299.75" description="美联航"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="02" itemTypeEnumId="ItemExpTravAir"
-            quantity="1" amount="25.00" description="Seat upgrade (no standard economy seats left)"/>
+            quantity="1" amount="25.00" description="座位升级（已无标准经济舱座位）"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="03" itemTypeEnumId="ItemExpTravLodging"
-            quantity="1" amount="1499.67" description="Hilton Hotel"/>
+            quantity="1" amount="1499.67" description="希尔顿酒店"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="04" itemTypeEnumId="ItemExpTravCarRental"
-            quantity="1" amount="560.00" description="Avis Car Rental"/>
+            quantity="1" amount="560.00" description="安飞士汽车租赁"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-001" invoiceItemSeqId="05" itemTypeEnumId="ItemExpTravLocal"
-            quantity="1" amount="84.00" description="Airport Parking"/>
+            quantity="1" amount="84.00" description="机场停车场"/>
     <mantle.work.effort.WorkEffortInvoice invoiceId="HM-001" workEffortId="HM"/>
-    <!-- Project Expense (Purchase) Invoice - Hosting paid by Ziziwork company-->
+    <!-- 项目费用（购买）发票-ZIZIWORK公司支付的托管费用-->
     <mantle.party.Party partyId="HM_AWS" partyTypeEnumId="PtyOrganization"/>
-    <mantle.party.Organization partyId="HM_AWS" organizationName="Amazon Web Services"/>
+    <mantle.party.Organization partyId="HM_AWS" organizationName="亚马逊网络服务"/>
     <mantle.party.PartyRole partyId="HM_AWS" roleTypeId="Supplier"/>
     <mantle.account.invoice.Invoice invoiceId="HM-002" invoiceTypeEnumId="InvoiceSales" fromPartyId="HM_AWS"
             toPartyId="ORG_ZIZI_SERVICES" statusId="InvoiceReceived" invoiceDate="2013-03-01 12:00:00" currencyUomId="USD"
-            description="Amazon web hosting March 2013"/>
+            description="亚马逊虚拟主机2013年03月"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="01" itemTypeEnumId="ItemExpHosting"
-            quantity="1" amount="216.00" description="RDS Services"/>
+            quantity="1" amount="216.00" description="关系型数据库服务"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="02" itemTypeEnumId="ItemExpHosting"
-            quantity="1" amount="315.80" description="Elastic Compute Cloud"/>
+            quantity="1" amount="315.80" description="弹性计算云"/>
     <mantle.account.invoice.InvoiceItem invoiceId="HM-002" invoiceItemSeqId="03" itemTypeEnumId="ItemExpHosting"
-            quantity="1" amount="7.12" description="Simple Storage Service"/>
+            quantity="1" amount="7.12" description="简单存储服务"/>
     <mantle.account.invoice.InvoiceItemAssoc invoiceItemAssocId="HM-002A" invoiceId="HM-002" invoiceItemSeqId="01"
             toInvoiceId="HM-002" toInvoiceItemSeqId="02" invoiceItemAssocTypeEnumId="IiatRelated"/>
     <mantle.work.effort.WorkEffortInvoice invoiceId="HM-002" workEffortId="HM"/>
 
 
-    <mantle.work.effort.WorkEffort workEffortId="HM-001" workEffortName="HM Dashboard" priority="1"
+    <mantle.work.effort.WorkEffort workEffortId="HM-001" workEffortName="仪表盘" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="" resolutionEnumId="WerUnresolved"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepPlaceholder" statusId="WeInProgress"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-001"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="1265184000000" sequenceNum="1"/>
 
-    <mantle.work.effort.WorkEffort workEffortId="HM-002" workEffortName="Dashboard Project List" priority="2"
+    <mantle.work.effort.WorkEffort workEffortId="HM-002" workEffortName="仪表盘 项目列表" priority="2"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="4" remainingWorkTime="4"
             timeUomId="TF_hr" workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeInProgress"
             resolutionEnumId="WerUnresolved"/>
@@ -154,7 +154,7 @@ along with this software (see the LICENSE.md file). If not, see
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-002"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="1265184000000" sequenceNum="2"/>
 
-    <mantle.work.effort.WorkEffort workEffortId="HM-003" workEffortName="Dashboard Create Project" priority="2"
+    <mantle.work.effort.WorkEffort workEffortId="HM-003" workEffortName="仪表盘 创建项目" priority="2"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerUnresolved"
             estimatedWorkTime="4" timeUomId="TF_hr"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeApproved"/>
@@ -162,19 +162,19 @@ along with this software (see the LICENSE.md file). If not, see
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="1265184000000" sequenceNum="3"/>
 
     <!-- this task has the most complete demo data -->
-    <mantle.work.effort.WorkEffort workEffortId="HM-004" workEffortName="Dashboard My Tasks" priority="1"
+    <mantle.work.effort.WorkEffort workEffortId="HM-004" workEffortName="仪表盘 我的任务" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" estimatedWorkTime="20" timeUomId="TF_hr"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepTask"
             statusId="WeInProgress" resolutionEnumId="WerUnresolved" statusFlowId="Default">
         <!-- NOTE: this task uses the Default StatusFlow instead of HmTaskSimple used for the rest of the project -->
-        <description><![CDATA[Show a list of open tasks (statusId not in WeClosed,WeCancelled) for the current logged in user.
+        <description><![CDATA[显示当前登录用户的打开任务列表(StatusId不在WeClosed中，WeCanced中)。
 
-For each task include a link to the Project and Milestone the task is associated with. Also display the priority, purpose, status, due date, estimated hours and actual hours.
+对于每个任务，包括一个指向该任务的项目和里程碑的链接。还显示优先级、目的、状态、到期日、估计时数和实际时数。
 
-The actual hours is populated automatically based on a sum of the TimeEntry records associated to the task.
+实际时数是根据与任务关联的TimeEntry记录之和自动填充的。
         ]]></description>
     </mantle.work.effort.WorkEffort>
-    <!-- task worker and time entries -->
+    <!-- 任务工作者和时间条目 -->
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="EX_JOHN_DOE" roleTypeId="Assignee"
             fromDate="1265184000000" statusId="WeptAssigned" receiveNotifications="Y"/>
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_ZIZI_JD" roleTypeId="Assignee"
@@ -182,87 +182,75 @@ The actual hours is populated automatically based on a sum of the TimeEntry reco
     <mantle.work.effort.WorkEffortParty workEffortId="HM-004" partyId="ORG_ZIZI_DEVA" roleTypeId="OrgTeam"
             fromDate="1265184000000" statusId="WeptAssigned"/>
     <mantle.work.TaskServices.addTaskTime partyId="EX_JOHN_DOE" hours="8" breakHours="2"
-            workEffortId="HM-004" comments="Create Task and My Tasks first pass"
+            workEffortId="HM-004" comments="创建任务和“我的任务”第一遍"
             fromDate="2013-03-02 08:00:00" thruDate="2013-03-02 18:00:00"/>
     <mantle.work.TaskServices.addTaskTime partyId="EX_JOHN_DOE" hours="5.75" breakHours="1.25"
-            workEffortId="HM-004" comments="Create Task and My Tasks add more fields"
+            workEffortId="HM-004" comments="“创建任务”和“我的任务”添加更多字段"
             fromDate="2013-03-04 10:00:00" thruDate="2013-03-04 17:00:00"/>
     <mantle.work.TaskServices.addTaskTime partyId="EX_JOHN_DOE" hours="2" breakHours="0"
-            workEffortId="HM-004" comments="study code"
+            workEffortId="HM-004" comments="研究代码"
             fromDate="2013-03-05 10:00:00" thruDate="2013-03-05 12:00:00"/>
-    <!--
-    <mantle.work.time.TimeEntry timeEntryId="HM-004-01" partyId="EX_JOHN_DOE" hours="8" breakHours="2"
-            workEffortId="HM-004" comments="Create Task and My Tasks first pass" rateTypeEnumId="RatpStandard"
-            rateAmountId="Default-StClSrPg" vendorRateAmountId="Default-StVnSrPg" fromDate="2013-03-02 08:00:00" thruDate="2013-03-02 18:00:00"/>
-    <mantle.work.time.TimeEntry timeEntryId="HM-004-02" partyId="EX_JOHN_DOE" hours="5.75" breakHours="1.25"
-            workEffortId="HM-004" comments="Create Task and My Tasks add more fields" rateTypeEnumId="RatpStandard"
-            rateAmountId="Default-StClSrPg" vendorRateAmountId="Default-StVnSrPg" fromDate="2013-03-04 10:00:00" thruDate="2013-03-04 17:00:00"/>
-    <mantle.work.time.TimeEntry timeEntryId="HM-004-03" partyId="ORG_ZIZI_JD" hours="2" breakHours="0"
-            workEffortId="HM-004" comments="study code" rateTypeEnumId="RatpStandard"
-            rateAmountId="Default-StClPg" vendorRateAmountId="Default-StVnPg" fromDate="2013-03-05 10:00:00" thruDate="2013-03-05 12:00:00"/>
-    <mantle.work.effort.WorkEffortAssoc workEffortId="HM-003" toWorkEffortId="HM-004"
-            workEffortAssocTypeEnumId="WeatRelatesTo" fromDate="1265184000000"/>
-    -->
-    <!-- task milestone -->
+
+    <!-- 任务里程碑 -->
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-001" toWorkEffortId="HM-004"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="1265184000000" sequenceNum="4"/>
-    <!-- task wiki pages -->
+    <!-- 任务维基页面 -->
     <mantle.work.effort.WikiPageWorkEffort wikiPageId="DEMO_DP1" workEffortId="HM-004"/>
     <mantle.work.effort.WikiPageWorkEffort wikiPageId="DEMO_DP2_CP1" workEffortId="HM-004"/>
-    <!-- task comments -->
+    <!-- 任务注释 -->
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01" communicationEventTypeId="Comment"
             contactMechTypeEnumId="CmtWebForm" statusId="CeSent" parentCommEventId="" rootCommEventId=""
             fromPartyId="EX_JOHN_DOE" entryDate="2013-03-02 17:00:00" contentType="text/plain"
-            subject="Remaining hours question">
-        <body><![CDATA[Should we also display remaining hours?
+            subject="剩余时数问题">
+        <body><![CDATA[我们是否也应该显示剩余的小时数？
 
-BTW: who would be using this? Whatever this is all just a demo anyway.
+顺便说一句：谁会使用这个？不管怎样，这只是个小样。
 
-BTW2: this has newlines just to demonstrate formatting.]]></body>
+BTW2：这里有换行符只是为了演示格式化。]]></body>
     </mantle.party.communication.CommunicationEvent>
     <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-01"/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A" communicationEventTypeId="Comment"
             contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
             fromPartyId="ORG_BLUTH_GOB" toPartyId="EX_JOHN_DOE" entryDate="2013-03-02 18:00:00" contentType="text/plain"
-            subject="RE: Remaining hours question"
-            body="Yes, please also display remaining hours."/>
+            subject="回复：剩余工作时间问题"
+            body="是的，请同时显示剩余小时数。"/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A1" communicationEventTypeId="Comment"
             contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="HM-004-01-A" rootCommEventId="HM-004-01"
             fromPartyId="EX_JOHN_DOE" toPartyId="ORG_BLUTH_GOB" entryDate="2013-03-02 20:00:00" contentType="text/plain"
-            subject="RE: Remaining hours question"
-            body="It is done."/>
+            subject="回复：剩余工作时间问题"
+            body="结束了。"/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-A1A" communicationEventTypeId="Comment"
             contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="HM-004-01-A1" rootCommEventId="HM-004-01"
             fromPartyId="ORG_BLUTH_GOB" toPartyId="EX_JOHN_DOE" entryDate="2013-03-02 21:00:00" contentType="text/plain"
-            subject="RE: Remaining hours question"
-            body="It's about time..."/>
+            subject="回复：剩余工作时间问题"
+            body="也该是时候了..."/>
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-01-B" communicationEventTypeId="Comment"
             contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="HM-004-01" rootCommEventId="HM-004-01"
             fromPartyId="ORG_BLUTH_GOB" toPartyId="EX_JOHN_DOE" entryDate="2013-03-02 19:00:00" contentType="text/plain"
-            subject="RE: Remaining hours question"
-            body="Make it pretty as well! And fix your attitude while you're at it."/>
+            subject="回复：剩余工作时间问题"
+            body="也弄得漂亮点！顺便纠正一下你的态度。"/>
 
     <mantle.party.communication.CommunicationEvent communicationEventId="HM-004-02" communicationEventTypeId="Comment"
             contactMechTypeEnumId="CmtWebForm" statusId="CeReceived" parentCommEventId="" rootCommEventId=""
             fromPartyId="ORG_BLUTH_GOB" toPartyId="EX_JOHN_DOE" entryDate="2013-03-04 17:00:00" contentType="text/plain"
-            subject="Why isn't this working yet?!?"
-            body="This still doesn't seem to be right. You guys aren't even worth a detailed bug report so I won't bother. Just fix it."/>
+            subject="这个怎么还不能用啊！！？"
+            body="这个好像还是不对。你们这些家伙甚至不值得一个详细的错误报告，所以我不会打扰。修就好了。"/>
     <mantle.work.effort.WorkEffortCommEvent workEffortId="HM-004" communicationEventId="HM-004-02"/>
 
-    <!-- more demo tasks -->
-    <mantle.work.effort.WorkEffort workEffortId="HM-005" workEffortName="Dashboard Create Task" priority="1"
+    <!-- 更多的示例任务 -->
+    <mantle.work.effort.WorkEffort workEffortId="HM-005" workEffortName="仪表盘 创建任务" priority="1"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerUnresolved"
             estimatedWorkTime="5" timeUomId="TF_hr"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeInProgress"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-002" toWorkEffortId="HM-005"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="1265184000000" sequenceNum="1"/>
-    <mantle.work.effort.WorkEffort workEffortId="HM-006" workEffortName="Dashboard My Requests" priority="5"
+    <mantle.work.effort.WorkEffort workEffortId="HM-006" workEffortName="仪表盘 我的请求" priority="5"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerUnresolved"
             estimatedWorkTime="5" timeUomId="TF_hr"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-002" toWorkEffortId="HM-006"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="1265184000000" sequenceNum="2"/>
-    <mantle.work.effort.WorkEffort workEffortId="HM-007" workEffortName="Dashboard Create Request" priority="5"
+    <mantle.work.effort.WorkEffort workEffortId="HM-007" workEffortName="仪表盘 创建请求" priority="5"
             rootWorkEffortId="HM" parentWorkEffortId="HM-001" resolutionEnumId="WerUnresolved"
             estimatedWorkTime="4" timeUomId="TF_hr"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepNewFeature" statusId="WeApproved"/>
@@ -271,7 +259,7 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-005" toWorkEffortId="HM-004"
             workEffortAssocTypeEnumId="WeatDependsOn" fromDate="1265184000000"/>
 
-    <mantle.work.effort.WorkEffort workEffortId="HM-010" workEffortName="HM Task Screen"
+    <mantle.work.effort.WorkEffort workEffortId="HM-010" workEffortName="任务屏幕"
             rootWorkEffortId="HM" parentWorkEffortId="" resolutionEnumId="WerUnresolved"
             estimatedWorkTime="20" timeUomId="TF_hr"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepTask" statusId="WeApproved"/>
@@ -280,24 +268,24 @@ BTW2: this has newlines just to demonstrate formatting.]]></body>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-004" toWorkEffortId="HM-010"
             workEffortAssocTypeEnumId="WeatRelatesTo" fromDate="1265184000000"/>
 
-    <mantle.work.effort.WorkEffort workEffortId="HM-020" workEffortName="HM Request Screen"
+    <mantle.work.effort.WorkEffort workEffortId="HM-020" workEffortName="请求屏幕"
             rootWorkEffortId="HM" parentWorkEffortId="" resolutionEnumId="WerUnresolved"
             estimatedWorkTime="15" timeUomId="TF_hr"
             workEffortTypeEnumId="WetTask" purposeEnumId="WepTask" statusId="WeApproved"/>
     <mantle.work.effort.WorkEffortAssoc workEffortId="HM-MS-003" toWorkEffortId="HM-020"
             workEffortAssocTypeEnumId="WeatMilestone" fromDate="1265184000000" sequenceNum="2"/>
 
-    <!-- ========== DEMO REQUEST DATA ========== -->
+    <!-- ========== 示例 请求数据 ========== -->
     <mantle.request.Request requestId="DEMO_001" requestTypeEnumId="RqtNewFeature" requestCategoryId=""
-            statusId="ReqInProgress" requestResolutionEnumId="RrUnresolved" requestName="Add Create Request on dashboard"
-            description="Please add Create Request popup on dashboard screen for convenient request creation."
+            statusId="ReqInProgress" requestResolutionEnumId="RrUnresolved" requestName="在仪表板上添加创建请求"
+            description="请在仪表板屏幕上添加创建请求弹出窗口，以方便创建请求。"
             filedByPartyId="" priority="2" requestDate="1265184000000" responseRequiredDate="2013-07-31 12:00:00"/>
     <mantle.request.RequestParty requestId="DEMO_001" partyId="EX_JOHN_DOE" roleTypeId="Assignee" fromDate="1265184000000" thruDate=""/>
     <mantle.request.RequestParty requestId="DEMO_001" partyId="ORG_ACME" roleTypeId="Customer" fromDate="1265184000000" thruDate=""/>
     <mantle.request.RequestWorkEffort requestId="DEMO_001" workEffortId="HM-007"/>
 
     <mantle.request.Request requestId="DEMO_002" requestTypeEnumId="RqtInformation" requestCategoryId=""
-            statusId="ReqDraft" requestResolutionEnumId="RrUnresolved" requestName="Why is there so little color in the app?"
+            statusId="ReqDraft" requestResolutionEnumId="RrUnresolved" requestName="为什么APP里的颜色这么少？"
             description="" filedByPartyId="" priority="2" requestDate="1265184000000"
             responseRequiredDate="2013-07-31 12:00:00"/>
     <mantle.request.RequestParty requestId="DEMO_002" partyId="EX_JOHN_DOE" roleTypeId="Assignee" fromDate="1265184000000" thruDate=""/>
