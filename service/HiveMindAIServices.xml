@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <!-- HiveMind MCP 桥接服务 - 通过统一MCP调用AI服务 -->
+
+    <!-- HiveMind AI 思维导图生成服务 - 重构版本 -->
+    <service verb="generate" noun="MindMapFromText" authenticate="false" allow-remote="true">
+        <description>通过MCP统一服务生成思维导图</description>
+        <in-parameters>
+            <parameter name="inputText" required="true"/>
+            <parameter name="mapType" default-value="basic"/>
+            <parameter name="language" default-value="zh"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="success" type="Boolean"/>
+            <parameter name="message"/>
+            <parameter name="mermaidSyntax"/>
+            <parameter name="d3Data"/>
+            <parameter name="analysis"/>
+        </out-parameters>
+        <actions><script><![CDATA[
+
+            success = false
+            message = ""
+
+            try {
+                ec.logger.info("HiveMind MCP 思维导图生成请求: ${inputText}")
+
+                // 通过统一MCP服务获取HiveMind AI配置
+                def configResult = ec.service.sync().name("mcp.ai.config.get#ModuleAiConfig")
+                    .parameter("module", "hivemind")
+                    .parameter("configType", "text")
+                    .call()
+
+                if (!configResult.success) {
+                    ec.logger.warn("获取HiveMind AI配置失败: ${configResult.error}")
+                    success = false
+                    message = "AI配置获取失败: ${configResult.error}"
+                    return
+                }
+
+                def aiConfig = configResult.config
+
+                // 检查AI配置有效性
+                if (!aiConfig || !aiConfig.apiKey || aiConfig.apiKey.isEmpty()) {
+                    ec.logger.warn("HiveMind AI配置无效，使用演示模式")
+                    def demoResult = generateDemoMindMap(inputText, mapType, language)
+                    mermaidSyntax = demoResult.mermaidSyntax
+                    d3Data = demoResult.d3Data
+                    analysis = demoResult.analysis
+                    success = true
+                    message = "演示模式生成成功"
+                    return
+                }
+
+                // 通过MCP统一服务调用AI
+                def aiResult = callUnifiedAIService(aiConfig, inputText, mapType, language)
+
+                if (aiResult.success) {
+                    mermaidSyntax = aiResult.mermaidSyntax
+                    d3Data = aiResult.d3Data
+                    analysis = aiResult.analysis
+                    success = true
+                    message = "AI生成成功"
+                    ec.logger.info("HiveMind MCP思维导图生成成功")
+                } else {
+                    // 备选方案：演示模式生成
+                    ec.logger.warn("AI生成失败，使用演示模式: ${aiResult.message}")
+                    def demoResult = generateDemoMindMap(inputText, mapType, language)
+                    mermaidSyntax = demoResult.mermaidSyntax
+                    d3Data = demoResult.d3Data
+                    analysis = demoResult.analysis
+                    success = true
+                    message = "备选模式生成成功"
+                }
+
+            } catch (Exception e) {
+                ec.logger.error("HiveMind思维导图生成错误", e)
+                success = false
+                message = "生成失败: " + e.message
+            }
+
+            // 通过MCP统一服务调用AI
+            def callUnifiedAIService(Map aiConfig, String inputText, String mapType, String language) {
+                try {
+                    // 构建专业的HiveMind思维导图提示词
+                    def prompt = buildHiveMindPrompt(inputText, mapType, language)
+
+                    // 调用统一的MCP文本生成服务
+                    def mcpResult = ec.service.sync().name("mcp.ai.generate#Text")
+                        .parameter("prompt", prompt)
+                        .parameter("module", "hivemind")
+                        .parameter("aiProvider", aiConfig.provider)
+                        .parameter("temperature", 0.7)
+                        .parameter("maxTokens", 2000)
+                        .call()
+
+                    if (mcpResult.success) {
+                        def aiContent = mcpResult.generatedText
+                        return parseAIResponse(aiContent, inputText)
+                    } else {
+                        return [success: false, message: "MCP服务调用失败: ${mcpResult.error}"]
+                    }
+
+                } catch (Exception e) {
+                    ec.logger.error("MCP AI服务调用错误", e)
+                    return [success: false, message: e.message]
+                }
+            }
+
+            // 构建HiveMind专用AI提示词
+            def buildHiveMindPrompt(String inputText, String mapType, String language) {
+                def promptTemplate = """
+作为HiveMind知识管理专家，请基于以下内容生成一个${mapType == 'detailed' ? '详细的' : mapType == 'strategic' ? '战略性的' : mapType == 'creative' ? '创意性的' : '基础的'}思维导图：
+
+输入内容：${inputText}
+
+请按照以下格式输出：
+
+1. 首先输出Mermaid语法的思维导图（以```mermaid开始，```结束）
+2. 然后输出JSON格式的D3数据（以```json开始，```结束）
+3. 最后输出HiveMind分析报告
+
+Mermaid格式要求：
+- 使用mindmap语法
+- 中心主题用root((主题名))
+- 分支层次清晰，不超过4层
+- 节点名称简洁明了，符合知识管理最佳实践
+
+D3数据格式要求：
+- nodes数组：包含id, name, group, level字段
+- links数组：包含source, target字段
+- group用于节点颜色分类（1=中心，2=主分支，3=子节点）
+- level表示层级（0=中心，1=一级分支，2=二级分支）
+
+HiveMind分析报告要求：
+- 解释思维导图的知识结构逻辑
+- 说明主要分支的关联关系
+- 提供知识管理和项目实施的建议
+- 包含进一步研究的方向
+"""
+
+                if (language == "en") {
+                    promptTemplate = promptTemplate.replaceAll("作为HiveMind知识管理专家", "As a HiveMind knowledge management expert")
+                                                  .replaceAll("请基于以下内容生成", "please generate based on the following content")
+                                                  .replaceAll("输入内容：", "Input content: ")
+                                                  .replaceAll("请按照以下格式输出：", "Please output in the following format:")
+                }
+
+                return promptTemplate
+            }
+
+            // 解析AI响应
+            def parseAIResponse(String aiContent, String inputText) {
+                try {
+                    // 提取Mermaid语法
+                    def mermaidPattern = /```mermaid([\s\S]*?)```/
+                    def mermaidMatcher = aiContent =~ mermaidPattern
+                    def mermaidSyntax = mermaidMatcher ? mermaidMatcher[0][1].trim() : generateDefaultMermaid(inputText)
+
+                    // 提取JSON数据
+                    def jsonPattern = /```json([\s\S]*?)```/
+                    def jsonMatcher = aiContent =~ jsonPattern
+                    def d3Data = ""
+
+                    if (jsonMatcher) {
+                        d3Data = jsonMatcher[0][1].trim()
+                    } else {
+                        d3Data = generateDefaultD3Data(inputText)
+                    }
+
+                    // 提取分析报告
+                    def analysisStart = aiContent.indexOf("```json")
+                    def analysisText = ""
+                    if (analysisStart > 0) {
+                        def nextCodeBlock = aiContent.indexOf("```", analysisStart + 7)
+                        if (nextCodeBlock > 0) {
+                            analysisText = aiContent.substring(nextCodeBlock + 3).trim()
+                        }
+                    }
+
+                    if (!analysisText) {
+                        analysisText = "HiveMind AI 分析：基于输入内容 '${inputText}' 生成的知识管理思维导图，展现了主题的核心要素和逻辑关系，便于项目管理和团队协作。"
+                    }
+
+                    return [
+                        success: true,
+                        mermaidSyntax: mermaidSyntax,
+                        d3Data: d3Data,
+                        analysis: analysisText
+                    ]
+
+                } catch (Exception e) {
+                    ec.logger.error("AI响应解析错误", e)
+                    return [
+                        success: true,
+                        mermaidSyntax: generateDefaultMermaid(inputText),
+                        d3Data: generateDefaultD3Data(inputText),
+                        analysis: "AI 解析异常，使用HiveMind默认分析模式。"
+                    ]
+                }
+            }
+
+            // 演示模式生成 - HiveMind风格
+            def generateDemoMindMap(String inputText, String mapType, String language) {
+
+                // 分析输入内容关键词
+                def keywords = extractKeywords(inputText)
+                def centerTopic = keywords.size() > 0 ? keywords[0] : inputText.substring(0, Math.min(10, inputText.length()))
+
+                // 生成HiveMind风格Mermaid语法
+                def mermaidSyntax = """mindmap
+  root((${centerTopic}))
+    项目规划
+      需求分析
+        用户故事
+        功能需求
+      资源配置
+        团队分工
+        时间安排
+    知识管理
+      文档整理
+        技术文档
+        项目记录
+      经验总结
+        最佳实践
+        教训总结
+    执行监控
+      进度跟踪
+        里程碑管理
+        风险监控
+      质量保证
+        代码审查
+        测试验证"""
+
+                // 生成D3数据
+                def d3DataMap = [
+                    nodes: [
+                        [id: "1", name: centerTopic, group: 1, level: 0],
+                        [id: "2", name: "项目规划", group: 2, level: 1],
+                        [id: "3", name: "知识管理", group: 2, level: 1],
+                        [id: "4", name: "执行监控", group: 2, level: 1],
+                        [id: "5", name: "需求分析", group: 3, level: 2],
+                        [id: "6", name: "资源配置", group: 3, level: 2],
+                        [id: "7", name: "文档整理", group: 3, level: 2],
+                        [id: "8", name: "经验总结", group: 3, level: 2],
+                        [id: "9", name: "进度跟踪", group: 3, level: 2],
+                        [id: "10", name: "质量保证", group: 3, level: 2]
+                    ],
+                    links: [
+                        [source: "1", target: "2"],
+                        [source: "1", target: "3"],
+                        [source: "1", target: "4"],
+                        [source: "2", target: "5"],
+                        [source: "2", target: "6"],
+                        [source: "3", target: "7"],
+                        [source: "3", target: "8"],
+                        [source: "4", target: "9"],
+                        [source: "4", target: "10"]
+                    ]
+                ]
+
+                def d3Data = groovy.json.JsonOutput.toJson(d3DataMap)
+
+                // 生成HiveMind专用分析报告
+                def analysis = """HiveMind AI 知识管理分析报告
+
+主题：${centerTopic}
+输入内容：${inputText}
+
+知识架构分析：
+• 项目管理三核心：规划、管理、监控的完整闭环
+• 项目规划层：从需求分析到资源配置，确保项目启动科学性
+• 知识管理层：文档化和经验化，实现知识沉淀和传承
+• 执行监控层：过程控制和质量保证，确保目标达成
+
+HiveMind特色：
+✓ 融合项目管理和知识管理双重视角
+✓ 强调团队协作和经验积累
+✓ 注重过程控制和持续改进
+✓ 适用于敏捷开发和传统项目管理
+
+实施建议：
+1. 建立清晰的项目目标和成功标准
+2. 构建团队知识库和最佳实践集
+3. 设立定期回顾和持续改进机制
+4. 重视团队沟通和协作效率
+
+注：这是HiveMind演示模式生成的思维导图，实际使用时请配置统一AI服务获得更精确的分析结果。"""
+
+                return [
+                    mermaidSyntax: mermaidSyntax,
+                    d3Data: d3Data,
+                    analysis: analysis
+                ]
+            }
+
+            // 提取关键词（简化版）
+            def extractKeywords(String text) {
+                def words = text.replaceAll("[^\\u4e00-\\u9fa5a-zA-Z]", " ").split("\\s+")
+                return words.findAll { it.length() > 1 }.take(5)
+            }
+
+            // 生成默认Mermaid语法
+            def generateDefaultMermaid(String inputText) {
+                def topic = inputText.substring(0, Math.min(20, inputText.length()))
+                return """mindmap
+  root((${topic}))
+    分析维度A
+      要素A1
+      要素A2
+    分析维度B
+      要素B1
+      要素B2
+    分析维度C
+      要素C1
+      要素C2"""
+            }
+
+            // 生成默认D3数据
+            def generateDefaultD3Data(String inputText) {
+                def topic = inputText.substring(0, Math.min(10, inputText.length()))
+                def dataMap = [
+                    nodes: [
+                        [id: "1", name: topic, group: 1, level: 0],
+                        [id: "2", name: "维度A", group: 2, level: 1],
+                        [id: "3", name: "维度B", group: 2, level: 1],
+                        [id: "4", name: "维度C", group: 2, level: 1]
+                    ],
+                    links: [
+                        [source: "1", target: "2"],
+                        [source: "1", target: "3"],
+                        [source: "1", target: "4"]
+                    ]
+                ]
+                return groovy.json.JsonOutput.toJson(dataMap)
+            }
+
+        ]]></script></actions>
+    </service>
+
+    <!-- HiveMind文本分析服务 - 重构版本 -->
+    <service verb="analyze" noun="TextWithAI" authenticate="false" allow-remote="true">
+        <description>通过MCP统一服务分析文本内容</description>
+        <in-parameters>
+            <parameter name="inputText" required="true"/>
+            <parameter name="analysisType" default-value="general"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="success" type="Boolean"/>
+            <parameter name="result"/>
+            <parameter name="keywords"/>
+            <parameter name="summary"/>
+        </out-parameters>
+        <actions><script><![CDATA[
+
+            success = false
+
+            try {
+                ec.logger.info("HiveMind MCP 文本分析请求: ${inputText}")
+
+                // 通过统一MCP服务获取HiveMind AI配置
+                def configResult = ec.service.sync().name("mcp.ai.config.get#ModuleAiConfig")
+                    .parameter("module", "hivemind")
+                    .parameter("configType", "text")
+                    .call()
+
+                if (!configResult.success || !configResult.config?.apiKey) {
+                    result = "HiveMind AI配置无效或未配置"
+                    return
+                }
+
+                def aiConfig = configResult.config
+
+                // 构建HiveMind专用分析提示词
+                def analysisPrompt = """作为HiveMind项目管理和知识管理专家，请分析以下文本内容：
+
+${inputText}
+
+请从以下角度进行分析：
+1. 关键词提取（3-5个，关注项目管理要素）
+2. 内容摘要（50字以内）
+3. 项目管理视角分析
+4. 知识管理建议
+
+请用JSON格式返回结果：
+{
+  "keywords": ["关键词1", "关键词2", ...],
+  "summary": "内容摘要",
+  "analysis": "详细分析",
+  "projectManagementInsights": "项目管理洞察",
+  "knowledgeManagementSuggestions": "知识管理建议"
+}"""
+
+                // 调用统一的MCP文本生成服务
+                def mcpResult = ec.service.sync().name("mcp.ai.generate#Text")
+                    .parameter("prompt", analysisPrompt)
+                    .parameter("module", "hivemind")
+                    .parameter("aiProvider", aiConfig.provider)
+                    .parameter("temperature", 0.3)
+                    .call()
+
+                if (mcpResult.success) {
+                    result = mcpResult.generatedText
+
+                    // 尝试解析JSON结果
+                    try {
+                        def resultJson = new groovy.json.JsonSlurper().parseText(result)
+                        keywords = resultJson.keywords?.join(", ") ?: ""
+                        summary = resultJson.summary ?: ""
+                        success = true
+                    } catch (Exception e) {
+                        // JSON解析失败，使用原始结果
+                        keywords = ""
+                        summary = ""
+                        success = true
+                    }
+                } else {
+                    result = "MCP AI服务调用失败: ${mcpResult.error}"
+                }
+
+            } catch (Exception e) {
+                ec.logger.error("HiveMind文本分析错误", e)
+                result = "分析失败: " + e.message
+            }
+
+        ]]></script></actions>
+    </service>
+
+</services>

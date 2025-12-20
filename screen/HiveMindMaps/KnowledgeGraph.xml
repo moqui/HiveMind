@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/screen-3.xsd"
+        require-authentication="false" allow-extra-path="true">
+
+    <always-actions>
+        <set field="pageHeader" value="知识关系图谱"/>
+    </always-actions>
+
+    <pre-actions>
+        <script><![CDATA[
+            // 准备知识图谱示例数据
+            def knowledgeGraphData = [
+                nodes: [
+                    // 核心概念节点
+                    [id: "ai", name: "人工智能", type: "concept", category: "technology", size: 30, color: "#ff6b6b"],
+                    [id: "ml", name: "机器学习", type: "concept", category: "technology", size: 25, color: "#4ecdc4"],
+                    [id: "dl", name: "深度学习", type: "concept", category: "technology", size: 22, color: "#45b7d1"],
+                    [id: "nlp", name: "自然语言处理", type: "concept", category: "technology", size: 20, color: "#96ceb4"],
+                    [id: "cv", name: "计算机视觉", type: "concept", category: "technology", size: 20, color: "#feca57"],
+
+                    // 应用领域节点
+                    [id: "healthcare", name: "医疗健康", type: "domain", category: "application", size: 18, color: "#ff9ff3"],
+                    [id: "finance", name: "金融科技", type: "domain", category: "application", size: 18, color: "#54a0ff"],
+                    [id: "education", name: "教育科技", type: "domain", category: "application", size: 16, color: "#5f27cd"],
+                    [id: "transport", name: "智能交通", type: "domain", category: "application", size: 16, color: "#00d2d3"],
+
+                    // 技术工具节点
+                    [id: "tensorflow", name: "TensorFlow", type: "tool", category: "framework", size: 15, color: "#ff6348"],
+                    [id: "pytorch", name: "PyTorch", type: "tool", category: "framework", size: 15, color: "#ff7675"],
+                    [id: "scikit", name: "Scikit-learn", type: "tool", category: "framework", size: 12, color: "#fd79a8"],
+
+                    // 算法节点
+                    [id: "cnn", name: "卷积神经网络", type: "algorithm", category: "method", size: 14, color: "#fdcb6e"],
+                    [id: "rnn", name: "循环神经网络", type: "algorithm", category: "method", size: 14, color: "#e17055"],
+                    [id: "transformer", name: "Transformer", type: "algorithm", category: "method", size: 16, color: "#74b9ff"]
+                ],
+                links: [
+                    // 核心技术关系
+                    [source: "ai", target: "ml", relationship: "包含", strength: 0.8],
+                    [source: "ml", target: "dl", relationship: "包含", strength: 0.7],
+                    [source: "ai", target: "nlp", relationship: "包含", strength: 0.6],
+                    [source: "ai", target: "cv", relationship: "包含", strength: 0.6],
+
+                    // 应用关系
+                    [source: "ai", target: "healthcare", relationship: "应用于", strength: 0.5],
+                    [source: "ai", target: "finance", relationship: "应用于", strength: 0.5],
+                    [source: "ai", target: "education", relationship: "应用于", strength: 0.4],
+                    [source: "ai", target: "transport", relationship: "应用于", strength: 0.4],
+
+                    // 工具关系
+                    [source: "dl", target: "tensorflow", relationship: "实现工具", strength: 0.6],
+                    [source: "dl", target: "pytorch", relationship: "实现工具", strength: 0.6],
+                    [source: "ml", target: "scikit", relationship: "实现工具", strength: 0.5],
+
+                    // 算法关系
+                    [source: "dl", target: "cnn", relationship: "包含算法", strength: 0.7],
+                    [source: "dl", target: "rnn", relationship: "包含算法", strength: 0.7],
+                    [source: "nlp", target: "transformer", relationship: "核心算法", strength: 0.8],
+                    [source: "cv", target: "cnn", relationship: "核心算法", strength: 0.8],
+
+                    // 跨领域关系
+                    [source: "healthcare", target: "cv", relationship: "依赖技术", strength: 0.4],
+                    [source: "finance", target: "nlp", relationship: "依赖技术", strength: 0.4],
+                    [source: "education", target: "nlp", relationship: "依赖技术", strength: 0.3]
+                ]
+            ]
+
+            context.knowledgeGraphDataJson = groovy.json.JsonOutput.toJson(knowledgeGraphData)
+        ]]></script>
+    </pre-actions>
+
+    <widgets>
+        <render-mode>
+            <text type="html"><![CDATA[
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HiveMind 知识关系图谱</title>
+    <script src="/libs/d3/d3.min.js"></script>
+    <style>
+        #knowledge-graph-container {
+            width: 100%;
+            height: 700px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            position: relative;
+        }
+
+        .node {
+            cursor: pointer;
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+
+        .node:hover {
+            stroke: #333;
+            stroke-width: 3px;
+        }
+
+        .link {
+            stroke: #999;
+            stroke-opacity: 0.6;
+            marker-end: url(#arrowhead);
+        }
+
+        .node-label {
+            font: 11px sans-serif;
+            text-anchor: middle;
+            fill: #333;
+            pointer-events: none;
+        }
+
+        .relationship-label {
+            font: 9px sans-serif;
+            fill: #666;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 5px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn {
+            margin: 0 5px;
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-group label {
+            margin-right: 5px;
+            font-weight: bold;
+        }
+
+        .legend {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 3px 0;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .info-panel {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            max-width: 250px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .search-box input {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2>🕸️ HiveMind 知识关系图谱</h2>
+            <p class="text-muted">探索知识节点之间的复杂关系和内在联系</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="controls">
+                <div class="search-box">
+                    <label>搜索节点:</label>
+                    <input type="text" id="search-input" placeholder="输入节点名称..." onkeyup="searchNodes()">
+                    <button class="btn btn-secondary" onclick="clearSearch()">清除</button>
+                </div>
+
+                <div class="filter-group">
+                    <label>节点类型:</label>
+                    <select id="node-type-filter" onchange="filterByType()">
+                        <option value="">全部</option>
+                        <option value="concept">核心概念</option>
+                        <option value="domain">应用领域</option>
+                        <option value="tool">技术工具</option>
+                        <option value="algorithm">算法方法</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>关系强度:</label>
+                    <input type="range" id="strength-filter" min="0" max="1" step="0.1" value="0" onchange="filterByStrength()">
+                    <span id="strength-value">0.0</span>
+                </div>
+
+                <button class="btn" onclick="resetGraph()">重置视图</button>
+                <button class="btn" onclick="togglePhysics()">切换物理引擎</button>
+                <button class="btn" onclick="exportGraphData()">导出数据</button>
+
+                <span style="margin-left: 20px;">
+                    节点数: <span id="node-count">0</span> | 连接数: <span id="link-count">0</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div id="knowledge-graph-container">
+                <div class="legend">
+                    <div style="font-weight: bold; margin-bottom: 8px;">图例</div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ff6b6b;"></div>
+                        <span>核心概念</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #4ecdc4;"></div>
+                        <span>应用领域</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #45b7d1;"></div>
+                        <span>技术工具</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #96ceb4;"></div>
+                        <span>算法方法</span>
+                    </div>
+                </div>
+
+                <div class="info-panel" id="info-panel">
+                    <div id="info-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// HiveMind 知识关系图谱系统
+const HiveMindKnowledgeGraph = {
+
+    // 初始化
+    init: function(containerSelector, data) {
+        this.container = d3.select(containerSelector);
+        this.width = this.container.node().clientWidth;
+        this.height = 700;
+        this.physicsEnabled = true;
+        this.originalData = JSON.parse(JSON.stringify(data));
+        this.currentData = JSON.parse(JSON.stringify(data));
+
+        this.svg = this.container.append("svg")
+            .attr("width", this.width)
+            .attr("height", this.height);
+
+        // 定义箭头标记
+        this.svg.append("defs").append("marker")
+            .attr("id", "arrowhead")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 15)
+            .attr("refY", 0)
+            .attr("orient", "auto")
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5")
+            .attr("fill", "#999");
+
+        this.g = this.svg.append("g");
+
+        // 添加缩放功能
+        this.zoom = d3.zoom()
+            .scaleExtent([0.1, 10])
+            .on("zoom", (event) => {
+                this.g.attr("transform", event.transform);
+            });
+
+        this.svg.call(this.zoom);
+
+        // 创建力仿真
+        this.simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(d => d.id).distance(d => 100 + d.strength * 50))
+            .force("charge", d3.forceManyBody().strength(-400))
+            .force("center", d3.forceCenter(this.width / 2, this.height / 2))
+            .force("collision", d3.forceCollide().radius(d => d.size / 2 + 5));
+
+        this.render();
+        this.updateCounts();
+    },
+
+    // 渲染图谱
+    render: function() {
+        // 清除之前的渲染
+        this.g.selectAll("*").remove();
+
+        // 渲染连接线
+        this.link = this.g.append("g")
+            .attr("class", "links")
+            .selectAll("line")
+            .data(this.currentData.links)
+            .enter().append("line")
+            .attr("class", "link")
+            .style("stroke-width", d => Math.sqrt(d.strength * 8));
+
+        // 添加关系标签
+        this.linkLabel = this.g.append("g")
+            .attr("class", "link-labels")
+            .selectAll("text")
+            .data(this.currentData.links)
+            .enter().append("text")
+            .attr("class", "relationship-label")
+            .text(d => d.relationship)
+            .style("opacity", 0);
+
+        // 渲染节点
+        this.node = this.g.append("g")
+            .attr("class", "nodes")
+            .selectAll("circle")
+            .data(this.currentData.nodes)
+            .enter().append("circle")
+            .attr("class", "node")
+            .attr("r", d => d.size)
+            .style("fill", d => d.color)
+            .on("mouseover", (event, d) => this.showNodeInfo(event, d))
+            .on("mouseout", () => this.hideNodeInfo())
+            .on("click", (event, d) => this.selectNode(d))
+            .call(d3.drag()
+                .on("start", (event, d) => this.dragstarted(event, d))
+                .on("drag", (event, d) => this.dragged(event, d))
+                .on("end", (event, d) => this.dragended(event, d)));
+
+        // 添加节点标签
+        this.nodeLabel = this.g.append("g")
+            .attr("class", "node-labels")
+            .selectAll("text")
+            .data(this.currentData.nodes)
+            .enter().append("text")
+            .attr("class", "node-label")
+            .text(d => d.name)
+            .attr("dy", d => d.size + 15);
+
+        // 启动仿真
+        if (this.physicsEnabled) {
+            this.simulation
+                .nodes(this.currentData.nodes)
+                .on("tick", () => this.ticked());
+
+            this.simulation.force("link")
+                .links(this.currentData.links);
+
+            this.simulation.alpha(1).restart();
+        } else {
+            this.renderStatic();
+        }
+    },
+
+    // 静态布局
+    renderStatic: function() {
+        // 简单的圆形布局
+        const centerX = this.width / 2;
+        const centerY = this.height / 2;
+        const radius = Math.min(this.width, this.height) / 3;
+
+        this.currentData.nodes.forEach((node, i) => {
+            const angle = (i / this.currentData.nodes.length) * 2 * Math.PI;
+            node.fx = centerX + Math.cos(angle) * radius;
+            node.fy = centerY + Math.sin(angle) * radius;
+        });
+
+        this.updatePositions();
+    },
+
+    // 更新位置
+    updatePositions: function() {
+        this.link
+            .attr("x1", d => {
+                const source = this.currentData.nodes.find(n => n.id === d.source);
+                return source ? (source.fx || source.x) : 0;
+            })
+            .attr("y1", d => {
+                const source = this.currentData.nodes.find(n => n.id === d.source);
+                return source ? (source.fy || source.y) : 0;
+            })
+            .attr("x2", d => {
+                const target = this.currentData.nodes.find(n => n.id === d.target);
+                return target ? (target.fx || target.x) : 0;
+            })
+            .attr("y2", d => {
+                const target = this.currentData.nodes.find(n => n.id === d.target);
+                return target ? (target.fy || target.y) : 0;
+            });
+
+        this.node
+            .attr("cx", d => d.fx || d.x)
+            .attr("cy", d => d.fy || d.y);
+
+        this.nodeLabel
+            .attr("x", d => d.fx || d.x)
+            .attr("y", d => d.fy || d.y);
+
+        this.linkLabel
+            .attr("x", d => {
+                const source = this.currentData.nodes.find(n => n.id === d.source);
+                const target = this.currentData.nodes.find(n => n.id === d.target);
+                return ((source?.fx || source?.x || 0) + (target?.fx || target?.x || 0)) / 2;
+            })
+            .attr("y", d => {
+                const source = this.currentData.nodes.find(n => n.id === d.source);
+                const target = this.currentData.nodes.find(n => n.id === d.target);
+                return ((source?.fy || source?.y || 0) + (target?.fy || target?.y || 0)) / 2;
+            });
+    },
+
+    // 仿真tick事件
+    ticked: function() {
+        this.link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+        this.node
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y);
+
+        this.nodeLabel
+            .attr("x", d => d.x)
+            .attr("y", d => d.y);
+
+        this.linkLabel
+            .attr("x", d => (d.source.x + d.target.x) / 2)
+            .attr("y", d => (d.source.y + d.target.y) / 2);
+    },
+
+    // 拖拽事件
+    dragstarted: function(event, d) {
+        if (!event.active && this.physicsEnabled) this.simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    },
+
+    dragged: function(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+        if (!this.physicsEnabled) this.updatePositions();
+    },
+
+    dragended: function(event, d) {
+        if (!event.active && this.physicsEnabled) this.simulation.alphaTarget(0);
+    },
+
+    // 显示节点信息
+    showNodeInfo: function(event, d) {
+        const infoPanel = document.getElementById('info-panel');
+        const infoContent = document.getElementById('info-content');
+
+        // 计算连接的节点
+        const connections = this.currentData.links
+            .filter(link => link.source.id === d.id || link.target.id === d.id)
+            .map(link => ({
+                node: link.source.id === d.id ? link.target : link.source,
+                relationship: link.relationship,
+                strength: link.strength
+            }));
+
+        infoContent.innerHTML = `
+            <div style="font-weight: bold; margin-bottom: 8px;">${d.name}</div>
+            <div><strong>类型:</strong> ${this.getTypeLabel(d.type)}</div>
+            <div><strong>分类:</strong> ${d.category}</div>
+            <div><strong>连接数:</strong> ${connections.length}</div>
+            ${connections.length > 0 ? `
+                <div style="margin-top: 8px;"><strong>关联节点:</strong></div>
+                ${connections.slice(0, 5).map(conn =>
+                    `<div style="margin: 2px 0; font-size: 10px;">
+                        → ${conn.node.name} (${conn.relationship})
+                    </div>`
+                ).join('')}
+                ${connections.length > 5 ? `<div style="font-size: 10px; color: #666;">... 还有 ${connections.length - 5} 个</div>` : ''}
+            ` : ''}
+        `;
+
+        infoPanel.style.display = 'block';
+
+        // 显示关系标签
+        this.linkLabel.style("opacity", link =>
+            (link.source.id === d.id || link.target.id === d.id) ? 0.8 : 0
+        );
+    },
+
+    // 隐藏节点信息
+    hideNodeInfo: function() {
+        document.getElementById('info-panel').style.display = 'none';
+        this.linkLabel.style("opacity", 0);
+    },
+
+    // 选中节点
+    selectNode: function(selectedNode) {
+        // 高亮选中节点及其连接
+        this.node.style("opacity", node =>
+            node.id === selectedNode.id ? 1 : 0.3
+        );
+
+        this.link.style("opacity", link =>
+            link.source.id === selectedNode.id || link.target.id === selectedNode.id ? 1 : 0.1
+        );
+
+        this.nodeLabel.style("opacity", node =>
+            node.id === selectedNode.id ? 1 : 0.3
+        );
+    },
+
+    // 搜索节点
+    searchNodes: function(searchTerm) {
+        if (!searchTerm) {
+            this.resetHighlight();
+            return;
+        }
+
+        const matchedNodes = this.currentData.nodes.filter(node =>
+            node.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        this.node.style("opacity", node =>
+            matchedNodes.some(matched => matched.id === node.id) ? 1 : 0.2
+        );
+
+        this.nodeLabel.style("opacity", node =>
+            matchedNodes.some(matched => matched.id === node.id) ? 1 : 0.2
+        );
+    },
+
+    // 按类型过滤
+    filterByType: function(nodeType) {
+        if (!nodeType) {
+            this.currentData = JSON.parse(JSON.stringify(this.originalData));
+        } else {
+            this.currentData = {
+                nodes: this.originalData.nodes.filter(node => node.type === nodeType),
+                links: this.originalData.links.filter(link => {
+                    const sourceNode = this.originalData.nodes.find(n => n.id === link.source);
+                    const targetNode = this.originalData.nodes.find(n => n.id === link.target);
+                    return sourceNode?.type === nodeType && targetNode?.type === nodeType;
+                })
+            };
+        }
+
+        this.render();
+        this.updateCounts();
+    },
+
+    // 按强度过滤
+    filterByStrength: function(minStrength) {
+        this.currentData = {
+            nodes: JSON.parse(JSON.stringify(this.originalData.nodes)),
+            links: this.originalData.links.filter(link => link.strength >= minStrength)
+        };
+
+        // 移除孤立节点
+        const connectedNodeIds = new Set();
+        this.currentData.links.forEach(link => {
+            connectedNodeIds.add(link.source);
+            connectedNodeIds.add(link.target);
+        });
+
+        if (connectedNodeIds.size > 0) {
+            this.currentData.nodes = this.currentData.nodes.filter(node =>
+                connectedNodeIds.has(node.id)
+            );
+        }
+
+        this.render();
+        this.updateCounts();
+    },
+
+    // 重置高亮
+    resetHighlight: function() {
+        this.node.style("opacity", 1);
+        this.link.style("opacity", 1);
+        this.nodeLabel.style("opacity", 1);
+    },
+
+    // 重置图谱
+    resetGraph: function() {
+        this.currentData = JSON.parse(JSON.stringify(this.originalData));
+        this.resetHighlight();
+        this.render();
+        this.updateCounts();
+
+        // 重置视图
+        this.svg.transition().duration(750).call(
+            this.zoom.transform,
+            d3.zoomIdentity
+        );
+    },
+
+    // 切换物理引擎
+    togglePhysics: function() {
+        this.physicsEnabled = !this.physicsEnabled;
+        if (this.physicsEnabled) {
+            this.simulation.alpha(1).restart();
+        } else {
+            this.simulation.stop();
+            this.renderStatic();
+        }
+    },
+
+    // 导出数据
+    exportGraphData: function() {
+        const dataStr = JSON.stringify(this.currentData, null, 2);
+        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+        const exportFileDefaultName = 'knowledge-graph.json';
+
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
+    },
+
+    // 更新统计
+    updateCounts: function() {
+        document.getElementById('node-count').textContent = this.currentData.nodes.length;
+        document.getElementById('link-count').textContent = this.currentData.links.length;
+    },
+
+    // 获取类型标签
+    getTypeLabel: function(type) {
+        const labels = {
+            concept: '核心概念',
+            domain: '应用领域',
+            tool: '技术工具',
+            algorithm: '算法方法'
+        };
+        return labels[type] || type;
+    }
+};
+
+// 全局函数
+function searchNodes() {
+    const searchTerm = document.getElementById('search-input').value;
+    HiveMindKnowledgeGraph.searchNodes(searchTerm);
+}
+
+function clearSearch() {
+    document.getElementById('search-input').value = '';
+    HiveMindKnowledgeGraph.resetHighlight();
+}
+
+function filterByType() {
+    const nodeType = document.getElementById('node-type-filter').value;
+    HiveMindKnowledgeGraph.filterByType(nodeType);
+}
+
+function filterByStrength() {
+    const minStrength = parseFloat(document.getElementById('strength-filter').value);
+    document.getElementById('strength-value').textContent = minStrength.toFixed(1);
+    HiveMindKnowledgeGraph.filterByStrength(minStrength);
+}
+
+function resetGraph() {
+    HiveMindKnowledgeGraph.resetGraph();
+    document.getElementById('search-input').value = '';
+    document.getElementById('node-type-filter').value = '';
+    document.getElementById('strength-filter').value = '0';
+    document.getElementById('strength-value').textContent = '0.0';
+}
+
+function togglePhysics() {
+    HiveMindKnowledgeGraph.togglePhysics();
+}
+
+function exportGraphData() {
+    HiveMindKnowledgeGraph.exportGraphData();
+}
+
+// 初始化知识图谱
+document.addEventListener('DOMContentLoaded', function() {
+    const graphData = ${knowledgeGraphDataJson};
+
+    console.log("🕸️ 初始化 HiveMind 知识关系图谱");
+    console.log("D3.js 版本:", d3.version);
+    console.log("图谱数据:", graphData);
+
+    HiveMindKnowledgeGraph.init("#knowledge-graph-container", graphData);
+});
+</script>
+
+</body>
+</html>
+            ]]></text>
+        </render-mode>
+    </widgets>
+
+</screen>

@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/screen-3.xsd"
+        require-authentication="false" allow-extra-path="true">
+
+    <always-actions>
+        <set field="pageHeader" value="AI智能分析"/>
+    </always-actions>
+
+    <transition name="generateMindMap" read-only="false">
+        <actions>
+            <script><![CDATA[
+                // 调用智谱AI生成思维导图
+                def inputText = context.inputText
+                def mapType = context.mapType ?: 'basic'
+                def language = context.language ?: 'zh'
+
+                try {
+                    // 调用marketplace AI服务来生成思维导图
+                    def aiResult = ec.service.sync().name("marketplace.ai#GenerateMindMapFromText")
+                        .parameters([
+                            inputText: inputText,
+                            mapType: mapType,
+                            language: language
+                        ]).call()
+
+                    if (aiResult.success) {
+                        context.generatedMermaid = aiResult.mermaidSyntax
+                        context.generatedD3Data = aiResult.d3Data
+                        context.aiAnalysis = aiResult.analysis
+                    } else {
+                        context.errorMessage = aiResult.message ?: "AI生成失败"
+                    }
+
+                } catch (Exception e) {
+                    ec.logger.error("AI思维导图生成错误", e)
+                    context.errorMessage = "AI服务暂时不可用: " + e.message
+
+                    // 提供演示数据作为备选方案
+                    context.generatedMermaid = """mindmap
+  root((${inputText ?: '智能分析'}))
+    核心概念
+      定义与特征
+      关键要素
+    应用场景
+      实际案例
+      使用方法
+    扩展思考
+      相关领域
+      未来发展"""
+
+                    context.generatedD3Data = groovy.json.JsonOutput.toJson([
+                        nodes: [
+                            [id: "1", name: inputText ?: "智能分析", group: 1, level: 0],
+                            [id: "2", name: "核心概念", group: 2, level: 1],
+                            [id: "3", name: "应用场景", group: 2, level: 1],
+                            [id: "4", name: "扩展思考", group: 2, level: 1]
+                        ],
+                        links: [
+                            [source: "1", target: "2"],
+                            [source: "1", target: "3"],
+                            [source: "1", target: "4"]
+                        ]
+                    ])
+
+                    context.aiAnalysis = "演示模式：基于输入文本'${inputText}'生成的基础思维导图结构"
+                }
+            ]]></script>
+        </actions>
+        <default-response type="screen-path" url="."/>
+    </transition>
+
+    <widgets>
+        <render-mode>
+            <text type="html"><![CDATA[
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HiveMind AI智能分析</title>
+    <script src="/libs/d3/d3.min.js"></script>
+    <script src="/libs/mermaid/mermaid.min.js"></script>
+    <style>
+        .ai-container {
+            display: flex;
+            gap: 20px;
+            height: 80vh;
+        }
+
+        .input-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .result-panel {
+            flex: 2;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        #ai-input {
+            flex: 1;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            resize: none;
+        }
+
+        .controls {
+            margin: 15px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn-ai {
+            background: #28a745;
+        }
+
+        .btn-ai:hover {
+            background: #1e7e34;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .result-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom-color: #007bff;
+            background: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            height: calc(100% - 60px);
+            overflow: auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        #mindmap-result {
+            min-height: 400px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #mermaid-result {
+            min-height: 400px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #ai-analysis {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .error-message {
+            color: #dc3545;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .ai-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .example-card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            background: #f8f9fa;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+
+        .example-card:hover {
+            background: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2>🤖 HiveMind AI智能分析</h2>
+            <p class="text-muted">基于智谱AI GLM-4的思维导图智能生成系统</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="ai-container">
+                <div class="input-panel">
+                    <label for="ai-input" style="margin-bottom: 10px; font-weight: bold;">输入要分析的内容:</label>
+
+                    <div class="ai-examples">
+                        <div class="example-card" onclick="loadExample('project')">
+                            项目管理分析
+                        </div>
+                        <div class="example-card" onclick="loadExample('learning')">
+                            学习计划制定
+                        </div>
+                        <div class="example-card" onclick="loadExample('business')">
+                            商业模式分析
+                        </div>
+                        <div class="example-card" onclick="loadExample('tech')">
+                            技术架构设计
+                        </div>
+                    </div>
+
+                    <textarea id="ai-input" placeholder="请输入您想要分析的主题、问题或内容，AI将自动生成相应的思维导图...
+
+例如：
+- 我想制定一个学习Python编程的计划
+- 分析一下电商平台的商业模式
+- 如何提高团队协作效率
+- 区块链技术的应用场景有哪些"></textarea>
+
+                    <div class="controls">
+                        <button class="btn btn-ai" onclick="generateAIMindMap()">🧠 AI生成思维导图</button>
+                        <select id="map-type">
+                            <option value="basic">基础分析</option>
+                            <option value="detailed">详细分析</option>
+                            <option value="strategic">战略分析</option>
+                            <option value="creative">创意思维</option>
+                        </select>
+                        <select id="language">
+                            <option value="zh">中文</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+
+                    <div id="error-container"></div>
+                    <div class="loading" id="loading">
+                        🤖 AI正在分析中，请稍候...
+                    </div>
+                </div>
+
+                <div class="result-panel">
+                    <div class="result-tabs">
+                        <div class="tab active" onclick="switchTab('d3')">D3 交互式导图</div>
+                        <div class="tab" onclick="switchTab('mermaid')">Mermaid 语法图</div>
+                        <div class="tab" onclick="switchTab('analysis')">AI 分析报告</div>
+                    </div>
+
+                    <div id="tab-d3" class="tab-content active">
+                        <div id="mindmap-result"></div>
+                    </div>
+
+                    <div id="tab-mermaid" class="tab-content">
+                        <div id="mermaid-result"></div>
+                    </div>
+
+                    <div id="tab-analysis" class="tab-content">
+                        <div id="ai-analysis"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// HiveMind AI 智能分析系统
+const HiveMindAI = {
+
+    // 初始化
+    init: function() {
+        console.log("🤖 初始化 HiveMind AI智能分析系统");
+
+        // 配置 Mermaid
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            securityLevel: 'loose',
+            mindmap: {
+                padding: 20,
+                maxTextSize: 90000
+            }
+        });
+
+        this.examples = {
+            project: "我需要制定一个移动App开发项目的完整管理计划，包括团队组建、技术选型、开发流程、质量控制和上线推广等各个环节。",
+            learning: "我想系统学习人工智能和机器学习，希望制定一个从基础到实践的学习路径，包括理论学习、编程实践和项目应用。",
+            business: "分析共享经济商业模式，包括市场机会、盈利方式、运营策略、风险控制和可持续发展策略。",
+            tech: "设计一个大型电商网站的技术架构，考虑高并发、高可用性、数据安全、性能优化和扩展性要求。"
+        };
+    },
+
+    // 加载示例
+    loadExample: function(type) {
+        const example = this.examples[type];
+        if (example) {
+            document.getElementById('ai-input').value = example;
+        }
+    },
+
+    // 生成AI思维导图
+    generateMindMap: function() {
+        const inputText = document.getElementById('ai-input').value.trim();
+        const mapType = document.getElementById('map-type').value;
+        const language = document.getElementById('language').value;
+
+        if (!inputText) {
+            this.showError('请输入要分析的内容');
+            return;
+        }
+
+        // 显示加载状态
+        this.showLoading(true);
+        this.clearError();
+
+        // 构建表单数据
+        const formData = new FormData();
+        formData.append('inputText', inputText);
+        formData.append('mapType', mapType);
+        formData.append('language', language);
+
+        // 提交到后端进行AI分析
+        fetch('/apps/hmmaps/AIAnalytics/generateMindMap', {
+            method: 'POST',
+            body: formData,
+            credentials: 'include'
+        })
+        .then(response => response.text())
+        .then(html => {
+            // 重新加载页面以显示结果
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('AI生成错误:', error);
+            this.showError('AI服务暂时不可用，请稍后再试');
+            this.showLoading(false);
+        });
+    },
+
+    // 渲染D3思维导图
+    renderD3MindMap: function(data) {
+        const container = d3.select('#mindmap-result');
+        container.html('');
+
+        const width = container.node().clientWidth - 40;
+        const height = 400;
+
+        const svg = container.append('svg')
+            .attr('width', width)
+            .attr('height', height);
+
+        const g = svg.append('g');
+
+        // 创建force模拟
+        const simulation = d3.forceSimulation()
+            .force('link', d3.forceLink().id(d => d.id).distance(80))
+            .force('charge', d3.forceManyBody().strength(-200))
+            .force('center', d3.forceCenter(width / 2, height / 2));
+
+        // 渲染连接线
+        const link = g.append('g')
+            .selectAll('line')
+            .data(data.links)
+            .enter().append('line')
+            .attr('stroke', '#999')
+            .attr('stroke-opacity', 0.6)
+            .attr('stroke-width', 2);
+
+        // 渲染节点
+        const node = g.append('g')
+            .selectAll('circle')
+            .data(data.nodes)
+            .enter().append('circle')
+            .attr('r', d => d.level === 0 ? 20 : 12)
+            .attr('fill', d => {
+                switch(d.group) {
+                    case 1: return '#ff6b6b'; // 中心节点
+                    case 2: return '#4ecdc4'; // 主分支
+                    case 3: return '#45b7d1'; // 子节点
+                    default: return '#95e1d3';
+                }
+            })
+            .call(d3.drag()
+                .on('start', (event, d) => {
+                    if (!event.active) simulation.alphaTarget(0.3).restart();
+                    d.fx = d.x;
+                    d.fy = d.y;
+                })
+                .on('drag', (event, d) => {
+                    d.fx = event.x;
+                    d.fy = event.y;
+                })
+                .on('end', (event, d) => {
+                    if (!event.active) simulation.alphaTarget(0);
+                }));
+
+        // 添加标签
+        const label = g.append('g')
+            .selectAll('text')
+            .data(data.nodes)
+            .enter().append('text')
+            .text(d => d.name)
+            .attr('font-size', d => d.level === 0 ? '14px' : '12px')
+            .attr('font-weight', d => d.level === 0 ? 'bold' : 'normal')
+            .attr('text-anchor', 'middle')
+            .attr('dy', '.35em')
+            .style('pointer-events', 'none');
+
+        // 启动模拟
+        simulation
+            .nodes(data.nodes)
+            .on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                node
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y);
+
+                label
+                    .attr('x', d => d.x)
+                    .attr('y', d => d.y);
+            });
+
+        simulation.force('link').links(data.links);
+    },
+
+    // 渲染Mermaid图表
+    renderMermaidChart: function(syntax) {
+        const container = document.getElementById('mermaid-result');
+        container.innerHTML = '';
+
+        try {
+            const chartId = 'mermaid-ai-' + Date.now();
+            mermaid.render(chartId, syntax, (svgCode) => {
+                container.innerHTML = svgCode;
+            });
+        } catch (error) {
+            console.error('Mermaid渲染错误:', error);
+            container.innerHTML = '<div style="color: #dc3545; padding: 20px;">图表渲染失败</div>';
+        }
+    },
+
+    // 显示AI分析
+    showAnalysis: function(analysis) {
+        document.getElementById('ai-analysis').innerHTML = `
+            <h4>AI 分析报告</h4>
+            <div style="white-space: pre-wrap; line-height: 1.6;">${analysis}</div>
+        `;
+    },
+
+    // 切换标签页
+    switchTab: function(tabName) {
+        // 切换标签
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+        document.querySelector(`.tab:nth-child(${tabName === 'd3' ? 1 : tabName === 'mermaid' ? 2 : 3})`).classList.add('active');
+
+        // 切换内容
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        document.getElementById(`tab-${tabName}`).classList.add('active');
+    },
+
+    // 显示加载状态
+    showLoading: function(show) {
+        document.getElementById('loading').style.display = show ? 'block' : 'none';
+    },
+
+    // 显示错误信息
+    showError: function(message) {
+        document.getElementById('error-container').innerHTML = `<div class="error-message">${message}</div>`;
+    },
+
+    // 清除错误信息
+    clearError: function() {
+        document.getElementById('error-container').innerHTML = '';
+    }
+};
+
+// 全局函数
+function loadExample(type) {
+    HiveMindAI.loadExample(type);
+}
+
+function generateAIMindMap() {
+    HiveMindAI.generateMindMap();
+}
+
+function switchTab(tabName) {
+    HiveMindAI.switchTab(tabName);
+}
+
+// 初始化系统
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("D3.js版本:", d3.version);
+    console.log("Mermaid版本:", mermaid.version);
+    HiveMindAI.init();
+
+    // 检查是否有生成的结果
+    const generatedMermaid = `${generatedMermaid ?: ''}`;
+    const generatedD3Data = `${generatedD3Data ?: ''}`;
+    const aiAnalysis = `${aiAnalysis ?: ''}`;
+
+    if (generatedMermaid) {
+        HiveMindAI.renderMermaidChart(generatedMermaid);
+    }
+
+    if (generatedD3Data) {
+        try {
+            const d3Data = JSON.parse(generatedD3Data);
+            HiveMindAI.renderD3MindMap(d3Data);
+        } catch (e) {
+            console.error('D3数据解析错误:', e);
+        }
+    }
+
+    if (aiAnalysis) {
+        HiveMindAI.showAnalysis(aiAnalysis);
+    }
+});
+</script>
+
+</body>
+</html>
+            ]]></text>
+        </render-mode>
+    </widgets>
+
+</screen>
