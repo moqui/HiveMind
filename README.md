@@ -32,7 +32,7 @@ If you don't have gradle or ant installed you can use this command line to run J
 
 ### Build and Run Locally
 
-To get and locally run the latest HiveMind you'll need JDK 11 or later (OpenJDK or Oracle), and either a git client or you can 
+To get and locally run the latest HiveMind you'll need JDK 11 or later (Eclipse Temurin recommended), and either a git client or you can 
 use the binary download link on GitHub.
 
 Java can be downloaded here (make sure to use the Download button under the **JDK** column, NOT the under the JRE column):
