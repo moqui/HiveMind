@@ -36,7 +36,13 @@ along with this software (see the LICENSE.md file). If not, see
                 <form-list name="MyRequests" list="myRequestList">
                     <entity-find entity-name="mantle.request.RequestAndParty" list="myRequestList" distinct="true">
                         <date-filter/>
-                        <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                        <econditions combine="or">
+                            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                            <econditions>
+                                <date-filter from-field-name="teamRelationshipFromDate" thru-field-name="teamRelationshipThruDate"/>
+                                <econdition field-name="teamMemberPartyId" from="ec.user.userAccount.partyId"/>
+                            </econditions>
+                        </econditions>
                         <econdition field-name="statusId" operator="not-in" value="ReqCompleted,ReqCancelled"/>
                         <select-field field-name="requestName"/><order-by field-name="priority"/>
                     </entity-find>

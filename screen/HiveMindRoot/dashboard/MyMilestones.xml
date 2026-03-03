@@ -22,7 +22,13 @@ along with this software (see the LICENSE.md file). If not, see
     <actions>
         <entity-find entity-name="WorkEffortAndRootByParty" list="myMilestoneList" distinct="true">
             <date-filter/>
-            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+            <econditions combine="or">
+                <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                <econditions>
+                    <date-filter from-field-name="teamRelationshipFromDate" thru-field-name="teamRelationshipThruDate"/>
+                    <econdition field-name="teamMemberPartyId" from="ec.user.userAccount.partyId"/>
+                </econditions>
+            </econditions>
             <econdition field-name="rootWorkEffortTypeEnumId" value="WetProject"/>
             <econdition field-name="rootStatusId" operator="not-in" value="WeClosed,WeCancelled"/>
             <econdition field-name="workEffortTypeEnumId" value="WetMilestone"/>

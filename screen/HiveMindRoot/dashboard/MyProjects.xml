@@ -23,7 +23,16 @@ along with this software (see the LICENSE.md file). If not, see
             <entity-find entity-name="mantle.work.effort.WorkEffortAndParty" list="myProjectList" distinct="true">
                 <econditions combine="or">
                     <econdition field-name="visibilityEnumId" operator="in" value="WevGeneral,WevAllUsers"/>
-                    <econditions><date-filter/><econdition field-name="partyId" from="ec.user.userAccount.partyId"/></econditions>
+                    <econditions>
+                        <date-filter/>
+                        <econditions combine="or">
+                            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                            <econditions>
+                                <date-filter from-field-name="teamRelationshipFromDate" thru-field-name="teamRelationshipThruDate"/>
+                                <econdition field-name="teamMemberPartyId" from="ec.user.userAccount.partyId"/>
+                            </econditions>
+                        </econditions>
+                    </econditions>
                 </econditions>
                 <econdition field-name="workEffortTypeEnumId" value="WetProject"/>
                 <select-field field-name="workEffortId,workEffortName,estimatedStartDate,statusId"/>

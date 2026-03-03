@@ -69,7 +69,14 @@ along with this software (see the LICENSE.md file). If not, see
             </box-toolbar><box-body>
                 <form-list name="MyTasks" list="myTaskList">
                     <entity-find entity-name="mantle.work.effort.PartyTaskSummary" list="myTaskList" distinct="true">
-                        <date-filter/><econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                        <date-filter/>
+                        <econditions combine="or">
+                            <econdition field-name="partyId" from="ec.user.userAccount.partyId"/>
+                            <econditions>
+                                <date-filter from-field-name="teamRelationshipFromDate" thru-field-name="teamRelationshipThruDate"/>
+                                <econdition field-name="teamMemberPartyId" from="ec.user.userAccount.partyId"/>
+                            </econditions>
+                        </econditions>
                         <econdition field-name="statusId" operator="not-in" value="WeClosed,WeCancelled"/>
                         <econdition field-name="purposeEnumId" operator="not-equals" value="WepPlaceholder"/>
                         <econdition field-name="partyStatusId" operator="in" value="WeptAssigned,WeptArrived"/>
