@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/screen-3.xsd"
+        require-authentication="false" allow-extra-path="true" include-child-content="true">
+
+    <always-actions>
+        <set field="pageHeader" value="HiveMind 思维导图"/>
+        <set field="appHeader" value="HiveMind Maps"/>
+    </always-actions>
+
+    <subscreens default-item="Dashboard">
+        <subscreens-item name="Dashboard" menu-title="思维导图仪表板" menu-index="1"/>
+        <subscreens-item name="MindMapper" menu-title="思维导图创建器" menu-index="2"/>
+        <subscreens-item name="KnowledgeGraph" menu-title="知识关系图谱" menu-index="3"/>
+        <subscreens-item name="AIAnalytics" menu-title="AI智能分析" menu-index="4"/>
+    </subscreens>
+
+    <widgets>
+        <container id="hivemind-maps-root">
+            <label text="HiveMind 思维导图与知识管理系统" type="h1"/>
+            <container style="q-pa-md">
+                <section-include name="SubscreenSection"/>
+            </container>
+        </container>
+    </widgets>
+
+</screen>

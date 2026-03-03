@@ -44,3 +44,5 @@ Desktop.ini
 
 # Linux auto files
 *~
+/moqui_logs/log/error.log
+/moqui_logs/log/moqui.log

@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/screen-3.xsd"
+        require-authentication="false" allow-extra-path="true">
+
+    <always-actions>
+        <set field="pageHeader" value="思维导图仪表板"/>
+    </always-actions>
+
+    <pre-actions>
+        <script><![CDATA[
+            // 准备思维导图数据
+            def sampleMindMapData = [
+                nodes: [
+                    [id: "1", name: "中心主题", group: 1, level: 0],
+                    [id: "2", name: "分支 A", group: 2, level: 1],
+                    [id: "3", name: "分支 B", group: 2, level: 1],
+                    [id: "4", name: "分支 C", group: 2, level: 1],
+                    [id: "5", name: "子主题 A1", group: 3, level: 2],
+                    [id: "6", name: "子主题 A2", group: 3, level: 2],
+                    [id: "7", name: "子主题 B1", group: 3, level: 2]
+                ],
+                links: [
+                    [source: "1", target: "2"],
+                    [source: "1", target: "3"],
+                    [source: "1", target: "4"],
+                    [source: "2", target: "5"],
+                    [source: "2", target: "6"],
+                    [source: "3", target: "7"]
+                ]
+            ]
+
+            context.mindMapDataJson = groovy.json.JsonOutput.toJson(sampleMindMapData)
+        ]]></script>
+    </pre-actions>
+
+    <widgets>
+        <render-mode>
+            <text type="html"><![CDATA[
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HiveMind 思维导图仪表板</title>
+    <script src="/libs/d3/d3.min.js"></script>
+    <style>
+        #mindmap-container {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+
+        .node circle {
+            fill: #007bff;
+            stroke: #fff;
+            stroke-width: 2px;
+            cursor: pointer;
+        }
+
+        .node circle:hover {
+            fill: #0056b3;
+        }
+
+        .node text {
+            font: 12px sans-serif;
+            text-anchor: middle;
+            fill: #333;
+            pointer-events: none;
+        }
+
+        .link {
+            stroke: #999;
+            stroke-opacity: 0.6;
+            stroke-width: 2px;
+        }
+
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 5px;
+        }
+
+        .btn {
+            margin: 0 5px;
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2>🧠 HiveMind 思维导图仪表板</h2>
+            <p class="text-muted">基于D3.js的交互式思维导图可视化系统</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="controls">
+                <button class="btn" onclick="resetZoom()">重置视图</button>
+                <button class="btn" onclick="addNode()">添加节点</button>
+                <button class="btn" onclick="exportData()">导出数据</button>
+                <button class="btn" onclick="togglePhysics()">切换物理引擎</button>
+                <span style="margin-left: 20px;">节点数量: <span id="node-count">0</span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div id="mindmap-container"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+// HiveMind D3.js 思维导图核心实现
+const HiveMindMapper = {
+
+    // 初始化配置
+    init: function(containerSelector, data) {
+        this.container = d3.select(containerSelector);
+        this.width = this.container.node().clientWidth;
+        this.height = 600;
+        this.physicsEnabled = true;
+
+        this.svg = this.container.append("svg")
+            .attr("width", this.width)
+            .attr("height", this.height);
+
+        this.g = this.svg.append("g");
+
+        // 添加缩放功能
+        this.zoom = d3.zoom()
+            .scaleExtent([0.1, 10])
+            .on("zoom", (event) => {
+                this.g.attr("transform", event.transform);
+            });
+
+        this.svg.call(this.zoom);
+
+        this.simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(d => d.id).distance(100))
+            .force("charge", d3.forceManyBody().strength(-300))
+            .force("center", d3.forceCenter(this.width / 2, this.height / 2));
+
+        this.loadData(data);
+        this.render();
+    },
+
+    // 加载数据
+    loadData: function(data) {
+        this.data = {
+            nodes: data.nodes.map(d => Object.assign({}, d)),
+            links: data.links.map(d => Object.assign({}, d))
+        };
+
+        // 更新节点计数
+        document.getElementById('node-count').textContent = this.data.nodes.length;
+    },
+
+    // 渲染思维导图
+    render: function() {
+        // 清除之前的渲染
+        this.g.selectAll("*").remove();
+
+        // 渲染连接线
+        this.link = this.g.append("g")
+            .attr("class", "links")
+            .selectAll("line")
+            .data(this.data.links)
+            .enter().append("line")
+            .attr("class", "link");
+
+        // 渲染节点
+        this.node = this.g.append("g")
+            .attr("class", "nodes")
+            .selectAll("g")
+            .data(this.data.nodes)
+            .enter().append("g")
+            .attr("class", "node")
+            .call(d3.drag()
+                .on("start", (event, d) => this.dragstarted(event, d))
+                .on("drag", (event, d) => this.dragged(event, d))
+                .on("end", (event, d) => this.dragended(event, d)));
+
+        // 添加圆形节点
+        this.node.append("circle")
+            .attr("r", d => d.level === 0 ? 25 : 15)
+            .style("fill", d => {
+                switch(d.group) {
+                    case 1: return "#ff6b6b"; // 中心节点
+                    case 2: return "#4ecdc4"; // 主分支
+                    case 3: return "#45b7d1"; // 子节点
+                    default: return "#95e1d3";
+                }
+            });
+
+        // 添加文本标签
+        this.node.append("text")
+            .attr("dy", ".35em")
+            .text(d => d.name)
+            .style("font-size", d => d.level === 0 ? "14px" : "12px")
+            .style("font-weight", d => d.level === 0 ? "bold" : "normal");
+
+        // 启动模拟
+        if (this.physicsEnabled) {
+            this.simulation
+                .nodes(this.data.nodes)
+                .on("tick", () => this.ticked());
+
+            this.simulation.force("link")
+                .links(this.data.links);
+        } else {
+            this.renderStatic();
+        }
+    },
+
+    // 静态布局渲染
+    renderStatic: function() {
+        const centerX = this.width / 2;
+        const centerY = this.height / 2;
+
+        this.data.nodes.forEach(node => {
+            if (node.level === 0) {
+                node.fx = centerX;
+                node.fy = centerY;
+            } else if (node.level === 1) {
+                const angle = (this.data.nodes.indexOf(node) - 1) * (2 * Math.PI / 3);
+                node.fx = centerX + Math.cos(angle) * 150;
+                node.fy = centerY + Math.sin(angle) * 150;
+            } else {
+                const parentNodes = this.data.links
+                    .filter(link => link.target === node.id)
+                    .map(link => this.data.nodes.find(n => n.id === link.source));
+
+                if (parentNodes.length > 0) {
+                    const parent = parentNodes[0];
+                    const angle = Math.random() * 2 * Math.PI;
+                    node.fx = (parent.fx || centerX) + Math.cos(angle) * 100;
+                    node.fy = (parent.fy || centerY) + Math.sin(angle) * 100;
+                }
+            }
+        });
+
+        this.updatePositions();
+    },
+
+    // 更新位置
+    updatePositions: function() {
+        this.link
+            .attr("x1", d => {
+                const source = this.data.nodes.find(n => n.id === d.source);
+                return source ? (source.fx || source.x) : 0;
+            })
+            .attr("y1", d => {
+                const source = this.data.nodes.find(n => n.id === d.source);
+                return source ? (source.fy || source.y) : 0;
+            })
+            .attr("x2", d => {
+                const target = this.data.nodes.find(n => n.id === d.target);
+                return target ? (target.fx || target.x) : 0;
+            })
+            .attr("y2", d => {
+                const target = this.data.nodes.find(n => n.id === d.target);
+                return target ? (target.fy || target.y) : 0;
+            });
+
+        this.node
+            .attr("transform", d => `translate(${d.fx || d.x},${d.fy || d.y})`);
+    },
+
+    // 物理模拟tick事件
+    ticked: function() {
+        this.link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+        this.node
+            .attr("transform", d => `translate(${d.x},${d.y})`);
+    },
+
+    // 拖拽事件
+    dragstarted: function(event, d) {
+        if (!event.active && this.physicsEnabled) this.simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    },
+
+    dragged: function(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+        if (!this.physicsEnabled) this.updatePositions();
+    },
+
+    dragended: function(event, d) {
+        if (!event.active && this.physicsEnabled) this.simulation.alphaTarget(0);
+    },
+
+    // 重置缩放
+    resetZoom: function() {
+        this.svg.transition().duration(750).call(
+            this.zoom.transform,
+            d3.zoomIdentity
+        );
+    },
+
+    // 切换物理引擎
+    togglePhysics: function() {
+        this.physicsEnabled = !this.physicsEnabled;
+        if (this.physicsEnabled) {
+            this.simulation.alpha(1).restart();
+        } else {
+            this.simulation.stop();
+            this.renderStatic();
+        }
+    },
+
+    // 添加节点
+    addNode: function() {
+        const newId = (this.data.nodes.length + 1).toString();
+        const newNode = {
+            id: newId,
+            name: `新节点 ${newId}`,
+            group: 3,
+            level: 2
+        };
+
+        // 随机连接到现有节点
+        const randomExistingNode = this.data.nodes[Math.floor(Math.random() * this.data.nodes.length)];
+        const newLink = {
+            source: randomExistingNode.id,
+            target: newId
+        };
+
+        this.data.nodes.push(newNode);
+        this.data.links.push(newLink);
+
+        this.render();
+    },
+
+    // 导出数据
+    exportData: function() {
+        const dataStr = JSON.stringify(this.data, null, 2);
+        console.log("思维导图数据:", dataStr);
+
+        // 创建下载链接
+        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+        const exportFileDefaultName = 'hivemind-mindmap.json';
+
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
+    }
+};
+
+// 全局控制函数
+function resetZoom() {
+    HiveMindMapper.resetZoom();
+}
+
+function addNode() {
+    HiveMindMapper.addNode();
+}
+
+function exportData() {
+    HiveMindMapper.exportData();
+}
+
+function togglePhysics() {
+    HiveMindMapper.togglePhysics();
+}
+
+// 初始化思维导图
+document.addEventListener('DOMContentLoaded', function() {
+    // 从服务器获取数据
+    const mindMapData = ${mindMapDataJson};
+
+    console.log("🧠 初始化 HiveMind 思维导图可视化系统");
+    console.log("D3.js 版本:", d3.version);
+    console.log("思维导图数据:", mindMapData);
+
+    HiveMindMapper.init("#mindmap-container", mindMapData);
+});
+</script>
+
+</body>
+</html>
+            ]]></text>
+        </render-mode>
+    </widgets>
+
+</screen>

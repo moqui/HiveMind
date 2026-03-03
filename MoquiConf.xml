@@ -5,7 +5,7 @@
         <screen location="component://webroot/screen/webroot.xml">
             <subscreens-item name="hmstatic" menu-include="false" location="component://HiveMind/screen/hmstatic.xml"/>
         </screen>
-        <screen location="component://webroot/screen/webroot/apps.xml">
+        <screen location="component://webroot/screen/webroot/qapps.xml">
             <subscreens-item name="hm" menu-title="HiveMind PM" menu-index="7"
                     location="component://HiveMind/screen/HiveMindRoot.xml"/>
             <subscreens-item name="hmadmin" menu-title="HiveMind Admin" menu-index="8"

@@ -25,7 +25,14 @@ along with this software (see the LICENSE.md file). If not, see
     <subscreens default-item="dashboard" always-use-full-path="true">
         <subscreens-item name="Search" location="component://SimpleScreens/screen/SimpleScreens/Search.xml" menu-index="2"/>
 
-        <subscreens-item name="Task" menu-index="4" location="component://SimpleScreens/screen/SimpleScreens/Task.xml"/>
+        <subscreens-item name="Project" menu-index="3" menu-title="项目"
+                         location="component://HiveMind/screen/HiveMindRoot/Project.xml"/>
+
+        <subscreens-item name="Task" menu-index="4" menu-title="任务"
+                         location="component://SimpleScreens/screen/SimpleScreens/Task.xml"/>
+
+        <subscreens-item name="Request" menu-index="5" menu-title="需求"
+                         location="component://HiveMind/screen/HiveMindRoot/Request.xml"/>
 
         <subscreens-item name="wiki" location="component://SimpleScreens/screen/SimpleScreens/Wiki/wiki.xml" menu-include="false"/>
         <subscreens-item name="EditWikiPage" location="component://SimpleScreens/screen/SimpleScreens/Wiki/EditWikiPage.xml" menu-include="false"/>

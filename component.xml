@@ -4,3 +4,4 @@
     <depends-on name="moqui-fop" version="2.0.0"/>
     <depends-on name="SimpleScreens" version="2.2.2"/>
 </component>
+

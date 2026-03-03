@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/screen-3.xsd"
+        require-authentication="false" allow-extra-path="true">
+
+    <always-actions>
+        <set field="pageHeader" value="思维导图创建器"/>
+    </always-actions>
+
+    <widgets>
+        <render-mode>
+            <text type="html"><![CDATA[
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HiveMind 思维导图创建器</title>
+    <script src="/libs/mermaid/mermaid.min.js"></script>
+    <style>
+        .creator-container {
+            display: flex;
+            height: 80vh;
+            gap: 20px;
+        }
+
+        .editor-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-panel {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            overflow: auto;
+        }
+
+        #mermaid-editor {
+            flex: 1;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            resize: none;
+        }
+
+        #mermaid-preview {
+            padding: 20px;
+            text-align: center;
+            height: 100%;
+            overflow: auto;
+        }
+
+        .controls {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn-template {
+            background: #28a745;
+        }
+
+        .btn-template:hover {
+            background: #1e7e34;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .template-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .template-card:hover {
+            background: #e9ecef;
+        }
+
+        .template-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .template-description {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .error-message {
+            color: #dc3545;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2>🎨 HiveMind 思维导图创建器</h2>
+            <p class="text-muted">使用Mermaid.js语法创建专业的思维导图</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="templates-grid">
+                <div class="template-card" onclick="loadTemplate('basic')">
+                    <div class="template-title">基础思维导图</div>
+                    <div class="template-description">简单的层级结构思维导图</div>
+                </div>
+                <div class="template-card" onclick="loadTemplate('project')">
+                    <div class="template-title">项目管理</div>
+                    <div class="template-description">项目规划和任务分解</div>
+                </div>
+                <div class="template-card" onclick="loadTemplate('learning')">
+                    <div class="template-title">学习笔记</div>
+                    <div class="template-description">知识点整理和记忆</div>
+                </div>
+                <div class="template-card" onclick="loadTemplate('business')">
+                    <div class="template-title">商业分析</div>
+                    <div class="template-description">业务流程和决策分析</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="controls">
+                <button class="btn" onclick="updatePreview()">更新预览</button>
+                <button class="btn" onclick="downloadSVG()">下载 SVG</button>
+                <button class="btn" onclick="downloadPNG()">下载 PNG</button>
+                <button class="btn btn-template" onclick="saveTemplate()">保存模板</button>
+                <button class="btn" onclick="clearEditor()">清空</button>
+                <span style="margin-left: 20px; color: #666;">
+                    实时预览: <input type="checkbox" id="auto-preview" checked onchange="toggleAutoPreview()">
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="creator-container">
+                <div class="editor-panel">
+                    <label for="mermaid-editor" style="margin-bottom: 10px; font-weight: bold;">Mermaid 语法编辑器:</label>
+                    <textarea id="mermaid-editor" placeholder="在这里输入 Mermaid 语法..."
+                              oninput="onEditorChange()"></textarea>
+                    <div id="error-container"></div>
+                </div>
+                <div class="preview-panel">
+                    <div id="mermaid-preview"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// HiveMind Mermaid.js 思维导图创建器
+const HiveMindCreator = {
+
+    // 初始化
+    init: function() {
+        console.log("🎨 初始化 HiveMind 思维导图创建器");
+
+        // 配置 Mermaid
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            securityLevel: 'loose',
+            mindmap: {
+                padding: 20,
+                maxTextSize: 90000
+            }
+        });
+
+        this.autoPreview = true;
+        this.loadTemplate('basic');
+    },
+
+    // 模板定义
+    templates: {
+        basic: {
+            name: "基础思维导图",
+            content: `mindmap
+  root((HiveMind 中心主题))
+    分支 A
+      子主题 A1
+      子主题 A2
+    分支 B
+      子主题 B1
+      子主题 B2
+        详细内容
+    分支 C
+      子主题 C1`
+        },
+
+        project: {
+            name: "项目管理思维导图",
+            content: `mindmap
+  root((项目管理))
+    项目规划
+      需求分析
+        功能需求
+        性能需求
+      时间计划
+        里程碑
+        任务分解
+    团队管理
+      人员分工
+      沟通协调
+    风险控制
+      风险识别
+      应对策略
+    质量保证
+      测试计划
+      代码审查`
+        },
+
+        learning: {
+            name: "学习笔记思维导图",
+            content: `mindmap
+  root((学习主题))
+    理论基础
+      核心概念
+        定义
+        特征
+      基本原理
+        第一原理
+        第二原理
+    实践应用
+      案例分析
+      动手实验
+    进阶内容
+      高级技巧
+      最佳实践
+    总结回顾
+      重点提炼
+      知识关联`
+        },
+
+        business: {
+            name: "商业分析思维导图",
+            content: `mindmap
+  root((商业分析))
+    市场分析
+      目标市场
+        用户画像
+        市场规模
+      竞争分析
+        竞争对手
+        优劣势
+    产品策略
+      产品定位
+      功能规划
+    运营策略
+      营销推广
+      用户获取
+    财务分析
+      成本结构
+      盈利模式
+        收入来源
+        成本控制`
+        }
+    },
+
+    // 加载模板
+    loadTemplate: function(templateName) {
+        const template = this.templates[templateName];
+        if (template) {
+            document.getElementById('mermaid-editor').value = template.content;
+            this.updatePreview();
+        }
+    },
+
+    // 更新预览
+    updatePreview: function() {
+        const editor = document.getElementById('mermaid-editor');
+        const preview = document.getElementById('mermaid-preview');
+        const errorContainer = document.getElementById('error-container');
+
+        try {
+            // 清除错误信息
+            errorContainer.innerHTML = '';
+
+            // 清除之前的图表
+            preview.innerHTML = '';
+
+            const syntax = editor.value.trim();
+            if (!syntax) {
+                preview.innerHTML = '<div style="color: #666; margin-top: 50px;">请在编辑器中输入 Mermaid 语法</div>';
+                return;
+            }
+
+            // 创建唯一ID
+            const chartId = 'mermaid-chart-' + Date.now();
+
+            // 渲染 Mermaid 图表
+            mermaid.render(chartId, syntax, (svgCode) => {
+                preview.innerHTML = svgCode;
+            });
+
+        } catch (error) {
+            console.error("Mermaid 渲染错误:", error);
+            this.showError("语法错误: " + error.message);
+        }
+    },
+
+    // 显示错误信息
+    showError: function(message) {
+        const errorContainer = document.getElementById('error-container');
+        errorContainer.innerHTML = `<div class="error-message">${message}</div>`;
+    },
+
+    // 编辑器变化事件
+    onEditorChange: function() {
+        if (this.autoPreview) {
+            clearTimeout(this.updateTimeout);
+            this.updateTimeout = setTimeout(() => {
+                this.updatePreview();
+            }, 500);
+        }
+    },
+
+    // 切换自动预览
+    toggleAutoPreview: function() {
+        this.autoPreview = document.getElementById('auto-preview').checked;
+        if (this.autoPreview) {
+            this.updatePreview();
+        }
+    },
+
+    // 下载 SVG
+    downloadSVG: function() {
+        const svgElement = document.querySelector('#mermaid-preview svg');
+        if (!svgElement) {
+            alert('请先生成思维导图');
+            return;
+        }
+
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
+        const url = URL.createObjectURL(svgBlob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'hivemind-mindmap.svg';
+        link.click();
+
+        URL.revokeObjectURL(url);
+    },
+
+    // 下载 PNG (需要将 SVG 转换为 Canvas)
+    downloadPNG: function() {
+        const svgElement = document.querySelector('#mermaid-preview svg');
+        if (!svgElement) {
+            alert('请先生成思维导图');
+            return;
+        }
+
+        // 创建 Canvas
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
+        const url = URL.createObjectURL(svgBlob);
+
+        img.onload = function() {
+            canvas.width = img.width * 2;  // 高分辨率
+            canvas.height = img.height * 2;
+            ctx.scale(2, 2);
+            ctx.drawImage(img, 0, 0);
+
+            // 下载 PNG
+            canvas.toBlob((blob) => {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'hivemind-mindmap.png';
+                link.click();
+            }, 'image/png');
+
+            URL.revokeObjectURL(url);
+        };
+
+        img.src = url;
+    },
+
+    // 保存自定义模板
+    saveTemplate: function() {
+        const editor = document.getElementById('mermaid-editor');
+        const syntax = editor.value.trim();
+
+        if (!syntax) {
+            alert('请先输入思维导图内容');
+            return;
+        }
+
+        const templateName = prompt('请输入模板名称:');
+        if (templateName) {
+            // 保存到本地存储
+            const customTemplates = JSON.parse(localStorage.getItem('hivemind-templates') || '{}');
+            customTemplates[templateName] = {
+                name: templateName,
+                content: syntax,
+                created: new Date().toISOString()
+            };
+
+            localStorage.setItem('hivemind-templates', JSON.stringify(customTemplates));
+            alert('模板保存成功！');
+        }
+    },
+
+    // 清空编辑器
+    clearEditor: function() {
+        if (confirm('确定要清空编辑器内容吗？')) {
+            document.getElementById('mermaid-editor').value = '';
+            document.getElementById('mermaid-preview').innerHTML = '';
+            document.getElementById('error-container').innerHTML = '';
+        }
+    }
+};
+
+// 全局函数
+function loadTemplate(templateName) {
+    HiveMindCreator.loadTemplate(templateName);
+}
+
+function updatePreview() {
+    HiveMindCreator.updatePreview();
+}
+
+function downloadSVG() {
+    HiveMindCreator.downloadSVG();
+}
+
+function downloadPNG() {
+    HiveMindCreator.downloadPNG();
+}
+
+function saveTemplate() {
+    HiveMindCreator.saveTemplate();
+}
+
+function clearEditor() {
+    HiveMindCreator.clearEditor();
+}
+
+function onEditorChange() {
+    HiveMindCreator.onEditorChange();
+}
+
+function toggleAutoPreview() {
+    HiveMindCreator.toggleAutoPreview();
+}
+
+// 初始化创建器
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Mermaid 版本:", mermaid.version);
+    HiveMindCreator.init();
+});
+</script>
+
+</body>
+</html>
+            ]]></text>
+        </render-mode>
+    </widgets>
+
+</screen>
