@@ -26,6 +26,8 @@ along with this software (see the LICENSE.md file). If not, see
     <subscreens default-item="dashboard" always-use-full-path="true">
         <subscreens-item name="Search" location="component://SimpleScreens/screen/SimpleScreens/Search.xml" menu-index="1"/>
 
+        <subscreens-item name="Team" location="component://SimpleScreens/screen/SimpleScreens/Team.xml" menu-index="4"/>
+
         <subscreens-item name="EditRateAmounts" menu-index="7" location="component://SimpleScreens/screen/SimpleScreens/HumanRes/EditRateAmounts.xml"/>
 
         <subscreens-item name="Project" menu-index="12" location="component://SimpleScreens/screen/SimpleScreens/Project.xml"/>
